@@ -2,6 +2,7 @@
 @import "scss/layout";
 @import "scss/details";
 @import "scss/saved";
+@import "scss/wizard";
 @mixin placeholder-color($color) {
   &::-webkit-input-placeholder { /* WebKit browsers */
     color: $color;

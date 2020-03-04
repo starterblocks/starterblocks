@@ -14,58 +14,69 @@ import WithSidebarLayout from "./TemplatesList/WithSidebarLayout";
 import CollectionView from "./TemplatesList/CollectionView";
 import SavedView from "./TemplatesList/SavedView";
 import SitePreviewCustomizer from "./SitePreview/SitePreviewCustomizer";
+import ImportWizard from "./ImportWizard/ImportWizard";
 import ErrorNotice from "./components/ErrorNotice";
+import dependencyHelper from "./ImportWizard/dependencyHelper";
+import uniq from 'lodash/uniq';
 import './index.scss'
 
 function TemplatesListModal(props) {
     const {fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, 
-        insertBlocks, appendErrorMessage, discardAllErrorMessages} = props;
+        insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories} = props;
     const [spinner, setSpinner] = useState(null);
-
     fetchLibraryFromAPI();
 
     const hasSidebar = () => {
         return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
     }
 
-    // Import button handler related function, to be included in Context
+    
+    const onImportTemplate = (data) => {
+        importStarterBlock(data, activeItemType === "section" ? "sections" : "pages");
+    }
+
+    const importStarterBlock = (data, type) => {
+        const {missingPluginArray, missingProArray} = dependencyHelper.checkTemplateDependencies(data);
+        ModalManager.openWizard(
+            <ImportWizard data={data} missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)} 
+                startImportTemplate={()=> alert('Something')}/>
+        );
+    }
+
+
+    // read block data to import and give the control to actual import
+    const processImport = (data, type) => {
+        discardAllErrorMessages();
+        setSpinner(data.ID);
+
+        let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
+        if (data.source_id) {
+            the_url += "&sid=" + data.source_id + '&source=' + data.source;
+        }
+        the_url += '&p=' + JSON.stringify(starterblocks_admin.supported_plugins);
+        const options = {
+            method: 'GET',
+            path: the_url,
+            headers: {'Content-Type': 'application/json'}
+        };
+        apiFetch(options).then(response => {
+            if (response.success && response.data.template) {
+                //import template
+                let pageData = parse(response.data.template);
+                doImportTemplate(pageData);
+                setSpinner(null);
+            } else {
+                registerError(response.data.error);
+            }
+        }).catch(error => {
+            registerError(error.code + ' : ' + error.message);
+        });
+    }
+
+    // Final piece, insert read block data
     const doImportTemplate = (pageData) => {
         insertBlocks(pageData);
         ModalManager.close(); //close modal
-    }
-    const onImportTemplate = (data) => {
-        importStarterBlock(data, activeItemType === "section" ? "sections" : "pages", doImportTemplate);
-    }
-
-    const importStarterBlock = (data, type, successCallback) => {
-        if (!starterblocks_admin.mokama && data.pro == true) {
-            //
-        } else {
-            discardAllErrorMessages();
-            let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
-            if (data.source_id) {
-                the_url += "&sid=" + data.source_id + '&source=' + data.source;
-            }
-            the_url += '&p=' + JSON.stringify(starterblocks_admin.supported_plugins);
-            const options = {
-                method: 'GET',
-                path: the_url,
-                headers: {'Content-Type': 'application/json'}
-            }
-            setSpinner(data.ID);
-            apiFetch(options).then(response => {
-                if (response.success && response.data.template) {
-                    //import template
-                    let pageData = parse(response.data.template);
-                    successCallback(pageData);
-                    setSpinner(null);
-                } else {
-                    registerError(response.data.error);
-                }
-            }).catch(error => {
-                registerError(error.code + ' : ' + error.message);
-            });
-        }
     }
 
     const registerError = (errorMessage) => {

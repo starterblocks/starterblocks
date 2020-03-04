@@ -18,9 +18,9 @@ export default (props) => {
     const isMissingRequirement = missingRequirement(pro, requirements);
     const isMissingPro = missingPro(pro);
     return (
-        <div className={'starterblocks-single-section-item ' + (isMissingPro ? 'inactive' : '')}>
+        <div className={'starterblocks-single-section-item '}>
             <div
-                className={'starterblocks-single-item-inner starterblocks-item-wrapper ' + (isMissingRequirement ? 'missing_requirements' : '')}
+                className={'starterblocks-single-item-inner starterblocks-item-wrapper '}
                 style={background}>
                 <div className="starterblocks-default-template-image">
                     <img className="lazy" src={backgroundImage(image)}/>
@@ -28,7 +28,6 @@ export default (props) => {
                 </div>
                 {/* starterblocks-default-template-image */}
                 <div className="starterblocks-button-overlay">
-                    {isMissingRequirement && <div className="warn_notice">{__('Missing Requirements')}</div>}
                     <ButtonGroup/>
                 </div>
             </div>

@@ -49,7 +49,7 @@ function SavedView(props) {
         discardAllErrorMessages();
         const options = {
             method: 'POST',
-            path: 'starterblocks/v1/delete_saved2_block/?block_id=' + sectionID,
+            path: 'starterblocks/v1/delete_saved_block/?block_id=' + sectionID,
             headers: {'Content-Type': 'application/json'}
         }
         apiFetch(options).then(response => {

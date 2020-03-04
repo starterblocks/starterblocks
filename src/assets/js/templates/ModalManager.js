@@ -52,7 +52,7 @@ class Modal extends Component {
     }
 }
 
-var node, customizerNode;
+var node, customizerNode, wizardNode;
 const Manager = {
     open(component) {
         if (onClose) {
@@ -81,6 +81,19 @@ const Manager = {
     },
     closeCustomizer() {
         wp.element.unmountComponentAtNode(customizerNode);
+    },
+
+    openWizard(component) {
+        if (!wizardNode) {
+            wizardNode = document.createElement('div');
+            wizardNode.className = "starterblocks-wizard"
+            if (node) 
+                document.body.insertBefore(wizardNode, node);
+        }
+        wp.element.render(component, wizardNode);
+    },
+    closeWizard() {
+        wp.element.unmountComponentAtNode(wizardNode);
     }
 
 }

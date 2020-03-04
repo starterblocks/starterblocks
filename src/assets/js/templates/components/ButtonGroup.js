@@ -28,36 +28,19 @@ export default function ButtonGroup(props) {
 
     return (
         <div className={rootClassName}>
-            {
-                (isMissingRequirement === false) ?
-                    <Fragment>
-                        {url &&
-                        <a className="starterblocks-button" target="_blank"
-                           onClick={() => openSitePreviewModal(index, pageData)}>
-                            <i className="fa fa-share"/> {__('Preview')}
-                        </a>
-                        }
-                        <a className="starterblocks-button starterblocks-button-download"
-                           onClick={() => triggerImportTemplate(data)}>
-                            {spinner === ID ? <i className="fas fa-spinner fa-pulse"/> :
-                                <i className="fas fa-download"/>}{__('Import')}
-                        </a>
-                    </Fragment>
-                    :
-                    <Fragment>
-                        {url && <a className="starterblocks-button" target="_blank"
-                                   onClick={(e) => openSitePreviewModal(index, pageData)}><i
-                            class="fas fa-exclamation-triangle"/> {__('Learn More')} </a>}
-                        {
-                            isMissingPro === true &&
-                            <a className="starterblocks-button-download" target="_blank"
-                               href="http://starterblocks.io/">
-                                <i className="fas fa-upload"/> {__('Upgrade to Pro')}
-                            </a>
-                        }
-                    </Fragment>
-            }
+            <Fragment>
+                {url &&
+                <a className="starterblocks-button" target="_blank"
+                    onClick={() => openSitePreviewModal(index, pageData)}>
+                    <i className="fa fa-share"/> {__('Preview')}
+                </a>
+                }
+                <a className="starterblocks-button starterblocks-button-download"
+                    onClick={() => triggerImportTemplate(data)}>
+                    {spinner === ID ? <i className="fas fa-spinner fa-pulse"/> :
+                        <i className="fas fa-download"/>}{__('Import')}
+                </a>
+            </Fragment>
         </div>
-
     )
 }
