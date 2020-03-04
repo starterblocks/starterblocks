@@ -5,10 +5,16 @@ import './shares'
 import {ModalManager} from './templates/ModalManager';
 import TemplatesListModal from './templates/TemplatesListModal';
 
-document.addEventListener("DOMContentLoaded", appendImportButton);
+window._wpLoadBlockEditor.then( function( editor ) {
+    appendImportButton(editor);
+});
 
-function appendImportButton() {
+function appendImportButton(editor) {
     let node = document.querySelector('.edit-post-header-toolbar');
+    if (!node) {
+        setTimeout(function(){ appendImportButton(editor); }, 500);
+        return;
+    }
     let newElem = document.createElement('div');
     let html = '<div class="starterblocks-import-collection-btn-container">';
 

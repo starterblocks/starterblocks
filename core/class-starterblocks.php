@@ -36,7 +36,7 @@ if ( ! class_exists( 'StarterBlocks' ) ) {
 		 */
 		public function starterblocks_editor_assets() {
 			wp_enqueue_script(
-				'starter-blocks-js', STARTERBLOCKS_DIR_URL . 'assets/js/starterblocks.min.js',
+				'starter-blocks-js', STARTERBLOCKS_DIR_URL . 'assets/js/starterblocks.dev.js',
 				array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), STARTERBLOCKS_VERSION, true
 			);
 
