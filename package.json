@@ -1,0 +1,82 @@
+{
+  "name": "starterblocks",
+  "version": "0.1.0",
+  "description": "Contributors: **Team Redux**",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "deep-copy": "^1.4.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.6",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-istanbul": "^5.1.4",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "css-loader": "^2.1.0",
+    "eslint": "^4.6.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-flowtype": "2.34.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.0.1",
+    "exports-loader": "^0.7.0",
+    "expose-loader": "^0.7.3",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-sass": "^4.0.2",
+    "imports-loader": "^0.8.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.15",
+    "node-sass": "^4.11.0",
+    "path": "^0.12.7",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-sentry-error-boundary": "^1.2.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.28.1",
+    "webpack-cli": "^3.2.1",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-concat-css": "^3.1.0",
+    "gulp-csso": "^3.0.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-zip": "^5.0.0",
+    "merge-stream": "^2.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch",
+    "build": "NODE_ENV=production webpack --config ./webpack.production.config.js",
+    "release": "NODE_ENV=production webpack --config ./webpack.production.config.js && gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dovy/starterblocks_blocks"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dovy/starterblocks_blocks/issues"
+  },
+  "homepage": "https://github.com/dovy/starterblocks_blocks#readme"
+}
