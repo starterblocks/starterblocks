@@ -281,7 +281,7 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 					)
 				);
 			}
-			require_once STARTERBLOCKS_DIR_PATH . 'core/util-plugin-install.php';
+			require_once STARTERBLOCKS_DIR_PATH . 'core/util-sb-plugin-install.php';
 
 			$status = starterblocks_plugin_install( (string) sanitize_text_field( $data['slug'] ) );
 			if ( isset( $status['error'] ) ) {
