@@ -22,7 +22,7 @@ import './index.scss'
 
 function TemplatesListModal(props) {
     const {fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, 
-        insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories} = props;
+        insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost} = props;
     const [spinner, setSpinner] = useState(null);
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
@@ -70,7 +70,9 @@ function TemplatesListModal(props) {
                 //import template
                 let pageData = parse(response.data.template);
                 doImportTemplate(pageData);
-                setSpinner(null);
+                savePost().then(() => {
+                    setTimeout(window.location.reload(), 1000);
+                });
             } else {
                 registerError(response.data.error);
             }
@@ -132,10 +134,13 @@ export default compose([
             discardAllErrorMessages
         } = dispatch('starterblocks/sectionslist');
 
+        const {savePost} = dispatch('core/editor');
+
         return {
             insertBlocks,
             appendErrorMessage,
-            discardAllErrorMessages
+            discardAllErrorMessages,
+            savePost
         };
     }),
 
