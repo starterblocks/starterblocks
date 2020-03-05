@@ -2,10 +2,9 @@ const {apiFetch} = wp;
 const {Component, Fragment, useState} = wp.element;
 const {__} = wp.i18n;
 
-import {ModalManager} from '../ModalManager';
 import dependencyHelper from "./dependencyHelper";
 export default function InstallPluginStep(props) {
-    const {proPlugins} = props;
+    const {proPlugins, onCloseWizard} = props;
 
     return (
         <Fragment>
@@ -26,7 +25,7 @@ export default function InstallPluginStep(props) {
                 </ul>
             </div>
             <div class="starterblocks-wizard-footer">
-                <a class="button button-secondary" onClick={e => ModalManager.closeWizard()}>
+                <a class="button button-secondary" onClick={onCloseWizard}>
                     {__('Cancel')}
                 </a>
             </div>

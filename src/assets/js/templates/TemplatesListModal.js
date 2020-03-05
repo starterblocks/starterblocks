@@ -24,6 +24,10 @@ function TemplatesListModal(props) {
     const {fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, 
         insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories} = props;
     const [spinner, setSpinner] = useState(null);
+    const [importingBlock, setImportingBlock] = useState(null);
+    let missingPluginArray = [];
+    let missingProArray = [];
+
     fetchLibraryFromAPI();
 
     const hasSidebar = () => {
@@ -36,16 +40,18 @@ function TemplatesListModal(props) {
     }
 
     const importStarterBlock = (data, type) => {
-        const {missingPluginArray, missingProArray} = dependencyHelper.checkTemplateDependencies(data);
-        ModalManager.openWizard(
-            <ImportWizard data={data} missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)} 
-                startImportTemplate={()=> alert('Something')}/>
-        );
+        const dependencies = dependencyHelper.checkTemplateDependencies(data);
+        missingPluginArray = dependencies.missingPluginArray;
+        missingProArray = dependencies.missingProArray;
+        setImportingBlock(data);
     }
 
 
     // read block data to import and give the control to actual import
-    const processImport = (data, type) => {
+    const processImport = () => {
+        const data = importingBlock;
+        const type = activeItemType === "section" ? "sections" : "pages";
+
         discardAllErrorMessages();
         setSpinner(data.ID);
 
@@ -107,6 +113,8 @@ function TemplatesListModal(props) {
                     {(hasSidebar() === false && activeItemType === 'collection') && <CollectionView/>}
                     {(hasSidebar() === false && activeItemType !== 'collection') && <SavedView/>}
                 </div>
+                { importingBlock && <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)} 
+                startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)} /> }
             </TemplateModalProvider>
         </Modal>
     );

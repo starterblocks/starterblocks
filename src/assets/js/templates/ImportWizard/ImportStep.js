@@ -2,11 +2,9 @@ const {apiFetch} = wp;
 const {Component, Fragment} = wp.element;
 const {__} = wp.i18n;
 
-import {ModalManager} from '../ModalManager';
-
 export default function ImportStep(props) {
 
-    const {startImportTemplate} = props;
+    const {startImportTemplate, onCloseWizard} = props;
 
     return (
         <Fragment>
@@ -18,7 +16,7 @@ export default function ImportStep(props) {
                 <a class="button button-primary" onClick={startImportTemplate}>
                     {__('Import')}
                 </a>
-                <a class="button button-secondary" onClick={e => ModalManager.closeWizard()}>
+                <a class="button button-secondary" onClick={onCloseWizard}>
                     {__('Cancel')}
                 </a>
             </div>

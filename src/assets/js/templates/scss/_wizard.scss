@@ -1,32 +1,28 @@
-.starterblocks-wizard {
-  position: fixed;
+.starterblocks-wizard-overlay{
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 10000;
+}
+.starterblocks-wizard-wrapper{
+  width: 550px;
+  height: 400px;
+  background: #CCCCCC;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  .starterblocks-pagelist-modal-inner {
-    width: 45%;
-    height: 400px;
-    z-index: 10000;
-    position: relative;
-  }
-
-  .starterblocks-pagelist-modal-overlay {
-    position: absolute;
+  flex-direction: column;
+  box-shadow: 0 0 45px 10px rgba(3, 8, 15, 0.2);
+  div {
     width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 10000;
-    background: transparent;
   }
-
-
   .starterblocks-wizard-header {
     background: white;
     flex: 0 0 60px;

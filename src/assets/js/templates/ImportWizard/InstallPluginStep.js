@@ -6,7 +6,7 @@ import {ModalManager} from '../ModalManager';
 import dependencyHelper from "./dependencyHelper";
 export default function InstallPluginStep(props) {
 
-    const {missingPlugins, toNextStep} = props;
+    const {missingPlugins, toNextStep, onCloseWizard} = props;
     const {installedCount, setInstalledCount} = useState(-1);
     const onInstallPlugins = () => {
         setInstalledCount(0);
@@ -45,7 +45,7 @@ export default function InstallPluginStep(props) {
                 <a class="button button-primary" onClick={onInstallPlugins}>
                     {__('Install')}
                 </a>
-                <a class="button button-secondary" onClick={e => ModalManager.closeWizard()}>
+                <a class="button button-secondary" onClick={onCloseWizard}>
                     {__('Cancel')}
                 </a>
             </div>
