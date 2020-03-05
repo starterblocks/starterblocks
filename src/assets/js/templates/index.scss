@@ -27,6 +27,11 @@
 }
 
 .starterblocks-builder-modal {
+
+  button {
+    background: transparent;
+  }
+
   position: fixed;
   top: 0;
   left: 0;
@@ -233,6 +238,7 @@
     position: absolute;
     font-size: 20px;
     color: #9B9B9B;
+
     border: none;
     right: 15px;
     top: 50%;

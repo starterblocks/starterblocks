@@ -37,7 +37,7 @@ function Sidebar(props) {
                         <li
                             className={activeClassname('')}
                             onClick={() => setActiveCategory('')}>
-                                {__('All ')} { itemTypeLabel() } <span>{ totalCategoryCount() }</span>
+                                {__('All ')} { itemTypeLabel() }s <span>{ totalCategoryCount() }</span>
                         </li>
                         { categoryData &&
                             categoryData.map((data, index) => (
