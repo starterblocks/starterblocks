@@ -28,7 +28,7 @@ const checkTemplateDependencies = (data) => {
     // dependency blocks check
     Object.keys(data.blocks).forEach(pluginKey => {
         if (needsPluginInstall(pluginKey)) missingPluginArray.push(pluginKey);
-        if (needsPluginPro(pluginKey)) missingProArray.push(pluginKey);
+        if (needsPluginPro(pluginKey) && data.blocks[pluginKey].pro) missingProArray.push(pluginKey);
     });
     return {missingPluginArray, missingProArray};
 }
