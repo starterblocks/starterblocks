@@ -9,7 +9,7 @@ export const initialState = {
         categories: [],
         data: {},
         priceFilter: '',
-        activeCategory: null,
+        activeCategory: '',
         searchContext: '',
         sortBy: 'name'
     },
@@ -17,7 +17,7 @@ export const initialState = {
         categories: [],
         data: {},
         priceFilter: '',
-        activeCategory: null,
+        activeCategory: '',
         searchContext: '',
         sortBy: 'name'
     },
@@ -25,7 +25,7 @@ export const initialState = {
         categories: [],
         data: {},
         priceFilter: '',
-        activeCategory: null,
+        activeCategory: '',
         searchContext: '',
         activeCollection: null,
         sortBy: 'name'
