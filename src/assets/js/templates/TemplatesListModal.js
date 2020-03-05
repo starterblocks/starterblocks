@@ -71,7 +71,8 @@ function TemplatesListModal(props) {
                 let pageData = parse(response.data.template);
                 doImportTemplate(pageData);
                 savePost().then(() => {
-                    setTimeout(window.location.reload(), 1000);
+                    if (missingPluginArray.length > 0)
+                        setTimeout(window.location.reload(), 1000);
                 });
             } else {
                 registerError(response.data.error);
