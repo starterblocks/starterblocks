@@ -4,7 +4,7 @@ const {__} = wp.i18n;
 
 import dependencyHelper from "./dependencyHelper";
 export default function InstallPluginStep(props) {
-    const {proPlugins, onCloseWizard} = props;
+    const {missingPros, onCloseWizard} = props;
 
     return (
         <Fragment>
@@ -13,7 +13,7 @@ export default function InstallPluginStep(props) {
                 <p>{__('Plugins needed to import this template are missing. The pro should be purchased for those plugins.')}</p>
                 <ul>
                     {
-                        proPlugins.map(pluginKey => {
+                        missingPros.map(pluginKey => {
                             const {name, url} = dependencyHelper.pluginInfo(pluginKey);
                             return (
                             <li>

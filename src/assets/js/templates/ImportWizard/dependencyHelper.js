@@ -3,7 +3,7 @@ const getPluginInstance = (pluginKey) => {
 }
 
 const needsPluginInstall = (pluginKey) => {
-    return getPluginInstance(pluginKey).hasOwnProperty('version');
+    return getPluginInstance(pluginKey).hasOwnProperty('version') === false;
 }
 
 const needsPluginPro = (pluginKey) => {

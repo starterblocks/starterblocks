@@ -25,8 +25,8 @@ function TemplatesListModal(props) {
         insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories} = props;
     const [spinner, setSpinner] = useState(null);
     const [importingBlock, setImportingBlock] = useState(null);
-    let missingPluginArray = [];
-    let missingProArray = [];
+    const [missingPluginArray, setMissingPlugin] = useState([]);
+    const [missingProArray, setMissingPro] = useState([]);
 
     fetchLibraryFromAPI();
 
@@ -41,8 +41,9 @@ function TemplatesListModal(props) {
 
     const importStarterBlock = (data, type) => {
         const dependencies = dependencyHelper.checkTemplateDependencies(data);
-        missingPluginArray = dependencies.missingPluginArray;
-        missingProArray = dependencies.missingProArray;
+        console.log("DETECTED depenedencies", dependencies);
+        setMissingPlugin(dependencies.missingPluginArray);
+        setMissingPro(dependencies.missingProArray);
         setImportingBlock(data);
     }
 
