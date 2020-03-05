@@ -48,7 +48,7 @@ function BlockImportWizard(props) {
                 {(currentStep === PLUGIN_STEP) && <InstallPluginStep missingPlugins={missingPlugins} toNextStep={toNextStep} onCloseWizard={onCloseWizard} /> }
                 {(currentStep === PRO_STEP) && <ProPluginStep missingPros={missingPros}  onCloseWizard={onCloseWizard} /> }
                 {(currentStep === IMPORT_STEP) && 
-                    <Spinner />
+                    <div className="starterblocks-wizard-spinner-wrapper"><Spinner /></div>
                 }
             </div>
         </div>

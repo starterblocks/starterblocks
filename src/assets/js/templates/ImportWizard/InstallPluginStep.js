@@ -22,7 +22,7 @@ export default function InstallPluginStep(props) {
         toNextStep();
     return (
         <Fragment>
-            <div class="starterblocks-wizard-body">
+            <div className="starterblocks-wizard-body">
                 <h5>{__('Install Required Plugins')}</h5>
                 <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.')}</p>
                 <ul>
@@ -40,15 +40,15 @@ export default function InstallPluginStep(props) {
                     </div>
                 }
             </div>
-            <div class="starterblocks-wizard-footer">
-                <button class="button button-primary" disabled={installedCount >=0} onClick={() => {
+            <div className="starterblocks-wizard-footer">
+                <button className="button button-primary" disabled={installedCount >=0} onClick={() => {
                     setInstalledCount(0);
                     onInstallPlugins()
                 }}>
                     {installedCount >=0 && <i className="fas fa-spinner fa-pulse"/>}
                     <span>{__('Install')}</span>
                 </button>
-                <button class="button button-secondary" disabled={installedCount >=0} onClick={onCloseWizard}>
+                <button className="button button-secondary" disabled={installedCount >=0} onClick={onCloseWizard}>
                     {__('Cancel')}
                 </button>
             </div>

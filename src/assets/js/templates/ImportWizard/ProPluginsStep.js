@@ -8,7 +8,7 @@ export default function InstallPluginStep(props) {
 
     return (
         <Fragment>
-            <div class="starterblocks-wizard-body">
+            <div className="starterblocks-wizard-body">
                 <h5>{__('Activate Pro Plugins')}</h5>
                 <p>{__('Plugins needed to import this template are missing. The pro should be purchased for those plugins.')}</p>
                 <ul>
@@ -24,8 +24,8 @@ export default function InstallPluginStep(props) {
                     }
                 </ul>
             </div>
-            <div class="starterblocks-wizard-footer">
-                <a class="button button-secondary" onClick={onCloseWizard}>
+            <div className="starterblocks-wizard-footer">
+                <a className="button button-secondary" onClick={onCloseWizard}>
                     {__('Cancel')}
                 </a>
             </div>
