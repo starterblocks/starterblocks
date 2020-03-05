@@ -7,20 +7,19 @@ import dependencyHelper from "./dependencyHelper";
 export default function InstallPluginStep(props) {
 
     const {missingPlugins, toNextStep, onCloseWizard} = props;
-    const {installedCount, setInstalledCount} = useState(-1);
+    const [installedCount, setInstalledCount] = useState(-1);
     const onInstallPlugins = () => {
-        setInstalledCount(0);
         missingPlugins.forEach(pluginKey => {
             const {slug} = dependencyHelper.pluginInfo(pluginKey);
             apiFetch({
                 path: 'starterblocks/v1/plugin-install?slug=' + slug
-            }).then(() => {
-                setInstalledCount(installedCount + 1);
-                if (installedCount === missingPlugins.length ) 
-                    toNextStep();
+            }).then(res => {
+                setInstalledCount(installedCount => installedCount + 1);
             })
         });
     }
+    if (installedCount === missingPlugins.length) 
+        toNextStep();
     return (
         <Fragment>
             <div class="starterblocks-wizard-body">
@@ -42,12 +41,16 @@ export default function InstallPluginStep(props) {
                 }
             </div>
             <div class="starterblocks-wizard-footer">
-                <a class="button button-primary" onClick={onInstallPlugins}>
-                    {__('Install')}
-                </a>
-                <a class="button button-secondary" onClick={onCloseWizard}>
+                <button class="button button-primary" disabled={installedCount >=0} onClick={() => {
+                    setInstalledCount(0);
+                    onInstallPlugins()
+                }}>
+                    {installedCount >=0 && <i className="fas fa-spinner fa-pulse"/>}
+                    <span>{__('Install')}</span>
+                </button>
+                <button class="button button-secondary" disabled={installedCount >=0} onClick={onCloseWizard}>
                     {__('Cancel')}
-                </a>
+                </button>
             </div>
         </Fragment>
     );

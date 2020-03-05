@@ -14,6 +14,7 @@
   width: 550px;
   height: 400px;
   background: #CCCCCC;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,6 +35,7 @@
 
     h3 {
       margin: 0;
+      font-size: 1.2rem;
     }
     button {
       border: none;
@@ -61,10 +63,12 @@
     align-items: center;
     display: flex;
     padding: 0 20px;
-    a.button {
+    .button {
       margin-right: 20px;
       cursor: pointer;
     }
+    i.fas {
+      margin-right: 3px;
+    }
   }
-
 }

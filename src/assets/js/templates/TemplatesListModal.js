@@ -41,8 +41,8 @@ function TemplatesListModal(props) {
 
     const importStarterBlock = (data, type) => {
         const dependencies = dependencyHelper.checkTemplateDependencies(data);
-        console.log("DETECTED depenedencies", dependencies);
-        setMissingPlugin(dependencies.missingPluginArray);
+        // setMissingPlugin(dependencies.missingPluginArray);
+        setMissingPlugin(["kioken", "essential-blocks"])
         setMissingPro(dependencies.missingProArray);
         setImportingBlock(data);
     }

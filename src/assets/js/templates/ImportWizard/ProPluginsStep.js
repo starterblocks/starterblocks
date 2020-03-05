@@ -17,7 +17,7 @@ export default function InstallPluginStep(props) {
                             const {name, url} = dependencyHelper.pluginInfo(pluginKey);
                             return (
                             <li>
-                                {name}
+                                {name}&nbsp;&nbsp;
                                 <a href={url}>Get Pro</a>
                             </li>);
                         })
