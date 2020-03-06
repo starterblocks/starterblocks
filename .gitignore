@@ -11,6 +11,7 @@ assets/img/.DS_Store
 assets/js/*.dev.js
 assets/js/*.map
 assets/js/starterblocks.*.js.map
+assets/js/starterblocks.*.js
 
 # Runtime data
 pids
