@@ -28,9 +28,9 @@ if ( function_exists( 'starterblocks_fs' ) ) {
 
 			if ( ! isset( $starterblocks_fs ) ) {
 				// Activate multisite network integration.
-				if ( ! defined( 'WP_FS__PRODUCT_5632_MULTISITE' ) ) {
-					define( 'WP_FS__PRODUCT_5632_MULTISITE', true );
-				}
+//				if ( ! defined( 'WP_FS__PRODUCT_5632_MULTISITE' ) ) {
+//					define( 'WP_FS__PRODUCT_5632_MULTISITE', true );
+//				}
 
 				// Include Freemius SDK.
 				require_once dirname( __FILE__ ) . '/core/freemius/start.php';
