@@ -41,18 +41,20 @@ if ( function_exists( 'starterblocks_fs' ) ) {
 						'slug'                => 'starterblocks',
 						'type'                => 'plugin',
 						'public_key'          => 'pk_d1cff5ec542f0e8f2446afbcfca5f',
-						'is_premium'          => true,
+						'is_premium'          => false,
 						// If your plugin is a serviceware, set this option to false.
 						'has_premium_version' => false,
-						'has_addons'          => true,
+						'has_addons'          => false,
 						'has_paid_plans'      => true,
 						'has_affiliation'     => 'selected',
 						'menu'                => array(
-							'slug' => 'starterblocks',
+							'slug'       => 'starterblocks',
+							'first-path' => 'admin.php?page=starterblocks',
+							'account'    => true,
+							'pricing'    => true,
+							'contact'    => true,
+							'support'    => true,
 						),
-						// Set the SDK to work in a sandbox mode (for development & testing).
-						// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
-						'secret_key'          => 'sk_#aj{0V8Kq4?Q;Z!DWll}Jn+jHCrc9',
 					)
 				);
 			}
@@ -64,6 +66,15 @@ if ( function_exists( 'starterblocks_fs' ) ) {
 		starterblocks_fs();
 		// Signal that SDK was initiated.
 		do_action( 'starterblocks_fs_loaded' );
+
+//
+//		$fs_options = FS_Options::instance( WP_FS__ACCOUNTS_OPTION_NAME, true );
+//		$modules = fs_get_entities( $fs_options->get_option( WP_FS__MODULE_TYPE_PLUGIN . 's' ), FS_Plugin::get_class_name() );
+//		print_r($modules);
+////			$fs_options = FS_Options::instance( WP_FS__ACCOUNTS_OPTION_NAME, true );
+////		print_r($fs_options->sites);
+//
+//		exit();
 
 	}
 
