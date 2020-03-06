@@ -1,9 +1,10 @@
 const {apiFetch} = wp;
 const {parse} = wp.blocks;
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
-const {Component, Fragment, useState} = wp.element;
+const {withDispatch, withSelect, select, subscribe} = wp.data;
+const {Component, Fragment, useState, useRef} = wp.element;
 const {Spinner} = wp.components;
+const { isSavingPost } = select( 'core/editor' );
 
 import "./stores/store";
 
@@ -22,11 +23,13 @@ import './index.scss'
 
 function TemplatesListModal(props) {
     const {fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, 
-        insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost} = props;
+        insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost} = props;
     const [spinner, setSpinner] = useState(null);
+    const [saving, setSaving] = useState(false);
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
+    const wasSaving = useRef( false );
 
     fetchLibraryFromAPI();
 
@@ -46,6 +49,11 @@ function TemplatesListModal(props) {
         setImportingBlock(data);
     }
 
+    const useDidSave = () => {
+        const hasJustSaved = wasSaving.current && ! isSavingPost;
+        wasSaving.current = isSavingPost;
+        return hasJustSaved;
+    }
 
     // read block data to import and give the control to actual import
     const processImport = () => {
@@ -70,9 +78,16 @@ function TemplatesListModal(props) {
                 //import template
                 let pageData = parse(response.data.template);
                 doImportTemplate(pageData);
+                setSaving(true);
                 savePost().then(() => {
-                    if (missingPluginArray.length > 0)
-                        setTimeout(window.location.reload(), 1000);
+                    console.log("MAGIC", useDidSave());
+                    let timer = setInterval(() => {
+                        //console.log("isSavingPost", isSavingPost);
+                        if (useDidSave() === false) {
+                            clearInterval(timer);
+                            window.location.reload();
+                        }
+                    }, 1000);
                 });
             } else {
                 registerError(response.data.error);
@@ -85,7 +100,7 @@ function TemplatesListModal(props) {
     // Final piece, insert read block data
     const doImportTemplate = (pageData) => {
         insertBlocks(pageData);
-        ModalManager.close(); //close modal
+        // ModalManager.close(); //close modal
     }
 
     const registerError = (errorMessage) => {
@@ -147,11 +162,13 @@ export default compose([
 
     withSelect((select, props) => {
         const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages} = select('starterblocks/sectionslist');
+        const { isSavingPost } = select('core/editor')
         return {
             fetchLibraryFromAPI,
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
-            errorMessages: getErrorMessages()
+            errorMessages: getErrorMessages(),
+            isSavingPost: isSavingPost()
         };
     })
 ])(TemplatesListModal);

@@ -15,7 +15,7 @@ import { Fragment } from 'react';
 function SitePreviewCustomizer(props) {
 
     const { startIndex, currentPageData } = props;
-    const { insertBlocks, discardAllErrorMessages, appendErrorMessage, activeItemType} = props;
+    const { insertBlocks, discardAllErrorMessages, appendErrorMessage, activeItemType, savePost} = props;
     const [ currentIndex, setCurrentIndex ] = useState(startIndex);
     const [ previewClass, setPreviewClass ] = useState('preview-desktop')
     const [ expandedClass, toggleExpanded ] = useState('expanded')
@@ -107,10 +107,13 @@ export default compose([
             discardAllErrorMessages
         } = dispatch('starterblocks/sectionslist');
 
+        const{savePost} = dispatch("core/editor");
+
         return {
             insertBlocks,
             appendErrorMessage,
-            discardAllErrorMessages
+            discardAllErrorMessages,
+            savePost
         };
     }),
 

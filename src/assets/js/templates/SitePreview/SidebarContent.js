@@ -9,7 +9,6 @@ function SidebarContent(props) {
     const [installList, setInstallList] = useState([]);
     const [versionList, setVersionList] = useState([]);
     const [proList, setProList] = useState([]);
-    console.log(itemData);
 
     const isProReason = () => {
         return (!starterblocks_admin.mokama && pro === true);
@@ -26,7 +25,6 @@ function SidebarContent(props) {
     // Version check: To be removed.
     const updateVersionList = (newRequirement) => {
         let index = findIndex(versionList, {plugin: newRequirement.plugin});
-        console.log("update version list", versionList, index);
         if (index === -1) { // To avoid duplicate effort 
             versionList.push(newRequirement);
             setVersionList(versionList);
