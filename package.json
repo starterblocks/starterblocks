@@ -1,6 +1,6 @@
 {
   "name": "starterblocks",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Contributors: **Team Redux**",
   "main": "gulpfile.js",
   "dependencies": {
