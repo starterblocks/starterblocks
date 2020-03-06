@@ -6,7 +6,7 @@ const { __ } = wp.i18n;
 function Sidebar(props) {
     const { categoryData, activeCategory, pageData, itemType, layer } = props;
     const { setActiveCategory } = props;
-    console.log("activeCategory", activeCategory);
+    
     // Give the selected category(activeCategory) label className as "active"
     const activeClassname = (categoryLabel) => {
         return activeCategory === categoryLabel ? 'active' : '';

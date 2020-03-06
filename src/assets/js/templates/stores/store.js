@@ -41,6 +41,7 @@ const store = registerStore('starterblocks/sectionslist', {
             let categories = [];
             if (state.collection.activeCollection === null || state.activeItemType !== 'collection')
                 categories = cloneDeep(getCurrentState(state).categories);
+            // categories = applyPriceCategoryFilter(categories);
             categories = sortBy(categories, 'name');
             return categories;
         },

@@ -42,3 +42,10 @@ export const applyPriceFilter = (pageData, activePriceFilter) => {
     }
     return pageData;
 }
+
+
+// Category to have pro, free count values as well
+export const applyPriceCategoryFilter = (categoryData) => {
+//    const freeCount = categoryData
+
+}
