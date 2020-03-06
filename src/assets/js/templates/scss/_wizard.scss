@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
+  z-index: 600000;
 }
 
 .starterblocks-wizard-wrapper {
@@ -56,6 +56,8 @@
   .starterblocks-wizard-body {
     flex: 1 1 auto;
     padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
     background: #fff;
 
     h5 {
@@ -75,7 +77,7 @@
     align-items: center;
     display: flex;
     padding: 0 20px;
-
+    box-sizing: border-box;
     .button {
       margin-right: 20px;
       cursor: pointer;
