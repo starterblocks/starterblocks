@@ -5,14 +5,14 @@ const { Spinner } = wp.components;
 const { apiFetch } = wp;
 const { __ } = wp.i18n
 import SitePreviewSidebar from './SitePreviewSidebar';
-import { ModalManager } from '../ModalManager'
-import ImportWizard from '../ImportWizard/ImportWizard';
-import dependencyHelper from '../ImportWizard/dependencyHelper';
+import { ModalManager } from '../modal-manager'
+import ImportWizard from '../import-wizard';
+import dependencyHelper from '../import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
 import './style.scss';
 import { Fragment } from 'react';
 
-function SitePreviewCustomizer(props) {
+function PreviewTemplate(props) {
 
     const { startIndex, currentPageData } = props;
     const { insertBlocks, discardAllErrorMessages, appendErrorMessage, activeItemType, savePost} = props;
@@ -121,4 +121,4 @@ export default compose([
         const { getActiveItemType } = select('starterblocks/sectionslist');
         return { activeItemType: getActiveItemType() };
     })
-])(SitePreviewCustomizer);
+])(PreviewTemplate);

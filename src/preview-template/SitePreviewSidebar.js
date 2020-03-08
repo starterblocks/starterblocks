@@ -4,7 +4,7 @@ const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
 const {parse} = wp.blocks;
 
-import {Modal, ModalManager} from '../ModalManager'
+import {Modal, ModalManager} from '../modal-manager'
 
 import FullyOverlayHeader from './FullyOverlayHeader';
 import SidebarContent from './SidebarContent';

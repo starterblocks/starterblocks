@@ -2,7 +2,7 @@ const { Component } = wp.element;
 const { compose } = wp.compose;
 const { select, withDispatch, withSelect } = wp.data;
 const { __ } = wp.i18n;
-import { ModalManager } from '../ModalManager';
+import { ModalManager } from '../../modal-manager';
 
 function TabHeader(props) {
     const { activeItemType, searchContext, activeCollection } = props;
@@ -19,8 +19,8 @@ function TabHeader(props) {
     return (
         <div className="starterblocks-builder-modal-header">
             <div className="template-search-box">
-                { 
-                    ((activeItemType !== 'collection'  || activeCollection === null) && activeItemType !== 'saved') && 
+                {
+                    ((activeItemType !== 'collection'  || activeCollection === null) && activeItemType !== 'saved') &&
                     <div>
                         <i className="fas fa-search" />
                         <input type="search" placeholder={__('Type to search')} className="form-control" value={searchContext} onChange={onSearchContextUpdate} />
@@ -38,7 +38,7 @@ function TabHeader(props) {
                 </button>
             </div>
         </div>
-    );                      
+    );
 }
 
 export default compose([

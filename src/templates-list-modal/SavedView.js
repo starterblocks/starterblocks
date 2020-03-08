@@ -5,7 +5,7 @@ const {withDispatch} = wp.data;
 const {parse} = wp.blocks
 const {__} = wp.i18n;
 
-import {Modal, ModalManager} from '../ModalManager'
+import {Modal, ModalManager} from '../modal-manager'
 import reject from 'lodash/reject';
 
 function SavedView(props) {
@@ -19,7 +19,7 @@ function SavedView(props) {
             if (response.success) {
                 setSavedSections(response.data);
             } else {
-                appendErrorMessage(response.data.error);    
+                appendErrorMessage(response.data.error);
             }
         }).catch(error => {
             appendErrorMessage(error.code + ' : ' + error.message);
@@ -57,7 +57,7 @@ function SavedView(props) {
                 // on successful remove, we will update the blocks as well.
                 setSavedSections(reject(savedSections, {'ID': sectionID}));
             } else {
-                appendErrorMessage(response.data.error);    
+                appendErrorMessage(response.data.error);
             }
         }).catch(error => {
             appendErrorMessage(error.code + ' : ' + error.message);

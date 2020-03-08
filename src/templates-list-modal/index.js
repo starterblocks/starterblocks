@@ -6,20 +6,20 @@ const {Component, Fragment, useState, useRef} = wp.element;
 const {Spinner} = wp.components;
 const {isSavingPost} = select('core/editor');
 
-import './stores/store';
+import '../stores';
 
-import {TemplateModalProvider} from './contexts/TemplateModalContext';
-import {Modal, ModalManager} from './ModalManager'
-import TabHeader from './components/TabHeader';
-import WithSidebarLayout from './TemplatesList/WithSidebarLayout';
-import CollectionView from './TemplatesList/CollectionView';
-import SavedView from './TemplatesList/SavedView';
-import SitePreviewCustomizer from './SitePreview/SitePreviewCustomizer';
-import ImportWizard from './ImportWizard/ImportWizard';
-import ErrorNotice from './components/ErrorNotice';
-import dependencyHelper from './ImportWizard/dependencyHelper';
+import {TemplateModalProvider} from '../contexts/TemplateModalContext';
+import {Modal, ModalManager} from '../modal-manager'
+import TabHeader from '../components/tab-header';
+import WithSidebarLayout from './WithSidebarLayout';
+import CollectionView from './CollectionView';
+import SavedView from './SavedView';
+import PreviewTemplate from '../preview-template';
+import ImportWizard from '../import-wizard';
+import ErrorNotice from '../components/error-notice';
+import dependencyHelper from '../import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
-import './index.scss'
+import './style.scss'
 
 function TemplatesListModal(props) {
 	const {
@@ -112,7 +112,7 @@ function TemplatesListModal(props) {
 
 	// Open Site Preview Modal
 	const openSitePreviewModal = (index, item) => {
-		ModalManager.openCustomizer(<SitePreviewCustomizer startIndex={index} currentPageData={item}/>);
+		ModalManager.openCustomizer(<PreviewTemplate startIndex={index} currentPageData={item}/>);
 	}
 	return (
 		<Modal className="starterblocks-builder-modal-pages-list"

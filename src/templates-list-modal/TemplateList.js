@@ -3,14 +3,12 @@ const { compose, withState } = wp.compose;
 const { withDispatch, withSelect, select } = wp.data;
 const { Spinner } = wp.components;
 
-
-import { Modal, ModalManager } from '../ModalManager'
-import SingleItem from '../components/SingleItem'
-import MultipleItem from '../components/MultipleItem'
+import SingleItem from '../components/single-item'
+import MultipleItem from '../components/multiple-item'
 
 import { SingleItemProvider } from '../contexts/SingleItemContext';
 
-import SitePreviewCustomizer from '../SitePreview/SitePreviewCustomizer';
+import PreviewTemplate from '../preview-template';
 
 function TemplateList(props) {
     const { pageData, loading, activeItemType, activeCollection } = props;

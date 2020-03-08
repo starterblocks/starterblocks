@@ -2,7 +2,7 @@ const {apiFetch} = wp;
 const {Component, Fragment, useState} = wp.element;
 const {__} = wp.i18n;
 
-import {ModalManager} from '../ModalManager';
+import {ModalManager} from '../modal-manager';
 import dependencyHelper from './dependencyHelper';
 
 export default function InstallPluginStep(props) {

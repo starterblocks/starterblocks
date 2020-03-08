@@ -1,7 +1,8 @@
 const {__} = wp.i18n
 const { Fragment } = wp.element;
 
-export default (props) => {
+const MultipleItem = (props) => {
+
     const {data: {pages, homepageData, ID, name}, backgroundImage, onSelectCollection} = props;
     const {image, pro} = homepageData || {};
     return (
@@ -21,3 +22,4 @@ export default (props) => {
     );
 }
 
+export default MultipleItem

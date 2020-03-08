@@ -6,7 +6,6 @@ const {withDispatch, withSelect, select} = wp.data;
 const {Component, Fragment, useState} = wp.element;
 const {Spinner} = wp.components;
 
-import {Modal, ModalManager} from '../ModalManager';
 import InstallPluginStep from './InstallPluginStep';
 import ProPluginStep from './ProPluginsStep';
 

@@ -8,8 +8,8 @@ import './style.scss'
 /**
  * External dependencies
  */
-import {ModalManager} from '../templates/ModalManager';
-import TemplatesListModal from '../templates/TemplatesListModal';
+import {ModalManager} from '../modal-manager';
+import TemplatesListModal from '../templates-list-modal';
 import { SVGStarterBlocks } from '~starterblocks/icons'
 
 const LibraryToolbarButton = () => {
