@@ -12,6 +12,12 @@ if ( ! class_exists( 'StarterBlock_Options' ) ) {
 			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 			//			add_action( "network_admin_menu", array( $this, 'add_admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
+//			add_action('admin_print_scripts', array($this,'remove_admin_notices'));
+		}
+
+		function remove_admin_notices() {
+			global $wp_filter;
+			unset($wp_filter['admin_notices']);
 		}
 
 		/**
@@ -63,14 +69,16 @@ if ( ! class_exists( 'StarterBlock_Options' ) ) {
 		 */
 		public function create_admin_page() { ?>
             <div class="wrap">
+                <div style="overflow: hidden;height:1px;"><h3></h3></div>
+
                 <div class="starterblocks-options-section starterblocks-mt-20 starterblocks-mb-30"
                      style="background-image: url(<?php echo STARTERBLOCKS_DIR_URL . 'assets/img/logo.svg' ?>)">
                     <div class="starterblocks-options-section-header">
                         <div class="starterblocks-header-left">
-                            <h2 class="starterblocks-options-section-title"><?php esc_attr_e(
+                            <h3 class="starterblocks-options-section-title"><?php esc_attr_e(
 									'Welcome to StarterBlocks! - Version ', 'starterblocks'
 								);
-								echo STARTERBLOCKS_VERSION; ?></h2>
+								echo STARTERBLOCKS_VERSION; ?></h3>
                         </div>
                     </div>
                 </div>

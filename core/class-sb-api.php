@@ -43,15 +43,32 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 				wp_send_json_error( 'No type specified.' );
 			}
 
-			$path = trailingslashit(
-						dirname( __FILE__ )
-					) . 'library' . DIRECTORY_SEPARATOR . $type . '.json';
+			$data = get_transient( 'starterblocks_get_library_' . $type );
 
-			$data = json_decode(
-				file_get_contents(
-					$path
-				), true
-			);
+			if ( empty( $data ) ) {
+				$path = trailingslashit(
+							dirname( __FILE__ )
+						) . 'library' . DIRECTORY_SEPARATOR . $type . '.json';
+
+				$config = array(
+					'path'    => 'library/' . (string) sanitize_text_field( $type ),
+					'headers' => array(
+						'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
+					),
+				);
+
+				$data = $this->api_request( $config );
+				if ( empty( $data ) ) {
+					wp_send_json_error( array( 'error' => $data ) );
+				}
+
+//				$data = json_decode(
+//					file_get_contents(
+//						$path
+//					), true
+//				);
+				set_transient( 'starterblocks_get_library_' . $type, $data, DAY_IN_SECONDS );
+			}
 
 			wp_send_json_success( $data );
 		}
@@ -154,16 +171,21 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 				),
 			);
 
-			// TODO - Put cached copy timestamp in headers
+			$response = get_transient( 'starterblocks_get_template_' . $config['id'] );
 
-			$config = wp_parse_args( $data, $config );
-
-			$response = $this->api_request( $config );
 			if ( empty( $response ) ) {
-				wp_send_json_error( array( 'error' => $response ) );
-			}
 
-			// TODO - Cache using the timestamp
+				// TODO - Put cached copy timestamp in headers
+
+				$config = wp_parse_args( $data, $config );
+
+				$response = $this->api_request( $config );
+				if ( empty( $response ) ) {
+					wp_send_json_error( array( 'error' => $response ) );
+				}
+
+				set_transient( 'starterblocks_get_template_' . $config['id'], $response, DAY_IN_SECONDS );
+			}
 
 			wp_send_json_success( $response );
 

@@ -35,15 +35,28 @@ if ( ! class_exists( 'StarterBlocks' ) ) {
 		 * @since 1.0.0
 		 */
 		public function starterblocks_editor_assets() {
+
 			wp_enqueue_script(
-				'starter-blocks-js', STARTERBLOCKS_DIR_URL . 'assets/js/starterblocks.dev.js',
-				array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), STARTERBLOCKS_VERSION, true
+				'starterblocks-js',
+				plugins_url( 'assets/js/main.dev.js', STARTERBLOCKS_FILE ),
+				array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
+				STARTERBLOCKS_VERSION,
+				true
+			);
+
+			// Backend editor scripts: common vendor files.
+			wp_enqueue_script(
+				'starterblocks-js-vendor',
+				plugins_url( 'assets/js/editor_vendor.dev.js', STARTERBLOCKS_FILE ),
+				array(),
+				STARTERBLOCKS_VERSION
 			);
 
 			wp_localize_script(
-				'starter-blocks-js',
-				'starterblocks_admin',
+				'starterblocks-js',
+				'starterblocks',
 				array(
+					'i18n'              => 'starterblocks',
 					'plugin'            => STARTERBLOCKS_DIR_URL,
 					'mokama'            => starterblocks_fs()->can_use_premium_code(),
 					'icon'              => file_get_contents( STARTERBLOCKS_DIR_URL . 'assets/img/logo.svg' ),
@@ -51,6 +64,7 @@ if ( ! class_exists( 'StarterBlocks' ) ) {
 					'supported_plugins' => STARTERBLOCKS_Supported_Plugins::get_plugins(),
 				)
 			);
+
 		}
 
 		/**

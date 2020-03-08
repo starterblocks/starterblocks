@@ -87,6 +87,9 @@ if ( function_exists( 'starterblocks_fs' ) ) {
 // Define Version
 	define( 'STARTERBLOCKS_VERSION', '0.1.0' );
 
+// Define File DIR
+	define( 'STARTERBLOCKS_FILE', __FILE__ );
+
 // Define Dir URL
 	define( 'STARTERBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 

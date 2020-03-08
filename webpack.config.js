@@ -1,27 +1,65 @@
-'use strict';
+const externals = require('./externals')
+const rules = require('./rules')
+const plugins = require('./plugins')
 var path = require('path');
 
-module.exports = {
+module.exports = [{
     mode: 'development',
+
     entry: [
         path.join(__dirname, 'src/assets/js/index.js')
     ],
     output: {
         path: path.join(__dirname, 'assets/js'),
-        filename: 'starterblocks.dev.js'
+        filename: '[name].dev.js',
+        library: '[name]', // assigns this module to the global (window) object
+    },
+    // Permit importing @wordpress/* packages.
+    externals,
+
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /node_modules/,
+                    chunks: 'initial',
+                    name: 'editor_vendor',
+                    priority: 10,
+                    enforce: true
+                }
+            }
+        },
+    },
+    resolve: {
+        alias: {
+            '~starterblocks': path.resolve(__dirname, '../src/')
+        }
+    },
+    // Clean up build output
+    stats: {
+        all: false,
+        assets: true,
+        colors: true,
+        errors: true,
+        performance: true,
+        timings: true,
+        warnings: true,
     },
     module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: { loader: 'babel-loader' }
-            },
-            {
-                test: /\.scss$/,
-                use: [ 'style-loader', 'css-loader', 'sass-loader' ],
-            }
-        ]
+        strictExportPresence: true,
+        rules,
+        // rules: [
+        //     {
+        //         test: /\.js$/,
+        //         exclude: /(node_modules|bower_components)/,
+        //         use: { loader: 'babel-loader' }
+        //     },
+        //     {
+        //         test: /\.scss$/,
+        //         use: [ 'style-loader', 'css-loader', 'sass-loader' ],
+        //     }
+        // ]
     },
-    devtool: "source-map"
-};
+    devtool: 'source-map',
+    plugins,
+}];

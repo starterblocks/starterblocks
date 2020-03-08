@@ -1,0 +1,74 @@
+.wp-full-overlay {
+	margin-left: 300px;
+}
+
+@media screen and (min-width: 1667px) {
+	.wp-full-overlay {
+		margin-left: 18%;
+	}
+}
+
+.wp-full-overlay.hide {
+	display: none;
+}
+
+.theme-screenshot-wrap {
+	overflow: hidden;
+	position: relative;
+	max-height: 300px;
+	margin: 15px 0;
+	border: 1px solid #ccc;
+}
+
+.install-theme-info .theme-screenshot {
+	width: 100%;
+	border: none;
+	margin: 0;
+}
+
+.expanded .wp-full-overlay-footer {
+	height: 111px;
+	left: initial;
+
+	.button-hero {
+		text-align: center;
+	}
+}
+
+.wp-full-overlay .wp-full-overlay-sidebar-content {
+	bottom: 100px;
+}
+
+.footer-import-button-wrap {
+	padding: 10px 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.wp-full-overlay-footer .view-site,
+.wp-full-overlay-footer .go-pro,
+.wp-full-overlay-footer .starterblocks-import {
+	width: 100%;
+}
+
+.starterblocks-button-download {
+	border: 1px solid #3dbfe8;
+	background: #3dbfe8;
+	box-shadow: 0 1px 0 #165cb4;
+	color: #fff;
+}
+
+.wp-full-overlay-main {
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+}
+
+.theme-install-overlay iframe {
+	height: 100%;
+	width: 100%;
+	z-index: 20;
+	transition: opacity 0.3s;
+}
