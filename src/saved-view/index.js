@@ -5,6 +5,8 @@ const {withDispatch} = wp.data;
 const {parse} = wp.blocks
 const {__} = wp.i18n;
 
+import './style.scss'
+
 import {Modal, ModalManager} from '../modal-manager'
 import reject from 'lodash/reject';
 

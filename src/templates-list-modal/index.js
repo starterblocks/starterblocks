@@ -13,7 +13,7 @@ import {Modal, ModalManager} from '../modal-manager'
 import TabHeader from '../components/tab-header';
 import WithSidebarLayout from './WithSidebarLayout';
 import CollectionView from './CollectionView';
-import SavedView from './SavedView';
+import SavedView from '../saved-view';
 import PreviewTemplate from '../preview-template';
 import ImportWizard from '../import-wizard';
 import ErrorNotice from '../components/error-notice';

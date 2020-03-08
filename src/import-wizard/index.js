@@ -9,6 +9,8 @@ const {Spinner} = wp.components;
 import InstallPluginStep from './InstallPluginStep';
 import ProPluginStep from './ProPluginsStep';
 
+import './style.scss'
+
 const PLUGIN_STEP = 0;
 const PRO_STEP = 1;
 const IMPORT_STEP = 2;
