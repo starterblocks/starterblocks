@@ -1,7 +1,7 @@
 const {__} = wp.i18n
 const {useContext} = wp.element;
 import SingleItemContext from '../contexts/SingleItemContext';
-import ButtonGroup from './ButtonGroup';
+import ButtonGroup from './button-group';
 import {missingPro, missingRequirement} from '../stores/helper';
 
 export default (props) => {
