@@ -45,7 +45,7 @@ const externals = [
 } ), {
 	wp: 'wp',
 	lodash: 'lodash', // WP loads lodash already.
-	stackable: 'stackable', // Our localized JS variable.
+	starterblocks: 'starterblocks', // Our localized JS variable.
 	fetch: 'fetch', // Used in our debugger sidebar.
 } );
 

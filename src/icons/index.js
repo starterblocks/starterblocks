@@ -28,8 +28,8 @@ if ( typeof window.wp.blocks !== 'undefined' && typeof window.wp.blocks.updateCa
 
 // Add our SVG gradient placeholder definition that we'll reuse.
 domReady( () => {
-	const stackableGradient = document.createElement( 'DIV' )
-	document.querySelector( 'body' ).appendChild( stackableGradient )
+	const starterblocksGradient = document.createElement( 'DIV' )
+	document.querySelector( 'body' ).appendChild( starterblocksGradient )
 	render(
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ domReady( () => {
 				</linearGradient>
 			</defs>
 		</svg>,
-		stackableGradient
+		starterblocksGradient
 	)
 } )
 
