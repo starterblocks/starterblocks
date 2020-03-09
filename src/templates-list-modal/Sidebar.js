@@ -4,7 +4,7 @@ const { select, withDispatch, withSelect } = wp.data;
 const { __ } = wp.i18n;
 
 function Sidebar(props) {
-    const { categoryData, activeCategory, pageData, itemType, layer } = props;
+    const { categoryData, activeCategory, pageData, itemType, layer, activePriceFilter } = props;
     const { setActiveCategory } = props;
 
     // Give the selected category(activeCategory) label className as "active"
@@ -43,7 +43,7 @@ function Sidebar(props) {
                             categoryData.map((data, index) => (
                                 <li className={activeClassname(data.slug)} onClick={() => setActiveCategory(data.slug)} key={index}>
                                     {data.name}
-                                    <span> {data.hasOwnProperty('filteredCount') ? data.filteredCount : data.count} </span>
+                                    <span> {data.hasOwnProperty('filteredCount') && activePriceFilter !== '' ? data.filteredCount + '/' + data.count: data.count} </span>
                                 </li>
                             ))
                         }
@@ -68,8 +68,8 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const { getCategoryData, getActiveCategory, getPageData, getActiveItemType, getActiveCollection } = select('starterblocks/sectionslist');
+        const { getCategoryData, getActiveCategory, getPageData, getActiveItemType, getActiveCollection, getActivePriceFilter } = select('starterblocks/sectionslist');
         return { categoryData: getCategoryData(), pageData: getPageData(),
-            activeCategory: getActiveCategory(), itemType: getActiveItemType(), layer: getActiveCollection() };
+            activeCategory: getActiveCategory(), itemType: getActiveItemType(), layer: getActiveCollection(), activePriceFilter: getActivePriceFilter() };
     })
 ])(Sidebar);
