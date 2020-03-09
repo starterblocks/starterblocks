@@ -4,7 +4,6 @@ const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
 const {Component, Fragment, useState, useRef} = wp.element;
 const {Spinner} = wp.components;
-const {isSavingPost} = select('core/editor');
 
 import '../stores';
 
@@ -17,6 +16,7 @@ import SavedView from '../saved-view';
 import PreviewTemplate from '../preview-template';
 import ImportWizard from '../import-wizard';
 import ErrorNotice from '../components/error-notice';
+import {processImportHelper} from '../stores/helper';
 import dependencyHelper from '../import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
 import find from 'lodash/find';
@@ -51,52 +51,13 @@ function TemplatesListModal(props) {
 		setMissingPro(dependencies.missingProArray);
 		setImportingBlock(data);
 	}
-	/*
-	const savePostNotice = find(notices, {id: 'SAVE_POST_NOTICE_ID'});
-	if ( savePostNotice && savePostNotice.status === 'success' ) {
-		window.location.reload();
-	}*/
 
 	// read block data to import and give the control to actual import
 	const processImport = () => {
-		const data = importingBlock;
-		const type = activeItemType === 'section' ? 'sections' : 'pages';
-
 		discardAllErrorMessages();
-		setSpinner(data.ID);
+		setSpinner(importingBlock.ID);
 
-		let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
-		if (data.source_id) {
-			the_url += '&sid=' + data.source_id + '&source=' + data.source;
-		}
-		the_url += '&p=' + JSON.stringify(starterblocks.supported_plugins);
-		const options = {
-			method: 'GET',
-			path: the_url,
-			headers: {'Content-Type': 'application/json'}
-		};
-		apiFetch(options).then(response => {
-			if (response.success && response.data.template) {
-				//import template
-				let pageData = parse(response.data.template);
-				doImportTemplate(pageData);
-				setTimeout(() => {
-					savePost().then(() => {
-						window.location.reload();
-					});
-				}, 5000);
-			} else {
-				registerError(response.data.error);
-			}
-		}).catch(error => {
-			registerError(error.code + ' : ' + error.message);
-		});
-	}
-
-	// Final piece, insert read block data
-	const doImportTemplate = (pageData) => {
-		insertBlocks(pageData);
-		// ModalManager.close(); //close modal
+		processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', registerError);
 	}
 
 	const registerError = (errorMessage) => {
@@ -159,13 +120,11 @@ export default compose([
 
 	withSelect((select, props) => {
 		const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages} = select('starterblocks/sectionslist');
-		const {getNotices} = select('core/notices');
 		return {
 			fetchLibraryFromAPI,
 			activeCollection: getActiveCollection(),
 			activeItemType: getActiveItemType(),
-			errorMessages: getErrorMessages(),
-			notices: getNotices()
+			errorMessages: getErrorMessages()
 		};
 	})
 ])(TemplatesListModal);
