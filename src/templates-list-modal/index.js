@@ -51,10 +51,11 @@ function TemplatesListModal(props) {
 		setMissingPro(dependencies.missingProArray);
 		setImportingBlock(data);
 	}
+	/*
 	const savePostNotice = find(notices, {id: 'SAVE_POST_NOTICE_ID'});
 	if ( savePostNotice && savePostNotice.status === 'success' ) {
 		window.location.reload();
-	}
+	}*/
 
 	// read block data to import and give the control to actual import
 	const processImport = () => {

@@ -38,30 +38,41 @@ const store = registerStore('starterblocks/sectionslist', {
         },
         // get categories from currentState, sortBy alphabetically
         getCategoryData(state) {
-            let categories = [];
-            if (state.collection.activeCollection === null || state.activeItemType !== 'collection')
-                categories = cloneDeep(getCurrentState(state).categories);
+			let categories = [];
+			let pageData = getOriginalPageData(state);
+            if (pageData && Object.keys(pageData).length > 0) {
+                pageData = applySearchFilter(pageData, getCurrentState(state).searchContext);
+				pageData = applyPriceFilter(pageData, getCurrentState(state).priceFilter);
+			}
+            if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
+				categories = cloneDeep(getCurrentState(state).categories);
+				categories = categories.map(category => {
+					const filteredCount = pageData[category.slug] ? pageData[category.slug].length : 0;
+					return {...category, filteredCount};
+				});
+			}
             // categories = applyPriceCategoryFilter(categories);
             categories = sortBy(categories, 'name');
             return categories;
         },
         // get relevant page data, apply category, price, search filters
         getPageData(state) {
-            let pageData = getOriginalPageData(state);
-            if (pageData) {
-                if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getCurrentState(state).activeCategory);
+			let pageData = getOriginalPageData(state);
+            if (pageData && Object.keys(pageData).length > 0) {
                 pageData = applySearchFilter(pageData, getCurrentState(state).searchContext);
-                pageData = applyPriceFilter(pageData, getCurrentState(state).priceFilter);
-                pageData = sortBy(pageData, getCurrentState(state).sortBy);
+				pageData = applyPriceFilter(pageData, getCurrentState(state).priceFilter);
+				if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getCurrentState(state).activeCategory);
+				pageData = sortBy(pageData, getCurrentState(state).sortBy);
+				return pageData;
             }
-            return pageData;
+            return null;
         },
         getStatistics(state) {
             let pageData = getOriginalPageData(state);
-            let staticsData = {true: 0, false: 0};
-            if (pageData) {
+			let staticsData = {true: 0, false: 0};
+            if (pageData && Object.keys(pageData).length > 0) {
+				pageData = applySearchFilter(pageData, getCurrentState(state).searchContext);
                 if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getCurrentState(state).activeCategory);
-                pageData = applySearchFilter(pageData, getCurrentState(state).searchContext);
                 staticsData = countBy(pageData, 'pro');
             }
             return staticsData;

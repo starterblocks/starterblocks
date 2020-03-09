@@ -24,7 +24,7 @@ function Sidebar(props) {
     };
 
     const totalCategoryCount = () => {
-        return categoryData ? categoryData.reduce((sum, currentCat) => sum + currentCat.count, 0) : 0;
+        return categoryData ? categoryData.reduce((sum, currentCat) => sum + (currentCat.hasOwnProperty('filteredCount') ? currentCat.filteredCount : currentCat.count), 0) : 0;
     };
 
     return (
@@ -43,7 +43,7 @@ function Sidebar(props) {
                             categoryData.map((data, index) => (
                                 <li className={activeClassname(data.slug)} onClick={() => setActiveCategory(data.slug)} key={index}>
                                     {data.name}
-                                    <span> {data.count} </span>
+                                    <span> {data.hasOwnProperty('filteredCount') ? data.filteredCount : data.count} </span>
                                 </li>
                             ))
                         }
