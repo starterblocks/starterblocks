@@ -1,7 +1,5 @@
 @import "scss/variables";
 @import "scss/layout";
-@import "scss/details";
-
 
 @mixin placeholder-color($color) {
 	&::-webkit-input-placeholder { /* WebKit browsers */
@@ -27,7 +25,6 @@
 }
 
 .starterblocks-builder-modal {
-
 	button {
 		background: transparent;
 	}
@@ -48,7 +45,6 @@
 		.wp-core-ui .button.button-hero {
 			text-align: center !important;
 		}
-
 	}
 
 	* {
@@ -120,6 +116,7 @@
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+
 	background: $primaryBack;
 	width: 85.9375%;
 	height: 89.537037%;
@@ -127,75 +124,8 @@
 	max-height: 967px;
 	box-shadow: 0 0 45px 10px rgba(3, 8, 15, 0.2);
 	//border-radius: 5px;
-
-	.starterblocks-collection-modal-sidebar {
-		min-width: 270px;
-		background: $secondaryBack;
-		color: $primaryColor; /* $secondaryColor;*/
-		overflow-y: auto;
-
-		.starterblocks-modal-sidebar-content {
-			padding: 30px 40px;
-
-			h3 {
-				color: $secondaryColor;
-				font-size: 12px;
-				font-weight: 600;
-				letter-spacing: 1px;
-				line-height: 14px;
-				font-family: pn, "Open Sans", Arial, sans-serif;
-				text-transform: uppercase;
-				display: -webkit-box;
-				display: -ms-flexbox;
-				display: flex;
-				-webkit-box-align: center;
-				-ms-flex-align: center;
-				align-items: center;
-				margin-bottom: 23px;
-				/*
-                font-size: 21px;
-                color: #95C2EE;
-                margin: 0 0 30px;
-                font-weight: 500;
-                */
-				&::after {
-					content: "";
-					width: 100%;
-					height: 1px;
-					background-color: #424951;
-					margin-left: 20px;
-					display: block;
-				}
-			}
-
-			ul {
-				list-style: none;
-				margin: 0;
-				padding: 0;
-
-				li {
-					padding: 6px 0;
-					display: block;
-					font-size: 14px;
-					overflow: hidden;
-					cursor: pointer;
-					transition: 300ms;
-
-					&:hover {
-						color: $secondaryColor;
-					}
-
-					&.active {
-						color: $thirdColor;
-					}
-
-					span {
-						float: right;
-					}
-				}
-			}
-		}
-	}
+	animation: components-modal__appear-animation 0.1s ease-out;
+	animation-fill-mode: forwards;
 
 	.starterblocks-collection-modal-content-area {
 		flex-grow: 1;
@@ -206,7 +136,6 @@
 }
 
 //template list header
-
 .starterblocks-template-list-header {
 	text-align: center;
 	position: relative;
@@ -253,7 +182,6 @@
 }
 
 //template list sub header
-
 .starterblocks-template-list-sub-header {
 	display: flex;
 	justify-content: space-between;
@@ -352,7 +280,6 @@
 	}
 }
 
-
 .starterblocks-modal-loader {
 	display: inline-block;
 	position: absolute;
@@ -397,136 +324,12 @@
 	line-height: 1;
 }
 
-#collections-sections-list {
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	padding: 10px 10px 35px 10px;
-
-	> div {
-		width: 33.3333%;
-		padding: 15px;
-		position: relative;
-		@media (max-width: 1199px) {
-			width: 50%;
-		}
-
-		&.starterblocks-builder-template-found-empty {
-			width: 100%;
-			text-align: center;
-			opacity: 0.5;
-			border: none !important;
-			padding-top: 70px !important;
-		}
-	}
-
-	&.starterblocks-frontend-section-list {
-		display: block;
-		padding-bottom: 35px;
-		padding-top: 0px;
-
-		> div {
-			&.starterblocks-reusable-list-title {
-				color: #adafb2;
-			}
-
-			width: 100%;
-			display: flex;
-			flex-wrap: nowrap;
-			border-bottom: 1px solid #e2e4e7;
-			font-weight: 600;
-			padding: 12px 0 12px 15px;
-			margin-bottom: 0;
-			align-items: center;
-
-			&:first-child {
-				border-top: 1px solid #e2e4e7;
-			}
-
-			.starterblocks-reusable-list-content {
-				flex-grow: 1;
-			}
-
-			.starterblocks-reusable-list-info {
-				flex-grow: 1;
-				max-width: 165px;
-				display: flex;
-				flex-wrap: nowrap;
-			}
-
-			.starterblocks-reusable-list-button {
-				margin-left: 30px;
-			}
-
-			.starterblocks-reusable-list-button button {
-				display: inline-block;
-				padding: 0;
-				border: none;
-				transition: 300ms;
-				cursor: pointer;
-				background-color: transparent;
-
-				&:not(:last-child) {
-					margin-right: 10px;
-				}
-
-				i {
-					font-size: 16px;
-					color: #cdcfd1;
-				}
-
-				&:hover i {
-					color: #007cba;
-				}
-
-				&:last-child:hover i {
-					color: #f00;
-				}
-			}
-		}
-	}
-}
-
 .starterblocks-default-template-image {
 	transition: 300ms;
 
 	img {
 		width: 100%;
 		display: block;
-	}
-}
-
-.starterblocks-single-section-item {
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-
-	.starterblocks-tmpl-title {
-		background: #fff;
-		margin: 0;
-		color: #23282d;
-		padding: 13px 15px;
-		font-size: 15px;
-	}
-
-	.starterblocks-single-item-inner {
-		position: relative;
-		overflow: hidden;
-		min-height: 150px;
-		background: #999;
-
-		.warn_notice {
-			color: #fbbc0e;
-			font-weight: bold;
-			margin-bottom: 15px;
-			font-size: 14px;
-			opacity: 0;
-			text-align: center;
-		}
-
-		.starterblocks-default-template-image {
-			transition: 300ms;
-		}
-
-
 	}
 }
 
@@ -584,60 +387,6 @@
 			border-color: #ffc107;
 		}
 	}
-}
-
-.starterblocks-import-button-group {
-	text-align: center;
-
-	&.disabled span a {
-		cursor: default;
-		opacity: 0.8;
-	}
-}
-
-.starterblocks-import-button-group span,
-.starterblocks-import-button-group a {
-	display: inline-block;
-	padding: 0 12px 2px;
-	margin: 2px;
-	height: 33px;
-	line-height: 32px;
-	font-size: 13px;
-	color: #353535;
-	border: 1px solid #f7f7f7;
-	background: #f7f7f7;
-	box-shadow: 0 1px 0 #ccc;
-	vertical-align: top;
-	border-radius: 3px;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.starterblocks-import-button-group span i,
-.starterblocks-import-button-group a i {
-	font-size: 10px;
-	margin-right: 4px;
-}
-
-
-.starterblocks-import-button-group span {
-	background: #0085ba;
-	border-color: #006a95 #00648c #00648c;
-	box-shadow: inset 0 -1px 0 #00648c;
-	color: #fff;
-	text-decoration: none;
-	text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
-}
-
-.starterblocks-import-button-group a.starterblocks-button-download {
-	border: 1px solid $thirdColor;
-	background: $thirdColor;
-	box-shadow: 0 1px 0 #165cb4;
-	color: #fff;
-}
-
-.starterblocks-import-button-group .starterblocks-button-download {
-	margin-left: 5px;
 }
 
 /*multiple box*/

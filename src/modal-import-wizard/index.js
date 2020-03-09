@@ -39,10 +39,10 @@ function BlockImportWizard(props) {
 	}
 
 	return (
-		<div className="starterblocks-wizard-overlay">
-			<div className="starterblocks-wizard-wrapper">
-				<div class="starterblocks-wizard-header">
-					<h3>{__('Your Selected Template is Being Imported')}</h3>
+		<div className="starterblocks-import-wizard-overlay">
+			<div className="starterblocks-import-wizard-wrapper">
+				<div class="starterblocks-import-wizard-header">
+					<h3>{__('Template Import Wizard')}</h3>
 					<button className="starterblocks-builder-close-modal" onClick={onCloseWizard}>
 						<i className={'fas fa-times'}/>
 					</button>
@@ -52,7 +52,7 @@ function BlockImportWizard(props) {
 								   onCloseWizard={onCloseWizard}/>}
 				{(currentStep === PRO_STEP) && <ProPluginStep missingPros={missingPros} onCloseWizard={onCloseWizard}/>}
 				{(currentStep === IMPORT_STEP) &&
-				<div className="starterblocks-wizard-spinner-wrapper"><Spinner/></div>
+				<div className="starterblocks-import-wizard-spinner-wrapper"><Spinner/></div>
 				}
 			</div>
 		</div>

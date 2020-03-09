@@ -16,17 +16,20 @@ function FullyOverlayFooter(props) {
 	return (
 		<div class="wp-full-overlay-footer">
 			<div class="footer-import-button-wrap starterblocks-import-button-group">
+
 				{
 					(!starterblocks.mokama && pro == true) ?
+						<div className="action-buttons">
 						<a class="starterblocks-button-download" target="_blank" href="http://starterblocks.io/">
 							<i class="fas fa-upload"></i>&nbsp;Upgrade to Pro
-						</a>
+						</a></div>
 						:
 						<a class="button button-hero hide-if-no-customize button-primary starterblocks-import"
 						   onClick={onImport}>
 							<i class="fas fa-download"></i>&nbsp;Import
 						</a>
 				}
+
 			</div>
 			<button type="button" class="collapse-sidebar button" onClick={toggleExpanded} aria-expanded="true"
 					aria-label="Collapse Sidebar">

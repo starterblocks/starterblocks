@@ -9,20 +9,20 @@ import './style.scss'
  * External dependencies
  */
 import {ModalManager} from '../modal-manager';
-import TemplatesListModal from '../templates-list-modal';
-import { SVGStarterBlocks } from '~starterblocks/icons'
+import LibraryModal from '../modal-library';
+import { StarterBlocksIcon } from '~starterblocks/icons'
 
-const LibraryToolbarButton = () => {
+const ToolbarLibraryButton = () => {
 	return (
 		<IconButton
 			onClick={ () => {
-				ModalManager.open(<TemplatesListModal rowClientId={false}/>);
+				ModalManager.open(<LibraryModal rowClientId={false}/>);
 			} }
 			className="sb-insert-library-button"
 			label={ __( 'Open Library', starterblocks.i18n ) }
-			icon={ <SVGStarterBlocks /> }
+			icon={ <StarterBlocksIcon /> }
 		>{ __( 'Library', starterblocks.i18n ) }</IconButton>
 	)
 }
 
-export default LibraryToolbarButton
+export default ToolbarLibraryButton

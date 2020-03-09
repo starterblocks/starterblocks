@@ -45,16 +45,7 @@ function TemplateListSubHeader(props) {
                         <option value="updated">{__('Updated')}</option>
                     </select>
                 </div>
-                <div className="starterblocks-template-filter-button-group">
-                    <button onClick={() => setActivePriceFilter('')} className={getClassnames('')}>{__('All')}</button>
-                    <button onClick={() => setActivePriceFilter('free')} className={getClassnames('free')}
-                        disabled={noStatistics('free')}>{__('Free')}</button>
-                    <button onClick={() => setActivePriceFilter('pro')} className={getClassnames('pro')}
-                        disabled={noStatistics('pro')}>
-                        <img src={starterblocks.plugin + 'assets/img/icon-premium.svg'} alt="" />
-                        {__('Premium')}
-                    </button>
-                </div>
+
             </div>
         </div>
     );

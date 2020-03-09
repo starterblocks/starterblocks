@@ -4,35 +4,34 @@ const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
 const {Component, Fragment, useState, useRef} = wp.element;
 const {Spinner} = wp.components;
+const {isSavingPost} = select('core/editor');
 
 import '../stores';
 
 import {TemplateModalProvider} from '../contexts/TemplateModalContext';
 import {Modal, ModalManager} from '../modal-manager'
 import TabHeader from '../components/tab-header';
-import WithSidebarLayout from './WithSidebarLayout';
-import CollectionView from './CollectionView';
-import SavedView from '../saved-view';
-import PreviewTemplate from '../preview-template';
-import ImportWizard from '../import-wizard';
+import WithSidebarLayout from './layout-with-sidebar';
+import CollectionView from './view-collection';
+import SavedView from './view-saved';
+import PreviewModal from '../modal-preview';
+import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
-import {processImportHelper} from '../stores/helper';
-import dependencyHelper from '../import-wizard/dependencyHelper';
+import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
-import find from 'lodash/find';
 import './style.scss'
 
-function TemplatesListModal(props) {
+function LibraryModal(props) {
 	const {
 		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages,
-		insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes,
-		inserterItems, categories, savePost, notices
+		insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
 	} = props;
 	const [spinner, setSpinner] = useState(null);
 	const [saving, setSaving] = useState(false);
 	const [importingBlock, setImportingBlock] = useState(null);
 	const [missingPluginArray, setMissingPlugin] = useState([]);
 	const [missingProArray, setMissingPro] = useState([]);
+	const wasSaving = useRef(false);
 
 	fetchLibraryFromAPI();
 
@@ -52,12 +51,58 @@ function TemplatesListModal(props) {
 		setImportingBlock(data);
 	}
 
+	const useDidSave = () => {
+		const hasJustSaved = wasSaving.current && !isSavingPost;
+		wasSaving.current = isSavingPost;
+		return hasJustSaved;
+	}
+
 	// read block data to import and give the control to actual import
 	const processImport = () => {
-		discardAllErrorMessages();
-		setSpinner(importingBlock.ID);
+		const data = importingBlock;
+		const type = activeItemType === 'section' ? 'sections' : 'pages';
 
-		processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', registerError);
+		discardAllErrorMessages();
+		setSpinner(data.ID);
+
+		let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
+		if (data.source_id) {
+			the_url += '&sid=' + data.source_id + '&source=' + data.source;
+		}
+		the_url += '&p=' + JSON.stringify(starterblocks.supported_plugins);
+		const options = {
+			method: 'GET',
+			path: the_url,
+			headers: {'Content-Type': 'application/json'}
+		};
+		apiFetch(options).then(response => {
+			if (response.success && response.data.template) {
+				//import template
+				let pageData = parse(response.data.template);
+				doImportTemplate(pageData);
+				setSaving(true);
+				savePost().then(() => {
+					console.log('MAGIC', useDidSave());
+					let timer = setInterval(() => {
+						//console.log("isSavingPost", isSavingPost);
+						if (useDidSave() === false) {
+							clearInterval(timer);
+							window.location.reload();
+						}
+					}, 1000);
+				});
+			} else {
+				registerError(response.data.error);
+			}
+		}).catch(error => {
+			registerError(error.code + ' : ' + error.message);
+		});
+	}
+
+	// Final piece, insert read block data
+	const doImportTemplate = (pageData) => {
+		insertBlocks(pageData);
+		// ModalManager.close(); //close modal
 	}
 
 	const registerError = (errorMessage) => {
@@ -67,7 +112,7 @@ function TemplatesListModal(props) {
 
 	// Open Site Preview Modal
 	const openSitePreviewModal = (index, item) => {
-		ModalManager.openCustomizer(<PreviewTemplate startIndex={index} currentPageData={item}/>);
+		ModalManager.openCustomizer(<PreviewModal startIndex={index} currentPageData={item}/>);
 	}
 	return (
 		<Modal className="starterblocks-builder-modal-pages-list"
@@ -120,11 +165,13 @@ export default compose([
 
 	withSelect((select, props) => {
 		const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages} = select('starterblocks/sectionslist');
+		const {isSavingPost} = select('core/editor')
 		return {
 			fetchLibraryFromAPI,
 			activeCollection: getActiveCollection(),
 			activeItemType: getActiveItemType(),
-			errorMessages: getErrorMessages()
+			errorMessages: getErrorMessages(),
+			isSavingPost: isSavingPost()
 		};
 	})
-])(TemplatesListModal);
+])(LibraryModal);

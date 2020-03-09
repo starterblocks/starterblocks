@@ -4,8 +4,10 @@ const {withDispatch, withSelect, select} = wp.data;
 
 const {__} = wp.i18n
 
-import ButtonGroup from '../components/button-group';
-import {SingleItemProvider} from '../contexts/SingleItemContext';
+import './style.scss'
+
+import ButtonGroup from '../../components/button-group';
+import {SingleItemProvider} from '../../contexts/SingleItemContext';
 
 function CollectionView(props) {
 	const {pageData, loading, activeCollection, activeItemType} = props;
@@ -46,7 +48,7 @@ function CollectionView(props) {
 								return (
 									<div className={className} onClick={() => setPreviewDataIndex(index)}>
 										<div className="detail-image" style={divStyle}>
-											{detail.pro && <span className="pro">{__('Pro')}</span>}
+											{detail.pro && <span className="pro">{__('Premium')}</span>}
 											<div className="detail-label">{detail.name}</div>
 										</div>
 									</div>

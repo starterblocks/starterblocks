@@ -3,6 +3,7 @@ const {useContext} = wp.element;
 import SingleItemContext from '../../contexts/SingleItemContext';
 import ButtonGroup from '../button-group';
 import {missingPro, missingRequirement} from '../../stores/helper';
+import './style.scss'
 
 const SingleItem = (props) => {
 	// Decoupling props
@@ -24,12 +25,15 @@ const SingleItem = (props) => {
 				style={background}>
 				<div className="starterblocks-default-template-image">
 					<img className="lazy" src={backgroundImage(image)}/>
-					{pro && <span className="starterblocks-pro-badge">{__('Pro')}</span>}
+					{pro && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
+					<div className="starterblocks-tmpl-title">{data.name}</div>
 				</div>
 				{/* starterblocks-default-template-image */}
 				<div className="starterblocks-button-overlay">
+					{pro && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
 					<ButtonGroup/>
 				</div>
+
 			</div>
 			{/* starterblocks-item-wrapper */}
 		</div>

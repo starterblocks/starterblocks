@@ -3,12 +3,13 @@ const { compose, withState } = wp.compose;
 const { withDispatch, withSelect, select } = wp.data;
 const { Spinner } = wp.components;
 
-import SingleItem from '../components/single-item'
-import MultipleItem from '../components/multiple-item'
+import SingleItem from '../../components/single-item'
+import MultipleItem from '../../components/multiple-item'
+import './style.scss'
 
-import { SingleItemProvider } from '../contexts/SingleItemContext';
+import { SingleItemProvider } from '../../contexts/SingleItemContext';
 
-import PreviewTemplate from '../preview-template';
+import PreviewModal from '../../modal-preview';
 
 function TemplateList(props) {
     const { pageData, loading, activeItemType, activeCollection } = props;
@@ -26,9 +27,8 @@ function TemplateList(props) {
     }
 
     let types = starterblocks.mokama ? 'active' : 'inactive';
-
-
-	if (!loading)
+    // Render Part
+    if (!loading)
         return (
             <div id="modalContainer" className="starterblocks-template-list-modal">
                 <div className="starterblocks-builder-template-list-container">
