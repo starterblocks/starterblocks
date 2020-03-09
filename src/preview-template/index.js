@@ -8,6 +8,7 @@ import SitePreviewSidebar from './SitePreviewSidebar';
 import { ModalManager } from '../modal-manager'
 import ImportWizard from '../import-wizard';
 import dependencyHelper from '../import-wizard/dependencyHelper';
+import {processImportHelper} from '../stores/helper';
 import uniq from 'lodash/uniq';
 import './style.scss';
 import { Fragment } from 'react';
@@ -46,34 +47,8 @@ function PreviewTemplate(props) {
     }
 
     const processImport = () => {
-        discardAllErrorMessages();
-        const type = activeItemType === 'section' ? 'section' : 'page';
-        let the_url = 'starterblocks/v1/template?type='+type+'&id=' + itemData.ID;
-        if (itemData.source_id) {
-            the_url += '&sid=' + itemData.source_id + '&source=' + itemData.source;
-        }
-        the_url += '&p=' + JSON.stringify(starterblocks.supported_plugins);
-
-        const options = {
-            method: 'GET',
-            path: the_url,
-            headers: { 'Content-Type': 'application/json' }
-        }
-        apiFetch(options).then(response => {
-            if (response.success && response.data.template) {
-                //import collection
-                let pageData = parse(response.data.template);
-                doImportTemplate(pageData);
-                savePost().then(() => {
-                    if (missingPluginArray.length > 0)
-                        setTimeout(window.location.reload(), 1000);
-                });
-            } else {
-                appendErrorMessage(response.data.error);
-            }
-        }).catch(error => {
-            appendErrorMessage(error.code + ' : ' + error.message);
-        });
+		discardAllErrorMessages();
+		processImportHelper(itemData, activeItemType === 'section' ? 'sections' : 'pages', appendErrorMessage);
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
