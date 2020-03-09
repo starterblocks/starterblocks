@@ -1,3 +1,5 @@
+const {withDispatch, withSelect, select, subscribe} = wp.data;
+const {useState, useRef} = wp.element;
 // Just get current Page Data
 export const applyCategoryFilter = (pageData, activeCategory) => {
     let currentPageData = [];
@@ -48,4 +50,24 @@ export const applyPriceFilter = (pageData, activePriceFilter) => {
 export const applyPriceCategoryFilter = (categoryData) => {
 //    const freeCount = categoryData
 
+}
+
+
+export const useDidSave = () => {
+	const wasSaving = useRef( false );
+	const { isSaving, didSucceed } = useSelect( ( select ) => {
+		const { isSavingPost, didPostSaveRequestSucceed } = select(
+			'core/editor'
+		);
+		return {
+			isSaving: isSavingPost(),
+			didSucceed: didPostSaveRequestSucceed(),
+		};
+	} );
+	const hasJustSaved = wasSaving.current && ! isSaving;
+	wasSaving.current = isSaving;
+	if ( hasJustSaved ) {
+		console.log( 'hasJustSaved', hasJustSaved, 'didSucceed', didSucceed );
+	}
+	return hasJustSaved;
 }

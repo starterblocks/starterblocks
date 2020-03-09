@@ -38,7 +38,7 @@ export const reducer = ( state = initialState, action ) => {
         case 'SET_LIBRARY':
             let parsedSection = parseSectionData(action.library);
             let parsedPage = parsePageData(action.library);
-            let parsedCollection = parseCollectionData(action.library);
+			let parsedCollection = parseCollectionData(action.library);
             return {
                 ...state,
                 library: action.library,

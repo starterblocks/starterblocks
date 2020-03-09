@@ -6,7 +6,7 @@ const { __ } = wp.i18n;
 function Sidebar(props) {
     const { categoryData, activeCategory, pageData, itemType, layer } = props;
     const { setActiveCategory } = props;
-    
+
     // Give the selected category(activeCategory) label className as "active"
     const activeClassname = (categoryLabel) => {
         return activeCategory === categoryLabel ? 'active' : '';
@@ -24,16 +24,15 @@ function Sidebar(props) {
     };
 
     const totalCategoryCount = () => {
-        console.log(categoryData);
         return categoryData ? categoryData.reduce((sum, currentCat) => sum + currentCat.count, 0) : 0;
     };
 
-    return ( 
+    return (
         <div className="starterblocks-modal-sidebar-content">
-            { 
+            {
                 hasSidebar() &&
                 <div>
-                    <h3>Categories</h3>     
+                    <h3>Categories</h3>
                     <ul className="starterblocks-template-categories">
                         <li
                             className={activeClassname('')}
@@ -70,7 +69,7 @@ export default compose([
 
     withSelect((select, props) => {
         const { getCategoryData, getActiveCategory, getPageData, getActiveItemType, getActiveCollection } = select('starterblocks/sectionslist');
-        return { categoryData: getCategoryData(), pageData: getPageData(), 
+        return { categoryData: getCategoryData(), pageData: getPageData(),
             activeCategory: getActiveCategory(), itemType: getActiveItemType(), layer: getActiveCollection() };
     })
 ])(Sidebar);

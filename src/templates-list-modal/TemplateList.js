@@ -26,8 +26,9 @@ function TemplateList(props) {
     }
 
     let types = starterblocks.mokama ? 'active' : 'inactive';
-    // Render Part
-    if (!loading)
+
+
+	if (!loading)
         return (
             <div id="modalContainer" className="starterblocks-template-list-modal">
                 <div className="starterblocks-builder-template-list-container">

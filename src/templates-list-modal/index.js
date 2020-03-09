@@ -19,19 +19,20 @@ import ImportWizard from '../import-wizard';
 import ErrorNotice from '../components/error-notice';
 import dependencyHelper from '../import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
+import find from 'lodash/find';
 import './style.scss'
 
 function TemplatesListModal(props) {
 	const {
 		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages,
-		insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
+		insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes,
+		inserterItems, categories, savePost, notices
 	} = props;
 	const [spinner, setSpinner] = useState(null);
 	const [saving, setSaving] = useState(false);
 	const [importingBlock, setImportingBlock] = useState(null);
 	const [missingPluginArray, setMissingPlugin] = useState([]);
 	const [missingProArray, setMissingPro] = useState([]);
-	const wasSaving = useRef(false);
 
 	fetchLibraryFromAPI();
 
@@ -50,11 +51,9 @@ function TemplatesListModal(props) {
 		setMissingPro(dependencies.missingProArray);
 		setImportingBlock(data);
 	}
-
-	const useDidSave = () => {
-		const hasJustSaved = wasSaving.current && !isSavingPost;
-		wasSaving.current = isSavingPost;
-		return hasJustSaved;
+	const savePostNotice = find(notices, {id: 'SAVE_POST_NOTICE_ID'});
+	if ( savePostNotice && savePostNotice.status === 'success' ) {
+		window.location.reload();
 	}
 
 	// read block data to import and give the control to actual import
@@ -80,17 +79,11 @@ function TemplatesListModal(props) {
 				//import template
 				let pageData = parse(response.data.template);
 				doImportTemplate(pageData);
-				setSaving(true);
-				savePost().then(() => {
-					console.log('MAGIC', useDidSave());
-					let timer = setInterval(() => {
-						//console.log("isSavingPost", isSavingPost);
-						if (useDidSave() === false) {
-							clearInterval(timer);
-							window.location.reload();
-						}
-					}, 1000);
-				});
+				setTimeout(() => {
+					savePost().then(() => {
+						window.location.reload();
+					});
+				}, 5000);
 			} else {
 				registerError(response.data.error);
 			}
@@ -165,13 +158,13 @@ export default compose([
 
 	withSelect((select, props) => {
 		const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages} = select('starterblocks/sectionslist');
-		const {isSavingPost} = select('core/editor')
+		const {getNotices} = select('core/notices');
 		return {
 			fetchLibraryFromAPI,
 			activeCollection: getActiveCollection(),
 			activeItemType: getActiveItemType(),
 			errorMessages: getErrorMessages(),
-			isSavingPost: isSavingPost()
+			notices: getNotices()
 		};
 	})
 ])(TemplatesListModal);
