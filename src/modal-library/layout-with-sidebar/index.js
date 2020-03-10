@@ -1,7 +1,7 @@
 const { Component, Fragment } = wp.element;
 
 import Sidebar from '../sidebar';
-import TemplateListSubHeader from '../../components/template-list-subheader';
+import TemplateListSubHeader from '~starterblocks/components/template-list-subheader';
 import TemplateList from '../view-template-list';
 
 

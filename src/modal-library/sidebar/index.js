@@ -10,7 +10,9 @@ function Sidebar(props) {
 	const {setActiveCategory, setActivePriceFilter} = props;
 
 	// Give the selected category(activeCategory) label className as "active"
-	const activeClassname = (categoryLabel) => {
+	const activeClassname = (data) => {
+		const categoryLabel = data ? data.slug : '';
+		if (isDisabledCategory(data)) return 'disabled';
 		return activeCategory === categoryLabel ? 'active' : '';
 	};
 
@@ -48,6 +50,13 @@ function Sidebar(props) {
 		return categoryData ? categoryData.reduce((sum, currentCat) => sum + currentCat.count, 0) : 0;
 	};
 
+	const isDisabledCategory = (data) => (data && ((data.hasOwnProperty('filteredCount') && data.filteredCount === 0) || data.count === 0));
+
+	const onChangeCategory = (data) => {
+		if (isDisabledCategory(data)) return;
+		setActiveCategory(data.slug);
+	};
+
 
 	return (
 		<div className="starterblocks-modal-sidebar-content">
@@ -78,13 +87,13 @@ function Sidebar(props) {
 					<h3>{__('Categories', 'starterblocks')}</h3>
 					<ul className="starterblocks-sidebar-categories">
 						<li
-							className={activeClassname('')}
+							className={activeClassname(null)}
 							onClick={() => setActiveCategory('')}>
 							{__('All ')} {itemTypeLabel()}s <span>{totalItemCount()}</span>
 						</li>
 						{categoryData &&
 						categoryData.map((data, index) => (
-							<li className={activeClassname(data.slug)} onClick={() => setActiveCategory(data.slug)}
+							<li className={activeClassname(data)} onClick={() => onChangeCategory(data)}
 								key={index}>
 								{data.name}
 								<span> {data.hasOwnProperty('filteredCount') && activePriceFilter !== '' ? data.filteredCount : data.count} </span>
