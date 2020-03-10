@@ -17,6 +17,7 @@ import SavedView from './view-saved';
 import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
+import {processImportHelper} from '~starterblocks/stores/helper';
 import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
@@ -24,7 +25,7 @@ import './style.scss'
 function LibraryModal(props) {
 	const {
 		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages,
-		insertBlocks, appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
+		appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
 	} = props;
 	const [spinner, setSpinner] = useState(null);
 	const [saving, setSaving] = useState(false);
@@ -59,51 +60,11 @@ function LibraryModal(props) {
 
 	// read block data to import and give the control to actual import
 	const processImport = () => {
-		const data = importingBlock;
-		const type = activeItemType === 'section' ? 'sections' : 'pages';
-
 		discardAllErrorMessages();
 		setSpinner(data.ID);
-
-		let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
-		if (data.source_id) {
-			the_url += '&sid=' + data.source_id + '&source=' + data.source;
-		}
-		the_url += '&p=' + JSON.stringify(starterblocks.supported_plugins);
-		const options = {
-			method: 'GET',
-			path: the_url,
-			headers: {'Content-Type': 'application/json'}
-		};
-		apiFetch(options).then(response => {
-			if (response.success && response.data.template) {
-				//import template
-				let pageData = parse(response.data.template);
-				doImportTemplate(pageData);
-				setSaving(true);
-				savePost().then(() => {
-					console.log('MAGIC', useDidSave());
-					let timer = setInterval(() => {
-						//console.log("isSavingPost", isSavingPost);
-						if (useDidSave() === false) {
-							clearInterval(timer);
-							window.location.reload();
-						}
-					}, 1000);
-				});
-			} else {
-				registerError(response.data.error);
-			}
-		}).catch(error => {
-			registerError(error.code + ' : ' + error.message);
-		});
+		processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', registerError)
 	}
 
-	// Final piece, insert read block data
-	const doImportTemplate = (pageData) => {
-		insertBlocks(pageData);
-		// ModalManager.close(); //close modal
-	}
 
 	const registerError = (errorMessage) => {
 		appendErrorMessage(errorMessage);
@@ -145,10 +106,6 @@ function LibraryModal(props) {
 export default compose([
 	withDispatch((dispatch) => {
 		const {
-			insertBlocks
-		} = dispatch('core/block-editor');
-
-		const {
 			appendErrorMessage,
 			discardAllErrorMessages
 		} = dispatch('starterblocks/sectionslist');
@@ -156,7 +113,6 @@ export default compose([
 		const {savePost} = dispatch('core/editor');
 
 		return {
-			insertBlocks,
 			appendErrorMessage,
 			discardAllErrorMessages,
 			savePost

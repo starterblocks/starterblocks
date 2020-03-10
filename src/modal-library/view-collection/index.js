@@ -11,7 +11,7 @@ import {SingleItemProvider} from '../../contexts/SingleItemContext';
 
 function CollectionView(props) {
 	const {pageData, loading, activeCollection, activeItemType} = props;
-	const {insertBlocks, setActiveCollection} = props;
+	const {setActiveCollection} = props;
 
 	const [previewDataIndex, setPreviewDataIndex] = useState(0);
 
@@ -82,12 +82,7 @@ export default compose([
 			setActiveCollection
 		} = dispatch('starterblocks/sectionslist');
 
-		const {
-			insertBlocks
-		} = dispatch('core/block-editor');
-
 		return {
-			insertBlocks,
 			setActiveCollection
 		};
 	}),

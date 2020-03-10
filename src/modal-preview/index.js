@@ -16,7 +16,7 @@ import { Fragment } from 'react';
 function PreviewModal(props) {
 
     const { startIndex, currentPageData } = props;
-    const { insertBlocks, discardAllErrorMessages, appendErrorMessage, activeItemType, savePost} = props;
+    const { discardAllErrorMessages, appendErrorMessage, activeItemType, savePost} = props;
     const [ currentIndex, setCurrentIndex ] = useState(startIndex);
     const [ previewClass, setPreviewClass ] = useState('preview-desktop')
     const [ expandedClass, toggleExpanded ] = useState('expanded')
@@ -74,10 +74,6 @@ function PreviewModal(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
-            insertBlocks
-        } = dispatch('core/block-editor');
-
-        const {
             appendErrorMessage,
             discardAllErrorMessages
         } = dispatch('starterblocks/sectionslist');
@@ -85,7 +81,6 @@ export default compose([
 		const {savePost} = dispatch('core/editor');
 
         return {
-            insertBlocks,
             appendErrorMessage,
             discardAllErrorMessages,
             savePost

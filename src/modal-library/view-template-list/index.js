@@ -13,7 +13,7 @@ import PreviewModal from '../../modal-preview';
 
 function TemplateList(props) {
     const { pageData, loading, activeItemType, activeCollection } = props;
-    const { insertBlocks, setActiveCollection} = props;
+    const { setActiveCollection} = props;
 
     const getBackgroundImage = (url) => {
         if (!url) {
@@ -89,12 +89,7 @@ export default compose([
             setActiveCollection
         } = dispatch('starterblocks/sectionslist');
 
-        const {
-            insertBlocks
-        } = dispatch('core/block-editor');
-
         return {
-            insertBlocks,
             setActiveCollection
         };
     }),
