@@ -47,7 +47,13 @@ function Sidebar(props) {
 	};
 
 	const totalItemCount = () => {
-		return categoryData ? categoryData.reduce((sum, currentCat) => sum + currentCat.count, 0) : 0;
+		let totalCount = 0, filteredCount = 0;
+		categoryData.forEach((category) => {
+			if (category.hasOwnProperty('filteredCount')) filteredCount += category.filteredCount;
+			totalCount += category.count;
+		});
+
+		return (activePriceFilter !== '') ? filteredCount + '/' + totalCount : totalCount;
 	};
 
 	const isDisabledCategory = (data) => (data && ((data.hasOwnProperty('filteredCount') && data.filteredCount === 0) || data.count === 0));
