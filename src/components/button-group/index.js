@@ -2,6 +2,7 @@ import React, {cloneElement} from 'react';
 
 const {__} = wp.i18n
 const {Component, Fragment, useContext, useEffect, useState} = wp.element;
+const {Tooltip} = wp.components;
 import SingleItemContext from '../../contexts/SingleItemContext';
 import TemplateModalContext from '../../contexts/TemplateModalContext';
 import {missingPro, missingRequirement} from '../../stores/helper';
@@ -27,9 +28,13 @@ const ButtonGroup = (props) => {
 		if (spinner === null) onImportTemplate(data);
 	}
 
-	// const todoItems = blocks.map((todo, index) =>
-	// 	return ('Icons.' + index)
-	// )
+	const getDependentBlocks = (data) => {
+		console.log(data);
+		return Object.keys(data.blocks).map((block) => {
+			const pluginReference = starterblocks.supported_plugins[block];
+			return {name: pluginReference.name, slug: block, missingDependency: pluginReference.hasOwnProperty('version') === false};
+		});
+	}
 
 	const isMissingRequirement = missingRequirement(pro, requirements);
 	const isMissingPro = missingPro(pro);
@@ -52,20 +57,19 @@ const ButtonGroup = (props) => {
 
 			</div>
 			<div className="starterblocks-button-display-dependencies">
-				{/*
-						TODO - Import all icons used in this block if had
-						starterblocks.blocks
-
-						Please also use starterblocks.blocks.name as a hover to show what block plugin is used.
-						Add a tooltip.
-
-					*/}
-				<span title="CoBlocks" className="missing-dependency">
-					<Icons.coblocks/>
-				</span>
-				<span title="Stackable">
-					<Icons.ugb/>
-				</span>
+				{
+					getDependentBlocks(data).map(block => {
+						const {name, slug, missingDependency} = block;
+						const IconComponent = Icons[slug];
+						return (
+							<Tooltip  text={name} position="bottom">
+								<span title={name} className={missingDependency ? 'missing-dependency' : ''}>
+									<IconComponent />
+								</span>
+							</Tooltip>
+						);
+					})
+				}
 			</div>
 
 		</div>
