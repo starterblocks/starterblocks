@@ -61,7 +61,7 @@ function LibraryModal(props) {
 	// read block data to import and give the control to actual import
 	const processImport = () => {
 		discardAllErrorMessages();
-		setSpinner(data.ID);
+		setSpinner(null);
 		processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', registerError)
 	}
 
