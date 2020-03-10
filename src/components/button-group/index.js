@@ -61,13 +61,15 @@ const ButtonGroup = (props) => {
 					getDependentBlocks(data).map(block => {
 						const {name, slug, missingDependency} = block;
 						const IconComponent = Icons[slug];
-						return (
-							<Tooltip  text={name} position="bottom">
-								<span title={name} className={missingDependency ? 'missing-dependency' : ''}>
-									<IconComponent />
-								</span>
-							</Tooltip>
-						);
+
+						if (Icons.hasOwnProperty(slug))
+							return (
+								<Tooltip  text={name} position="bottom">
+									<span title={name} className={missingDependency ? 'missing-dependency' : ''}>
+										<IconComponent />
+									</span>
+								</Tooltip>
+							);
 					})
 				}
 			</div>
