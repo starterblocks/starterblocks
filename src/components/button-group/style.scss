@@ -2,7 +2,6 @@
 
 .starterblocks-import-button-group {
 	text-align: center;
-	margin-top: 10%;
 
 	&.disabled span a {
 		cursor: default;
@@ -72,5 +71,11 @@
 				}
 			}
 		}
+	}
+}
+
+.starterblocks-single-section-item {
+	.starterblocks-import-button-group {
+		margin-top: 10%;
 	}
 }
