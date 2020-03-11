@@ -88,11 +88,9 @@ function SidebarContent(props) {
 				<h3 className="theme-name">{name}</h3>
 				<div className="theme-screenshot-wrap">
 					<img className="theme-screenshot" src={image} alt=""/>
-
 					{pro ?
-						<span class="starterblocks-pro-badge">{__('Pro')}</span> : ''
+						<span class="starterblocks-pro-badge">{__('Premium')}</span> : ''
 					}
-
 				</div>
 				<div className="requirements-list">
 					<div className="list-type">
