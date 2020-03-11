@@ -32,9 +32,9 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
-        dependencyFilters: {},
+        dependencyFilters: allDependencies,
         searchContext: '',
-        activeCollection: allDependencies,
+        activeCollection: null,
         sortBy: 'name'
     }
 };
