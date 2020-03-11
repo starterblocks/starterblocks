@@ -17,7 +17,21 @@ const getOriginalPageData = (state) => {
     return {};
 };
 
-
+const getActivePriceFilter = (state) => {
+    return getCurrentState(state).priceFilter;
+};
+const getSearchContext = (state) => {
+    return (state.activeItemType !== 'saved') ? getCurrentState(state).searchContext : null;
+};
+const getDependencyFilters = (state) => {
+    return getCurrentState(state).dependencyFilters;
+};
+const getActiveCategory = (state) => {
+    return state[state.activeItemType].activeCategory;
+};
+const getActiveItemType = (state) => {
+    return state.activeItemType;
+};
 const store = registerStore('starterblocks/sectionslist', {
 
     reducer,
@@ -30,12 +44,12 @@ const store = registerStore('starterblocks/sectionslist', {
         receive(state) {
             return state.sections;
         },
-        getActiveCategory(state) {
-            return state[state.activeItemType].activeCategory;
-        },
-        getActiveItemType(state) {
-            return state.activeItemType;
-        },
+
+        getActivePriceFilter,
+        getSearchContext,
+        getDependencyFilters,
+        getActiveItemType,
+        getActiveCategory,
         // get categories from currentState, sortBy alphabetically
         getCategoryData(state) {
 			let categories = [];
@@ -79,15 +93,6 @@ const store = registerStore('starterblocks/sectionslist', {
                 staticsData = countBy(pageData, 'pro');
             }
             return staticsData;
-        },
-        getActivePriceFilter(state) {
-            return getCurrentState(state).priceFilter;
-        },
-        getSearchContext(state) {
-            return (state.activeItemType !== 'saved') ? getCurrentState(state).searchContext : null;
-        },
-        getDependencyFilters(state) {
-            return getCurrentState(state).dependencyFilters;
         },
         getLoading(state) {
             return state.loading;
