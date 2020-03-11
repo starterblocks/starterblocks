@@ -5,7 +5,7 @@ const {__} = wp.i18n;
 
 import {CheckboxControl} from '@wordpress/components';
 
-function DependencyFilter (props) {
+function DependencyFilter(props) {
     const {dependencyFilters} = props;
     const {setDependencyFilters} = props;
 
@@ -22,7 +22,6 @@ function DependencyFilter (props) {
         setDependencyFilters({...dependencyFilters, [pluginKey]: !dependencyFilters[pluginKey]});
     };
 
-
     const setAllCheckedAs = (newVal) => {
         setDependencyFilters(
             Object.keys(dependencyFilters).reduce((acc, key) => {
@@ -34,35 +33,60 @@ function DependencyFilter (props) {
     return (
         <Fragment>
             <h3>{__('Dependencies', 'starterblocks')}</h3>
+            <div className="starterblocks-select-actions">
+                <a href="#" onClick={() => setAllCheckedAs(true)}>Select All</a>
+                <span>&nbsp; / &nbsp;</span>
+                <a href="#" onClick={() => setAllCheckedAs(false)}>Select None</a>
+            </div>
             <ul className="starterblocks-sidebar-dependencies">
                 <li>
                     <CheckboxControl
                         label="None"
-                        checked={ isChecked('none') }
-                        onChange={ () => toggleChecked('none') }
+                        checked={isChecked('none')}
+                        onChange={() => toggleChecked('none')}
                     />
                 </li>
                 {
+                    /* TODO - Inside the Library state is now a library.dependencies
+
+                    Inside that is pages & sections each with a key => count
+
+                        dependencies: {
+                            sections: {
+                                qubely: 150
+                            },
+                            pages: {
+                                qubely: 114
+                            }
+                        }
+
+                    Hide any supported_plugins not in the dependencies for the current page (sections/pages)
+                    Remember, Collections are just Pages.  ;)
+
+                    Also, this doesn't seem to be working properly on Collections. If you select none only it shows
+                    everything. If you select Qubely only, it shows nothing. Probably sending in the collection data and
+                    not expanding to the underlying page data.  ;)
+
+                    * */
                     Object.keys(starterblocks.supported_plugins).map(pluginKey => {
+
                         const pluginInstance = starterblocks.supported_plugins[pluginKey];
                         return (
-                            <li className={ pluginInstance.version ? 'missing-dependency' :''}>
+                            <li className={!pluginInstance.version ? 'missing-dependency' : ''}>
                                 <CheckboxControl
                                     label={pluginInstance.name}
-                                    checked={ isChecked(pluginKey) }
-                                    onChange={ () => toggleChecked(pluginKey) }
+                                    checked={isChecked(pluginKey)}
+                                    onChange={() => toggleChecked(pluginKey)}
                                 />
+                                {pluginInstance.url ? <a href={pluginInstance.url} target="_blank"><i
+                                    className="fa fa-external-link-alt"></i></a> : null}
                             </li>
                         );
 
                     })
                 }
             </ul>
-            <span>
-                <a onClick={() => setAllCheckedAs(true)}>Select All</a>
-                <span>&nbsp; / &nbsp;</span>
-                <a onClick={() => setAllCheckedAs(false)}>Deselect All</a>
-            </span>
+
         </Fragment>
     );
 }

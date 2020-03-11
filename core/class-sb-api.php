@@ -67,8 +67,31 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 //						$path
 //					), true
 //				);
+                $blocks = array(
+                    'sections'=>array(),
+                    'pages'=> array()
+                );
+                foreach($data['sections'] as $section) {
+                    foreach(array_keys($section['blocks']) as $key) {
+                        if (!isset($blocks['sections'][$key])) {
+                            $blocks['sections'][$key] = 0;
+                        }
+                        $blocks['sections'][$key]++;
+                    }
+                }
+                foreach($data['pages'] as $section) {
+                    foreach(array_keys($section['blocks']) as $key) {
+                        if (!isset($blocks['pages'][$key])) {
+                            $blocks['pages'][$key] = 0;
+                        }
+                        $blocks['pages'][$key]++;
+                    }
+                }
+                $data['dependencies'] = $blocks;
 				set_transient( 'starterblocks_get_library_' . $type, $data, DAY_IN_SECONDS );
 			}
+
+
 
 			wp_send_json_success( $data );
 		}

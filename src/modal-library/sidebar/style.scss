@@ -149,6 +149,7 @@
 				&.active {
 					color: $thirdColor;
 				}
+
 				&.disabled {
 					opacity: 0.5;
 				}
@@ -173,11 +174,29 @@
 	}
 
 	ul.starterblocks-sidebar-dependencies li {
-		.components-base-control__field {
-			margin-bottom: 3px;
+		.components-base-control {
+			display: inline-block;
+
+			.components-base-control__field {
+				margin-bottom: 3px;
+			}
+
+			span {
+				float: none;
+			}
 		}
-		span {
-			float: none;
-		}
+
+	}
+
+	.starterblocks-select-actions {
+		margin-bottom: 8px;
+	}
+
+	.starterblocks-sidebar-dependencies li a {
+		display: inline-block;
+		//color: #9b9b9b;
+		margin-left: 10px;
+		font-size: 90%;
+		float: right;
 	}
 }
