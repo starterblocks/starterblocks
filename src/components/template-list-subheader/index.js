@@ -30,12 +30,16 @@ function TemplateListSubHeader(props) {
             return (!statistics['true'] || statistics['true'] < 1);
     }
 
-    const dataLength = pageData ? pageData.length : 0;
+    const dataLength = pageData ? pageData.length : '';
 
     return (
         <div className="starterblocks-template-list-sub-header">
             <h4>
-                { dataLength } {itemTypeLabel()}
+				{
+					dataLength && <fragment>
+						{ dataLength } {itemTypeLabel()}
+					</fragment>
+				}
             </h4>
             <div className="starterblocks-template-filters">
                 <div className="">

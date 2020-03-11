@@ -1,7 +1,9 @@
 const {Component, useState} = wp.element
 const {__} = wp.i18n
 
+
 import findIndex from 'lodash/findIndex';
+import sortBy from 'lodash/sortBy';
 
 function SidebarContent(props) {
 	const {itemData} = props;
@@ -101,7 +103,7 @@ function SidebarContent(props) {
 								*/}
 								<span>{starterblocks.supported_plugins[keyName].name}:</span>
 								{
-									blocks[keyName].map(function(item, index) {
+									sortBy(blocks[keyName]).map(function(item, index) {
 										return <fragment>{ (index ? ', ' : '') + item }</fragment>;
 									})
 								}
