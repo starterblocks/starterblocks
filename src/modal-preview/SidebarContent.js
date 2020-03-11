@@ -5,7 +5,7 @@ import findIndex from 'lodash/findIndex';
 
 function SidebarContent(props) {
 	const {itemData} = props;
-	const {name, image, pro} = itemData;
+	const {name, image, pro, blocks} = itemData;
 	const [installList, setInstallList] = useState([]);
 	const [versionList, setVersionList] = useState([]);
 	const [proList, setProList] = useState([]);
@@ -87,33 +87,56 @@ function SidebarContent(props) {
 			<div className="install-theme-info">
 				<h3 className="theme-name">{name}</h3>
 				<div className="theme-screenshot-wrap">
-					<img className="theme-screenshot" src={image} alt=""/>
-					{pro ?
+					<img className="theme-screenshot" src={image} alt=""/>{pro ?
 						<span class="starterblocks-pro-badge">{__('Premium')}</span> : ''
-					}
+					}</div>
+				<div className="dependencies-list">
+					<h4>Blocks Used</h4>
+					{Object.keys(blocks).map((keyName, i) =>
+						<div>
+							<p class="dependency-blocks">
+								{/*
+									TODO - Add icon here if had in Icons, and append a link to it using
+									starterblocks.supported_plugins[keyName] if had.
+								*/}
+								<span>{starterblocks.supported_plugins[keyName].name}:</span>
+								{
+									blocks[keyName].map(function(item, index) {
+										return <fragment>{ (index ? ', ' : '') + item }</fragment>;
+									})
+								}
+							</p>
+						</div>
+					)}
 				</div>
 				<div className="requirements-list">
 					<div className="list-type">
 						{
 							installList.length > 0 &&
-							<ul>
-								Missing Plugins
-								{installList.map(install => <li>{version.plugin}</li>)}
-							</ul>
+							<div>
+								<h4>Missing Plugins</h4>
+								<ul>
+									{installList.map(install => <li>{version.plugin}</li>)}
+								</ul>
+							</div>
 						}
 						{
 							versionList.length > 0 &&
-							<ul>
-								Version Mismatch
-								{versionList.map(version => <li>{version.plugin}</li>)}
-							</ul>
+							<div>
+								<h4>Version Mismatch</h4>
+								<ul>
+									{versionList.map(version => <li>{version.plugin}</li>)}
+								</ul>
+							</div>
 						}
 						{
 							proList.length > 0 &&
-							<ul>
-								Require to be pro
-								{proList.map(pro => <li>{version.plugin}</li>)}
-							</ul>
+							<div>
+								<h4>Require to be pro</h4>
+								<ul>
+									{proList.map(pro => <li>{version.plugin}</li>)}
+								</ul>
+							</div>
 						}
 					</div>
 				</div>
