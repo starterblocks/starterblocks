@@ -4,7 +4,7 @@ const {select, withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
 function CategoryFilter (props) {
-    const {categoryData, activeCategory, activePriceFilter, itemType, layer, statistics} = props;
+    const {categoryData, activeCategory, activePriceFilter, itemType} = props;
     const {setActiveCategory} = props;
 
 
@@ -63,25 +63,19 @@ function CategoryFilter (props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {
-            setActiveCategory
-        } = dispatch('starterblocks/sectionslist');
-
+        const {setActiveCategory} = dispatch('starterblocks/sectionslist');
         return {
             setActiveCategory
         };
     }),
 
     withSelect((select, props) => {
-        const {getCategoryData, getActiveCategory, getPageData, getActiveItemType, getActiveCollection, getStatistics, getActivePriceFilter} = select('starterblocks/sectionslist');
+        const {getCategoryData, getActiveCategory, getPageData, getActiveItemType} = select('starterblocks/sectionslist');
         return {
             categoryData: getCategoryData(),
             pageData: getPageData(),
             activeCategory: getActiveCategory(),
-            itemType: getActiveItemType(),
-            layer: getActiveCollection(),
-            activePriceFilter: getActivePriceFilter(),
-            statistics: getStatistics()
+            itemType: getActiveItemType()
         };
     })
 ])(CategoryFilter);

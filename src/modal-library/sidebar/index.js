@@ -10,17 +10,10 @@ import CategoryFilter from './categoryFilter';
 import DependencyFilter from './dependencyFilter';
 
 function Sidebar(props) {
-    const {categoryData, activeCategory, itemType, layer, statistics} = props;
-    const {setActiveCategory} = props;
-
-    const getBlockDependencies = (dependencyData) => {
-        return dependencyData;
-    };
-
+    const {itemType, layer} = props;
     const hasSidebar = () => {
         return (itemType !== 'collection' || layer === null);
     };
-
     return (
         <div className="starterblocks-modal-sidebar-content">
             {
@@ -35,29 +28,10 @@ function Sidebar(props) {
     );
 }
 
-export default compose([
-    withDispatch((dispatch) => {
-        const {setActivePriceFilter,
-            setActiveCategory
-        } = dispatch('starterblocks/sectionslist');
-
-        return {
-            setActivePriceFilter,
-            setActiveCategory
-        };
-    }),
-
-    withSelect((select, props) => {
-        const {getCategoryData, getActiveCategory, getPageData, getActiveItemType, getActiveCollection, getStatistics, getActivePriceFilter} = select('starterblocks/sectionslist');
-        return {
-
-            categoryData: getCategoryData(),
-            pageData: getPageData(),
-            activeCategory: getActiveCategory(),
-            itemType: getActiveItemType(),
-            layer: getActiveCollection(),
-            activePriceFilter: getActivePriceFilter(),
-            statistics: getStatistics()
-        };
-    })
-])(Sidebar);
+export default withSelect((select, props) => {
+	const {getActiveItemType, getActiveCollection} = select('starterblocks/sectionslist');
+	return {
+		itemType: getActiveItemType(),
+		layer: getActiveCollection()
+	};
+})(Sidebar);
