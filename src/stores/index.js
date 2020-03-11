@@ -6,7 +6,7 @@ import {actions} from './actions';
 import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 import countBy from 'lodash/countBy';
-import {applyCategoryFilter, applySearchFilter, applyPriceFilter} from './filters'
+import {applyCategoryFilter, applySearchFilter, applyPriceFilter, applyDependencyFilters} from './filters'
 import {getCurrentState, getCollectionChildrenData} from './helper';
 
 const getOriginalPageData = (state) => {
@@ -41,8 +41,9 @@ const store = registerStore('starterblocks/sectionslist', {
 			let categories = [];
 			let pageData = getOriginalPageData(state);
             if (pageData && Object.keys(pageData).length > 0) {
-                pageData = applySearchFilter(pageData, getCurrentState(state).searchContext);
-				pageData = applyPriceFilter(pageData, getCurrentState(state).priceFilter);
+                pageData = applySearchFilter(pageData, getSearchContext(state));
+                pageData = applyPriceFilter(pageData, getActivePriceFilter(state));
+                pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
 			}
             if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
 				categories = cloneDeep(getCurrentState(state).categories);
@@ -50,8 +51,8 @@ const store = registerStore('starterblocks/sectionslist', {
 					const filteredCount = pageData[category.slug] ? pageData[category.slug].length : 0;
 					return {...category, filteredCount};
 				});
-			}
-            // categories = applyPriceCategoryFilter(categories);
+            }
+
             categories = sortBy(categories, 'name');
             return categories;
         },
@@ -59,9 +60,10 @@ const store = registerStore('starterblocks/sectionslist', {
         getPageData(state) {
 			let pageData = getOriginalPageData(state);
             if (pageData && Object.keys(pageData).length > 0) {
-                pageData = applySearchFilter(pageData, getCurrentState(state).searchContext);
-				pageData = applyPriceFilter(pageData, getCurrentState(state).priceFilter);
-				if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getCurrentState(state).activeCategory);
+                pageData = applySearchFilter(pageData, getSearchContext(state));
+                pageData = applyPriceFilter(pageData, getActivePriceFilter(state));
+                pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
+				if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getActiveCategory(state));
 				pageData = sortBy(pageData, getCurrentState(state).sortBy);
 				return pageData;
             }
@@ -71,8 +73,9 @@ const store = registerStore('starterblocks/sectionslist', {
             let pageData = getOriginalPageData(state);
 			let staticsData = {true: 0, false: 0};
             if (pageData && Object.keys(pageData).length > 0) {
-				pageData = applySearchFilter(pageData, getCurrentState(state).searchContext);
-                if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getCurrentState(state).activeCategory);
+                pageData = applySearchFilter(pageData, getSearchContext(state));
+                pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
+                if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getActiveCategory(state));
                 staticsData = countBy(pageData, 'pro');
             }
             return staticsData;
@@ -81,8 +84,10 @@ const store = registerStore('starterblocks/sectionslist', {
             return getCurrentState(state).priceFilter;
         },
         getSearchContext(state) {
-            if (state.activeItemType !== 'saved')
-                return getCurrentState(state).searchContext;
+            return (state.activeItemType !== 'saved') ? getCurrentState(state).searchContext : null;
+        },
+        getDependencyFilters(state) {
+            return getCurrentState(state).dependencyFilters;
         },
         getLoading(state) {
             return state.loading;

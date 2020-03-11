@@ -10,6 +10,7 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
+        dependencyFilters: [],
         searchContext: '',
         sortBy: 'name'
     },
@@ -18,6 +19,7 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
+        dependencyFilters: [],
         searchContext: '',
         sortBy: 'name'
     },
@@ -26,6 +28,7 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
+        dependencyFilters: [],
         searchContext: '',
         activeCollection: null,
         sortBy: 'name'
@@ -84,6 +87,14 @@ export const reducer = ( state = initialState, action ) => {
                 ...state,
                 activeItemType: action.activeItemType
             };
+        case 'SET_DEPENDENCY_FILTERS':
+            return {
+                ...state,
+                [state.activeItemType]: {
+                    ...state[state.activeItemType],
+                    dependencyFilters: action.dependencyFilters
+                }
+            }
         case 'SET_SORT_BY':
             return {
                 ...state,

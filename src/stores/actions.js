@@ -41,6 +41,12 @@ export const actions = {
             searchContext
         }
     },
+    setDependencyFilters( dependencyFilters ) {
+        return {
+            type: 'SET_DEPENDENCY_FILTERS',
+            dependencyFilters
+        }
+    },
     setLoading( loading ) {
         return {
             type: 'SET_LOADING',

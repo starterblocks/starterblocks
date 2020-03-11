@@ -70,10 +70,9 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getCategoryData, getActiveCategory, getPageData, getActiveItemType} = select('starterblocks/sectionslist');
+        const {getCategoryData, getActiveCategory, getActiveItemType} = select('starterblocks/sectionslist');
         return {
             categoryData: getCategoryData(),
-            pageData: getPageData(),
             activeCategory: getActiveCategory(),
             itemType: getActiveItemType()
         };

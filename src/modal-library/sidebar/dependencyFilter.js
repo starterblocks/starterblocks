@@ -3,17 +3,27 @@ const {compose} = wp.compose;
 const {select, withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
+import {CheckboxControl} from '@wordpress/components';
+
 function DependencyFilter (props) {
-    const {categoryData, activeCategory, activePriceFilter, itemType, layer, statistics} = props;
-    const {setActiveCategory} = props;
+    const {dependencyFilters} = props;
+    const {setDependencyFilters} = props;
 
     const onChangeCategory = (data) => {
         if (isDisabledCategory(data)) return;
         setActiveCategory(data.slug);
     };
     // Give the selected category(activeCategory) label className as "active"
-    const isChecked = (data) => {
+    const isChecked = (pluginInstance) => {
+        return true;
     };
+
+    console.log('dependencyFilters', dependencyFilters);
+
+    const setChecked = (pluginInstance) => {
+        console.log('pluginInstance', pluginInstance);
+        // if ()
+    }
 
     return (
         <Fragment>
@@ -32,14 +42,23 @@ function DependencyFilter (props) {
             */}
             <h3>{__('Dependencies', 'starterblocks')}</h3>
             <ul className="starterblocks-sidebar-dependencies">
-                <li className={'missing-dependency'}>
-                    <CheckboxControl
-                        label="Is author"
-                        help="Is the user a author or not?"
-                        checked={ isChecked }
-                        onChange={ setChecked }
-                    />
-                </li>
+                {
+                    Object.keys(starterblocks.supported_plugins).map(pluginKey => {
+                        const pluginInstance = starterblocks.supported_plugins[pluginKey];
+                        return (
+                            <li className={ pluginInstance.version ? 'missing-dependency' :''}>
+                                <CheckboxControl
+                                    label="Is author"
+                                    help="Is the user a author or not?"
+                                    checked={ isChecked(pluginInstance) }
+                                    onChange={ () => toggleChecked(pluginInstance) }
+                                />
+                            </li>
+                        );
+
+                    })
+                }
+
                 <li>Stackable</li>
             </ul>
         </Fragment>
@@ -48,25 +67,16 @@ function DependencyFilter (props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {
-            setActiveCategory
-        } = dispatch('starterblocks/sectionslist');
-
+        const {setDependencyFilters} = dispatch('starterblocks/sectionslist');
         return {
-            setActiveCategory
+            setDependencyFilters
         };
     }),
 
     withSelect((select, props) => {
-        const {getCategoryData, getActiveCategory, getPageData, getActiveItemType, getActiveCollection, getStatistics, getActivePriceFilter} = select('starterblocks/sectionslist');
+        const {getDependencyFilters} = select('starterblocks/sectionslist');
         return {
-            categoryData: getCategoryData(),
-            pageData: getPageData(),
-            activeCategory: getActiveCategory(),
-            itemType: getActiveItemType(),
-            layer: getActiveCollection(),
-            activePriceFilter: getActivePriceFilter(),
-            statistics: getStatistics()
+            dependencyFilters: getDependencyFilters()
         };
     })
 ])(DependencyFilter);
