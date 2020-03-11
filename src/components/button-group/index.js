@@ -31,7 +31,11 @@ const ButtonGroup = (props) => {
 	const getDependentBlocks = (data) => {
 		return Object.keys(data.blocks).map((block) => {
 			const pluginReference = starterblocks.supported_plugins[block];
-			return {name: pluginReference.name, slug: block, missingDependency: pluginReference.hasOwnProperty('version') === false};
+			return {
+				name: pluginReference.name,
+				slug: block,
+				missingDependency: pluginReference.hasOwnProperty('version') === false
+			};
 		});
 	}
 
@@ -63,9 +67,9 @@ const ButtonGroup = (props) => {
 
 						if (IconComponent)
 							return (
-								<Tooltip  text={name} position="bottom">
-									<span title={name} className={missingDependency ? 'missing-dependency' : ''}>
-										<IconComponent />
+								<Tooltip text={name} position="bottom">
+									<span className={missingDependency ? 'missing-dependency' : ''}>
+										<IconComponent/>
 									</span>
 								</Tooltip>
 							);
