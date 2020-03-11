@@ -12,7 +12,7 @@ import { SingleItemProvider } from '../../contexts/SingleItemContext';
 import PreviewModal from '../../modal-preview';
 
 function TemplateList(props) {
-    const { pageData, loading, activeItemType, activeCollection } = props;
+    const { pageData, loading, activeItemType, activeCollection, columns } = props;
     const { setActiveCollection} = props;
 
     const getBackgroundImage = (url) => {

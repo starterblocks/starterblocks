@@ -3,6 +3,15 @@ const { compose } = wp.compose;
 const { withDispatch, withSelect, select } = wp.data;
 const { Component } = wp.element;
 
+import SVGViewFew from './images/view-few.svg'
+import SVGViewMany from './images/view-many.svg'
+import SVGViewNormal from './images/view-normal.svg'
+
+import {
+	Modal, TextControl, IconButton, ToggleControl,
+} from '@wordpress/components'
+
+import './style.scss'
 
 function TemplateListSubHeader(props) {
     const { itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData } = props;
@@ -20,7 +29,14 @@ function TemplateListSubHeader(props) {
         classNames.push((priceFilter === activePriceFilter) ? 'active' : '');
         classNames.push(noStatistics(priceFilter) ? 'disabled' : '');
         return classNames.join(' ');
-    }
+    };
+
+    const resetLibrary = () => {
+		// TODO - Set the state of the library to empty and loading
+		// run fetchLibraryFromAPI() but pass in a variable so that method calls the API with cache=>False
+		// This will invalidate the cache, and force an API refresh.
+		// Then set the new library state, and display the content.
+	};
 
     const noStatistics = (priceFilter) => {
         if (priceFilter === '') return false;
@@ -28,10 +44,14 @@ function TemplateListSubHeader(props) {
             return (!statistics['false'] || statistics['false'] < 1);
         else
             return (!statistics['true'] || statistics['true'] < 1);
-    }
+    };
+
+    const setColumns = (num) => {
+    	this.state.columns = num
+	};
 
     const dataLength = pageData ? pageData.length : '';
-
+	const columns = 3;
     return (
         <div className="starterblocks-template-list-sub-header">
             <h4>
@@ -42,14 +62,38 @@ function TemplateListSubHeader(props) {
 				}
             </h4>
             <div className="starterblocks-template-filters">
-                <div className="">
-                    <select name="sortBy" id="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                        <option value="name">{__('Name')}</option>
-                        <option value="popularity">{__('Popularity')}</option>
-                        <option value="updated">{__('Updated')}</option>
-                    </select>
-                </div>
+				<IconButton
+					icon="image-rotate"
+					label={ __( 'Refresh Library' ) }
+					className="ugb-modal-design-library__refresh"
+					onClick={ () => resetLibary() }
+				/>
 
+				<IconButton
+					icon={ <SVGViewFew width="18" height="18" /> }
+					className={ columns === 2 ? 'is-active' : '' }
+					label={ __( 'Large preview' ) }
+					onClick={ () => setColumns( 2 ) }
+				/>
+				<IconButton
+					icon={ <SVGViewNormal width="18" height="18" /> }
+					className={ columns === 3 ? 'is-active' : '' }
+					label={ __( 'Medium preview' ) }
+					onClick={ () => setColumns( 3 ) }
+				/>
+				<IconButton
+					icon={ <SVGViewMany width="18" height="18" /> }
+					className={ columns === 4 ? 'is-active' : '' }
+					label={ __( 'Small preview' ) }
+					onClick={ () => setColumns( 4 ) }
+				/>
+				<div className="">
+					<select name="sortBy" id="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+						<option value="name">{__('Name')}</option>
+						<option value="popularity">{__('Popularity')}</option>
+						<option value="updated">{__('Updated')}</option>
+					</select>
+				</div>
             </div>
         </div>
     );
