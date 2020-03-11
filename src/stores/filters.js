@@ -53,8 +53,12 @@ export const applyPriceFilter = (pageData, activePriceFilter) => {
 
 
 export const applyDependencyFilters = (pageData, dependencyFilters) => {
-    if (dependencyFilters && dependencyFilters.length > 0) {
-        console.log(pageData);
-    }
-    return pageData;
+    let newPageData = {};
+    Object.keys(pageData).forEach(key => {
+        newPageData[key] =  pageData[key].filter(item => {
+            if (!item.blocks || Object.keys(item.blocks).length === 0) return dependencyFilters['none'];
+            return Object.keys(item.blocks).reduce((acc, key) => acc && dependencyFilters[key], true);
+        });
+    });
+    return newPageData;
 }
