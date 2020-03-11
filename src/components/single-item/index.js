@@ -12,9 +12,9 @@ const SingleItem = (props) => {
 	const {backgroundImage} = props;
 	const {ID, image, url, pro, requirements} = data;
 	const background = {
-		'background-image': 'url(' + starterblocks.plugin + 'assets/img/image-loader.gif)',
-		'background-position': 'center center'
-	}
+		'backgroundImage': 'url(' + starterblocks.plugin + 'assets/img/image-loader.gif)',
+		'backgroundPosition': 'center center'
+	};
 
 	const isMissingRequirement = missingRequirement(pro, requirements);
 	const isMissingPro = missingPro(pro);

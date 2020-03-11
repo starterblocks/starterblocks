@@ -41,8 +41,8 @@ function Sidebar(props) {
 			<PluginSidebar name="starterblock-sidebar" title={__('StarterBlocks Shares', starterblocks.i18n)}>
 				<PanelBody title={__('Share this post')} initialOpen={true}>
 					<div className="d-flex justify-content-center">
-						<a class="button button-primary" onClick={onShare}>
-							{loading ? <i className="fas fa-spinner fa-pulse"/> : <i class="fas fa-share"></i>}
+						<a className="button button-primary" onClick={onShare}>
+							{loading ? <i className="fas fa-spinner fa-pulse"/> : <i className="fas fa-share"></i>}
 							&nbsp;{__('Share this design', 'starterblocks.i18n')}
 						</a>
 					</div>

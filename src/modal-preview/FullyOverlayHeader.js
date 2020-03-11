@@ -3,18 +3,18 @@ const {Component} = wp.element
 function FullyOverlayHeader(props) {
 	const {onCloseCustomizer, onNextBlock, onPrevBlock, onImport, pro} = props;
 	return (
-		<div class="wp-full-overlay-header">
-			<button class="close-full-overlay" onClick={onCloseCustomizer}>
-				<span class="screen-reader-text">Close</span>
+		<div className="wp-full-overlay-header">
+			<button className="close-full-overlay" onClick={onCloseCustomizer}>
+				<span className="screen-reader-text">Close</span>
 			</button>
-			<button class="previous-theme" onClick={onPrevBlock}>
-				<span class="screen-reader-text">Previous</span>
+			<button className="previous-theme" onClick={onPrevBlock}>
+				<span className="screen-reader-text">Previous</span>
 			</button>
-			<button class="next-theme" onClick={onNextBlock}>
-				<span class="screen-reader-text">Next</span>
+			<button className="next-theme" onClick={onNextBlock}>
+				<span className="screen-reader-text">Next</span>
 			</button>
 			{(starterblocks.mokama || pro == false) &&
-			<a class="button hide-if-no-customize button-primary starter-section-import" onClick={onImport}
+			<a className="button hide-if-no-customize button-primary starter-section-import" onClick={onImport}
 			   data-import="disabled">
 				Import
 			</a>

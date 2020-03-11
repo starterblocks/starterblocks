@@ -14,39 +14,39 @@ function FullyOverlayFooter(props) {
 		onToggleExpanded(nextStatus);
 	}
 	return (
-		<div class="wp-full-overlay-footer">
-			<div class="footer-import-button-wrap starterblocks-import-button-group">
+		<div className="wp-full-overlay-footer">
+			<div className="footer-import-button-wrap starterblocks-import-button-group">
 
 				{
 					(!starterblocks.mokama && pro == true) ?
 						<div className="action-buttons">
-						<a class="starterblocks-button-download" target="_blank" href="http://starterblocks.io/">
-							<i class="fas fa-upload"></i>&nbsp;Upgrade to Pro
+						<a className="starterblocks-button-download" target="_blank" href="http://starterblocks.io/">
+							<i className="fas fa-upload"></i>&nbsp;Upgrade to Pro
 						</a></div>
 						:
-						<a class="button button-hero hide-if-no-customize button-primary starterblocks-import"
+						<a className="button button-hero hide-if-no-customize button-primary starterblocks-import"
 						   onClick={onImport}>
-							<i class="fas fa-download"></i>&nbsp;Import
+							<i className="fas fa-download"></i>&nbsp;Import
 						</a>
 				}
 
 			</div>
-			<button type="button" class="collapse-sidebar button" onClick={toggleExpanded} aria-expanded="true"
+			<button type="button" className="collapse-sidebar button" onClick={toggleExpanded} aria-expanded="true"
 					aria-label="Collapse Sidebar">
-				<span class="collapse-sidebar-arrow"></span>
-				<span class="collapse-sidebar-label">Collapse</span>
+				<span className="collapse-sidebar-arrow"></span>
+				<span className="collapse-sidebar-label">Collapse</span>
 			</button>
 
-			<div class="devices-wrapper">
-				<div class="devices">
+			<div className="devices-wrapper">
+				<div className="devices">
 					{
 						previewClassesList.map((previewObject) => {
 							return (
 								<button type="button"
-										class={previewClass === previewObject.className ? previewObject.className + ' active' : previewObject.className}
+										className={previewClass === previewObject.className ? previewObject.className + ' active' : previewObject.className}
 										aria-pressed="true"
 										onClick={() => onChangePreviewClass(previewObject.className)}>
-									<span class="screen-reader-text">{previewObject.screenReaderText}</span>
+									<span className="screen-reader-text">{previewObject.screenReaderText}</span>
 								</button>
 							);
 						})

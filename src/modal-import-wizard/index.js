@@ -41,7 +41,7 @@ function BlockImportWizard(props) {
 	return (
 		<div className="starterblocks-import-wizard-overlay">
 			<div className="starterblocks-import-wizard-wrapper">
-				<div class="starterblocks-import-wizard-header">
+				<div className="starterblocks-import-wizard-header">
 					<h3>{__('Template Import Wizard')}</h3>
 					<button className="starterblocks-builder-close-modal" onClick={onCloseWizard}>
 						<i className={'fas fa-times'}/>

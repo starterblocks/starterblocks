@@ -24,4 +24,4 @@ domReady(() => {
 	const buttonDiv = document.createElement('div')
 	toolbar.appendChild(buttonDiv)
 	render(<ToolbarLibraryButton/>, buttonDiv)
-})
+});

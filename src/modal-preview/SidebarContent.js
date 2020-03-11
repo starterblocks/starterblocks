@@ -88,13 +88,13 @@ function SidebarContent(props) {
 				<h3 className="theme-name">{name}</h3>
 				<div className="theme-screenshot-wrap">
 					<img className="theme-screenshot" src={image} alt=""/>{pro ?
-						<span class="starterblocks-pro-badge">{__('Premium')}</span> : ''
+						<span className="starterblocks-pro-badge">{__('Premium')}</span> : ''
 					}</div>
 				<div className="dependencies-list">
 					<h4>Blocks Used</h4>
 					{Object.keys(blocks).map((keyName, i) =>
 						<div>
-							<p class="dependency-blocks">
+							<p className="dependency-blocks">
 								{/*
 									TODO - Add icon here if had in Icons, and append a link to it using
 									starterblocks.supported_plugins[keyName] if had.
