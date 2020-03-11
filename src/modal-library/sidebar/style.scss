@@ -171,4 +171,13 @@
 			}
 		}
 	}
+
+	ul.starterblocks-sidebar-dependencies li {
+		.components-base-control__field {
+			margin-bottom: 3px;
+		}
+		span {
+			float: none;
+		}
+	}
 }

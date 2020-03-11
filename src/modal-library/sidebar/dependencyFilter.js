@@ -14,53 +14,55 @@ function DependencyFilter (props) {
         setActiveCategory(data.slug);
     };
     // Give the selected category(activeCategory) label className as "active"
-    const isChecked = (pluginInstance) => {
-        return true;
+    const isChecked = (pluginKey) => {
+        return dependencyFilters[pluginKey];
     };
 
-    console.log('dependencyFilters', dependencyFilters);
+    const toggleChecked = (pluginKey) => {
+        setDependencyFilters({...dependencyFilters, [pluginKey]: !dependencyFilters[pluginKey]});
+    };
 
-    const setChecked = (pluginInstance) => {
-        console.log('pluginInstance', pluginInstance);
-        // if ()
-    }
+
+    const setAllCheckedAs = (newVal) => {
+        setDependencyFilters(
+            Object.keys(dependencyFilters).reduce((acc, key) => {
+                return {...acc, [key]: newVal}
+            }, {})
+        );
+    };
 
     return (
         <Fragment>
-            {/*
-                Use starterblocks.supported_plugins to grab the index of all entries within the item.blocks
-                Use starterblocks.supported_plugins[KEY].name to display here, but use the KEY to filter by
-
-                Example: item.blocks : {
-                    'qubely': ['section'],
-                    'ugb': ['page', 'container']
-                }
-
-                Would display categories:
-                    Qubely -> qubely
-                    Stackable -> ugb
-            */}
             <h3>{__('Dependencies', 'starterblocks')}</h3>
             <ul className="starterblocks-sidebar-dependencies">
+                <li>
+                    <CheckboxControl
+                        label="None"
+                        checked={ isChecked('none') }
+                        onChange={ () => toggleChecked('none') }
+                    />
+                </li>
                 {
                     Object.keys(starterblocks.supported_plugins).map(pluginKey => {
                         const pluginInstance = starterblocks.supported_plugins[pluginKey];
                         return (
                             <li className={ pluginInstance.version ? 'missing-dependency' :''}>
                                 <CheckboxControl
-                                    label="Is author"
-                                    help="Is the user a author or not?"
-                                    checked={ isChecked(pluginInstance) }
-                                    onChange={ () => toggleChecked(pluginInstance) }
+                                    label={pluginInstance.name}
+                                    checked={ isChecked(pluginKey) }
+                                    onChange={ () => toggleChecked(pluginKey) }
                                 />
                             </li>
                         );
 
                     })
                 }
-
-                <li>Stackable</li>
             </ul>
+            <span>
+                <a onClick={() => setAllCheckedAs(true)}>Select All</a>
+                <span>&nbsp; / &nbsp;</span>
+                <a onClick={() => setAllCheckedAs(false)}>Deselect All</a>
+            </span>
         </Fragment>
     );
 }

@@ -29,7 +29,6 @@ const ButtonGroup = (props) => {
 	}
 
 	const getDependentBlocks = (data) => {
-		console.log(data);
 		return Object.keys(data.blocks).map((block) => {
 			const pluginReference = starterblocks.supported_plugins[block];
 			return {name: pluginReference.name, slug: block, missingDependency: pluginReference.hasOwnProperty('version') === false};

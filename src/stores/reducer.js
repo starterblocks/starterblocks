@@ -1,5 +1,9 @@
 import {parseSectionData, parsePageData, parseCollectionData, parsePageSectionData} from './helper';
 
+const allDependencies = Object.keys(starterblocks.supported_plugins).reduce((acc, cur) => {
+    return {...acc, [cur]: true};
+}, {none: true});
+
 export const initialState = {
     loading: false,
     activeItemType: 'section',
@@ -10,7 +14,7 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
-        dependencyFilters: [],
+        dependencyFilters: allDependencies,
         searchContext: '',
         sortBy: 'name'
     },
@@ -19,7 +23,7 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
-        dependencyFilters: [],
+        dependencyFilters: allDependencies,
         searchContext: '',
         sortBy: 'name'
     },
@@ -28,9 +32,9 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
-        dependencyFilters: [],
+        dependencyFilters: {},
         searchContext: '',
-        activeCollection: null,
+        activeCollection: allDependencies,
         sortBy: 'name'
     }
 };
