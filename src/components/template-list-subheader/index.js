@@ -33,7 +33,7 @@ function TemplateListSubHeader(props) {
 
     const resetLibrary = () => {
 		// TODO - Set the state of the library to empty and loading
-		// run fetchLibraryFromAPI() but pass in a variable so that method calls the API with cache=>False
+		// run fetchLibraryFromAPI() but pass in a variable so that method calls the API with no_cache=>True
 		// This will invalidate the cache, and force an API refresh.
 		// Then set the new library state, and display the content.
 	};

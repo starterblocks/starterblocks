@@ -33,6 +33,9 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 		 * @param     WP_REST_Request     $request
 		 */
 		public function get_index( WP_REST_Request $request ) {
+
+		    $parameters = $request->get_params();
+
 			if ( isset( $request->get_attributes()['args']['route'] ) && ! empty(
 				$request->get_attributes()['args']['route']
 				) ) {
@@ -42,8 +45,10 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 			if ( empty( $type ) ) {
 				wp_send_json_error( 'No type specified.' );
 			}
-
-			$data = get_transient( 'starterblocks_get_library_' . $type );
+			$data = array();
+			if ( !isset( $parameters['no_cache'] ) ) {
+			    $data = get_transient( 'starterblocks_get_library_' . $type );
+			}
 
 			if ( empty( $data ) ) {
 				$path = trailingslashit(
@@ -91,7 +96,9 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 				set_transient( 'starterblocks_get_library_' . $type, $data, DAY_IN_SECONDS );
 			}
 
-
+            if ( isset( $parameters['no_cache'] ) ) {
+                $data['cache'] = "cleared";
+            }
 
 			wp_send_json_success( $data );
 		}
