@@ -4,7 +4,7 @@ const {select, withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
 function CategoryFilter (props) {
-    const {categoryData, activeCategory, activePriceFilter, itemType} = props;
+    const {categoryData, activeCategory, activePriceFilter, loading, itemType} = props;
     const {setActiveCategory} = props;
 
 
@@ -41,12 +41,16 @@ function CategoryFilter (props) {
     return (
         <Fragment>
             <h3>{__('Categories', 'starterblocks')}</h3>
+            {!loading &&
             <ul className="starterblocks-sidebar-categories">
+                {categoryData.length > 0 &&
                 <li
                     className={activeClassname(null)}
                     onClick={() => setActiveCategory('')}>
                     {__('All ')} {itemTypeLabel()}s <span>{totalItemCount()}</span>
                 </li>
+                }
+
                 {categoryData &&
                 categoryData.map((data, index) => (
                     <li className={activeClassname(data)} onClick={() => onChangeCategory(data)}
@@ -57,6 +61,7 @@ function CategoryFilter (props) {
                 ))
                 }
             </ul>
+            }
         </Fragment>
     );
 }

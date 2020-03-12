@@ -34,45 +34,49 @@ function DependencyFilter(props) {
 
     return (
         <Fragment>
-            <h3>{__('Dependencies', 'starterblocks')}</h3>
-            <div className="starterblocks-select-actions">
-                <a href="#" onClick={() => setAllCheckedAs(true)}>Select All</a>
-                <span>&nbsp; / &nbsp;</span>
-                <a href="#" onClick={() => setAllCheckedAs(false)}>Select None</a>
-            </div>
-            <ul className="starterblocks-sidebar-dependencies">
-                { (loading === false) &&
-                    <li>
-                        <CheckboxControl
-                            label="None"
-                            checked={isChecked('none')}
-                            onChange={() => toggleChecked('none')}
-                        />
-                    </li>
-                }
-                {
-                    Object.keys(dependencyFilters).map(pluginKey => {
-                        if (pluginKey === 'none') return null;
-                        const pluginInstance = starterblocks.supported_plugins[pluginKey];
-                        return (
-                            <li className={!pluginInstance.version ? 'missing-dependency' : ''} key={pluginKey}>
-                                <CheckboxControl
-                                    label={pluginInstance.name}
-                                    checked={isChecked(pluginKey)}
-                                    onChange={() => toggleChecked(pluginKey)}
-                                />
+            {!loading &&
 
-                                {pluginInstance.url ?
-                                    <a href={pluginInstance.url} target="_blank">
-                                    <i className="fa fa-external-link-alt"></i>
-                                </a> : null}
-                            </li>
-                        );
+                <div>
+                    <h3>{__('Dependencies', 'starterblocks')}</h3>
+                    <div className="starterblocks-select-actions">
+                        <a href="#" onClick={() => setAllCheckedAs(true)}>Select All</a>
+                        <span>&nbsp; / &nbsp;</span>
+                        <a href="#" onClick={() => setAllCheckedAs(false)}>Select None</a>
+                    </div>
+                    <ul className="starterblocks-sidebar-dependencies">
+                        { (loading === false) &&
+                        <li>
+                            <CheckboxControl
+                                label="None"
+                                checked={isChecked('none')}
+                                onChange={() => toggleChecked('none')}
+                            />
+                        </li>
+                        }
+                        {
+                            Object.keys(dependencyFilters).map(pluginKey => {
+                                if (pluginKey === 'none') return null;
+                                const pluginInstance = starterblocks.supported_plugins[pluginKey];
+                                return (
+                                    <li className={!pluginInstance.version ? 'missing-dependency' : ''} key={pluginKey}>
+                                        <CheckboxControl
+                                            label={pluginInstance.name}
+                                            checked={isChecked(pluginKey)}
+                                            onChange={() => toggleChecked(pluginKey)}
+                                        />
 
-                    })
-                }
-            </ul>
+                                        {pluginInstance.url ?
+                                            <a href={pluginInstance.url} target="_blank">
+                                                <i className="fa fa-external-link-alt"></i>
+                                            </a> : null}
+                                    </li>
+                                );
 
+                            })
+                        }
+                    </ul>
+                </div>
+            }
         </Fragment>
     );
 }
