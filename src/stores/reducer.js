@@ -14,7 +14,7 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
-        dependencyFilters: allDependencies,
+        dependencyFilters: {},
         searchContext: '',
         sortBy: 'name'
     },
@@ -23,7 +23,7 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
-        dependencyFilters: allDependencies,
+        dependencyFilters: {},
         searchContext: '',
         sortBy: 'name'
     },
@@ -32,7 +32,7 @@ export const initialState = {
         data: {},
         priceFilter: '',
         activeCategory: '',
-        dependencyFilters: allDependencies,
+        dependencyFilters: {},
         searchContext: '',
         activeCollection: null,
         sortBy: 'name'

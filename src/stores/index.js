@@ -123,7 +123,7 @@ const store = registerStore('starterblocks/sectionslist', {
     resolvers: {
         * fetchLibraryFromAPI(state) {
             try {
-                const receiveSectionResult = yield actions.fetchLibraryFromAPI('starterblocks/v1/library');
+                const receiveSectionResult = yield actions.fetchLibraryFromAPI('starterblocks/v1/library?no_cache=1');
                 return actions.setLibrary(receiveSectionResult.data);
             } catch (error) {
                 return actions.appendErrorMessage(error.code + ' ' + error.message)

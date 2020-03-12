@@ -70,13 +70,11 @@ function DependencyFilter(props) {
 					not expanding to the underlying page data.  ;)
 
 					* */
-					Object.keys(starterblocks.supported_plugins).map(pluginKey => {
-
+					Object.keys(dependencyFilters).map(pluginKey => {
+						if (pluginKey === 'none') return null;
 						const pluginInstance = starterblocks.supported_plugins[pluginKey];
 						return (
-
-
-							<li className={!pluginInstance.version ? 'missing-dependency' : ''}>
+							<li className={!pluginInstance.version ? 'missing-dependency' : ''} key={pluginKey}>
 								<CheckboxControl
 									label={pluginInstance.name}
 									checked={isChecked(pluginKey)}
