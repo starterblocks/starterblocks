@@ -1,9 +1,6 @@
 import {parseSectionData, parsePageData, parseCollectionData, parsePageSectionData} from './helper';
-
-const allDependencies = Object.keys(starterblocks.supported_plugins).reduce((acc, cur) => {
-    return {...acc, [cur]: true};
-}, {none: true});
-
+import {setWithExpiry, getWithExpiry} from './helper';
+const EXIPRY_TIME = 5 * 24 * 3600 * 1000;
 export const initialState = {
     loading: false,
     activeItemType: 'section',
@@ -12,7 +9,7 @@ export const initialState = {
     section: {
         categories: [],
         data: {},
-        priceFilter: '',
+        priceFilter: getWithExpiry('section', ''),
         activeCategory: '',
         dependencyFilters: {},
         searchContext: '',
@@ -21,7 +18,7 @@ export const initialState = {
     page: {
         categories: [],
         data: {},
-        priceFilter: '',
+        priceFilter: getWithExpiry('page', ''),
         activeCategory: '',
         dependencyFilters: {},
         searchContext: '',
@@ -30,7 +27,7 @@ export const initialState = {
     collection: {
         categories: [],
         data: {},
-        priceFilter: '',
+        priceFilter: getWithExpiry('collection', ''),
         activeCategory: '',
         dependencyFilters: {},
         searchContext: '',
@@ -80,6 +77,7 @@ export const reducer = ( state = initialState, action ) => {
                 }
             };
         case 'SET_ACTIVE_PRICE_FILTER':
+            setWithExpiry(state.activeItemType, action.activePriceFilter, EXIPRY_TIME);
             return {
                 ...state,
                 [state.activeItemType]: {
