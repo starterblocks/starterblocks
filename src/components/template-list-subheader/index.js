@@ -56,9 +56,9 @@ function TemplateListSubHeader(props) {
         <div className="starterblocks-template-list-sub-header">
             <h4>
 				{
-					dataLength && <fragment>
+					dataLength && <span>
 						{ dataLength } {itemTypeLabel()}
-					</fragment>
+					</span>
 				}
             </h4>
             <div className="starterblocks-template-filters">

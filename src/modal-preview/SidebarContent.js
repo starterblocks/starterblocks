@@ -92,19 +92,19 @@ function SidebarContent(props) {
 					<img className="theme-screenshot" src={image} alt=""/>{pro ?
 						<span className="starterblocks-pro-badge">{__('Premium')}</span> : ''
 					}</div>
-				<div className="dependencies-list">
+				<div className="starterblocks-dependencies-list">
 					<h4>Blocks Used</h4>
 					{Object.keys(blocks).map((keyName, i) =>
 						<div>
-							<p className="dependency-blocks">
+							<p className="starterblocks-dependency-blocks">
 								{/*
 									TODO - Add icon here if had in Icons, and append a link to it using
 									starterblocks.supported_plugins[keyName] if had.
 								*/}
-								<span>{starterblocks.supported_plugins[keyName].name}:</span>
+								<span className="starterblocks-dependency-name">{starterblocks.supported_plugins[keyName].name}:</span>
 								{
 									sortBy(blocks[keyName]).map(function(item, index) {
-										return <fragment>{ (index ? ', ' : '') + item }</fragment>;
+										return <span>{ (index ? ', ' : '') + item }</span>;
 									})
 								}
 							</p>

@@ -39,7 +39,7 @@
 .wp-full-overlay .wp-full-overlay-sidebar-content {
 	bottom: 100px;
 
-	.dependencies-list {
+	.starterblocks-dependencies-list {
 		h4 {
 			color: #23282d;
 			font-size: 1.1em;
@@ -52,8 +52,8 @@
 		font-weight: 400;
 		margin: 30px 0 0 0;
 
-		.dependency-blocks {
-			span {
+		.starterblocks-dependency-blocks {
+			.starterblocks-dependency-name {
 				color: #444;
 				font-weight: 600;
 				margin-right: 5px;
