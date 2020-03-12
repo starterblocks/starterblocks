@@ -41,6 +41,16 @@ function LibraryModal(props) {
         setLoaded(true);
     }
 
+    const resetLibrary = () => {
+        setLoading(true);
+        wp.apiRequest( { path: 'starterblocks/v1/library?no_cache=1' } )
+            .then(( newLibrary ) => {
+                    setLoading(false);
+                    stateLibrary(newLibrary);
+                }
+            );
+    }
+
 	const hasSidebar = () => {
 		return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
 	}
@@ -87,7 +97,8 @@ function LibraryModal(props) {
 			<TabHeader/>
 			<TemplateModalProvider value={{
 				openSitePreviewModal,
-				onImportTemplate,
+                onImportTemplate,
+                resetLibrary,
 				spinner
 			}}>
 				{
@@ -113,7 +124,8 @@ export default compose([
 		const {
 			appendErrorMessage,
             discardAllErrorMessages,
-            setLoading
+            setLoading,
+            setLibrary
 		} = dispatch('starterblocks/sectionslist');
 
 		const {savePost} = dispatch('core/editor');
@@ -122,7 +134,8 @@ export default compose([
 			appendErrorMessage,
             discardAllErrorMessages,
             setLoading,
-			savePost
+            savePost,
+            setLibrary
 		};
 	}),
 
@@ -130,7 +143,7 @@ export default compose([
 		const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages} = select('starterblocks/sectionslist');
 		const {isSavingPost} = select('core/editor')
 		return {
-			fetchLibraryFromAPI,
+            fetchLibraryFromAPI,
 			activeCollection: getActiveCollection(),
 			activeItemType: getActiveItemType(),
 			errorMessages: getErrorMessages(),

@@ -4,7 +4,7 @@ const EXIPRY_TIME = 5 * 24 * 3600 * 1000;
 export const initialState = {
     loading: false,
     activeItemType: 'section',
-    library: [],
+    library: null,
     errorMessages: [],
     section: {
         categories: [],

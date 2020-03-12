@@ -1,22 +1,20 @@
 const { __ } = wp.i18n;
 const { compose } = wp.compose;
 const { withDispatch, withSelect, select } = wp.data;
-const { Component } = wp.element;
+const { Component, useContext } = wp.element;
 
+import { IconButton } from '@wordpress/components'
+import TemplateModalContext from '../../contexts/TemplateModalContext';
 import SVGViewFew from './images/view-few.svg'
 import SVGViewMany from './images/view-many.svg'
 import SVGViewNormal from './images/view-normal.svg'
 
-import {
-	Modal, TextControl, IconButton, ToggleControl,
-} from '@wordpress/components'
-
 import './style.scss'
 
 function TemplateListSubHeader(props) {
-    const { itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData } = props;
-    const { setActivePriceFilter, setActiveCollection, setSortBy } = props;
-
+    const { fetchLibraryFromAPI, itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData } = props;
+    const { setLibrary, setActivePriceFilter, setActiveCollection, setSortBy } = props;
+    const { resetLibrary } = useContext(TemplateModalContext);
     const itemTypeLabel = () => {
         if (itemType === 'section') return __('Sections');
         if (itemType === 'page') return __('Pages');
@@ -30,13 +28,6 @@ function TemplateListSubHeader(props) {
         classNames.push(noStatistics(priceFilter) ? 'disabled' : '');
         return classNames.join(' ');
     };
-
-    const resetLibrary = () => {
-		// TODO - Set the state of the library to empty and loading
-		// run fetchLibraryFromAPI() but pass in a variable so that method calls the API with no_cache=>True
-		// This will invalidate the cache, and force an API refresh.
-		// Then set the new library state, and display the content.
-	};
 
     const noStatistics = (priceFilter) => {
         if (priceFilter === '') return false;
@@ -66,7 +57,7 @@ function TemplateListSubHeader(props) {
 					icon="image-rotate"
 					label={ __( 'Refresh Library' ) }
 					className="ugb-modal-design-library__refresh"
-					onClick={ () => resetLibary() }
+					onClick={ resetLibrary }
 				/>
 
 				<IconButton
@@ -102,8 +93,9 @@ function TemplateListSubHeader(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const { setActivePriceFilter, setActiveCollection, setSortBy } = dispatch('starterblocks/sectionslist');
+        const { setLibrary, setActivePriceFilter, setActiveCollection, setSortBy } = dispatch('starterblocks/sectionslist');
         return {
+            setLibrary,
             setActivePriceFilter,
             setActiveCollection,
             setSortBy
@@ -111,8 +103,8 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const { getActiveItemType, getPageData, getActivePriceFilter, getActiveCollection, getStatistics, getSortBy } = select('starterblocks/sectionslist');
-        return { itemType: getActiveItemType(), pageData: getPageData(), statistics: getStatistics(),
+        const { fetchLibraryFromAPI, getActiveItemType, getPageData, getActivePriceFilter, getActiveCollection, getStatistics, getSortBy } = select('starterblocks/sectionslist');
+        return { fetchLibraryFromAPI, itemType: getActiveItemType(), pageData: getPageData(), statistics: getStatistics(),
             activePriceFilter: getActivePriceFilter(), sortBy: getSortBy(), activeCollection: getActiveCollection() };
     })
 ])(TemplateListSubHeader);
