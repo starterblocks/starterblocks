@@ -39,7 +39,7 @@ function CategoryFilter (props) {
     };
 
     return (
-        <Fragment>
+        <div>
             <h3>{__('Categories', 'starterblocks')}</h3>
             {!loading &&
             <ul className="starterblocks-sidebar-categories">
@@ -62,7 +62,7 @@ function CategoryFilter (props) {
                 }
             </ul>
             }
-        </Fragment>
+        </div>
     );
 }
 
@@ -75,11 +75,12 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getCategoryData, getActiveCategory, getActiveItemType} = select('starterblocks/sectionslist');
+        const {getCategoryData, getActiveCategory, getActiveItemType, getLoading} = select('starterblocks/sectionslist');
         return {
             categoryData: getCategoryData(),
             activeCategory: getActiveCategory(),
-            itemType: getActiveItemType()
+            itemType: getActiveItemType(),
+            loading: getLoading(),
         };
     })
 ])(CategoryFilter);

@@ -35,7 +35,6 @@ function DependencyFilter(props) {
     return (
         <Fragment>
             {!loading &&
-
                 <div>
                     <h3>{__('Dependencies', 'starterblocks')}</h3>
                     <div className="starterblocks-select-actions">
