@@ -2,11 +2,14 @@ import kebabCase from 'lodash/kebabCase'
 import uniq from 'lodash/uniq';
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
-const {parse} = wp.blocks;
+
+const {parse, createBlock} = wp.blocks;
 const {apiFetch} = wp;
 const {dispatch} = wp.data;
+
 const {savePost} = dispatch('core/editor');
 const {insertBlocks} = dispatch('core/block-editor');
+import {ModalManager} from '~starterblocks/modal-manager';
 
 export const getCurrentState = (state) => state[state.activeItemType]
 // Helper function not to be exported
@@ -21,7 +24,7 @@ export const categorizeData = (list) => {
     let categories = [];
     let data = {};
 
-    list.forEach( item => {
+    list.forEach(item => {
         if (item.categories) {
             item.categories.map(catName => {
                 let catSlug = kebabCase(catName);
@@ -39,7 +42,7 @@ export const categorizeData = (list) => {
                     }
                 });
                 if (index === -1) {
-                    categories.push({ name: catName, slug: catSlug, count: 1 })
+                    categories.push({name: catName, slug: catSlug, count: 1})
                 }
             })
         }
@@ -74,7 +77,7 @@ export const parseCollectionData = (library) => {
         if (collection.pages)
             dependentPluginsList = uniq(concat(flatten(collection.pages.map(page => library.pages[page].blocks ? Object.keys(library.pages[page].blocks) : []))));
         collection.blocks = dependentPluginsList.reduce((acc, plugin) => {
-            return{...acc, [plugin]: ''};
+            return {...acc, [plugin]: ''};
         }, {});
         return collection;
     });
@@ -131,11 +134,24 @@ export const processImportHelper = (data, type, errorCallback) => {
     apiFetch(options).then(response => {
         if (response.success && response.data.template) {
             //import template
-            let pageData = parse(response.data.template);
-            insertBlocks(pageData);
+            let insertedBlock = null;
+            if (response.data.template) {
+                insertedBlock = parse(response.data.template);
+            } else if (('attributes' in response.data)) {
+                if (!('innerBlocks' in response.data)) {
+                    response.data.innerBlocks = {};
+                }
+                if (!('name' in response.data)) {
+                    errorCallback('Template malformed, `name` for block not specified.');
+                }
+                insertedBlock = createBlock(response.data.name, response.data.attributes, response.data.innerBlocks)
+            }
+            let insert = insertBlocks(insertedBlock);
             setTimeout(() => {
                 savePost().then(() => {
-                    window.location.reload();
+                    // TODO - Let's have a store value of intalled_dependencies set to true. Then IF detected, we do the reload, else we close the modal.
+                    // window.location.reload();
+                    ModalManager.close();
                 });
             }, 5000);
         } else {
