@@ -34,11 +34,12 @@ function LibraryModal(props) {
 	const [missingProArray, setMissingPro] = useState([]);
 	const wasSaving = useRef(false);
 
-    if (loaded === false) { // One to be called at first.
+    let stateLibrary =  null;
+    stateLibrary = fetchLibraryFromAPI();
+    if (stateLibrary === null && loaded === false) { // One to be called at first.
         setLoading(true);
         setLoaded(true);
     }
-	fetchLibraryFromAPI();
 
 	const hasSidebar = () => {
 		return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
