@@ -59,9 +59,9 @@ function TemplateListSubHeader(props) {
                 />
                 <IconButton
                     icon={<SVGViewFew width="18" height="18"/>}
-                    className={columns === 'small' ? 'is-active' : ''}
+                    className={columns === 'large' ? 'is-active' : ''}
                     label={__('Large preview')}
-                    onClick={() => setColumns('small')}
+                    onClick={() => setColumns('large')}
                 />
                 <IconButton
                     icon={<SVGViewNormal width="18" height="18"/>}
@@ -71,9 +71,9 @@ function TemplateListSubHeader(props) {
                 />
                 <IconButton
                     icon={<SVGViewMany width="18" height="18"/>}
-                    className={columns === 'large' ? 'is-active' : ''}
+                    className={columns === 'small' ? 'is-active' : ''}
                     label={__('Small preview')}
-                    onClick={(e) => setColumns('large')}
+                    onClick={(e) => setColumns('small')}
                 />
                 <div className="">
                     <select name="sortBy" id="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
