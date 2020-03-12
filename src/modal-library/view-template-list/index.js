@@ -44,7 +44,8 @@ function TemplateList(props) {
                                                 pageData,
                                                 index,
                                                 activeItemType,
-                                                spinner: false
+                                                spinner: false,
+                                                showDependencyBlock: true
                                             }}>
                                                 <SingleItem
                                                     key={index}

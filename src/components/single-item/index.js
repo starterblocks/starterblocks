@@ -31,7 +31,7 @@ const SingleItem = (props) => {
 				{/* starterblocks-default-template-image */}
 				<div className="starterblocks-button-overlay">
 					{pro && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
-					<ButtonGroup/>
+					<ButtonGroup />
 				</div>
 
 			</div>

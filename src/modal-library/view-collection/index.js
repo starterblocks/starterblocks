@@ -65,7 +65,8 @@ function CollectionView(props) {
                         pageData,
                         index: previewDataIndex,
                         activeItemType,
-                        spinner: false
+                        spinner: false,
+                        showDependencyBlock: false
                     }}>
                         <ButtonGroup/>
                     </SingleItemProvider>
