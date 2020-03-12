@@ -1,10 +1,14 @@
 import kebabCase from 'lodash/kebabCase'
-export const getCurrentState = (state) => state[state.activeItemType]
+import uniq from 'lodash/uniq';
+import concat from 'lodash/concat';
+import flatten from 'lodash/flatten';
 const {parse} = wp.blocks;
 const {apiFetch} = wp;
 const {dispatch} = wp.data;
 const {savePost} = dispatch('core/editor');
 const {insertBlocks} = dispatch('core/block-editor');
+
+export const getCurrentState = (state) => state[state.activeItemType]
 // Helper function not to be exported
 const convertObjectToArray = (list) => {
     return Object.keys(list).map(key => {
@@ -65,8 +69,16 @@ export const parseCollectionData = (library) => {
             collection.homepageData = library.pages[collection.pages[0]];
         }
         if (collection.homepageData) collection.pro = collection.homepageData.pro;
+
+        let dependentPluginsList = [];
+        if (collection.pages)
+            dependentPluginsList = uniq(concat(flatten(collection.pages.map(page => library.pages[page].blocks ? Object.keys(library.pages[page].blocks) : []))));
+        collection.blocks = dependentPluginsList.reduce((acc, plugin) => {
+            return{...acc, [plugin]: ''};
+        }, {});
         return collection;
-    })
+    });
+
     return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies.pages}};
 }
 
@@ -106,30 +118,30 @@ export const missingRequirement = (pro, requirements) => {
 
 
 export const processImportHelper = (data, type, errorCallback) => {
-	let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
-	if (data.source_id) {
-		the_url += '&sid=' + data.source_id + '&source=' + data.source;
-	}
-	the_url += '&p=' + JSON.stringify(starterblocks.supported_plugins);
-	const options = {
-		method: 'GET',
-		path: the_url,
-		headers: {'Content-Type': 'application/json'}
-	};
-	apiFetch(options).then(response => {
-		if (response.success && response.data.template) {
-			//import template
-			let pageData = parse(response.data.template);
-			insertBlocks(pageData);
-			setTimeout(() => {
-				savePost().then(() => {
-					window.location.reload();
-				});
-			}, 5000);
-		} else {
-			errorCallback(response.data.error);
-		}
-	}).catch(error => {
-		errorCallback(error.code + ' : ' + error.message);
-	});
+    let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
+    if (data.source_id) {
+        the_url += '&sid=' + data.source_id + '&source=' + data.source;
+    }
+    the_url += '&p=' + JSON.stringify(starterblocks.supported_plugins);
+    const options = {
+        method: 'GET',
+        path: the_url,
+        headers: {'Content-Type': 'application/json'}
+    };
+    apiFetch(options).then(response => {
+        if (response.success && response.data.template) {
+            //import template
+            let pageData = parse(response.data.template);
+            insertBlocks(pageData);
+            setTimeout(() => {
+                savePost().then(() => {
+                    window.location.reload();
+                });
+            }, 5000);
+        } else {
+            errorCallback(response.data.error);
+        }
+    }).catch(error => {
+        errorCallback(error.code + ' : ' + error.message);
+    });
 }

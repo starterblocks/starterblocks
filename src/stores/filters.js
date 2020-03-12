@@ -28,37 +28,55 @@ export const applyCategoryFilter = (pageData, activeCategory) => {
 };
 
 export const applySearchFilter = (pageData, searchContext) => {
-    let newPageData = {};
-    Object.keys(pageData).forEach(key => {
-        newPageData[key] =  pageData[key].filter(item => item.name.toLowerCase().indexOf(searchContext.toLowerCase()) != -1)
-	});
-    return newPageData;
+    if (Array.isArray(pageData)) {
+        return pageData.filter(item => item.name.toLowerCase().indexOf(searchContext.toLowerCase()) != -1)
+    } else {
+        let newPageData = {};
+        Object.keys(pageData).forEach(key => {
+            newPageData[key] =  pageData[key].filter(item => item.name.toLowerCase().indexOf(searchContext.toLowerCase()) != -1)
+        });
+        return newPageData;
+    }
 }
 
 
 // Apply Price filter afterwards : Should make sure if it is a best practise to split this filtering
 export const applyPriceFilter = (pageData, activePriceFilter) => {
     if (activePriceFilter !== '') {
-        let newPageData = {};
-        Object.keys(pageData).forEach(key => {
-            newPageData[key] =  pageData[key].filter(item => {
+        if (Array.isArray(pageData)) {
+            return pageData.filter(item => {
                 if (activePriceFilter === 'free') return item.pro === false;
                 if (activePriceFilter === 'pro') return item.pro === true;
             });
-        });
-        return newPageData;
+        } else {
+            let newPageData = {};
+            Object.keys(pageData).forEach(key => {
+                newPageData[key] =  pageData[key].filter(item => {
+                    if (activePriceFilter === 'free') return item.pro === false;
+                    if (activePriceFilter === 'pro') return item.pro === true;
+                });
+            });
+            return newPageData;
+        }
     }
     return pageData;
 }
 
 
 export const applyDependencyFilters = (pageData, dependencyFilters) => {
-    let newPageData = {};
-    Object.keys(pageData).forEach(key => {
-        newPageData[key] =  pageData[key].filter(item => {
+    if (Array.isArray(pageData)) {
+        return pageData.filter(item => {
             if (!item.blocks || Object.keys(item.blocks).length === 0) return dependencyFilters['none'];
             return Object.keys(item.blocks).reduce((acc, key) => acc && dependencyFilters[key], true);
         });
-    });
-    return newPageData;
+    } else {
+        let newPageData = {};
+        Object.keys(pageData).forEach(key => {
+            newPageData[key] =  pageData[key].filter(item => {
+                if (!item.blocks || Object.keys(item.blocks).length === 0) return dependencyFilters['none'];
+                return Object.keys(item.blocks).reduce((acc, key) => acc && dependencyFilters[key], true);
+            });
+        });
+        return newPageData;
+    }
 }
