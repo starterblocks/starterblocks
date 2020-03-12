@@ -97,6 +97,9 @@ const store = registerStore('starterblocks/sectionslist', {
         getLoading(state) {
             return state.loading;
         },
+        getColumns(state) {
+            return state.columns;
+        },
         getSortBy(state) {
             return getCurrentState(state).sortBy;
         },

@@ -24,7 +24,7 @@ import './style.scss'
 
 function LibraryModal(props) {
 	const {
-		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading,
+		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns,
 		appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
 	} = props;
 	const [spinner, setSpinner] = useState(null);
@@ -125,7 +125,8 @@ export default compose([
 			appendErrorMessage,
             discardAllErrorMessages,
             setLoading,
-            setLibrary
+            setLibrary,
+            setColumns,
 		} = dispatch('starterblocks/sectionslist');
 
 		const {savePost} = dispatch('core/editor');

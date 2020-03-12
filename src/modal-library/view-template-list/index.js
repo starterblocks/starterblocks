@@ -33,7 +33,8 @@ function TemplateList(props) {
             <div id="modalContainer" className="starterblocks-template-list-modal">
                 <div className="starterblocks-builder-template-list-container">
 
-                    <div id="collections-sections-list" className="starterblocks-builder-page-templates">
+                    <div id="collections-sections-list" className={`starterblocks-builder-page-templates ${columns}`}>
+
                         { pageData &&
                             pageData.map((data, index) => (
                                 <div className="starterblocks-pagelist-column">
@@ -96,7 +97,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const { getPageData, getLoading, getActiveItemType, getActiveCollection} = select('starterblocks/sectionslist');
-        return { pageData: getPageData(), loading: getLoading(), activeItemType: getActiveItemType(), activeCollection: getActiveCollection() };
+        const { getPageData, getLoading, getColumns, getActiveItemType, getActiveCollection} = select('starterblocks/sectionslist');
+        return { pageData: getPageData(), loading: getLoading(), activeItemType: getActiveItemType(), columns: getColumns(), activeCollection: getActiveCollection() };
     })
 ])(TemplateList);

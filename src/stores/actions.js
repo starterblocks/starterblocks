@@ -53,6 +53,12 @@ export const actions = {
             loading
         }
     },
+    setColumns( columns ) {
+        return {
+            type: 'SET_COLUMNS',
+            columns
+        }
+    },
     setSortBy( sortBy ) {
         return {
             type: 'SET_SORT_BY',

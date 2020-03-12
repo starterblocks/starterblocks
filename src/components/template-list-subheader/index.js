@@ -1,7 +1,7 @@
 const {__} = wp.i18n;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
-const {Component, useContext} = wp.element;
+const {Component, useContext, useState} = wp.element;
 
 import {IconButton} from '@wordpress/components'
 import TemplateModalContext from '../../contexts/TemplateModalContext';
@@ -13,14 +13,15 @@ import './style.scss'
 
 function TemplateListSubHeader(props) {
     const {fetchLibraryFromAPI, itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData} = props;
-    const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy} = props;
+    const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, columns, setColumns} = props;
     const {resetLibrary} = useContext(TemplateModalContext);
+
     const itemTypeLabel = () => {
         if (itemType === 'section') return __('Sections');
         if (itemType === 'page') return __('Pages');
         if (itemType === 'collection' && activeCollection === null) return __('Collections');
         if (itemType === 'collection' && activeCollection !== null) return __('Sections');
-    }
+    };
 
     const getClassnames = (priceFilter) => {
         let classNames = [];
@@ -37,12 +38,8 @@ function TemplateListSubHeader(props) {
             return (!statistics['true'] || statistics['true'] < 1);
     };
 
-    const setColumns = (num) => {
-        this.state.columns = num
-    };
-
     const dataLength = pageData ? pageData.length : '';
-    const columns = 3;
+
     let page_title = '';
     if (dataLength && dataLength !== 0) {
         page_title = <span>{dataLength} {itemTypeLabel()}</span>;
@@ -60,24 +57,23 @@ function TemplateListSubHeader(props) {
                     className="ugb-modal-design-library__refresh"
                     onClick={resetLibrary}
                 />
-
                 <IconButton
                     icon={<SVGViewFew width="18" height="18"/>}
-                    className={columns === 2 ? 'is-active' : ''}
+                    className={columns === 'small' ? 'is-active' : ''}
                     label={__('Large preview')}
-                    onClick={() => setColumns(2)}
+                    onClick={() => setColumns('small')}
                 />
                 <IconButton
                     icon={<SVGViewNormal width="18" height="18"/>}
-                    className={columns === 3 ? 'is-active' : ''}
+                    className={columns === '' ? 'is-active' : ''}
                     label={__('Medium preview')}
-                    onClick={() => setColumns(3)}
+                    onClick={(e) => setColumns('')}
                 />
                 <IconButton
                     icon={<SVGViewMany width="18" height="18"/>}
-                    className={columns === 4 ? 'is-active' : ''}
+                    className={columns === 'large' ? 'is-active' : ''}
                     label={__('Small preview')}
-                    onClick={() => setColumns(4)}
+                    onClick={(e) => setColumns('large')}
                 />
                 <div className="">
                     <select name="sortBy" id="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
@@ -94,20 +90,27 @@ function TemplateListSubHeader(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy} = dispatch('starterblocks/sectionslist');
+        const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns} = dispatch('starterblocks/sectionslist');
         return {
             setLibrary,
             setActivePriceFilter,
             setActiveCollection,
-            setSortBy
+            setSortBy,
+            setColumns
         };
     }),
 
     withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveItemType, getPageData, getActivePriceFilter, getActiveCollection, getStatistics, getSortBy} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActivePriceFilter, getActiveCollection, getStatistics, getSortBy} = select('starterblocks/sectionslist');
         return {
-            fetchLibraryFromAPI, itemType: getActiveItemType(), pageData: getPageData(), statistics: getStatistics(),
-            activePriceFilter: getActivePriceFilter(), sortBy: getSortBy(), activeCollection: getActiveCollection()
+            fetchLibraryFromAPI,
+            itemType: getActiveItemType(),
+            pageData: getPageData(),
+            columns: getColumns(),
+            statistics: getStatistics(),
+            activePriceFilter: getActivePriceFilter(),
+            sortBy: getSortBy(),
+            activeCollection: getActiveCollection()
         };
     })
 ])(TemplateListSubHeader);

@@ -5,6 +5,7 @@ export const initialState = {
     loading: false,
     activeItemType: 'section',
     library: null,
+    columns: null,
     errorMessages: [],
     section: {
         categories: [],
@@ -46,6 +47,7 @@ export const reducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 loading: false,
+                columns: '',
                 library: action.library,
                 section: {
                     ...state.section,
@@ -118,6 +120,11 @@ export const reducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 loading: action.loading
+            }
+        case 'SET_COLUMNS':
+            return {
+                ...state,
+                columns: action.columns
             }
         case 'APPEND_ERROR_MESSAGE':
             return {
