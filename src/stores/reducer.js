@@ -48,6 +48,7 @@ export const reducer = ( state = initialState, action ) => {
 			let parsedCollection = parseCollectionData(action.library);
             return {
                 ...state,
+                loading: false,
                 library: action.library,
                 section: {
                     ...state.section,

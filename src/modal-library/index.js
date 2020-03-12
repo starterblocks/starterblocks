@@ -24,16 +24,20 @@ import './style.scss'
 
 function LibraryModal(props) {
 	const {
-		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages,
+		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading,
 		appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
 	} = props;
 	const [spinner, setSpinner] = useState(null);
-	const [saving, setSaving] = useState(false);
+	const [loaded, setLoaded] = useState(false);
 	const [importingBlock, setImportingBlock] = useState(null);
 	const [missingPluginArray, setMissingPlugin] = useState([]);
 	const [missingProArray, setMissingPro] = useState([]);
 	const wasSaving = useRef(false);
 
+    if (loaded === false) { // One to be called at first.
+        setLoading(true);
+        setLoaded(true);
+    }
 	fetchLibraryFromAPI();
 
 	const hasSidebar = () => {
@@ -107,14 +111,16 @@ export default compose([
 	withDispatch((dispatch) => {
 		const {
 			appendErrorMessage,
-			discardAllErrorMessages
+            discardAllErrorMessages,
+            setLoading
 		} = dispatch('starterblocks/sectionslist');
 
 		const {savePost} = dispatch('core/editor');
 
 		return {
 			appendErrorMessage,
-			discardAllErrorMessages,
+            discardAllErrorMessages,
+            setLoading,
 			savePost
 		};
 	}),
