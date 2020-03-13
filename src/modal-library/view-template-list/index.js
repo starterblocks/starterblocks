@@ -37,7 +37,7 @@ function TemplateList(props) {
 
                         { pageData &&
                             pageData.map((data, index) => (
-                                <div className="starterblocks-pagelist-column">
+                                <div className="starterblocks-pagelist-column" key={index}>
                                     {
                                         (activeItemType !== 'collection' || activeCollection !== null) ?
                                             <SingleItemProvider value={{

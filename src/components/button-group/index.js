@@ -67,7 +67,7 @@ const ButtonGroup = (props) => {
 
                             if (IconComponent)
                                 return (
-                                    <Tooltip text={name} position="bottom">
+                                    <Tooltip text={name} position="bottom" key={ID +slug}>
                                         <span className={missingDependency ? 'missing-dependency' : ''}>
                                             <IconComponent/>
                                         </span>
