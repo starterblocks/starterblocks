@@ -15,7 +15,7 @@ const PLUGIN_STEP = 0;
 const PRO_STEP = 1;
 const IMPORT_STEP = 2;
 
-function BlockImportWizard(props) {
+function ImportWizard(props) {
 	const {missingPlugins, missingPros, startImportTemplate, closeWizard} = props;
 	const [currentStep, setCurrentStep] = useState(PLUGIN_STEP);
 	const [importing, setImporting] = useState(false);
@@ -68,4 +68,4 @@ export default compose([
 	withSelect((select, props) => {
 		return {};
 	})
-])(BlockImportWizard);
+])(ImportWizard);

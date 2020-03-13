@@ -23,16 +23,16 @@ import uniq from 'lodash/uniq';
 import './style.scss'
 
 function LibraryModal(props) {
-    const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
-    } = props;
-    const [spinner, setSpinner] = useState(null);
-    const [loaded, setLoaded] = useState(false);
-    const [importingBlock, setImportingBlock] = useState(null);
-    const [missingPluginArray, setMissingPlugin] = useState([]);
-    const [missingProArray, setMissingPro] = useState([]);
-    const wasSaving = useRef(false);
+	const {
+		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns,
+		appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
+	} = props;
+	const [spinner, setSpinner] = useState(null);
+	const [loaded, setLoaded] = useState(false);
+	const [importingBlock, setImportingBlock] = useState(null);
+	const [missingPluginArray, setMissingPlugin] = useState([]);
+	const [missingProArray, setMissingPro] = useState([]);
+	const wasSaving = useRef(false);
 
     let stateLibrary =  null;
     stateLibrary = fetchLibraryFromAPI();
@@ -41,7 +41,6 @@ function LibraryModal(props) {
         setLoaded(true);
     }
 
-    // reset library content with no cache content
     const resetLibrary = () => {
         setLoading(true);
         wp.apiRequest( { path: 'starterblocks/v1/library?no_cache=1' } )
@@ -52,121 +51,104 @@ function LibraryModal(props) {
             );
     }
 
-    /* let prevOrder = wp.data.select('core/block-editor').getBlockOrder();
-    let insertTriggered = false;
-    wp.data.subscribe(() => {
-        const order = wp.data.select('core/block-editor').getBlockOrder();
-        if (order !== prevOrder) {
-            insertTriggered = true;
-            prevOrder = order;
-        }
-
-        if (insertTriggered && order === prevOrder) {
-            savePost().then(() => {
-                window.location.reload();
-                insertTriggered = false;
-            })
-        }
-    }) */
-
-    const hasSidebar = () => {
-        return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
-    }
+	const hasSidebar = () => {
+		return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
+	}
 
 
-    const onImportTemplate = (data) => {
-        importStarterBlock(data, activeItemType === 'section' ? 'sections' : 'pages');
-    }
+	const onImportTemplate = (data) => {
+		importStarterBlock(data, activeItemType === 'section' ? 'sections' : 'pages');
+	}
 
-    const importStarterBlock = (data, type) => {
-        const dependencies = dependencyHelper.checkTemplateDependencies(data);
-        setMissingPlugin(dependencies.missingPluginArray);
-        setMissingPro(dependencies.missingProArray);
-        setImportingBlock(data);
-    }
+	const importStarterBlock = (data, type) => {
+		const dependencies = dependencyHelper.checkTemplateDependencies(data);
+		setMissingPlugin(dependencies.missingPluginArray);
+		setMissingPro(dependencies.missingProArray);
+		setImportingBlock(data);
+	}
 
-    const useDidSave = () => {
-        const hasJustSaved = wasSaving.current && !isSavingPost;
-        wasSaving.current = isSavingPost;
-        return hasJustSaved;
-    }
+	const useDidSave = () => {
+		const hasJustSaved = wasSaving.current && !isSavingPost;
+		wasSaving.current = isSavingPost;
+		return hasJustSaved;
+	}
 
-    // read block data to import and give the control to actual import
-    const processImport = () => {
-        discardAllErrorMessages();
-        setSpinner(null);
-        processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', registerError)
-    }
+	// read block data to import and give the control to actual import
+	const processImport = () => {
+		discardAllErrorMessages();
+		setSpinner(null);
+		processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', registerError)
+	}
 
 
-    const registerError = (errorMessage) => {
-        appendErrorMessage(errorMessage);
-        setSpinner(null);
-    }
+	const registerError = (errorMessage) => {
+		appendErrorMessage(errorMessage);
+		setSpinner(null);
+	}
 
-    // Open Site Preview Modal
-    const openSitePreviewModal = (index, item) => {
-        ModalManager.openCustomizer(<PreviewModal startIndex={index} currentPageData={item}/>);
-    }
-    return (
-        <Modal className="starterblocks-builder-modal-pages-list"
-               customClass="starterblocks-builder-modal-template-list"
-               openTimeoutMS={0} closeTimeoutMS={0}>
-            <TabHeader/>
-            <TemplateModalProvider value={{
-                openSitePreviewModal,
+	// Open Site Preview Modal
+	const openSitePreviewModal = (index, item) => {
+		ModalManager.openCustomizer(<PreviewModal startIndex={index} currentPageData={item}/>);
+	}
+	return (
+		<Modal className="starterblocks-builder-modal-pages-list"
+			   customClass="starterblocks-builder-modal-template-list"
+			   openTimeoutMS={0} closeTimeoutMS={0}>
+			<TabHeader/>
+			<TemplateModalProvider value={{
+				openSitePreviewModal,
                 onImportTemplate,
                 resetLibrary,
-                spinner
-            }}>
-                {
-                    errorMessages && errorMessages.length > 0 &&
-                    <ErrorNotice discardAllErrorMessages={discardAllErrorMessages} errorMessages={errorMessages}/>
-                }
-                <div className="starterblocks-collections-modal-body">
-                    {hasSidebar() && <WithSidebarLayout/>}
-                    {(hasSidebar() === false && activeItemType === 'collection') && <CollectionView/>}
-                    {(hasSidebar() === false && activeItemType !== 'collection') && <SavedView/>}
-                </div>
-                {importingBlock &&
-                <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
-                              startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
-            </TemplateModalProvider>
-        </Modal>
-    );
+				spinner
+			}}>
+				{
+					errorMessages && errorMessages.length > 0 &&
+					<ErrorNotice discardAllErrorMessages={discardAllErrorMessages} errorMessages={errorMessages}/>
+				}
+				<div className="starterblocks-collections-modal-body">
+					{hasSidebar() && <WithSidebarLayout/>}
+					{(hasSidebar() === false && activeItemType === 'collection') && <CollectionView/>}
+					{(hasSidebar() === false && activeItemType !== 'collection') && <SavedView/>}
+				</div>
+				{importingBlock &&
+				<ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
+							  startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
+			</TemplateModalProvider>
+		</Modal>
+	);
 }
 
 
 export default compose([
-    withDispatch((dispatch) => {
-        const {
-            appendErrorMessage,
+	withDispatch((dispatch) => {
+		const {
+			appendErrorMessage,
             discardAllErrorMessages,
             setLoading,
             setLibrary,
             setColumns,
-        } = dispatch('starterblocks/sectionslist');
+		} = dispatch('starterblocks/sectionslist');
 
-        const {savePost} = dispatch('core/editor');
+		const {savePost} = dispatch('core/editor');
 
-        return {
-            appendErrorMessage,
+		return {
+			appendErrorMessage,
             discardAllErrorMessages,
             setLoading,
             savePost,
             setLibrary
-        };
-    }),
+		};
+	}),
 
-    withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages} = select('starterblocks/sectionslist');
-        const {isSavingPost} = select('core/editor')
-        return {
+	withSelect((select, props) => {
+		const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages} = select('starterblocks/sectionslist');
+		const {isSavingPost} = select('core/editor')
+		return {
             fetchLibraryFromAPI,
-            activeCollection: getActiveCollection(),
-            activeItemType: getActiveItemType(),
-            errorMessages: getErrorMessages(),
-            isSavingPost: isSavingPost()
-        };
-    })
+			activeCollection: getActiveCollection(),
+			activeItemType: getActiveItemType(),
+			errorMessages: getErrorMessages(),
+			isSavingPost: isSavingPost()
+		};
+	})
 ])(LibraryModal);
