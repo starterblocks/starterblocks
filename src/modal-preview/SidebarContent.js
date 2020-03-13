@@ -1,7 +1,8 @@
 const {Component, useState} = wp.element
 const {__} = wp.i18n
+const {Tooltip} = wp.components;
 
-
+import * as Icons from '~starterblocks/icons'
 import findIndex from 'lodash/findIndex';
 import sortBy from 'lodash/sortBy';
 
@@ -22,35 +23,6 @@ function SidebarContent(props) {
 			installList.push(newRequirement);
 			setInstallList(installList);
 		}
-	}
-
-	// Version check: To be removed.
-	const updateVersionList = (newRequirement) => {
-		let index = findIndex(versionList, {plugin: newRequirement.plugin});
-		if (index === -1) { // To avoid duplicate effort
-			versionList.push(newRequirement);
-			setVersionList(versionList);
-		} else {
-			if (compareVersion(newRequirement.version, versionList[index].version) === 1) {
-				versionList.push(newRequirement);
-				setVersionList(versionList);
-			}
-		}
-	}
-
-	const compareVersion = (v1, v2) => {
-		if (typeof v1 !== 'string') return false;
-		if (typeof v2 !== 'string') return false;
-		v1 = v1.split('.');
-		v2 = v2.split('.');
-		const k = Math.min(v1.length, v2.length);
-		for (let i = 0; i < k; ++i) {
-			v1[i] = parseInt(v1[i], 10);
-			v2[i] = parseInt(v2[i], 10);
-			if (v1[i] > v2[i]) return 1;
-			if (v1[i] < v2[i]) return -1;
-		}
-		return v1.length == v2.length ? 0 : (v1.length < v2.length ? -1 : 1);
 	}
 
 	const updateProList = (newRequirement) => {
@@ -94,22 +66,32 @@ function SidebarContent(props) {
 					}</div>
 				<div className="starterblocks-dependencies-list">
 					<h4>Blocks Used</h4>
-					{Object.keys(blocks).map((keyName, i) =>
-						<div>
-							<p className="starterblocks-dependency-blocks">
-								{/*
-									TODO - Add icon here if had in Icons, and append a link to it using
-									starterblocks.supported_plugins[keyName] if had.
-								*/}
-								<span className="starterblocks-dependency-name">{starterblocks.supported_plugins[keyName].name}:</span>
-								{
-									sortBy(blocks[keyName]).map(function(item, index) {
-										return <span>{ (index ? ', ' : '') + item }</span>;
-									})
-								}
-							</p>
-						</div>
-					)}
+                    {
+                        Object.keys(blocks).map((keyName, i) => {
+                            const {name, url, version} = starterblocks.supported_plugins[keyName];
+                            const IconComponent = Icons[keyName];
+                            return (
+                                <div key={i}>
+                                    <p className="starterblocks-dependency-blocks">
+                                        {
+                                            IconComponent &&
+                                            (
+                                                <a href={url} target="_blank" className={!version ? 'missing-dependency' : ''}>
+                                                    <IconComponent/>
+                                                </a>
+                                            )
+                                        }
+                                        <span className="starterblocks-dependency-name">{name}:</span>
+                                        {
+                                            sortBy(blocks[keyName]).map(function(item, index) {
+                                                return <span>{ (index ? ', ' : '') + item }</span>;
+                                            })
+                                        }
+                                    </p>
+                                </div>
+                            )
+                        })
+                    }
 				</div>
 				<div className="requirements-list">
 					<div className="list-type">

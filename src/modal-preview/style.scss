@@ -96,3 +96,12 @@
 	z-index: 20;
 	transition: opacity 0.3s;
 }
+
+
+.starterblocks-dependency-blocks {
+	display: flex;
+	align-items: center;
+	span {
+		line-height: 25px;
+	}
+}
