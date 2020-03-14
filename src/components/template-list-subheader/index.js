@@ -78,7 +78,7 @@ function TemplateListSubHeader(props) {
                 <div className="">
                     <select name="sortBy" id="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                         <option value="name">{__('Name')}</option>
-                        <option value="popularity">{__('Popularity')}</option>
+                        {/*<option value="popularity">{__('Popularity')}</option>*/}
                         <option value="updated">{__('Updated')}</option>
                     </select>
                 </div>
