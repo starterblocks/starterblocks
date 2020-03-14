@@ -5,7 +5,7 @@ export const initialState = {
     loading: false,
     activeItemType: 'section',
     library: null,
-    columns: '',
+    columns: getWithExpiry('column', ''),
     errorMessages: [],
     section: {
         categories: [],
@@ -121,6 +121,7 @@ export const reducer = ( state = initialState, action ) => {
                 loading: action.loading
             }
         case 'SET_COLUMNS':
+            setWithExpiry('column', action.columns, EXIPRY_TIME);
             return {
                 ...state,
                 columns: action.columns
