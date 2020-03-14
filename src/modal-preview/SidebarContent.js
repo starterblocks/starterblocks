@@ -54,20 +54,24 @@ function SidebarContent(props) {
                             return (
                                 <div key={i}>
                                     <p className="starterblocks-dependency-blocks">
-                                        {
-                                            IconComponent &&
-                                            (
-                                                <a href={url} target="_blank" className={!version ? 'missing-dependency' : ''}>
-                                                    <IconComponent/>
-                                                </a>
-                                            )
-                                        }
-                                        <span className="starterblocks-dependency-name">{name}:</span>
-                                        {
-                                            sortBy(blocks[keyName]).map(function(item, index) {
-                                                return <span key={index}>{ (index ? ', ' : '') + item }</span>;
-                                            })
-                                        }
+                                        <span className="block-head">
+                                            {
+                                                IconComponent &&
+                                                (
+                                                    <a href={url} target="_blank" className={!version ? 'missing-dependency' : ''}>
+                                                        <IconComponent/>
+                                                    </a>
+                                                )
+                                            }
+                                            <span className="starterblocks-dependency-name">{name}:</span>
+                                        </span>
+                                        <span className="block-body">
+                                            {
+                                                sortBy(blocks[keyName]).map(function(item, index) {
+                                                    return <span key={index}>{ (index ? ', ' : '') + item }</span>;
+                                                })
+                                            }
+                                        </span>
                                     </p>
                                 </div>
                             )

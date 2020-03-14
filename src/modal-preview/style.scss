@@ -39,12 +39,12 @@
 .wp-full-overlay .wp-full-overlay-sidebar-content {
 	bottom: 100px;
 
+	h4 {
+		color: #23282d;
+		font-size: 1.1em;
+		margin-bottom: 0.5em;
+	}
 	.starterblocks-dependencies-list {
-		h4 {
-			color: #23282d;
-			font-size: 1.1em;
-			text-align: center;
-		}
 
 		border-top: 1px solid #eee;
 		color: #82878c;
@@ -59,7 +59,16 @@
 				margin-right: 5px;
 			}
 		}
+	}
 
+	.requirements-list {
+		ul {
+			padding-left: 20px;
+			li a {
+				display: flex;
+				align-items: center;
+			}
+		}
 	}
 }
 
@@ -99,7 +108,10 @@
 
 
 .starterblocks-dependency-blocks {
-	span {
-		line-height: 25px;
+	display: flex;
+	.block-head {
+		text-align: center;
+		width: 60px;
+		margin-right: 10px;
 	}
 }
