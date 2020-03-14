@@ -65,7 +65,7 @@ function SidebarContent(props) {
                                         <span className="starterblocks-dependency-name">{name}:</span>
                                         {
                                             sortBy(blocks[keyName]).map(function(item, index) {
-                                                return <span>{ (index ? ', ' : '') + item }</span>;
+                                                return <span key={index}>{ (index ? ', ' : '') + item }</span>;
                                             })
                                         }
                                     </p>

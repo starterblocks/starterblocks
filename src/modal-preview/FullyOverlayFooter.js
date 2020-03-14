@@ -40,11 +40,11 @@ function FullyOverlayFooter(props) {
 			<div className="devices-wrapper">
 				<div className="devices">
 					{
-						previewClassesList.map((previewObject) => {
+						previewClassesList.map((previewObject, i) => {
 							return (
 								<button type="button"
 										className={previewClass === previewObject.className ? previewObject.className + ' active' : previewObject.className}
-										aria-pressed="true"
+										aria-pressed="true" key={i}
 										onClick={() => onChangePreviewClass(previewObject.className)}>
 									<span className="screen-reader-text">{previewObject.screenReaderText}</span>
 								</button>
