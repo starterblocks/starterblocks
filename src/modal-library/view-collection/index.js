@@ -46,7 +46,7 @@ function CollectionView(props) {
                                 };
 
                                 return (
-                                    <div className={className} onClick={() => setPreviewDataIndex(index)}>
+                                    <div className={className} onClick={() => setPreviewDataIndex(index)} key={index}>
                                         <div className="detail-image" style={divStyle}>
                                             {detail.pro && <span className="pro">{__('Premium')}</span>}
                                             <div className="detail-label">{detail.name}</div>

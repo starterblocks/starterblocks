@@ -72,10 +72,10 @@ function SavedView(props) {
             <div className="starter-two-sections__grid">
                 {
                     (savedSections && savedSections.length > 0) ?
-                        mapToColumnData(savedSections).map(column => {
-                            let sections = column.map(section => {
+                        mapToColumnData(savedSections).map((column, key) => {
+                            let sections = column.map((section, i) => {
                                 return (
-                                    <div className="starter-two-section"
+                                    <div className="starter-two-section" key={i}
                                         onClick={() => importSections(section.post_content)}>
                                         <div className="preview-image-wrapper">
                                             <img src="https://brizy.b-cdn.net/screenshot/930493?t=1582105511982"
@@ -93,7 +93,7 @@ function SavedView(props) {
                             })
 
                             return (
-                                <div className="starter-two-sections__grid__column"
+                                <div className="starter-two-sections__grid__column" key={key}
                                     style={{width: '25%', flexBasis: '25%'}}>
                                     {sections}
                                 </div>
