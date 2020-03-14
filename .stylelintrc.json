@@ -14,6 +14,7 @@
 		"selector-class-pattern": null,
 		"value-keyword-case": null,
 		"length-zero-no-unit": null,
-		"font-family-no-missing-generic-family-keyword": null
-	}
+		"font-family-no-missing-generic-family-keyword": null,
+        "indentation": 4
+    }
 }
