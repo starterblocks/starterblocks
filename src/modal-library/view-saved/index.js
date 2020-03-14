@@ -2,7 +2,8 @@ const {apiFetch} = wp;
 const {Component, useState, useEffect} = wp.element;
 const {compose} = wp.compose;
 const {withDispatch} = wp.data;
-const {parse} = wp.blocks
+const {Spinner} = wp.components;
+const {parse} = wp.blocks;
 const {__} = wp.i18n;
 
 import './style.scss'
@@ -17,14 +18,15 @@ function SavedView(props) {
     if (dataLoaded === false) {
         // Initial fetch
         apiFetch({path: 'starterblocks/v1/get_saved_blocks'}).then(response => {
-            setDataLoaded(true);
             if (response.success) {
                 setSavedSections(response.data);
             } else {
                 appendErrorMessage(response.data.error);
             }
+            setDataLoaded(true);
         }).catch(error => {
             appendErrorMessage(error.code + ' : ' + error.message);
+            setDataLoaded(true);
         });
     }
 
@@ -65,45 +67,55 @@ function SavedView(props) {
             appendErrorMessage(error.code + ' : ' + error.message);
         });
     }
+    if (dataLoaded === true)
+        return (
+            <div className="starter-two-sections__grid">
+                {
+                    (savedSections && savedSections.length > 0) ?
+                        mapToColumnData(savedSections).map(column => {
+                            let sections = column.map(section => {
+                                return (
+                                    <div className="starter-two-section"
+                                        onClick={() => importSections(section.post_content)}>
+                                        <div className="preview-image-wrapper">
+                                            <img src="https://brizy.b-cdn.net/screenshot/930493?t=1582105511982"
+                                                alt="lazyLoad Image"/>
+                                        </div>
+                                        <div className="saved-section-title">
+                                            {section.post_title}
+                                        </div>
+                                        <div className="starter-two-section-remove"
+                                            onClick={e => deleteSavedSection(e, section.ID)}>
+                                            <i className="fas fa-trash"></i>
+                                        </div>
+                                    </div>
+                                );
+                            })
 
-    return (
-        <div className="starter-two-sections__grid">
-            {
-                (savedSections && savedSections.length > 0) ?
-                    mapToColumnData(savedSections).map(column => {
-                        let sections = column.map(section => {
                             return (
-                                <div className="starter-two-section"
-                                     onClick={() => importSections(section.post_content)}>
-                                    <div className="preview-image-wrapper">
-                                        <img src="https://brizy.b-cdn.net/screenshot/930493?t=1582105511982"
-                                             alt="lazyLoad Image"/>
-                                    </div>
-                                    <div className="saved-section-title">
-                                        {section.post_title}
-                                    </div>
-                                    <div className="starter-two-section-remove"
-                                         onClick={e => deleteSavedSection(e, section.ID)}>
-                                        <i className="fas fa-trash"></i>
-                                    </div>
+                                <div className="starter-two-sections__grid__column"
+                                    style={{width: '25%', flexBasis: '25%'}}>
+                                    {sections}
                                 </div>
                             );
                         })
-
-                        return (
-                            <div className="starter-two-sections__grid__column"
-                                 style={{width: '25%', flexBasis: '25%'}}>
-                                {sections}
-                            </div>
-                        );
-                    })
-                    :
-                    <div className="no-section">
-                        Nothing here yet, make a reusuable block first.
+                        :
+                        <div className="no-section">
+                            Nothing here yet, make a reusuable block first.
+                        </div>
+                }
+            </div>
+        );
+    else
+        return (
+            <div>
+                <div style={{ height: '600px' }}>
+                    <div className="starterblocks-modal-loader">
+                        <Spinner />
                     </div>
-            }
-        </div>
-    );
+                </div>
+            </div>
+        );
 }
 
 export default compose([
