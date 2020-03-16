@@ -44,7 +44,7 @@ function TemplateList(props) {
 
                         { pageData &&
                             pageData.map((data, index) => (
-                                <LazyLoad key={index} placeholder={<Loading />} throtle={100} once overflow offset={200}>
+                                <LazyLoad key={index} placeholder={<Loading />} throtle={100} once overflow offset={-100}>
                                     <div className="starterblocks-pagelist-column" key={index}>
                                         {
                                             (activeItemType !== 'collection' || activeCollection !== null) ?
