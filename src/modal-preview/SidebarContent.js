@@ -63,7 +63,7 @@ function SidebarContent(props) {
                                                     </a>
                                                 )
                                             }
-                                            <span className="starterblocks-dependency-name">{name}:</span>
+                                            <span className="starterblocks-dependency-name">{name}</span>
                                         </span>
                                         <span className="block-body">
                                             {

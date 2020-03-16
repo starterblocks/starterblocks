@@ -150,15 +150,14 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
             }
             insertBlocks(insertedBlock);
             createSuccessNotice('Template inserted', {type: 'snackbar'});
-            savePost().then(() => {
-                if (installedDependencies === true)
-                    window.location.reload();
-                else {
-                    ModalManager.close();
-                    ModalManager.closeCustomizer();
-                    ModalManager.closeWizard();
-                }
-            });
+            if (installedDependencies === true)
+                savePost().then(() => window.location.reload());
+            else {
+                ModalManager.close();
+                ModalManager.closeCustomizer();
+                ModalManager.closeWizard();
+
+            }
         } else {
             errorCallback(response.data.error);
         }
