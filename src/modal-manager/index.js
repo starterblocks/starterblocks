@@ -85,7 +85,7 @@ const Manager = {
 		wp.element.render(component, customizerNode);
 	},
 	closeCustomizer() {
-		wp.element.unmountComponentAtNode(customizerNode);
+        if (customizerNode) wp.element.unmountComponentAtNode(customizerNode);
 	},
 
 	openWizard(component) {
@@ -98,7 +98,7 @@ const Manager = {
 		wp.element.render(component, wizardNode);
 	},
 	closeWizard() {
-		wp.element.unmountComponentAtNode(wizardNode);
+		if (wizardNode) wp.element.unmountComponentAtNode(wizardNode);
 	}
 
 }
