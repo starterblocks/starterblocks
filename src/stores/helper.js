@@ -9,6 +9,7 @@ const {dispatch} = wp.data;
 
 const {savePost} = dispatch('core/editor');
 const {insertBlocks} = dispatch('core/block-editor');
+const {createSuccessNotice} = dispatch('core/notices');
 import {ModalManager} from '~starterblocks/modal-manager';
 
 export const getCurrentState = (state) => state[state.activeItemType]
@@ -147,18 +148,17 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
                 }
                 insertedBlock = createBlock(response.data.name, response.data.attributes, response.data.innerBlocks)
             }
-            let insert = insertBlocks(insertedBlock);
-            setTimeout(() => {
-                savePost().then(() => {
-                    if (installedDependencies === true)
-                        window.location.reload();
-                    else {
-                        ModalManager.close();
-                        ModalManager.closeCustomizer();
-                        ModalManager.closeWizard();
-                    }
-                });
-            }, 5000);
+            insertBlocks(insertedBlock);
+            createSuccessNotice('Template inserted', {type: 'snackbar'});
+            savePost().then(() => {
+                if (installedDependencies === true)
+                    window.location.reload();
+                else {
+                    ModalManager.close();
+                    ModalManager.closeCustomizer();
+                    ModalManager.closeWizard();
+                }
+            });
         } else {
             errorCallback(response.data.error);
         }
