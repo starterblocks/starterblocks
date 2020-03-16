@@ -9,7 +9,7 @@ const {dispatch} = wp.data;
 
 const {savePost} = dispatch('core/editor');
 const {insertBlocks} = dispatch('core/block-editor');
-const {createSuccessNotice} = dispatch('core/notices');
+const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
 import {ModalManager} from '~starterblocks/modal-manager';
 
 export const getCurrentState = (state) => state[state.activeItemType]
@@ -151,7 +151,7 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
             insertBlocks(insertedBlock);
             createSuccessNotice('Template inserted', {type: 'snackbar'});
             if (installedDependencies === true)
-                savePost().then(() => window.location.reload());
+                savePost().then(() => window.location.reload()).catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
             else {
                 ModalManager.close();
                 ModalManager.closeCustomizer();
