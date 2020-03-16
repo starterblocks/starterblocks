@@ -44,10 +44,11 @@ function TemplateList(props) {
 
                         { pageData &&
                             pageData.map((data, index) => (
-                                <LazyLoad key={index} placeholder={<Loading />} throtle={100} once overflow offset={-100}>
-                                    <div className="starterblocks-pagelist-column" key={index}>
-                                        {
-                                            (activeItemType !== 'collection' || activeCollection !== null) ?
+                                (activeItemType !== 'collection' || activeCollection !== null) ?
+                                    <LazyLoad key={index} placeholder={<Loading />} throtle={100} once overflow offset={-100}>
+                                        <div className="starterblocks-pagelist-column" key={index}>
+                                            {
+
                                                 <SingleItemProvider value={{
                                                     data,
                                                     pageData,
@@ -61,20 +62,23 @@ function TemplateList(props) {
                                                         backgroundImage={(data) => getBackgroundImage(data)}
                                                     />
                                                 </SingleItemProvider>
-                                            :
-                                                <MultipleItem
-                                                    key={index}
-                                                    data={data}
-                                                    index={index}
-                                                    types={types}
-                                                    itemType={activeItemType}
-                                                    spinner={false}
-                                                    onSelectCollection={onSelectCollection}
-                                                    backgroundImage={getBackgroundImage.bind(data)}
-                                                />
-                                        }
+
+                                            }
+                                        </div>
+                                    </LazyLoad>
+                                    :
+                                    <div className="starterblocks-pagelist-column" key={index}>
+                                        <MultipleItem
+                                            key={index}
+                                            data={data}
+                                            index={index}
+                                            types={types}
+                                            itemType={activeItemType}
+                                            spinner={false}
+                                            onSelectCollection={onSelectCollection}
+                                            backgroundImage={getBackgroundImage.bind(data)}
+                                        />
                                     </div>
-                                </LazyLoad>
                             ))
                         }
                     </div>
