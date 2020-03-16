@@ -111,6 +111,9 @@ const store = registerStore('starterblocks/sectionslist', {
         },
         getErrorMessages(state) {
             return state.errorMessages;
+        },
+        getInstalledDependencies(state) {
+            return state.installedDependencies;
         }
     },
 

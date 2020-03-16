@@ -75,5 +75,11 @@ export const actions = {
         return {
             type: 'DISCARD_ALL_ERROR_MESSAGES'
         }
+    },
+    setInstalledDependencies(installedDependencies) {
+        return {
+            type: 'SET_INSTALLED_DEPENDENCIES',
+            installedDependencies
+        }
     }
 };

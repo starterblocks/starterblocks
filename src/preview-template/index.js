@@ -16,7 +16,7 @@ import { Fragment } from 'react';
 function PreviewTemplate(props) {
 
     const { startIndex, currentPageData } = props;
-    const { discardAllErrorMessages, appendErrorMessage, activeItemType, savePost} = props;
+    const { discardAllErrorMessages, appendErrorMessage, activeItemType, savePost, installedDependencies} = props;
     const [ currentIndex, setCurrentIndex ] = useState(startIndex);
     const [ previewClass, setPreviewClass ] = useState('preview-desktop')
     const [ expandedClass, toggleExpanded ] = useState('expanded')
@@ -48,7 +48,7 @@ function PreviewTemplate(props) {
 
     const processImport = () => {
 		discardAllErrorMessages();
-		processImportHelper(itemData, activeItemType === 'section' ? 'sections' : 'pages', appendErrorMessage);
+		processImportHelper(itemData, activeItemType === 'section' ? 'sections' : 'pages', installedDependencies, appendErrorMessage);
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
@@ -88,7 +88,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const { getActiveItemType } = select('starterblocks/sectionslist');
-        return { activeItemType: getActiveItemType() };
+        const { getActiveItemType, getInstalledDependencies } = select('starterblocks/sectionslist');
+        return { activeItemType: getActiveItemType(), installedDependencies: getInstalledDependencies() };
     })
 ])(PreviewTemplate);

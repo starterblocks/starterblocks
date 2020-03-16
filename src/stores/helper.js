@@ -120,7 +120,7 @@ export const missingRequirement = (pro, requirements) => {
 }
 
 
-export const processImportHelper = (data, type, errorCallback) => {
+export const processImportHelper = (data, type, installedDependencies, errorCallback) => {
     let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
     if (data.source_id) {
         the_url += '&sid=' + data.source_id + '&source=' + data.source;
@@ -131,6 +131,7 @@ export const processImportHelper = (data, type, errorCallback) => {
         path: the_url,
         headers: {'Content-Type': 'application/json'}
     };
+
     apiFetch(options).then(response => {
         if (response.success && response.data.template) {
             //import template
@@ -149,9 +150,13 @@ export const processImportHelper = (data, type, errorCallback) => {
             let insert = insertBlocks(insertedBlock);
             setTimeout(() => {
                 savePost().then(() => {
-                    // TODO - Let's have a store value of intalled_dependencies set to true. Then IF detected, we do the reload, else we close the modal.
-                    // window.location.reload();
-                    ModalManager.close();
+                    if (installedDependencies === true)
+                        window.location.reload();
+                    else {
+                        ModalManager.close();
+                        ModalManager.closeCustomizer();
+                        ModalManager.closeWizard();
+                    }
                 });
             }, 5000);
         } else {

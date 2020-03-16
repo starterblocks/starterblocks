@@ -34,7 +34,8 @@ export const initialState = {
         searchContext: '',
         activeCollection: null,
         sortBy: 'name'
-    }
+    },
+    installedDependencies: false
 };
 
 export const reducer = ( state = initialState, action ) => {
@@ -135,6 +136,11 @@ export const reducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 errorMessages: []
+            }
+        case 'SET_INSTALLED_DEPENDENCIES':
+            return {
+                ...state,
+                installedDependencies: action.installedDependencies
             }
     }
 

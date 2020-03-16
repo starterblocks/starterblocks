@@ -4,7 +4,6 @@ const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
 const {Component, Fragment, useState, useRef} = wp.element;
 const {Spinner} = wp.components;
-const {isSavingPost} = select('core/editor');
 
 import '../stores';
 
@@ -25,7 +24,7 @@ import './style.scss'
 function LibraryModal(props) {
 	const {
 		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns,
-		appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost
+		appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost, installedDependencies
 	} = props;
 	const [spinner, setSpinner] = useState(null);
 	const [loaded, setLoaded] = useState(false);
@@ -77,7 +76,7 @@ function LibraryModal(props) {
 	const processImport = () => {
 		discardAllErrorMessages();
 		setSpinner(null);
-		processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', registerError)
+		processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', installedDependencies, registerError)
 	}
 
 
@@ -141,14 +140,13 @@ export default compose([
 	}),
 
 	withSelect((select, props) => {
-		const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages} = select('starterblocks/sectionslist');
-		const {isSavingPost} = select('core/editor')
+		const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getInstalledDependencies} = select('starterblocks/sectionslist');
 		return {
             fetchLibraryFromAPI,
 			activeCollection: getActiveCollection(),
 			activeItemType: getActiveItemType(),
 			errorMessages: getErrorMessages(),
-			isSavingPost: isSavingPost()
+            installedDependencies: getInstalledDependencies()
 		};
 	})
 ])(LibraryModal);
