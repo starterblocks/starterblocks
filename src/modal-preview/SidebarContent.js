@@ -91,9 +91,9 @@ function SidebarContent(props) {
                                             const IconComponent = Icons[keyName];
                                             return (
                                             <li key={keyName}>
-                                                <a href={url} target="_blank">
+                                                <a href={url} target="_blank" className="missing">
                                                     { IconComponent && <IconComponent/> }
-                                                    <span className="starterblocks-dependency-name">{name}:</span>
+                                                    <span className="starterblocks-dependency-name">{name}</span>
                                                 </a>
                                             </li>);
                                         })
@@ -112,9 +112,9 @@ function SidebarContent(props) {
                                             const IconComponent = Icons[keyName];
                                             return (
                                                 <li key={keyName}>
-                                                    <a href={url} target="_blank">
+                                                    <a href={url} target="_blank" className="missing">
                                                         { IconComponent && <IconComponent/> }
-                                                        <span className="starterblocks-dependency-name">{name}:</span>
+                                                        <span className="starterblocks-dependency-name">{name}</span>
                                                     </a>
                                                 </li>
                                             );

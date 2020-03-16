@@ -112,3 +112,15 @@ button {
         margin-right: 10px;
     }
 }
+
+
+.requirements-list {
+    margin-top: 50px;
+    a.missing {
+        display: inline-flex;
+    }
+
+    .list-type ul {
+        padding-left: 25px;
+    }
+}
