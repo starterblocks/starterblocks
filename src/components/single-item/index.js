@@ -43,12 +43,9 @@ const SingleItem = (props) => {
 			<div
 				className={'starterblocks-single-item-inner starterblocks-item-wrapper '}>
 				<div className="starterblocks-default-template-image">
-                    <LazyLoad scrollContainer="modalContent" key={ID} placeholder={<Loading height={height} />} height={height} debounce={true}
-                        once overflow offset={-200}>
-                        <img className="lazy" src={backgroundImage(image)}/>
-                        {pro && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
-                        <div className="starterblocks-tmpl-title">{data.name}</div>
-                    </LazyLoad>
+                    <img className="lazy" src={backgroundImage(image)}/>
+                    {pro && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
+                    <div className="starterblocks-tmpl-title">{data.name}</div>
 				</div>
 				{/* starterblocks-default-template-image */}
 				<div className="starterblocks-button-overlay">
