@@ -2,7 +2,6 @@ const { Component, useState } = wp.element;
 const { compose, withState } = wp.compose;
 const { withDispatch, withSelect, select } = wp.data;
 const { Spinner } = wp.components;
-import LazyLoad from 'react-lazyload';
 
 import SingleItem from '../../components/single-item'
 import MultipleItem from '../../components/multiple-item'
@@ -12,11 +11,6 @@ import { SingleItemProvider } from '../../contexts/SingleItemContext';
 
 import PreviewModal from '../../modal-preview';
 
-const Loading = () => (
-    <div className="starterblocks-pagelist-column loading" >
-        <Spinner />
-    </div>
-);
 
 function TemplateList(props) {
     const { pageData, loading, activeItemType, activeCollection, columns } = props;
@@ -45,27 +39,25 @@ function TemplateList(props) {
                         { pageData &&
                             pageData.map((data, index) => (
                                 (activeItemType !== 'collection' || activeCollection !== null) ?
-                                    <LazyLoad key={index} placeholder={<Loading />} throtle={100} once overflow offset={-100}>
-                                        <div className="starterblocks-pagelist-column" key={index}>
-                                            {
+                                    <div className="starterblocks-pagelist-column" key={index}>
+                                        {
+                                            <SingleItemProvider value={{
+                                                data,
+                                                pageData,
+                                                index,
+                                                activeItemType,
+                                                spinner: false,
+                                                column: columns,
+                                                showDependencyBlock: true
+                                            }}>
+                                                <SingleItem
+                                                    key={index}
+                                                    backgroundImage={(data) => getBackgroundImage(data)}
+                                                />
+                                            </SingleItemProvider>
 
-                                                <SingleItemProvider value={{
-                                                    data,
-                                                    pageData,
-                                                    index,
-                                                    activeItemType,
-                                                    spinner: false,
-                                                    showDependencyBlock: true
-                                                }}>
-                                                    <SingleItem
-                                                        key={index}
-                                                        backgroundImage={(data) => getBackgroundImage(data)}
-                                                    />
-                                                </SingleItemProvider>
-
-                                            }
-                                        </div>
-                                    </LazyLoad>
+                                        }
+                                    </div>
                                     :
                                     <div className="starterblocks-pagelist-column" key={index}>
                                         <MultipleItem

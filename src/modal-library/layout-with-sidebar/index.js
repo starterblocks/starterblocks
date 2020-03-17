@@ -6,18 +6,18 @@ import TemplateList from '../view-template-list';
 
 
 function WithSidebarCollection (props) {
-    const { pageData } = props;
+    const { pageData, activeItemType } = props;
     const contentAreaRef = useRef(null);
-    useEffect(() => {
+    /* useEffect(() => {
         contentAreaRef.current.scrollTop = 0;
-    }, [pageData])
+    }, [pageData, activeItemType]) */
 
     return (
         <Fragment>
             <div className="starterblocks-collection-modal-sidebar">
                 <Sidebar />
             </div>
-            <div className="starterblocks-collection-modal-content-area" ref={contentAreaRef}>
+            <div className="starterblocks-collection-modal-content-area" id="modalContent" ref={contentAreaRef}>
                 <TemplateListSubHeader />
                 <TemplateList />
             </div>
@@ -28,6 +28,6 @@ function WithSidebarCollection (props) {
 
 export default
     withSelect((select, props) => {
-        const { getPageData } = select('starterblocks/sectionslist');
-        return { pageData: getPageData() };
+        const { getPageData, getActiveItemType } = select('starterblocks/sectionslist');
+        return { pageData: getPageData(), activeItemType: getActiveItemType() };
     })(WithSidebarCollection);

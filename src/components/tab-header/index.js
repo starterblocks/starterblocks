@@ -16,6 +16,11 @@ function TabHeader(props) {
         if (activeItemType !=='saved') setSearchContext(e.target.value);
     }
 
+    const changeTab = (tabName) => {
+        document.getElementById('modalContent').scrollTop = 0;
+        setActiveItemType(tabName);
+    }
+
     return (
         <div className="starterblocks-builder-modal-header">
             <div className="template-search-box">
@@ -29,10 +34,10 @@ function TabHeader(props) {
             </div>
 
             <div className="starterblocks-template-list-header">
-                <button className={ isActive('section') } onClick={e => setActiveItemType('section')}> {__('Sections')} </button>
-                <button className={ isActive('page') } onClick={e => setActiveItemType('page')}> {__('Pages')} </button>
-                <button className={ isActive('collection') } onClick={e => setActiveItemType('collection')}> {__('Collections')} </button>
-                <button className={ isActive('saved') } onClick={e => setActiveItemType('saved')}> {__('Saved')} </button>
+                <button className={ isActive('section') } onClick={e => changeTab('section')}> {__('Sections')} </button>
+                <button className={ isActive('page') } onClick={e => changeTab('page')}> {__('Pages')} </button>
+                <button className={ isActive('collection') } onClick={e => changeTab('collection')}> {__('Collections')} </button>
+                <button className={ isActive('saved') } onClick={e => changeTab('saved')}> {__('Saved')} </button>
                 <button className="starterblocks-builder-close-modal" onClick={e => { ModalManager.close() }} >
                     <i className={'fas fa-times'} />
                 </button>
