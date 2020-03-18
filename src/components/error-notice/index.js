@@ -1,9 +1,9 @@
-const {__} = wp.i18n
-const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
-const {Notice} = wp.components;
+import {__} from '@wordpress/i18n';
+import {compose} from '@wordpress/compose';
+import {withDispatch, withSelect, select} from '@wordpress/data';
+import {Notice} from '@wordpress/components';
 
-function ErrorNotice(props) {
+export function ErrorNotice(props) {
     const {discardAllErrorMessages, errorMessages} = props;
     return(
         <Notice status="error" onRemove={discardAllErrorMessages}>

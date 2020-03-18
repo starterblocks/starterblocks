@@ -27,6 +27,7 @@
     "counterup2": "^1.0.4",
     "deep-copy": "^1.4.2",
     "deepmerge": "^3.2.0",
+    "enzyme-to-json": "^3.4.4",
     "is-dark-color": "^1.2.0",
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
