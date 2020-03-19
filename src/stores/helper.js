@@ -146,14 +146,21 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
                 if (!('name' in response.data)) {
                     errorCallback('Template malformed, `name` for block not specified.');
                 }
-                block_data = createBlock(response.data.name, response.data.attributes, response.data.innerBlocks)
+                // This kind of plugins are not ready to accept before reloading, thus, we save it into localStorage and just reload for now.
+                if (true) { //(installedDependencies === true)
+                    localStorage.setItem('block_data', JSON.stringify(response.data));
+                    window.location.reload();
+                } else
+                    block_data = createBlock(response.data.name, response.data.attributes, response.data.innerBlocks)
             } else {
                 errorCallback('Template error. Please try again.');
             }
             insertBlocks(block_data)
             createSuccessNotice('Template inserted', {type: 'snackbar'});
             if (installedDependencies === true)
-                savePost().then(() => window.location.reload()).catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
+                savePost()
+                    .then(() => window.location.reload())
+                    .catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
             else {
                 ModalManager.close();
                 ModalManager.closeCustomizer();
@@ -200,4 +207,19 @@ export const getWithExpiry = (key, defaultValue = null) => {
         return defaultValue;
     }
     return item.value;
+}
+
+
+export const handlingLocalStorageData = () => {
+    try {
+        let blockData = localStorage.getItem('block_data');
+        if (!blockData) return;
+        blockData = JSON.parse(blockData);
+        blockData = createBlock(blockData.name, blockData.attributes, blockData.innerBlocks);
+        insertBlocks(blockData);
+        createSuccessNotice('Template inserted', {type: 'snackbar'});
+        localStorage.setItem('block_data', null);
+    } catch(error) {
+        alert(error.code + ' : ' + error.message);
+    }
 }

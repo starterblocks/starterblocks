@@ -14,7 +14,7 @@ import { render } from '@wordpress/element'
 import './editor.scss'
 import './sidebar-share'
 import ToolbarLibraryButton from './toolbar-library-button'
-
+import {handlingLocalStorageData} from './stores/helper';
 
 domReady(() => {
 	const toolbar = document.querySelector('.edit-post-header-toolbar')
@@ -23,5 +23,6 @@ domReady(() => {
 	}
 	const buttonDiv = document.createElement('div')
 	toolbar.appendChild(buttonDiv)
-	render(<ToolbarLibraryButton/>, buttonDiv)
+    render(<ToolbarLibraryButton/>, buttonDiv)
+    handlingLocalStorageData();
 });
