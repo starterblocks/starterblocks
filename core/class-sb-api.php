@@ -76,12 +76,11 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
                 );
                 foreach($data['sections'] as $k=>$section) {
 
+//                    $section['blocks']['kioken'] =$section['blocks']['qubely'];
+//                    $section['source'] = 'kioken';
+//                    unset($section['blocks']['qubely']);
 
-                    $section['blocks']['kioken'] =$section['blocks']['qubely'];
-                    $section['source'] = 'kioken';
-                    unset($section['blocks']['qubely']);
-
-                    $data['sections'][$k] = $section;
+//                    $data['sections'][$k] = $section;
 
 //                    print_r($section);
 //                    exit();
@@ -216,10 +215,10 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 //			echo PHP_EOL;
 
 
-            $path = trailingslashit(
-                        dirname( __FILE__ )
-                    )  . 'kioken.json';
-            $response = json_decode(file_get_contents($path), true);
+//            $path = trailingslashit(
+//                        dirname( __FILE__ )
+//                    )  . 'kioken.json';
+//            $response = json_decode(file_get_contents($path), true);
 
 			if ( empty( $response ) ) {
 
