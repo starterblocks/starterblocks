@@ -6,6 +6,7 @@ import SVGStarterBlocksIcon from './images/starterblocks-icon.svg'
 import SVGAdvancedGutenbergBlocksIcon from './images/third-party/advanced-gutenberg-blocks.svg'
 import SVGCoBlocksIcon from './images/third-party/coblocks.svg'
 import SVGCreativeBlocksIcon from './images/third-party/creative-blocks.svg'
+import SVGKiokenIcon from './images/third-party/kioken.svg'
 import SVGEssentialBlocksIcon from './images/third-party/eb.svg'
 import SVGElegantBlocksIcon from './images/third-party/elegant-blocks.svg'
 import SVGQubelyIcon from './images/third-party/qubely.svg'
@@ -94,6 +95,11 @@ export const Qubely = () => {
 	return <SVGQubelyIcon width="20" height="20"/>
 }
 export const qubely = () => <Qubely/>
+
+export const Kioken = () => {
+    return <SVGKiokenIcon width="20" height="20"/>
+}
+export const kioken = () => <Kioken/>
 
 
 export const CreativeBlocks = () => {

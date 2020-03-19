@@ -49,7 +49,7 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 			if ( !isset( $parameters['no_cache'] ) ) {
 			    $data = get_transient( 'starterblocks_get_library_' . $type );
 			}
-//			$data = array();
+			$data = array();
 
 			if ( empty( $data ) ) {
 
@@ -77,11 +77,11 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
                 foreach($data['sections'] as $k=>$section) {
 
 
-//                    $section['blocks']['ugb'] =$section['blocks']['qubely'];
-//                    $section['source'] = 'ugb';
-//                    unset($section['blocks']['qubely']);
-//
-//                    $data['sections'][$k] = $section;
+                    $section['blocks']['kioken'] =$section['blocks']['qubely'];
+                    $section['source'] = 'kioken';
+                    unset($section['blocks']['qubely']);
+
+                    $data['sections'][$k] = $section;
 
 //                    print_r($section);
 //                    exit();
@@ -218,7 +218,7 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 
             $path = trailingslashit(
                         dirname( __FILE__ )
-                    )  . 'stackable.json';
+                    )  . 'kioken.json';
             $response = json_decode(file_get_contents($path), true);
 
 			if ( empty( $response ) ) {
