@@ -213,8 +213,9 @@ export const getWithExpiry = (key, defaultValue = null) => {
 export const handlingLocalStorageData = () => {
     try {
         let blockData = localStorage.getItem('block_data');
-        if (!blockData) return;
+        if (!blockData || blockData == null) return;
         blockData = JSON.parse(blockData);
+        if (!blockData || blockData == null) return;
         blockData = createBlock(blockData.name, blockData.attributes, blockData.innerBlocks);
         insertBlocks(blockData);
         createSuccessNotice('Template inserted', {type: 'snackbar'});
