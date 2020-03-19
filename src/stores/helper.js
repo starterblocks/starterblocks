@@ -147,7 +147,7 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
                     errorCallback('Template malformed, `name` for block not specified.');
                 }
                 // This kind of plugins are not ready to accept before reloading, thus, we save it into localStorage and just reload for now.
-                if (true) { //(installedDependencies === true)
+                if (installedDependencies === true) {
                     localStorage.setItem('block_data', JSON.stringify(response.data));
                     window.location.reload();
                 } else
