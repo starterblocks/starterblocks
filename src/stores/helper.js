@@ -150,8 +150,9 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
                 if (installedDependencies === true) {
                     localStorage.setItem('block_data', JSON.stringify(response.data));
                     window.location.reload();
-                } else
+                } else {
                     block_data = createBlock(response.data.name, response.data.attributes, response.data.innerBlocks)
+                }
             } else {
                 errorCallback('Template error. Please try again.');
             }
@@ -220,7 +221,7 @@ export const handlingLocalStorageData = () => {
         insertBlocks(blockData);
         createSuccessNotice('Template inserted', {type: 'snackbar'});
         localStorage.setItem('block_data', null);
-    } catch(error) {
+    } catch (error) {
         alert(error.code + ' : ' + error.message);
     }
 }
