@@ -81,6 +81,11 @@ if ( ! function_exists( 'starterblocks_plugin_install' ) ) {
 
 		if ( ! empty( $pluginPath ) ) {
 			if ( is_plugin_active( $pluginCheck ) && ! isset( $status['install'] ) ) {
+			    // Disable Stackable Welcome Page
+			    if ( $slug == 'stackable' ) {
+                    update_option( 'stackable_redirect_to_welcome', '1' );
+                }
+
 				$status['activate'] = "active";
 			} else {
 				activate_plugin( $pluginCheck );
