@@ -134,21 +134,23 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
     };
 
     apiFetch(options).then(response => {
-        if (response.success && response.data.template) {
+        if (response.success && response.data) {
             //import template
-            let insertedBlock = null;
-            if (response.data.template) {
-                insertedBlock = parse(response.data.template);
-            } else if (('attributes' in response.data)) {
+            let block_data = null;
+            if ('template' in response.data) {
+                block_data = parse(response.data.template);
+            } else if ('attributes' in response.data) {
                 if (!('innerBlocks' in response.data)) {
-                    response.data.innerBlocks = {};
+                    response.data.innerBlocks = [];
                 }
                 if (!('name' in response.data)) {
                     errorCallback('Template malformed, `name` for block not specified.');
                 }
-                insertedBlock = createBlock(response.data.name, response.data.attributes, response.data.innerBlocks)
+                block_data = createBlock(response.data.name, response.data.attributes, response.data.innerBlocks)
+            } else {
+                errorCallback('Template error. Please try again.');
             }
-            insertBlocks(insertedBlock);
+            insertBlocks(block_data)
             createSuccessNotice('Template inserted', {type: 'snackbar'});
             if (installedDependencies === true)
                 savePost().then(() => window.location.reload()).catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
