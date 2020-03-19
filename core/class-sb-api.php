@@ -49,11 +49,9 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 			if ( !isset( $parameters['no_cache'] ) ) {
 			    $data = get_transient( 'starterblocks_get_library_' . $type );
 			}
+//			$data = array();
 
 			if ( empty( $data ) ) {
-				$path = trailingslashit(
-							dirname( __FILE__ )
-						) . 'library' . DIRECTORY_SEPARATOR . $type . '.json';
 
 				$config = array(
 					'path'    => 'library/' . (string) sanitize_text_field( $type ),
@@ -76,7 +74,18 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
                     'sections'=>array(),
                     'pages'=> array()
                 );
-                foreach($data['sections'] as $section) {
+                foreach($data['sections'] as $k=>$section) {
+
+
+//                    $section['blocks']['ugb'] =$section['blocks']['qubely'];
+//                    $section['source'] = 'ugb';
+//                    unset($section['blocks']['qubely']);
+//
+//                    $data['sections'][$k] = $section;
+
+//                    print_r($section);
+//                    exit();
+
                     foreach(array_keys($section['blocks']) as $key) {
                         if (!isset($blocks['sections'][$key])) {
                             $blocks['sections'][$key] = 0;
@@ -202,6 +211,15 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 			);
 
 			$response = get_transient( 'starterblocks_get_template_' . $config['id'] );
+
+//			print_r($response);
+//			echo PHP_EOL;
+
+
+            $path = trailingslashit(
+                        dirname( __FILE__ )
+                    )  . 'stackable.json';
+            $response = json_decode(file_get_contents($path), true);
 
 			if ( empty( $response ) ) {
 
