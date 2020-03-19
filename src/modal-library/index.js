@@ -61,7 +61,7 @@ function LibraryModal(props) {
 
 	const importStarterBlock = (data, type) => {
         const dependencies = dependencyHelper.checkTemplateDependencies(data);
-		setMissingPlugin(dependencies.missingPluginArray);//dependencies.missingPluginArray);
+		setMissingPlugin(dependencies.missingPluginArray);
 		setMissingPro(dependencies.missingProArray);
 		setImportingBlock(data);
 	}
