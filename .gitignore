@@ -15,6 +15,8 @@ assets/js/starterblocks.*.js
 assets/js/vendor.*.js.map
 assets/js/vendor.*.js
 vendor/composer/installers/**/*
+vendor/composer/LICENSE
+vendor/composer/installed.json
 composer.lock
 
 # Runtime data
