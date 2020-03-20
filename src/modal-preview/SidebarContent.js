@@ -10,8 +10,8 @@ import filter from 'lodash/filter';
 import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 
 function SidebarContent(props) {
-    const {itemData} = props;
-    const {name, image, pro, blocks} = itemData;
+    const {itemData, pro} = props;
+    const {name, image, blocks} = itemData;
     const [installList, setInstallList] = useState([]);
     const [proList, setProList] = useState([]);
     const [loaded, setLoaded] = useState(false);
@@ -20,10 +20,6 @@ function SidebarContent(props) {
     useEffect(() => {
         collectMissingRequirements(); // This methods is different from the others, it updates the source of
     }, [itemData]);
-
-    const isProReason = () => {
-        return (!starterblocks.mokama && pro === true);
-    }
 
     const collectMissingRequirements = () => {
         const dependencies = dependencyHelper.checkTemplateDependencies(itemData);
@@ -42,7 +38,7 @@ function SidebarContent(props) {
             <div className="install-theme-info">
                 <h3 className="theme-name">{name}</h3>
                 <div className="theme-screenshot-wrap">
-                    <img className="theme-screenshot" src={image} alt=""/>{pro ?
+                    <img className="theme-screenshot" src={image} alt=""/>{ pro ?
                         <span className="starterblocks-pro-badge">{__('Premium')}</span> : ''
                     }</div>
                 <div className="starterblocks-dependencies-list">

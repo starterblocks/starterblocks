@@ -5,7 +5,7 @@ const { Spinner } = wp.components;
 import LazyLoad from 'react-lazyload';
 import SingleItemContext from '../../contexts/SingleItemContext';
 import ButtonGroup from '../button-group';
-import {missingPro, missingRequirement} from '../../stores/helper';
+import {isBlockPro, missingPro, missingRequirement} from '../../stores/helper';
 import './style.scss'
 
 const Loading = ({height}) => (
@@ -20,10 +20,10 @@ const LARGE_HEIGHT = 468;
 
 const SingleItem = (props) => {
 	// Decoupling props
-	const {data, column} = useContext(SingleItemContext);
+    const {data, column} = useContext(SingleItemContext);
 
 	const {backgroundImage} = props;
-    const {ID, image, url, pro, requirements} = data;
+    const {ID, image, url, pro, source, requirements} = data;
 
     let height = NORMAL_HEIGHT;
     if (column === 'large') height = LARGE_HEIGHT;
@@ -44,12 +44,12 @@ const SingleItem = (props) => {
 				className={'starterblocks-single-item-inner starterblocks-item-wrapper '}>
 				<div className="starterblocks-default-template-image">
                     <img className="lazy" src={backgroundImage(image)}/>
-                    {pro && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
+                    {isBlockPro(pro, source) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
                     <div className="starterblocks-tmpl-title">{data.name}</div>
 				</div>
 				{/* starterblocks-default-template-image */}
 				<div className="starterblocks-button-overlay">
-					{pro && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
+                    {isBlockPro(pro, source) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
 					<ButtonGroup />
 				</div>
 

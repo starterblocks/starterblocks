@@ -27,7 +27,7 @@ function TemplateList(props) {
         setActiveCollection(collectionID);
     }
 
-    let types = starterblocks.mokama ? 'active' : 'inactive';
+    let types = starterblocks.mokama === '1' ? 'active' : 'inactive';
     // Render Part
     if (!loading)
         return (

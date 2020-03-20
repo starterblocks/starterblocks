@@ -17,7 +17,7 @@ function TabHeader(props) {
     }
 
     const changeTab = (tabName) => {
-        document.getElementById('modalContent').scrollTop = 0;
+        if (document.getElementById('modalContent')) document.getElementById('modalContent').scrollTop = 0;
         setActiveItemType(tabName);
     }
 

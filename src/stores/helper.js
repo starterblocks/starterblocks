@@ -96,6 +96,13 @@ export const getCollectionChildrenData = (library, activeCollection) => {
     return childrenSections;
 }
 
+// Check if the block is pro
+export const isBlockPro = (pro, source) => {
+    if (source && starterblocks.supported_plugins.hasOwnProperty(source))
+        return (pro && !starterblocks.supported_plugins[source]);
+    else
+        return pro && starterblocks.mokama !== '1';
+}
 
 export const missingPro = (pro) => {
     return (starterblocks.mokama !== '1' && pro === true);

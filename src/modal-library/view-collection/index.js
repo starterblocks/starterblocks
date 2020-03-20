@@ -1,13 +1,13 @@
 const {useState} = wp.element;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
-
 const {__} = wp.i18n
 
 import './style.scss'
 
 import ButtonGroup from '../../components/button-group';
 import {SingleItemProvider} from '../../contexts/SingleItemContext';
+import {isBlockPro} from '../../stores/helper';
 
 function CollectionView(props) {
     const {pageData, loading, activeCollection, activeItemType} = props;
@@ -17,7 +17,6 @@ function CollectionView(props) {
 
     const dataLength = pageData.length;
 
-    let types = starterblocks.mokama ? 'active' : 'inactive';
     let previewData = pageData[previewDataIndex];
 
     // Render Part
@@ -48,7 +47,7 @@ function CollectionView(props) {
                                 return (
                                     <div className={className} onClick={() => setPreviewDataIndex(index)} key={index}>
                                         <div className="detail-image" style={divStyle}>
-                                            {detail.pro && <span className="pro">{__('Premium')}</span>}
+                                            {isBlockPro(detail.pro, detail.source) && <span className="pro">{__('Premium')}</span>}
                                             <div className="detail-label">{detail.name}</div>
                                         </div>
                                     </div>
