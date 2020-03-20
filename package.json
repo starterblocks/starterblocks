@@ -146,7 +146,8 @@
     "test": "jest --watchAll",
     "start": "webpack --config .config/webpack.config.dev.js --watch",
     "build": "NODE_ENV=production webpack --config .config/webpack.config.prod.js",
-    "release": "NODE_ENV=production webpack --config ./config/webpack.config.prod.js && gulp"
+    "release": "yarn build && gulp",
+    "deploy": "yarn release && .config/push_to_master.sh"
   },
   "lint-staged": {
     "*.scss": [
