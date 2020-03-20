@@ -47,12 +47,6 @@ if ( ! class_exists( 'StarterBlocks_Supported_Plugins' ) ) {
                 }
 
             }
-
-
-//		print_r(self::$plugins);
-//		exit();
-
-
         }
 
         private static function set_plugins() {
@@ -123,11 +117,6 @@ if ( ! class_exists( 'StarterBlocks_Supported_Plugins' ) ) {
                     'url'          => 'https://www.themeum.com/qubely-pricing/',
                     'has_pro'      => true,
                     'premium_slug' => 'qubely-pro',
-                ),
-                'qubely-pro'                 => array(
-                    'name'   => 'Qubely Pro',
-                    'url'    => 'https://www.themeum.com/qubely-pricing/',
-                    'is_pro' => true,
                 ),
                 'qodeblock'                  => array(
                     'name'    => 'Quodeblocks',

@@ -49,7 +49,7 @@ if ( ! class_exists( 'StarterBlocks_API' ) ) {
 			if ( !isset( $parameters['no_cache'] ) ) {
 			    $data = get_transient( 'starterblocks_get_library_' . $type );
 			}
-			$data = array();
+//			$data = array();
 
 			if ( empty( $data ) ) {
 
