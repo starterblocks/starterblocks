@@ -1,3 +1,4 @@
+const {apiFetch} = wp;
 const {parse} = wp.blocks;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
@@ -22,7 +23,7 @@ import './style.scss'
 
 function LibraryModal(props) {
 	const {
-		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns,
+		fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
 		appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost, installedDependencies
 	} = props;
 	const [spinner, setSpinner] = useState(null);
@@ -41,12 +42,15 @@ function LibraryModal(props) {
 
     const resetLibrary = () => {
         setLoading(true);
-        wp.apiRequest( { path: 'starterblocks/v1/library?no_cache=1' } )
+        apiFetch( { path: 'starterblocks/v1/library?no_cache=1' } )
             .then(( newLibrary ) => {
                     setLoading(false);
-                    stateLibrary(newLibrary);
+                    setLibrary(newLibrary.data);
                 }
-            );
+            )
+            .catch(( error ) => {
+                registerError(error);
+            });
     }
 
 	const hasSidebar = () => {
