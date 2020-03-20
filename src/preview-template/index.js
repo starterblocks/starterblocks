@@ -2,7 +2,6 @@ const { compose } = wp.compose;
 const { withDispatch, withSelect } = wp.data;
 const { Component, useState } = wp.element
 const { Spinner } = wp.components;
-const { apiFetch } = wp;
 const { __ } = wp.i18n
 import SitePreviewSidebar from './SitePreviewSidebar';
 import { ModalManager } from '../modal-manager'

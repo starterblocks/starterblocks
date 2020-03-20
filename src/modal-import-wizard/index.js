@@ -1,4 +1,3 @@
-const {apiFetch} = wp;
 const {__} = wp.i18n;
 const {parse} = wp.blocks;
 const {compose} = wp.compose;

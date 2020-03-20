@@ -1,4 +1,3 @@
-const {apiFetch} = wp;
 const {parse} = wp.blocks;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;

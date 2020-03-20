@@ -1,4 +1,3 @@
-const {apiFetch} = wp;
 const {Component, Fragment, useState} = wp.element;
 const {__} = wp.i18n;
 

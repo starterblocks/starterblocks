@@ -1,4 +1,3 @@
-const {apiFetch} = wp;
 const {Component, useState} = wp.element
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
