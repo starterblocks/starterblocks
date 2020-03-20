@@ -37,13 +37,16 @@ function makeBuild() {
 		'!./webpack.*.js',
         '!./jest.config.js',
         '!./babel.config.js',
-        '!./jsconfig.json'
+        '!./jsconfig.json',
+        '!vendor/composer/installers/**/*',
+        '!vendor/composer/LICENSE',
+        '!vendor/composer/installed.json',
 	]).pipe(dest('build/starterblocks/'));
 }
 
 function productionMode() {
 	// const replacement_string = '\n\t\t\twp_enqueue_style(\'starterblocks-bundle\', STARTERBLOCKS_DIR_URL . \'assets/css/admin.min.css\', false, STARTERBLOCKS_VERSION);\n\t\t\t';
-	return src(['./build/starterblocks/core/class-starterblocks.php'])
+	return src(['./build/starterblocks/core/Init.php'])
 	// .pipe(replace(/(?<=#START_REPLACE)([^]*?)(?=#END_REPLACE)/g, replacement_string))
 		.pipe(replace(/starterblocks\.dev/g, 'starterblocks.min'))
         .pipe(replace(/vendor\.dev/g, 'vendor.min'))
