@@ -99,7 +99,7 @@ export const getCollectionChildrenData = (library, activeCollection) => {
 // Check if the block is pro
 export const isBlockPro = (pro, source) => {
     if (source && starterblocks.supported_plugins.hasOwnProperty(source))
-        return (pro && !starterblocks.supported_plugins[source]);
+        return (pro && !starterblocks.supported_plugins[source].is_pro);
     else
         return pro && starterblocks.mokama !== '1';
 }
