@@ -12,6 +12,8 @@ assets/js/*.dev.js
 assets/js/*.map
 assets/js/starterblocks.*.js.map
 assets/js/starterblocks.*.js
+assets/js/vendor.*.js.map
+assets/js/vendor.*.js
 
 # Runtime data
 pids

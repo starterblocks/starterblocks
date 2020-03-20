@@ -38,7 +38,7 @@ if ( ! class_exists( 'StarterBlocks' ) ) {
 
 			wp_enqueue_script(
 				'starterblocks-js',
-				plugins_url( 'assets/js/main.dev.js', STARTERBLOCKS_FILE ),
+				plugins_url( 'assets/js/starterblocks.dev.js', STARTERBLOCKS_FILE ),
 				array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
 				STARTERBLOCKS_VERSION,
 				true
@@ -47,7 +47,7 @@ if ( ! class_exists( 'StarterBlocks' ) ) {
 			// Backend editor scripts: common vendor files.
 			wp_enqueue_script(
 				'starterblocks-js-vendor',
-				plugins_url( 'assets/js/editor_vendor.dev.js', STARTERBLOCKS_FILE ),
+				plugins_url( 'assets/js/vendor.dev.js', STARTERBLOCKS_FILE ),
 				array(),
 				STARTERBLOCKS_VERSION
 			);

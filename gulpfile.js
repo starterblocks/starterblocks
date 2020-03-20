@@ -21,8 +21,7 @@ function cleanBuild() {
 function makeBuild() {
 	return src([
 		'./**/*.*',
-		'!./assets/js/starterblocks.dev.js.map',
-		'!./assets/js/starterblocks.dev.js',
+        '!./assets/js/*.dev.*',
 		'!./node_modules/**/*.*',
 		'!./src/**/*.*',
 		'!./build/**/*.zip',
@@ -36,6 +35,9 @@ function makeBuild() {
 		'!./package.json',
 		'!./package-lock.json',
 		'!./webpack.*.js',
+        '!./jest.config.js',
+        '!./babel.config.js',
+        '!./jsconfig.json'
 	]).pipe(dest('build/starterblocks/'));
 }
 
@@ -43,9 +45,9 @@ function productionMode() {
 	// const replacement_string = '\n\t\t\twp_enqueue_style(\'starterblocks-bundle\', STARTERBLOCKS_DIR_URL . \'assets/css/admin.min.css\', false, STARTERBLOCKS_VERSION);\n\t\t\t';
 	return src(['./build/starterblocks/core/class-starterblocks.php'])
 	// .pipe(replace(/(?<=#START_REPLACE)([^]*?)(?=#END_REPLACE)/g, replacement_string))
-		.pipe(replace(/starterblocks\.dev\.js/g, 'starterblocks.min.js'))
+		.pipe(replace(/starterblocks\.dev/g, 'starterblocks.min'))
+        .pipe(replace(/vendor\.dev/g, 'vendor.min'))
 		.pipe(replace(/map\.js/g, 'map.min.js'))
-		// .pipe(replace(/common-script\.js/g, 'common-script.min.js'))
 		.pipe(dest('./build/starterblocks/core/'));
 }
 
@@ -61,7 +63,6 @@ function debug() {
 
 function versionUpdate() {
 	return src(['./starterblocks.php'])
-
 		.pipe(replace(/\* Version:.*/g, '\* Version: \t\t  ' + package_data.version))
 		.pipe(replace(/\'STARTERBLOCKS_VERSION\', \'.*\'/g, '\'STARTERBLOCKS_VERSION\', \'' + package_data.version + '\''))
 		// .pipe(replace(/common-script\.js/g, 'common-script.min.js'))

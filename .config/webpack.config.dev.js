@@ -9,14 +9,13 @@ module.exports = [ {
 
 	devtool: 'cheap-module-source-map',
 
-	entry: [
-		path.join(__dirname, '../src/index.js')
-	],
+	entry: {
+        'starterblocks': path.join(__dirname, '../src/index.js')
+    },
 
 	output: {
 		path: path.join(__dirname, '../assets/js'),
 		filename: '[name].dev.js',
-		library: '[name]', // assigns this module to the global (window) object
 	},
 
 	// Permit importing @wordpress/* packages.
@@ -28,7 +27,7 @@ module.exports = [ {
 				vendor: {
 					test: /node_modules/,
 					chunks: "initial",
-					name: "editor_vendor",
+					name: "vendor",
 					priority: 10,
 					enforce: true
 				}
