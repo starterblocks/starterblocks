@@ -2,6 +2,7 @@
  * External dependencies
  */
 import '@babel/polyfill' // Fixes: ReferenceError: regeneratorRuntime is not defined
+import '@testing-library/jest-dom/extend-expect';
 
 import React from 'react'
 
