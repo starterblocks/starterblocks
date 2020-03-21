@@ -35,7 +35,7 @@ export const initialState = {
         activeCollection: null,
         sortBy: 'name'
     },
-    installedDependencies: false
+    installedDependencies: false // used when deciding should or not reload page after importing the template
 };
 
 export const reducer = ( state = initialState, action ) => {

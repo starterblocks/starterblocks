@@ -10,20 +10,44 @@ function InstallPluginStep(props) {
 
     const {missingPlugins, toNextStep, onCloseWizard} = props;
     const {setInstalledDependencies} = props;
-    const [installedCount, setInstalledCount] = useState(-1);
-    const onInstallPlugins = () => {
+    const [installingPlugin, setInstallingPlugin] = useState(null);
+    const [installedList, setInstalledList] = useState([]);
+    const [failedList, setFailedList] = useState([]);
+    const [waitingList, setWaitingList] = useState(missingPlugins);
+
+    const preInstallInit = () => {
+        setInstalledList([]);
+        setFailedList([]);
+        setWaitingList(missingPlugins);
+        setInstallingPlugin(null);
         setInstalledDependencies(false);
-        missingPlugins.forEach(pluginKey => {
-            const {slug} = dependencyHelper.pluginInfo(pluginKey);
-            apiFetch({
-                path: 'starterblocks/v1/plugin-install?slug=' + slug
-            }).then(res => {
-                setInstalledDependencies(true);
-                setInstalledCount(installedCount => installedCount + 1);
-            })
-        });
     }
-    if (installedCount === missingPlugins.length)
+
+    const onInstallPlugins = async () => {
+        preInstallInit();
+        let localInstalledList = [];
+        let localWaitingList = [...waitingList];
+        for (let pluginKey of missingPlugins) {
+            const pluginInstance = dependencyHelper.pluginInfo(pluginKey);
+            setInstallingPlugin({...pluginInstance, pluginKey});
+            localWaitingList = localWaitingList.filter(key => key !== pluginKey )
+            setWaitingList(localWaitingList);
+            await apiFetch({
+                    path: 'starterblocks/v1/plugin-install?slug=' + pluginInstance.slug
+                })
+                .then(res => {
+                    setInstalledDependencies(true);
+                    localInstalledList = [...localInstalledList, pluginKey];
+                    setInstalledList(localInstalledList);
+                    if (localWaitingList.length === 0) setInstallingPlugin(null);
+                })
+                .catch(res => {
+                    setFailedList([...failedList, pluginKey]);
+                    if (localWaitingList.length === 0) setInstallingPlugin(null);
+                });
+        }
+    }
+    if (waitingList.length === 0 && failedList.length === 0)
         toNextStep();
     return (
 
@@ -32,42 +56,43 @@ function InstallPluginStep(props) {
                 <h5>{__('Install Required Plugins')}</h5>
                 <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.')}</p>
 
-                <ul class="starterblocks-import-progress">
-                    {/* Failed install */}
-                    <li className="failure">CoBlocks <i className="fas fa-exclamation-triangle"></i></li>
-                    {/* Currently Installing */}
-                    <li className="installing">Qubely <i className="fas fa-spinner fa-pulse"></i></li>
-                    {/* Todo - Waiting to Install */}
-                    <li className="todo">Kioken Blocks <i className="far fa-square"></i></li>
-                    {/* Success */}
-                    <li className="success">Stackable <i className="fas fa-check-square"></i></li>
-                </ul>
-
-                <ul>
+                <ul className="starterblocks-import-progress">
                     {
-                        // Make sure the plugins are in order
-                        missingPlugins.map(pluginKey => {
+                        /* Failed install */
+                        failedList.map(pluginKey => {
                             const {name} = dependencyHelper.pluginInfo(pluginKey);
-                            return (<li key={pluginKey}>{name}</li>);
+                            return (<li className="failure" key={pluginKey}>{name}<i className="fas fa-exclamation-triangle"></i></li>);
+                        })
+                    }
+                    {
+                        /* Currently Installing */
+                        installingPlugin &&
+                            (<li className="installing" key={installingPlugin.pluginKey}>{installingPlugin.name}<i className="fas fa-spinner fa-pulse"></i></li>)
+                    }
+                    {
+                        /* Waiting to Install */
+                        waitingList.map(pluginKey => {
+                            const {name} = dependencyHelper.pluginInfo(pluginKey);
+                            return (<li className="todo" key={pluginKey}>{name}<i className="fas fa-square"></i></li>);
+                        })
+                    }
+                    {
+                        /* Success */
+                        installedList.map(pluginKey => {
+                            const {name} = dependencyHelper.pluginInfo(pluginKey);
+                            return (<li className="success" key={pluginKey}>{name}<i className="fas fa-check-square"></i></li>);
                         })
                     }
                 </ul>
-                {
-                    (installedCount >= 0) &&
-                    <div className="installCount">
-                        {installedCount} / {missingPlugins.length}
-                    </div>
-                }
             </div>
             <div className="starterblocks-import-wizard-footer">
-                <button className="button button-primary" disabled={installedCount >= 0} onClick={() => {
-                    setInstalledCount(0);
-                    onInstallPlugins()
-                }}>
-                    {installedCount >= 0 && <i className="fas fa-spinner fa-pulse"/>}
-                    <span>{__('Install')}</span>
-                </button>
-                <button className="button button-secondary" disabled={installedCount >= 0} onClick={onCloseWizard}>
+                { waitingList.length !== 0 &&
+                    <button className="button button-primary" disabled={installingPlugin !== null} onClick={() => onInstallPlugins()}>
+                        {installingPlugin !== null && <i className="fas fa-spinner fa-pulse"/>}
+                        <span>{__('Install')}</span>
+                    </button>
+                }
+                <button className="button button-secondary" disabled={installingPlugin !== null} onClick={onCloseWizard}>
                     {__('Cancel')}
                 </button>
             </div>
