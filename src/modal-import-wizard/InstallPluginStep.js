@@ -26,12 +26,26 @@ function InstallPluginStep(props) {
     if (installedCount === missingPlugins.length)
         toNextStep();
     return (
+
         <Fragment>
             <div className="starterblocks-import-wizard-body">
                 <h5>{__('Install Required Plugins')}</h5>
                 <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.')}</p>
+
+                <ul class="starterblocks-import-progress">
+                    {/* Failed install */}
+                    <li className="failure">CoBlocks <i className="fas fa-exclamation-triangle"></i></li>
+                    {/* Currently Installing */}
+                    <li className="installing">Qubely <i className="fas fa-spinner fa-pulse"></i></li>
+                    {/* Todo - Waiting to Install */}
+                    <li className="todo">Kioken Blocks <i className="far fa-square"></i></li>
+                    {/* Success */}
+                    <li className="success">Stackable <i className="fas fa-check-square"></i></li>
+                </ul>
+
                 <ul>
                     {
+                        // Make sure the plugins are in order
                         missingPlugins.map(pluginKey => {
                             const {name} = dependencyHelper.pluginInfo(pluginKey);
                             return (<li key={pluginKey}>{name}</li>);
@@ -62,15 +76,13 @@ function InstallPluginStep(props) {
 }
 
 
+export default withDispatch((dispatch) => {
+    const {
+        setInstalledDependencies
+    } = dispatch('starterblocks/sectionslist');
 
-export default
-    withDispatch((dispatch) => {
-        const {
-            setInstalledDependencies
-        } = dispatch('starterblocks/sectionslist');
-
-        return {
-            setInstalledDependencies
-        };
-    })
+    return {
+        setInstalledDependencies
+    };
+})
 (InstallPluginStep);

@@ -9,14 +9,14 @@ module.exports = [{
 
 	devtool: 'hidden-source-map',
 
-	entry: [
-		path.join(__dirname, 'src/assets/js/index.js')
-	],
+    entry: {
+        'starterblocks': path.join(__dirname, '../src/index.js')
+    },
 
-	output: {
-		filename: '[name].js',
-		library: '[name]',  // it assigns this module to the global (window) object
-	},
+    output: {
+        path: path.join(__dirname, '../assets/js'),
+        filename: '[name].min.js',
+    },
 
 	// Permit importing @wordpress/* packages.
 	externals,
@@ -36,7 +36,7 @@ module.exports = [{
 				vendor: {
 					test: /node_modules/,
 					chunks: "initial",
-					name: "editor_vendor",
+					name: "vendor",
 					priority: 10,
 					enforce: true
 				}

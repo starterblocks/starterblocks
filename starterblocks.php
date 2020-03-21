@@ -3,7 +3,7 @@
  * Plugin Name:       StarterBlocks - Gutenberg Block Templates
  * Plugin URI:        https://starterblocks.io/
  * Description:       Who wants to start with just blocks? Implement templates immediately with our design library. Shortcut your design process!
- * Version: 		  0.1.0
+ * Version: 		  0.1.3
  * Author:            StarterBlocks
  * Author URI:        https://starterblocks.io/
  * Text Domain:       starterblocks
@@ -12,60 +12,62 @@
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
+
+require_once __DIR__ . '/vendor/autoload.php';
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+    exit; // Exit if accessed directly
 }
 
-
 if ( function_exists( 'starterblocks_fs' ) ) {
-	sta_fs()->set_basename( true, __FILE__ );
+    sta_fs()->set_basename( true, __FILE__ );
 } else {
-	if ( ! function_exists( 'starterblocks_fs' ) ) {
+    if ( ! function_exists( 'starterblocks_fs' ) ) {
 
-		// Create a helper function for easy SDK access.
-		function starterblocks_fs() {
-			global $starterblocks_fs;
+        // Create a helper function for easy SDK access.
+        function starterblocks_fs() {
+            global $starterblocks_fs;
 
-			if ( ! isset( $starterblocks_fs ) ) {
-				// Activate multisite network integration.
+            if ( ! isset( $starterblocks_fs ) ) {
+                // Activate multisite network integration.
 //				if ( ! defined( 'WP_FS__PRODUCT_5632_MULTISITE' ) ) {
 //					define( 'WP_FS__PRODUCT_5632_MULTISITE', true );
 //				}
 
-				// Include Freemius SDK.
-				require_once dirname( __FILE__ ) . '/core/freemius/start.php';
+                // Include Freemius SDK.
+                require_once dirname( __FILE__ ) . '/core/freemius/start.php';
 
-				$starterblocks_fs = fs_dynamic_init(
-					array(
-						'id'                  => '5632',
-						'slug'                => 'starterblocks',
-						'type'                => 'plugin',
-						'public_key'          => 'pk_d1cff5ec542f0e8f2446afbcfca5f',
-						'is_premium'          => false,
-						// If your plugin is a serviceware, set this option to false.
-						'has_premium_version' => false,
-						'has_addons'          => false,
-						'has_paid_plans'      => true,
-						'has_affiliation'     => 'selected',
-						'menu'                => array(
-							'slug'       => 'starterblocks',
-							'first-path' => 'admin.php?page=starterblocks',
-							'account'    => true,
-							'pricing'    => true,
-							'contact'    => true,
-							'support'    => true,
-						),
-					)
-				);
-			}
+                $starterblocks_fs = fs_dynamic_init(
+                    array(
+                        'id'                  => '5632',
+                        'slug'                => 'starterblocks',
+                        'type'                => 'plugin',
+                        'public_key'          => 'pk_d1cff5ec542f0e8f2446afbcfca5f',
+                        'is_premium'          => false,
+                        // If your plugin is a serviceware, set this option to false.
+                        'has_premium_version' => false,
+                        'has_addons'          => false,
+                        'has_paid_plans'      => true,
+                        'has_affiliation'     => 'selected',
+                        'menu'                => array(
+                            'slug'       => 'starterblocks',
+                            'first-path' => 'admin.php?page=starterblocks',
+                            'account'    => true,
+                            'pricing'    => true,
+                            'contact'    => true,
+                            'support'    => true,
+                        ),
+                    )
+                );
+            }
 
-			return $starterblocks_fs;
-		}
+            return $starterblocks_fs;
+        }
 
-		// Init Freemius.
-		starterblocks_fs();
-		// Signal that SDK was initiated.
-		do_action( 'starterblocks_fs_loaded' );
+        // Init Freemius.
+        starterblocks_fs();
+        // Signal that SDK was initiated.
+        do_action( 'starterblocks_fs_loaded' );
 
 //
 //		$fs_options = FS_Options::instance( WP_FS__ACCOUNTS_OPTION_NAME, true );
@@ -76,49 +78,30 @@ if ( function_exists( 'starterblocks_fs' ) ) {
 //
 //		exit();
 
-	}
-
-	// Language Load
-	add_action( 'init', 'starterblocks_language_load' );
-	function starterblocks_language_load() {
-		load_plugin_textdomain( 'starterblocks', false, basename( dirname( __FILE__ ) ) . '/languages/' );
-	}
+    }
 
 // Define Version
-	define( 'STARTERBLOCKS_VERSION', '0.1.0' );
+    define( 'STARTERBLOCKS_VERSION', '0.1.3' );
 
 // Define File DIR
-	define( 'STARTERBLOCKS_FILE', __FILE__ );
+    define( 'STARTERBLOCKS_FILE', __FILE__ );
 
 // Define Dir URL
-	define( 'STARTERBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
+    define( 'STARTERBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 
 // Define Physical Path
-	define( 'STARTERBLOCKS_DIR_PATH', plugin_dir_path( __FILE__ ) );
-
-// Include Require File
-	require_once STARTERBLOCKS_DIR_PATH . 'core/class-sb-setup.php'; // Initial Setup Data
-
-	require_once STARTERBLOCKS_DIR_PATH . 'core/class-sb-supported-plugins.php';
-	require_once STARTERBLOCKS_DIR_PATH . 'core/class-sb-api.php';
-
-// Page Template Added
-	require_once STARTERBLOCKS_DIR_PATH . 'core/class-sb-templates.php';
-
-	/**
-	 * Add starterblocks admin options page
-	 */
-	require_once STARTERBLOCKS_DIR_PATH . 'core/class-sc-options.php';
+    define( 'STARTERBLOCKS_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
 // Version Check & Include Core
-	if ( ! version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-		add_action( 'admin_notices', array( 'StarterBlocks_Setup', 'php_error_notice' ) ); // PHP Version Check
-	} elseif ( ! version_compare( get_bloginfo( 'version' ), '4.5', '>=' ) ) {
-		add_action(
-			'admin_notices', array( 'StarterBlocks_Setup_Setup', 'wordpress_error_notice' )
-		); // WordPress Version Check
-	} else {
-		require_once STARTERBLOCKS_DIR_PATH . 'core/class-starterblocks.php';   // Loading STARTERBLOCKS Blocks Main Files
-	}
+    if ( ! version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+        add_action( 'admin_notices', 'StarterBlocks\Notices\Notices::php_error_notice' ); // PHP Version Check
+    } elseif ( ! version_compare( get_bloginfo( 'version' ), '4.5', '>=' ) ) {
+        add_action(
+            'admin_notices', 'StarterBlocks\Notices\Notices::wordpress_error_notice'
+        ); // WordPress Version Check
+    } else {
+//        $class = 'StarterBlocks\Init\Init';
+        new StarterBlocks\Init();
+    }
 }
 
