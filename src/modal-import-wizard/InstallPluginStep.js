@@ -37,9 +37,9 @@ function InstallPluginStep(props) {
                     <li className="failure">CoBlocks <i className="fas fa-exclamation-triangle"></i></li>
                     {/* Currently Installing */}
                     <li className="installing">Qubely <i className="fas fa-spinner fa-pulse"></i></li>
-                    {/* Yet to Install */}
+                    {/* Todo - Waiting to Install */}
                     <li className="todo">Kioken Blocks <i className="far fa-square"></i></li>
-                    {/* Succeed */}
+                    {/* Success */}
                     <li className="success">Stackable <i className="fas fa-check-square"></i></li>
                 </ul>
 
