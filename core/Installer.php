@@ -1,15 +1,24 @@
 <?php
 
 namespace StarterBlocks;
+
 use StarterBlocks;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+require_once( ABSPATH . 'wp-admin/includes/file.php' );
+require_once( ABSPATH . 'wp-admin/includes/misc.php' );
+require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+
+class InstallerMuter extends \WP_Upgrader_Skin {
+    public function feedback( $string, ...$args ) { /* no output */ }
+}
 
 class Installer {
-
 
     public static function run( $slug ) {
         $pluginDir = WP_PLUGIN_DIR . '/' . $slug;
@@ -17,6 +26,7 @@ class Installer {
          * Don't try installing plugins that already exist (wastes time downloading files that
          * won't be used
          */
+
         $status = array();
         if ( ! is_dir( $pluginDir ) ) {
 
@@ -45,17 +55,24 @@ class Installer {
             ob_start();
 
             $skin     = new InstallerMuter( array( 'api' => $api ) );
-            $upgrader = new Plugin_Upgrader( $skin );
+            $upgrader = new \Plugin_Upgrader( $skin );
             $install  = $upgrader->install( $api->download_link );
 
             ob_end_clean();
 
+
             if ( $install !== true ) {
-                ob_start();
-                var_dump( $install );
-                $result             = ob_get_clean();
-                $status['error']    = 'Install process failed for: ' . $slug . '.';
-                $status['var_dump'] = $result;
+                $status['error'] = 'Install process failed for ' . $slug . '.';
+
+                if ( ! empty( $install ) ) {
+                    ob_start();
+                    \var_dump( $install );
+                    $result = ob_get_clean();
+
+                    $status['var_dump'] = $result;
+                } else {
+                    $status['error'] .= ' ' . $upgrader->skin->options['api']->errors['plugins_api_failed'][0];
+                }
 
                 return $status;
             }
@@ -79,11 +96,6 @@ class Installer {
 
         if ( ! empty( $pluginPath ) ) {
             if ( is_plugin_active( $pluginCheck ) && ! isset( $status['install'] ) ) {
-                // Disable Stackable Welcome Page
-                if ( $slug == 'stackable' ) {
-                    update_option( 'stackable_redirect_to_welcome', '1' );
-                }
-
                 $status['activate'] = "active";
             } else {
                 activate_plugin( $pluginCheck );

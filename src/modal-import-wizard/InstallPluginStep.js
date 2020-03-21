@@ -73,7 +73,7 @@ function InstallPluginStep(props) {
                         /* Waiting to Install */
                         waitingList.map(pluginKey => {
                             const {name} = dependencyHelper.pluginInfo(pluginKey);
-                            return (<li className="todo" key={pluginKey}>{name}<i className="fas fa-square"></i></li>);
+                            return (<li className="todo" key={pluginKey}>{name}<i className="far fa-square"></i></li>);
                         })
                     }
                     {
