@@ -100,4 +100,41 @@
         justify-content: center;
         display: flex;
     }
+
+    .starterblocks-import-progress {
+
+        font-size: 1.1em;
+        text-align: center;
+
+        li {
+            list-style: none;
+
+            &.success {
+                i {
+                    color: #46b450;
+                }
+            }
+
+            &.todo {
+                //opacity: .9;
+            }
+
+            &.failure {
+                i {
+                    color: #dc3232;
+                }
+            }
+            &.info {
+                i {
+                    color: #00a0d2;
+                }
+            }
+
+            &.installing {
+                i {
+                    //color: #00a0d2;
+                }
+            }
+        }
+    }
 }
