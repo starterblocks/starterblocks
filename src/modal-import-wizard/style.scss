@@ -137,4 +137,13 @@
             }
         }
     }
+
+    .starterblocks-import-progress {
+        width: 50%;
+        margin: 10px auto;
+        li {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
 }
