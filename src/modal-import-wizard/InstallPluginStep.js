@@ -26,6 +26,7 @@ function InstallPluginStep(props) {
     const onInstallPlugins = async () => {
         preInstallInit();
         let localInstalledList = [];
+        let localFailedList = [];
         let localWaitingList = [...waitingList];
         for (let pluginKey of missingPlugins) {
             const pluginInstance = dependencyHelper.pluginInfo(pluginKey);
@@ -33,16 +34,23 @@ function InstallPluginStep(props) {
             localWaitingList = localWaitingList.filter(key => key !== pluginKey )
             setWaitingList(localWaitingList);
             await apiFetch({
-                    path: 'starterblocks/v1/plugin-install?slug=' + pluginInstance.slug
+                    path: 'starterblocks/v1/plugin-install?zlug=' + pluginInstance.slug
                 })
                 .then(res => {
-                    setInstalledDependencies(true);
-                    localInstalledList = [...localInstalledList, pluginKey];
-                    setInstalledList(localInstalledList);
-                    if (localWaitingList.length === 0) setInstallingPlugin(null);
+                    if (res.success) {
+                        setInstalledDependencies(true);
+                        localInstalledList = [...localInstalledList, pluginKey];
+                        setInstalledList(localInstalledList);
+                        if (localWaitingList.length === 0) setInstallingPlugin(null);
+                    } else {
+                        localFailedList = [...localFailedList, pluginKey]
+                        setFailedList(localFailedList);
+                        if (localWaitingList.length === 0) setInstallingPlugin(null);
+                    }
                 })
                 .catch(res => {
-                    setFailedList([...failedList, pluginKey]);
+                    localFailedList = [...localFailedList, pluginKey]
+                    setFailedList(localFailedList);
                     if (localWaitingList.length === 0) setInstallingPlugin(null);
                 });
         }
@@ -58,29 +66,16 @@ function InstallPluginStep(props) {
 
                 <ul className="starterblocks-import-progress">
                     {
-                        /* Failed install */
-                        failedList.map(pluginKey => {
+                        missingPlugins.map(pluginKey => {
                             const {name} = dependencyHelper.pluginInfo(pluginKey);
-                            return (<li className="failure" key={pluginKey}>{name}<i className="fas fa-exclamation-triangle"></i></li>);
-                        })
-                    }
-                    {
-                        /* Currently Installing */
-                        installingPlugin &&
-                            (<li className="installing" key={installingPlugin.pluginKey}>{installingPlugin.name}<i className="fas fa-spinner fa-pulse"></i></li>)
-                    }
-                    {
-                        /* Waiting to Install */
-                        waitingList.map(pluginKey => {
-                            const {name} = dependencyHelper.pluginInfo(pluginKey);
-                            return (<li className="todo" key={pluginKey}>{name}<i className="far fa-square"></i></li>);
-                        })
-                    }
-                    {
-                        /* Success */
-                        installedList.map(pluginKey => {
-                            const {name} = dependencyHelper.pluginInfo(pluginKey);
-                            return (<li className="success" key={pluginKey}>{name}<i className="fas fa-check-square"></i></li>);
+                            if (installingPlugin && installingPlugin.pluginKey === pluginKey)
+                                return (<li className="installing" key={installingPlugin.pluginKey}>{installingPlugin.name}<i className="fas fa-spinner fa-pulse"></i></li>);
+                            if (failedList.includes(pluginKey))
+                                return (<li className="failure" key={pluginKey}>{name}<i className="fas fa-exclamation-triangle"></i></li>);
+                            if (waitingList.includes(pluginKey))
+                                return (<li className="todo" key={pluginKey}>{name}<i className="far fa-square"></i></li>);
+                            if (installedList.includes(pluginKey))
+                                return (<li className="success" key={pluginKey}>{name}<i className="fas fa-check-square"></i></li>);
                         })
                     }
                 </ul>

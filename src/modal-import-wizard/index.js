@@ -15,7 +15,8 @@ const PRO_STEP = 1;
 const IMPORT_STEP = 2;
 
 function ImportWizard(props) {
-    const {missingPlugins, missingPros, startImportTemplate, closeWizard} = props;
+    const {missingPlugins1, missingPros, startImportTemplate, closeWizard} = props;
+    const missingPlugins = ['coblocks', 'qubely', 'ugb', 'kioken'];
     const [currentStep, setCurrentStep] = useState(PLUGIN_STEP);
     const [importing, setImporting] = useState(false);
 
