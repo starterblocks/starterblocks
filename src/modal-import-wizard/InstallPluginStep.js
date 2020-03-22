@@ -63,6 +63,12 @@ function InstallPluginStep(props) {
             <div className="starterblocks-import-wizard-body">
                 <h5>{__('Install Required Plugins')}</h5>
                 <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.')}</p>
+                {
+                    (installingPlugin === null && failedList.length > 0) &&
+                    (<p>
+                        It's us, not you, we recommend you to try again later or contact us <a href='#'>here</a>
+                    </p>)
+                }
 
                 <ul className="starterblocks-import-progress">
                     {
