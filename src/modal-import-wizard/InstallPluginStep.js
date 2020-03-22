@@ -34,7 +34,7 @@ function InstallPluginStep(props) {
             localWaitingList = localWaitingList.filter(key => key !== pluginKey )
             setWaitingList(localWaitingList);
             await apiFetch({
-                    path: 'starterblocks/v1/plugin-install?zlug=' + pluginInstance.slug
+                    path: 'starterblocks/v1/plugin-install?slug=' + pluginInstance.slug
                 })
                 .then(res => {
                     if (res.success) {
@@ -55,7 +55,7 @@ function InstallPluginStep(props) {
                 });
         }
     }
-    if (waitingList.length === 0 && failedList.length === 0)
+    if (waitingList.length === 0 && failedList.length === 0 && installingPlugin === null)
         toNextStep();
     return (
 
@@ -65,7 +65,7 @@ function InstallPluginStep(props) {
                 <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.')}</p>
                 {
                     (installingPlugin === null && failedList.length > 0) &&
-                    (<p>
+                    (<p class='error'>
                         It's us, not you, we recommend you to try again later or contact us <a href='#'>here</a>
                     </p>)
                 }
