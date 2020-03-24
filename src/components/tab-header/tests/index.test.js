@@ -1,7 +1,7 @@
 import { shallow, mount } from 'enzyme';
 import {TabHeader} from '../';
 
-describe('Error Notice', () => {
+describe('Tab Header', () => {
     // 1. Snapshot testing
     it('renders correctly', () => {
         const setSearchContext = jest.fn();
