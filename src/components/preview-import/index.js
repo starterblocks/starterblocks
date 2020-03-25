@@ -7,7 +7,6 @@ export default function PreviewImport (props) {
     const {data, index, pageData} = useContext(SingleItemContext);
     const {openSitePreviewModal, onImportTemplate, spinner} = useContext(TemplateModalContext);
     const triggerImportTemplate = (data) => {
-        console.log('spinner', spinner);
         if (spinner === null) onImportTemplate(data);
     }
 
