@@ -1,8 +1,7 @@
 import {__} from '@wordpress/i18n';
-import {useContext, useEffect, useState} from '@wordpress/element';
+import {useContext} from '@wordpress/element';
 import SingleItemContext from '../../contexts/SingleItemContext';
 import TemplateModalContext from '../../contexts/TemplateModalContext';
-import DependentPlugins from '../dependent-plugins';
 import './style.scss'
 export default function PreviewImport (props) {
     const {data, index, pageData} = useContext(SingleItemContext);
