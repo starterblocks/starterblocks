@@ -1,4 +1,4 @@
-import { shallow, mount } from 'enzyme';
+import {shallow, mount} from 'enzyme';
 import {ErrorNotice} from '../';
 
 describe('Error Notice', () => {
