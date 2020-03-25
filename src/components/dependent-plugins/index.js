@@ -39,5 +39,5 @@ export default function DependentPlugins (props) {
                 }
             </div>
         );
-
+    return null;
 }
