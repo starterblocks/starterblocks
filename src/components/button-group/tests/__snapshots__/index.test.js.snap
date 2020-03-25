@@ -1,13 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Button Group renders correctly 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "spinner": null,
-    }
-  }
+<div
+  className="starterblocks-import-button-group"
 >
-  <ButtonGroup />
-</ContextProvider>
+  PreviewImport
+  DependentPlugins
+</div>
 `;

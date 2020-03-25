@@ -4,8 +4,6 @@ import SingleItemContext from '../../contexts/SingleItemContext';
 import TemplateModalContext from '../../contexts/TemplateModalContext';
 import DependentPlugins from '../dependent-plugins';
 import './style.scss'
-// https://stackoverflow.com/questions/54691799/how-to-test-a-react-component-that-is-dependent-on-usecontext-hook
-// https://www.polvara.me/posts/mocking-context-with-react-testing-library/
 export default function PreviewImport (props) {
     const {data, index, pageData} = useContext(SingleItemContext);
     const {openSitePreviewModal, onImportTemplate, spinner} = useContext(TemplateModalContext);
