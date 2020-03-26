@@ -1,5 +1,5 @@
 import renderer from 'react-test-renderer';
-import {mount} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import DependentPlugins from '..';
 import {SingleItemProvider} from '../../../contexts/SingleItemContext';
 
@@ -28,10 +28,10 @@ describe('Dependent Plugins part within Button Group component', () => {
 
     describe('2. Testing props', () => {
         it('renders nothing when showDependencyBlock of SingleItemProvider is false', () => {
-            const component = renderer.create(
+            const component = shallow(
                 <WrappedDependentPlugins singleValue={{showDependencyBlock: false}} />
             );
-            expect(component.root).toBe(null)
+            expect(component.html()).toBeFalsy();
         });
     });
 

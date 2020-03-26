@@ -14,7 +14,7 @@ let singleMock = {
     index: 0,
     pageData: null
 };
-
+let useEffect;
 const WrappedPreviewImport = (props) => {
     const {templateValue, singleValue} = props;
     return (
