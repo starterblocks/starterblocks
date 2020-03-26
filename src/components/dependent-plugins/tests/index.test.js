@@ -3,7 +3,25 @@ import {mount, shallow} from 'enzyme';
 import DependentPlugins from '..';
 import {SingleItemProvider} from '../../../contexts/SingleItemContext';
 
-let singleMock = {
+window.starterblocks = {
+    supported_plugins: {
+        ugb: {
+            name: 'Stackable',
+            url: 'https://wpstackable.com/premium/#pricing-table',
+            has_pro: true,
+            slug: 'stackable-ultimate-gutenberg-blocks',
+            premium_slug: 'stackable-ultimate-gutenberg-blocks-premium'
+        },
+        qubely: {
+            name: 'Qubely',
+            url: 'https://www.themeum.com/qubely-pricing/',
+            has_pro: true,
+            premium_slug: 'qubely-pro'
+        }
+    }
+}
+
+const singleMock = {
     data: {ID: 1, blocks: {}},
     showDependencyBlock: true
 };
@@ -32,6 +50,21 @@ describe('Dependent Plugins part within Button Group component', () => {
                 <WrappedDependentPlugins singleValue={{showDependencyBlock: false}} />
             );
             expect(component.html()).toBeFalsy();
+        });
+
+        it('renders just wrapper .starterblocks-button-display-dependencies when no blocks data is given', () => {
+            const component = mount(
+                <WrappedDependentPlugins />
+            );
+            expect(component.find('.starterblocks-button-display-dependencies').text()).toBe('');
+        });
+
+
+        it('renders blocks dependency plugins when dependency plugins data are provided', () => {
+            const component = mount(
+                <WrappedDependentPlugins singleValue={{data: {blocks: {qubely: [], ugb: []}}}} />
+            );
+            expect(component.find('.starterblocks-button-display-dependencies').children()).toHaveLength(2);
         });
     });
 
