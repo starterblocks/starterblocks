@@ -10,7 +10,7 @@ let templateMock = {
     spinner: null
 };
 let singleMock = {
-    data: {ID: 1},
+    data: {ID: 1, url: 'url'},
     index: 0,
     pageData: null
 };
@@ -37,6 +37,22 @@ describe('Preview Import buttons', () => {
     });
 
     describe('2. Testing props', () => {
+        it('does not display preview button when data.url is not set', () => {
+            const testRenderer = renderer.create(
+                <WrappedPreviewImport singleValue={{data: {url: null}}} />
+            );
+            const testInstance = testRenderer.root;
+            expect(testInstance.findAllByProps({className: 'starterblocks-button preview-button'}).length).toBe(0);
+        });
+
+        it('displays preview button when data.url is set', () => {
+            const testRenderer = renderer.create(
+                <WrappedPreviewImport singleValue={{data: {url: 'url'}}} />
+            );
+            const testInstance = testRenderer.root;
+            expect(testInstance.findAllByProps({className: 'starterblocks-button preview-button'}).length).toBe(1);
+        });
+
         it('displays import button with download icon with default context value', () => {
             const testRenderer = renderer.create(
                 <WrappedPreviewImport />
