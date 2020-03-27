@@ -74,14 +74,68 @@ class Welcome {
         <div class="wrap">
             <div style="overflow: hidden;height:1px;"><h3></h3></div>
 
-            <div class="starterblocks-options-section starterblocks-mt-20 starterblocks-mb-30"
-                 style="background-image: url(<?php echo STARTERBLOCKS_DIR_URL . 'assets/img/logo.svg' ?>)">
+            <div class="starterblocks-options-section starterblocks-mt-20 starterblocks-mb-30">
                 <div class="starterblocks-options-section-header">
-                    <div class="starterblocks-header-left">
-                        <h3 class="starterblocks-options-section-title"><?php esc_attr_e(
+                    <div class="starterblocks-header-left" style="background-image: url(<?php echo STARTERBLOCKS_DIR_URL . 'assets/img/logo.svg' ?>)">
+                        <h2 class="starterblocks-options-section-title"><?php esc_attr_e(
                                 'Welcome to StarterBlocks! - Version ', 'starterblocks'
                             );
-                            echo STARTERBLOCKS_VERSION; ?></h3>
+                            echo STARTERBLOCKS_VERSION; ?></h2>
+                    </div>
+                </div>
+
+                <div class="starterblocks-options-section-body-container">
+                    <div class="section-body">
+                        <div class="section-intro section-box">
+                            <h3>👋 Get Started</h3>
+                            <p><b>You now have StarterBlocks in your block editor</b></p>
+                            <p>Wordpress page building has been much easier and faster with StarterBlocks</p>
+                            <p><b>Need help?</b></p>
+                            <p>Upgrade to Premium and our support team will be there to answer any questions you might have about the usage of StarterBlocks.</p>
+                            <p>
+                                <a href="">Get StarterBlocks Premium →</a>
+                                <a href="">Learn More →</a>
+                            </p>
+                        </div>
+                        <div class="section-box">
+                            <h3><?php _e( '🍺 Supporting Plugins', 'starterblocks' ) ?></h3>
+                            <p><b><?php _e( 'Templates built with the careful chosen beautiful blocks form various plugin vendors', 'starterblocks' ) ?></b></p>
+                            <ul>
+                                <li><b><?php _e('Getwid', 'starterblocks' ) ?></b></li>
+                                <li><b><?php _e('GutenbergHub', 'starterblocks' ) ?></b></li>
+                                <li><b><?php _e('Kioken', 'starterblocks' ) ?></b></li>
+                                <li><b><?php _e('ShareABlock', 'starterblocks' ) ?></b></li>
+                                <li><b><?php _e('Stackable', 'starterblocks' ) ?></b></li>
+                                <li><b><?php _e('Qubely', 'starterblocks' ) ?></b></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="section-side">
+                        <aside class="section-box premium-box">
+                            <h3><?php _e( '🚀 StarterBlockss Premium', 'starterblocks' ) ?></h3>
+							<p><b><?php _e( 'Priority Email & Forum Support', 'starterblocks' ) ?></b></p>
+                            <ul>
+                                <li><b><?php _e('Weekly', 'starterblocks' ) ?></b><?php _e( 'Updates to the Library', 'starterblocks' ) ?></li>
+                                <li><b><?php _e('Unlimited', 'starterblocks' ) ?></b><?php _e( ' Library Access', 'starterblocks' ) ?></li>
+                                <li><b><?php _e('20+', 'starterblocks' ) ?></b><?php _e( ' Collections', 'starterblocks' ) ?></li>
+                                <li><b><?php _e('125+', 'starterblocks' ) ?></b><?php _e( ' Page Templates', 'starterblocks' ) ?></li>
+                                <li><b><?php _e('250+', 'starterblocks' ) ?></b><?php _e( ' Section Templates', 'starterblocks' ) ?></li>
+                                <li><b><?php _e('Priority', 'starterblocks' ) ?></b><?php _e( ' Support', 'starterblocks' ) ?></li>
+                            </ul>
+                            <p>
+								<a href="<?php ?>" class="components-button" title="<?php _e( 'Get StarterBlocks Premium', 'starterblocks' ) ?>"><?php _e( 'Get StarterBlocks Premium', 'starterblocks' ) ?></a>
+							</p>
+							<p class="text-center">
+								<a href="" title="<?php _e( 'Learn More' ) ?>" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn More', 'starterblocks' ) ?> →</a>
+							</p>
+                        </aside>
+                        <aside class="section-box">
+                            <h3><?php _e( '🗞 StarterBlocks Blog', 'starterblocks' ) ?></h3>
+                            <p><?php _e( 'Keep up to date by subscribing to our newsletter.' ) ?></p>
+                            <button type="button" aria-label="Open Library" class="components-button">
+                                Subscribe
+                            </button>
+                        </aside>
                     </div>
                 </div>
             </div>

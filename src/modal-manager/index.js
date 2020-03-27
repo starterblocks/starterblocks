@@ -1,9 +1,9 @@
-const {__} = wp.i18n
-const {Component, Fragment} = wp.element
+import {__} from '@wordpress/i18n';
+import {Component, Fragment} from '@wordpress/element';
 
 var onClose;
 
-class Modal extends Component {
+export class Modal extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -58,7 +58,7 @@ class Modal extends Component {
 }
 
 var node, customizerNode, wizardNode;
-const Manager = {
+export const ModalManager = {
 	open(component) {
 		if (onClose) {
 			throw __('There is already one modal.It must be closed before one new modal will be opened');
@@ -102,8 +102,3 @@ const Manager = {
 	}
 
 }
-
-module.exports = {
-	Modal: Modal,
-	ModalManager: Manager,
-};

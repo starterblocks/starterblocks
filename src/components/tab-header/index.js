@@ -1,10 +1,10 @@
-const { Component } = wp.element;
-const { compose } = wp.compose;
-const { select, withDispatch, withSelect } = wp.data;
-const { __ } = wp.i18n;
+import {__} from '@wordpress/i18n';
+import {compose} from '@wordpress/compose';
+import {withDispatch, withSelect, select} from '@wordpress/data';
+import {Component} from '@wordpress/element';
 import { ModalManager } from '../../modal-manager';
 
-function TabHeader(props) {
+export function TabHeader(props) {
     const { activeItemType, searchContext, activeCollection } = props;
     const { setActiveItemType, setSearchContext } = props;
 

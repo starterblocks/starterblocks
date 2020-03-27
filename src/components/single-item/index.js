@@ -40,8 +40,7 @@ const SingleItem = (props) => {
 	return (
 
 		<div className={'starterblocks-single-section-item '}>
-			<div
-				className={'starterblocks-single-item-inner starterblocks-item-wrapper '}>
+			<div className={'starterblocks-single-item-inner starterblocks-item-wrapper '}>
 				<div className="starterblocks-default-template-image">
                     <img className="lazy" src={backgroundImage(image)}/>
                     {isBlockPro(pro, source) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
