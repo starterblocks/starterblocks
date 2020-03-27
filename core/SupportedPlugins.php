@@ -129,6 +129,11 @@ class SupportedPlugins {
                 'url'     => 'https://qodeblock.com/',
                 'has_pro' => true,
             ),
+            'cwp'                        => array(
+                'name' => 'Block Slider',
+                'url'  => 'https://wordpress.org/plugins/block-slider',
+                'slug' => 'block-slider'
+            ),
             'snow-monkey-blocks'         => array(
                 'name' => 'Snow Monkey Blocks',
                 'url'  => 'https://wordpress.org/plugins/snow-monkey-blocks/'
