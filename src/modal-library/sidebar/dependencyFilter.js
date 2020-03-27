@@ -55,7 +55,9 @@ function DependencyFilter(props) {
                         {
                             Object.keys(dependencyFilters).map(pluginKey => {
                                 if (pluginKey === 'none') return null;
-                                const pluginInstance = starterblocks.supported_plugins[pluginKey];
+                                let pluginInstance = starterblocks.supported_plugins[pluginKey];
+                                // To deal with yet unknown plugins.
+                                if (!pluginInstance) pluginInstance = {name: pluginKey, url: ''};
                                 return (
                                     <li className={!pluginInstance.version ? 'missing-dependency' : ''} key={pluginKey}>
                                         <CheckboxControl
