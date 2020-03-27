@@ -57,17 +57,21 @@ class SupportedPlugins {
 
     private static function set_plugins() {
         self::$plugins = array(
-            'advgb'                      => array(
+            'advgb'                     => array(
                 'name' => 'Advanced Gutenberg',
                 'url'  => 'https://www.joomunited.com/wordpress-products/advanced-gutenberg',
             ),
-            'advanced-gutenberg-blocks'  => array(
+            'advanced-gutenberg-blocks' => array(
                 'name' => 'Adv. Gutenberg Blocks',
                 'url'  => 'https://advanced-gutenberg-blocks.com/',
             ),
-            'atomic-blocks'              => array(
+            'atomic-blocks'             => array(
                 'name' => 'Atomic Blocks',
                 'url'  => 'https://atomicblocks.com/',
+            ),
+            'blocks-css'                 => array(
+                'name' => 'Blocks CSS',
+                'url'  => 'https://wordpress.org/plugins/blocks-css/',
             ),
             'coblocks'                   => array(
                 'name' => 'CoBlocks',
@@ -82,6 +86,10 @@ class SupportedPlugins {
                 'name' => 'Easy Blocks',
                 'url'  => 'https://jeweltheme.com/shop/easy-gutenberg-blocks/',
                 'slug' => 'easy-gutenberg-blocks'
+            ),
+            'block-options'              => array(
+                'name' => 'EditorsKit',
+                'url'  => 'https://wordpress.org/plugins/block-options/',
             ),
             'essential-blocks'           => array(
                 'name' => 'Essential Blocks',

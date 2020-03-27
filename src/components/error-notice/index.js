@@ -3,20 +3,23 @@ import {compose} from '@wordpress/compose';
 import {withDispatch, withSelect, select} from '@wordpress/data';
 import {Notice} from '@wordpress/components';
 
+import './style.scss'
+
 export function ErrorNotice(props) {
     const {discardAllErrorMessages, errorMessages} = props;
-    return(
-        <Notice status="error" onRemove={discardAllErrorMessages}>
-            <p>An error occurred:
-                {
-                    errorMessages.join(', ')
-                }
-            </p>
-        </Notice>
+    return (
+        <div className='starterblocks-error-notice'>
+            <Notice status="error" onRemove={discardAllErrorMessages}>
+                <p>An error occurred:&nbsp;
+                    {
+                        errorMessages.join(', ')
+                    }
+                </p>
+            </Notice>
+        </div>
     );
 
 }
-
 
 
 export default compose([
