@@ -1,4 +1,4 @@
-const { Component, useState } = wp.element;
+const { Component, useState, useEffect } = wp.element;
 const { compose, withState } = wp.compose;
 const { withDispatch, withSelect, select } = wp.data;
 const { Spinner } = wp.components;
@@ -11,11 +11,16 @@ import { SingleItemProvider } from '../../contexts/SingleItemContext';
 
 import PreviewModal from '../../modal-preview';
 
+const columnMap = {
+    'large': 2,
+    'medium': 3,
+    'small': 4
+};
 
 function TemplateList(props) {
     const { pageData, loading, activeItemType, activeCollection, columns } = props;
     const { setActiveCollection} = props;
-
+    const [columnizedData, setColumnizedData] = useState([]);
     const getBackgroundImage = (url) => {
         if (!url) {
             return starterblocks.plugin + 'assets/img/starterblocks-medium.jpg';
@@ -27,6 +32,18 @@ function TemplateList(props) {
         setActiveCollection(collectionID);
     }
 
+    useEffect(() => {
+        let newData = [];
+        const columnsCount = (columns === '') ? 3 : columnMap[columns];
+        for (let i = 0; i < columnsCount; i++)
+            newData[i] = [];
+        if (pageData) {
+            pageData.forEach((data, index) => {
+                newData[index % columnsCount].push({...data, index});
+            });
+        }
+        setColumnizedData(newData);
+    }, [columns, pageData]);
     let types = starterblocks.mokama === '1' ? 'active' : 'inactive';
     // Render Part
     if (!loading)
@@ -36,41 +53,41 @@ function TemplateList(props) {
 
                     <div id="collections-sections-list" className={`starterblocks-builder-page-templates ${columns}`}>
 
-                        { pageData &&
-                            pageData.map((data, index) => (
-                                (activeItemType !== 'collection' || activeCollection !== null) ?
-                                    <div className="starterblocks-pagelist-column" key={index}>
-                                        {
-                                            <SingleItemProvider value={{
-                                                data,
-                                                pageData,
-                                                index,
-                                                activeItemType,
-                                                spinner: false,
-                                                column: columns,
-                                                showDependencyBlock: true
-                                            }}>
-                                                <SingleItem
-                                                    key={index}
-                                                    backgroundImage={(data) => getBackgroundImage(data)}
+                        { columnizedData &&
+                            columnizedData.map((columnData, colIndex) => (
+                                <div className="starterblocks-pagelist-column" key={colIndex}>
+                                    {
+                                        columnData &&
+                                        columnData.map((data, cellIndex) => (
+                                            (activeItemType !== 'collection' || activeCollection !== null) ?
+                                                <SingleItemProvider value={{
+                                                    data,
+                                                    pageData,
+                                                    index: data.index,
+                                                    activeItemType,
+                                                    spinner: false,
+                                                    column: columns,
+                                                    showDependencyBlock: true
+                                                }} key={cellIndex}>
+                                                    <SingleItem
+                                                        key={cellIndex}
+                                                        backgroundImage={(data) => getBackgroundImage(data)}
+                                                    />
+                                                </SingleItemProvider>
+                                                :
+                                                <MultipleItem
+                                                    key={cellIndex}
+                                                    data={data}
+                                                    index={data.index}
+                                                    types={types}
+                                                    itemType={activeItemType}
+                                                    spinner={false}
+                                                    onSelectCollection={onSelectCollection}
+                                                    backgroundImage={getBackgroundImage.bind(data)}
                                                 />
-                                            </SingleItemProvider>
-
-                                        }
-                                    </div>
-                                    :
-                                    <div className="starterblocks-pagelist-column" key={index}>
-                                        <MultipleItem
-                                            key={index}
-                                            data={data}
-                                            index={index}
-                                            types={types}
-                                            itemType={activeItemType}
-                                            spinner={false}
-                                            onSelectCollection={onSelectCollection}
-                                            backgroundImage={getBackgroundImage.bind(data)}
-                                        />
-                                    </div>
+                                        ))
+                                    }
+                                </div>
                             ))
                         }
                     </div>
