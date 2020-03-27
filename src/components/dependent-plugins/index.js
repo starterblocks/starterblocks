@@ -13,9 +13,9 @@ export default function DependentPlugins (props) {
             return Object.keys(data.blocks).map((block) => {
                 const pluginReference = starterblocks.supported_plugins[block];
                 return {
-                    name: pluginReference.name,
+                    name: pluginReference ? pluginReference.name : block,
                     slug: block,
-                    missingDependency: pluginReference.hasOwnProperty('version') === false
+                    missingDependency: pluginReference ? pluginReference.hasOwnProperty('version') === false : true
                 };
             });
         }
