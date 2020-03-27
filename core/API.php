@@ -52,7 +52,7 @@ class API {
         if ( ! isset( $parameters['no_cache'] ) ) {
             $data = get_transient( 'starterblocks_get_library_' . $type );
         }
-//			$data = array();
+        $data = array();
 
         if ( empty( $data ) ) {
 
@@ -63,47 +63,56 @@ class API {
                 ),
             );
 
-            $data = $this->api_request( $config );
-            if ( empty( $data ) ) {
-                wp_send_json_error( array( 'error' => $data ) );
-            }
+//            $data = $this->api_request( $config );
+//            if ( empty( $data ) ) {
+//                wp_send_json_error( array( 'error' => $data ) );
+//            }
 
+            $path = "/Users/dovy/Local Sites/starterblocks/app/public/wp-content/plugins/starterblocks/core/library.json";
+            $data = json_decode(
+                file_get_contents(
+                    $path
+                ), true
+            );
+//            print_r($data['sections']);
 //				$data = json_decode(
 //					file_get_contents(
 //						$path
 //					), true
 //				);
-            $blocks = array(
-                'sections' => array(),
-                'pages'    => array()
-            );
-            foreach ( $data['sections'] as $k => $section ) {
-
-//                    $section['blocks']['kioken'] =$section['blocks']['qubely'];
-//                    $section['source'] = 'kioken';
-//                    unset($section['blocks']['qubely']);
-
-//                    $data['sections'][$k] = $section;
-
-//                    print_r($section);
-//                    exit();
-
-                foreach ( array_keys( $section['blocks'] ) as $key ) {
-                    if ( ! isset( $blocks['sections'][ $key ] ) ) {
-                        $blocks['sections'][ $key ] = 0;
-                    }
-                    $blocks['sections'][ $key ] ++;
-                }
-            }
-            foreach ( $data['pages'] as $section ) {
-                foreach ( array_keys( $section['blocks'] ) as $key ) {
-                    if ( ! isset( $blocks['pages'][ $key ] ) ) {
-                        $blocks['pages'][ $key ] = 0;
-                    }
-                    $blocks['pages'][ $key ] ++;
-                }
-            }
-            $data['dependencies'] = $blocks;
+//            $blocks = array(
+//                'sections' => array(),
+//                'pages'    => array()
+//            );
+//            foreach ( $data['sections'] as $k => $section ) {
+//
+////                    $section['blocks']['kioken'] =$section['blocks']['qubely'];
+////                    $section['source'] = 'kioken';
+////                    unset($section['blocks']['qubely']);
+//
+////                    $data['sections'][$k] = $section;
+//
+////                    print_r($section);
+////                    exit();
+//                if (isset($section['blocks']) && !empty($section['blocks'])) {
+//                    foreach ( array_keys( $section['blocks'] ) as $key ) {
+//                        if ( ! isset( $blocks['sections'][ $key ] ) ) {
+//                            $blocks['sections'][ $key ] = 0;
+//                        }
+//                        $blocks['sections'][ $key ] ++;
+//                    }
+//                }
+//
+//            }
+//            foreach ( $data['pages'] as $section ) {
+//                foreach ( array_keys( $section['blocks'] ) as $key ) {
+//                    if ( ! isset( $blocks['pages'][ $key ] ) ) {
+//                        $blocks['pages'][ $key ] = 0;
+//                    }
+//                    $blocks['pages'][ $key ] ++;
+//                }
+//            }
+//            $data['dependencies'] = $blocks;
             set_transient( 'starterblocks_get_library_' . $type, $data, DAY_IN_SECONDS );
         }
 

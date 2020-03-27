@@ -9,20 +9,23 @@ export default function DependentPlugins (props) {
     const {ID} = data;
 
     const getDependentBlocks = (data) => {
-        return Object.keys(data.blocks).map((block) => {
-            const pluginReference = starterblocks.supported_plugins[block];
-            return {
-                name: pluginReference.name,
-                slug: block,
-                missingDependency: pluginReference.hasOwnProperty('version') === false
-            };
-        });
+        if ('blocks' in data) {
+            return Object.keys(data.blocks).map((block) => {
+                const pluginReference = starterblocks.supported_plugins[block];
+                return {
+                    name: pluginReference.name,
+                    slug: block,
+                    missingDependency: pluginReference.hasOwnProperty('version') === false
+                };
+            });
+        }
     }
 
     if (showDependencyBlock)
         return (
             <div className="starterblocks-button-display-dependencies">
                 {
+                    data.blocks &&
                     getDependentBlocks(data).map(block => {
                         const {name, slug, missingDependency} = block;
                         const IconComponent = Icons[slug];
