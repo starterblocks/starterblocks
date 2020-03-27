@@ -63,12 +63,12 @@ class API {
                 ),
             );
 
-//            $data = $this->api_request( $config );
-//            if ( empty( $data ) ) {
-//                wp_send_json_error( array( 'error' => $data ) );
-//            }
+    //            $data = $this->api_request( $config );
+    //            if ( empty( $data ) ) {
+    //                wp_send_json_error( array( 'error' => $data ) );
+    //            }
 
-            $path = "/Users/dovy/Local Sites/starterblocks/app/public/wp-content/plugins/starterblocks/core/library.json";
+            $path = dirname(__FILE__)."/library.json";
             $data = json_decode(
                 file_get_contents(
                     $path
