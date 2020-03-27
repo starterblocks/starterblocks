@@ -17236,8 +17236,10 @@
     "dependencies": {
         "sections": {
             "ugb": 204,
+            "getwid": 38,
             "kioken": 53,
-            "qubely": 156
+            "qubely": 156,
+            "cwp": 20
         },
         "pages": {
             "qubely": 135
