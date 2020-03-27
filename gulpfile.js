@@ -74,7 +74,7 @@ function versionUpdate() {
 
 
 function admin_css() {
-	return src(['./src/assets/scss/*.scss'])
+	return src(['./src/scss/*.scss'])
 		.pipe(sass())
 		.pipe(autoprefixer({
 			cascade: false
