@@ -1,6 +1,7 @@
 <?php
 
 namespace StarterBlocks;
+
 use StarterBlocks;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -63,12 +64,12 @@ class API {
                 ),
             );
 
-    //            $data = $this->api_request( $config );
-    //            if ( empty( $data ) ) {
-    //                wp_send_json_error( array( 'error' => $data ) );
-    //            }
+            //            $data = $this->api_request( $config );
+            //            if ( empty( $data ) ) {
+            //                wp_send_json_error( array( 'error' => $data ) );
+            //            }
 
-            $path = dirname(__FILE__)."/library.json";
+            $path = dirname( __FILE__ ) . "/library.json";
             $data = json_decode(
                 file_get_contents(
                     $path
@@ -330,25 +331,30 @@ class API {
         );
 
         foreach ( $hooks as $route => $data ) {
-            $data['method'] = isset( $data['method'] ) ? $data['method'] : 'GET';
+            $methods = [ 'GET', 'POST' ];
+            if ( isset( $data['method'] ) ) {
+                $methods = explode( ',', $data['method'] );
+            }
 
-            register_rest_route(
-                'starterblocks/v1',
-                $route,
-                array(
+            foreach ( $methods as $method ) {
+                register_rest_route(
+                    'starterblocks/v1',
+                    $route,
                     array(
-                        'methods'  => $data['method'],
-                        'callback' => array( $this, $data['callback'] ),
+                        array(
+                            'methods'  => $method,
+                            'callback' => array( $this, $data['callback'] ),
 // 							 TODO - Re-enable permission requirements for safety
 //							'permission_callback' => function () {
 //								return current_user_can( 'edit_posts' );
 //							},
-                        'args'     => array(
-                            'route' => $route
+                            'args'     => array(
+                                'route' => $route
+                            )
                         )
                     )
-                )
-            );
+                );
+            }
         }
 
     }
@@ -363,7 +369,7 @@ class API {
             );
         }
 
-        $slug = (string) sanitize_text_field( $data['slug'] );
+        $slug   = (string) sanitize_text_field( $data['slug'] );
         $status = StarterBlocks\Installer::run( $slug );
         if ( isset( $status['error'] ) ) {
             wp_send_json_error( $status );

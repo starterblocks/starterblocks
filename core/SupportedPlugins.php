@@ -129,10 +129,15 @@ class SupportedPlugins {
                 'url'     => 'https://qodeblock.com/',
                 'has_pro' => true,
             ),
-            'cwp'                        => array(
+            'block-slider'               => array(
                 'name' => 'Block Slider',
                 'url'  => 'https://wordpress.org/plugins/block-slider',
                 'slug' => 'block-slider'
+            ),
+            'cwp'                        => array(
+                'name' => 'Gutenberg Forms',
+                'url'  => 'http://www.gutenbergforms.com',
+                'slug' => 'forms-gutenberg'
             ),
             'snow-monkey-blocks'         => array(
                 'name' => 'Snow Monkey Blocks',
@@ -153,8 +158,6 @@ class SupportedPlugins {
                 'name' => 'Ultimate Blocks',
                 'url'  => 'https://ultimateblocks.com/',
             ),
-
-
         );
     }
 

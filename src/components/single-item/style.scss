@@ -1,43 +1,44 @@
 .starterblocks-single-section-item {
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
 
-	.starterblocks-tmpl-title {
-		background: rgba(255, 255, 255, 0.95);
-		position: absolute;
-		bottom: 0;
+    .starterblocks-tmpl-title {
+        background: rgba(255, 255, 255, 0.95);
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        color: #23282d;
+        padding: 13px 15px;
+        font-size: 15px;
+    }
 
-		width: 100%;
-		margin: 0;
-		color: #23282d;
-		padding: 13px 15px;
-		font-size: 15px;
-	}
-	.starterblocks-single-item-inner {
-		position: relative;
-		overflow: hidden;
-		//min-height: 150px;
-		background: #999;
+    .starterblocks-single-item-inner {
+        position: relative;
+        overflow: hidden;
+        //min-height: 150px;
+        background: #999;
 
-		.warn_notice {
-			color: #fbbc0e;
-			font-weight: bold;
-			margin-bottom: 15px;
-			font-size: 14px;
-			opacity: 0;
-			text-align: center;
-		}
+        .warn_notice {
+            color: #fbbc0e;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 14px;
+            opacity: 0;
+            text-align: center;
+        }
 
-		.starterblocks-default-template-image {
-			transition: 300ms;
-		}
-	}
+        .starterblocks-default-template-image {
+            transition: 300ms;
+        }
+    }
 }
 
 #collections-sections-list.large > div {
-	width: 50%;
+    width: 50%;
 }
 
 #collections-sections-list.small > div {
-	width: 25%;
+    width: 25%;
 
 }

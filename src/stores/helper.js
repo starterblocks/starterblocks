@@ -5,8 +5,9 @@ import flatten from 'lodash/flatten';
 
 const {parse, createBlock} = wp.blocks;
 const {apiFetch} = wp;
-const {dispatch} = wp.data;
+const {dispatch, select} = wp.data;
 
+const {getBlockTypes} = dispatch('core/blocks');
 const {savePost} = dispatch('core/editor');
 const {insertBlocks} = dispatch('core/block-editor');
 const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
@@ -19,6 +20,8 @@ const convertObjectToArray = (list) => {
         return {...list[key], ID: key};
     })
 };
+const getByKey = (arr, key) => (arr.find(x => Object.keys(x)[0] === key) || {})[key]
+
 
 // parse categories and section data from section server data
 export const categorizeData = (list) => {
@@ -231,4 +234,26 @@ export const handlingLocalStorageData = () => {
     } catch (error) {
         alert(error.code + ' : ' + error.message);
     }
+}
+
+export const installedBlocks = () => {
+    let installed_blocks = select('core/blocks').getBlockTypes();
+    return Object.keys(installed_blocks).map(key => {
+        return installed_blocks[key]['name'];
+    })
+}
+export const installedBlocksTypes = () => {
+    let installed_blocks = select('core/blocks').getBlockTypes();
+
+    let names = Object.keys(installed_blocks).map(key => {
+        if (!installed_blocks[key]['name'].includes('core')) {
+            return installed_blocks[key]['name'].split('/')[0];
+        }
+    })
+    let unique = [...new Set(names)];
+    var filtered = unique.filter(function (el) {
+        return el;
+    });
+
+    return filtered
 }
