@@ -20,6 +20,7 @@ function Sidebar(props) {
             apiFetch({
                 path: 'starterblocks/v1/share/',
                 method: 'POST',
+                headers: {'Registed-Blocks': installedBlocksTypes()},
                 data: {
                     'postID': select('core/editor').getCurrentPostId(),
                     'editor_content': select('core/editor').getEditedPostContent(),

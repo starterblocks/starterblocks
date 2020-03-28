@@ -18,15 +18,9 @@ class API {
      */
     public function __construct() {
 
-        $this->starterblocks_api_request_body_default = array(
-            'request_from'    => 'starterblocks',
-            'request_version' => STARTERBLOCKS_VERSION,
-            'mokama'          => starterblocks_fs()->can_use_premium_code(),
-        );
-        $this->starterblocks_api_request_body         = apply_filters( 'starterblocks_api_request_body', array() );
+        add_filter( 'starterblocks_api_headers', array( $this, 'request_verify' ) );
+        $this->default_request_headers = apply_filters( 'starterblocks_api_headers', $this->default_request_headers );
 
-
-        add_action( 'starterblocks_api_request_headers', array( $this, 'request_verify' ) );
         add_action( 'rest_api_init', array( $this, 'register_api_hooks' ), 0 );
     }
 
@@ -53,67 +47,23 @@ class API {
         if ( ! isset( $parameters['no_cache'] ) ) {
             $data = get_transient( 'starterblocks_get_library_' . $type );
         }
-        $data = array();
+//        $data = array();
 
         if ( empty( $data ) ) {
 
             $config = array(
-                'path'    => 'library/' . (string) sanitize_text_field( $type ),
+                'path'    => 'library/',
                 'headers' => array(
                     'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
                 ),
             );
 
-            //            $data = $this->api_request( $config );
-            //            if ( empty( $data ) ) {
-            //                wp_send_json_error( array( 'error' => $data ) );
-            //            }
+            $data = $this->api_request( $config );
 
-            $path = dirname( __FILE__ ) . "/library.json";
-            $data = json_decode(
-                file_get_contents(
-                    $path
-                ), true
-            );
-//            print_r($data['sections']);
-//				$data = json_decode(
-//					file_get_contents(
-//						$path
-//					), true
-//				);
-//            $blocks = array(
-//                'sections' => array(),
-//                'pages'    => array()
-//            );
-//            foreach ( $data['sections'] as $k => $section ) {
-//
-////                    $section['blocks']['kioken'] =$section['blocks']['qubely'];
-////                    $section['source'] = 'kioken';
-////                    unset($section['blocks']['qubely']);
-//
-////                    $data['sections'][$k] = $section;
-//
-////                    print_r($section);
-////                    exit();
-//                if (isset($section['blocks']) && !empty($section['blocks'])) {
-//                    foreach ( array_keys( $section['blocks'] ) as $key ) {
-//                        if ( ! isset( $blocks['sections'][ $key ] ) ) {
-//                            $blocks['sections'][ $key ] = 0;
-//                        }
-//                        $blocks['sections'][ $key ] ++;
-//                    }
-//                }
-//
-//            }
-//            foreach ( $data['pages'] as $section ) {
-//                foreach ( array_keys( $section['blocks'] ) as $key ) {
-//                    if ( ! isset( $blocks['pages'][ $key ] ) ) {
-//                        $blocks['pages'][ $key ] = 0;
-//                    }
-//                    $blocks['pages'][ $key ] ++;
-//                }
-//            }
-//            $data['dependencies'] = $blocks;
+            if ( empty( $data ) ) {
+                wp_send_json_error( array( 'error' => $data ) );
+            }
+
             set_transient( 'starterblocks_get_library_' . $type, $data, DAY_IN_SECONDS );
         }
 
@@ -174,11 +124,12 @@ class API {
         $headers['Content-Type'] = 'application/json; charset=utf-8';
 
         $post_args = array(
-            'timeout'     => 120,
+            'timeout'     => 45,
             'body'        => json_encode( $data ),
             'method'      => 'POST',
             'data_format' => 'body',
-            'redirection' => 5,
+            'redirection' => 10,
+            'sslverify'   => false,
             'headers'     => $headers
         );
 
@@ -186,6 +137,17 @@ class API {
             $apiUrl,
             $post_args
         );
+
+        # Handle redirects
+        if (
+            ! is_wp_error( $request )
+            && isset( $request['http_response'] )
+            && $request['http_response'] instanceof \WP_HTTP_Requests_Response
+            && method_exists( $request['http_response'], 'get_response_object' )
+        ) {
+            $request = wp_remote_get( $request['http_response']->get_response_object()->url );
+        }
+
         if ( is_wp_error( $request ) ) {
             wp_send_json_error( array( 'messages' => $request->get_error_messages() ) );
         }
@@ -212,27 +174,17 @@ class API {
         $data = $request->get_params();
 
         $config = array(
-            'path'      => 'template',
-            'id'        => (int) sanitize_text_field( $data['id'] ),
-            'type'      => (string) sanitize_text_field( $data['type'] ),
-            'source_id' => sanitize_text_field( $data['sid'] ),
-            'source'    => isset( $_REQUEST['source'] ) ? (int) $_REQUEST['source'] : '',
-            'headers'   => array(
+            'path'    => 'template',
+            'id'      => (int) sanitize_text_field( $data['id'] ),
+            'type'    => (string) sanitize_text_field( $data['type'] ),
+            'source'  => isset( $_REQUEST['source'] ) ? (int) $_REQUEST['source'] : '',
+            'headers' => array(
                 'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
             ),
         );
 
         $response = get_transient( 'starterblocks_get_template_' . $config['id'] );
-
-//			print_r($response);
-//			echo PHP_EOL;
-
-
-//            $path = trailingslashit(
-//                        dirname( __FILE__ )
-//                    )  . 'kioken.json';
-//            $response = json_decode(file_get_contents($path), true);
-
+        $response = array();  // TODO - Remove me
         if ( empty( $response ) ) {
 
             // TODO - Put cached copy timestamp in headers
@@ -254,10 +206,12 @@ class API {
     public function request_verify( $data ) {
         $config = array(
             'SB-Version'   => STARTERBLOCKS_VERSION,
-            'SB-Pro'       => starterblocks_fs()->can_use_premium_code(),
             'SB-Multisite' => is_multisite(),
         );
-        $data   = wp_parse_args( $data, $config );
+        if ( starterblocks_fs()->can_use_premium_code() ) {
+            $config['SB-Pro'] = starterblocks_fs()->can_use_premium_code();
+        }
+        $data = wp_parse_args( $data, $config );
 
         return $data;
     }

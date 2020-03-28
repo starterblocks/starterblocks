@@ -133,14 +133,14 @@ export const missingRequirement = (pro, requirements) => {
 
 export const processImportHelper = (data, type, installedDependencies, errorCallback) => {
     let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
-    if (data.source_id) {
-        the_url += '&sid=' + data.source_id + '&source=' + data.source;
+    if ('source' in data) {
+        the_url += '&source=' + data.source;
     }
-    the_url += '&p=' + JSON.stringify(starterblocks.supported_plugins);
+
     const options = {
         method: 'GET',
         path: the_url,
-        headers: {'Content-Type': 'application/json'}
+        headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
     };
 
     apiFetch(options).then(response => {
