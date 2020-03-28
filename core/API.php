@@ -145,7 +145,11 @@ class API {
             && $request['http_response'] instanceof \WP_HTTP_Requests_Response
             && method_exists( $request['http_response'], 'get_response_object' )
         ) {
-            $request = wp_remote_get( $request['http_response']->get_response_object()->url );
+            $request = wp_remote_get(
+                $request['http_response']->get_response_object()->url, array(
+                'timeout' => 45,
+            )
+            );
         }
 
         if ( is_wp_error( $request ) ) {
