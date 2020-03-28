@@ -90,6 +90,7 @@ function LibraryModal(props) {
     const registerError = (errorMessage) => {
         appendErrorMessage(errorMessage);
         setSpinner(null);
+        setImportingBlock(null);
     }
 
     // Open Site Preview Modal
