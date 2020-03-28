@@ -47,7 +47,6 @@ class API {
         if ( ! isset( $parameters['no_cache'] ) ) {
             $data = get_transient( 'starterblocks_get_library_' . $type );
         }
-//        $data = array();
 
         if ( empty( $data ) ) {
 
@@ -147,8 +146,8 @@ class API {
         ) {
             $request = wp_remote_get(
                 $request['http_response']->get_response_object()->url, array(
-                'timeout' => 45,
-            )
+                                                                         'timeout' => 45,
+                                                                     )
             );
         }
 
@@ -186,6 +185,10 @@ class API {
                 'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
             ),
         );
+
+        if ( in_array( $data['type'], [ 'sections', 'pages' ] ) ) {
+            $data['type'] = substr_replace( $data['type'], "", - 1 );
+        }
 
         $response = get_transient( 'starterblocks_get_template_' . $config['id'] );
         $response = array();  // TODO - Remove me
