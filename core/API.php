@@ -211,6 +211,8 @@ class API {
             $test = ltrim( $response );
             if ( ! empty( $test ) and $test[0] == "{" ) {
                 $response = json_decode( $response, true );
+            } else {
+                $response = array( 'template' => $response );
             }
 
             set_transient( 'starterblocks_get_template_' . $config['id'], $response, DAY_IN_SECONDS );
