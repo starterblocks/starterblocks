@@ -60,6 +60,13 @@ class API {
             }
 
             $data = $this->api_request( $config );
+            $data = json_decode( $data, true );
+
+            if ( $data['status'] == "error" ) {
+                wp_send_json_error( array( 'message' => $data['message'] ) );
+            }
+
+            unset( $data['status'] );
 
             if ( empty( $data ) ) {
                 wp_send_json_error( array( 'error' => $data ) );
@@ -137,7 +144,7 @@ class API {
             $post_args
         );
 //        print_r($request);
-        $html_template = false;
+
         # Handle redirects
         if (
             ! is_wp_error( $request )
@@ -146,9 +153,6 @@ class API {
             && method_exists( $request['http_response'], 'get_response_object' )
             && strpos( $request['http_response']->get_response_object()->url, 'files.starterblocks.io' ) !== false
         ) {
-            if ( strpos( $request['http_response']->get_response_object()->url, '.html' ) !== false ) {
-                $html_template = true;
-            }
             $request = wp_remote_get(
                 $request['http_response']->get_response_object()->url,
                 array( 'timeout' => 45 )
@@ -158,23 +162,9 @@ class API {
         if ( is_wp_error( $request ) ) {
             wp_send_json_error( array( 'messages' => $request->get_error_messages() ) );
         }
-        if ( $html_template ) {
-            $blockData = array(
-                'data' => $request['body']
-            );
-        } else {
-            $blockData = json_decode( $request['body'], true );
-        }
-
-        if ( $blockData['status'] == "error" ) {
-            wp_send_json_error( array( 'message' => $blockData['message'] ) );
-        }
-        if ( isset( $blockData['status'] ) ) {
-            unset( $blockData['status'] );
-        }
 
 
-        return $blockData;
+        return $request['body'];
     }
 
     /**
@@ -217,6 +207,10 @@ class API {
 //            print_r( $response );
             if ( empty( $response ) ) {
                 wp_send_json_error( array( 'error' => $response ) );
+            }
+            $test = ltrim( $response );
+            if ( ! empty( $test ) and $test[0] == "{" ) {
+                $response = json_decode( $response, true );
             }
 
             set_transient( 'starterblocks_get_template_' . $config['id'], $response, DAY_IN_SECONDS );
