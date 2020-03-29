@@ -33,11 +33,10 @@ class API {
     public function get_index( \WP_REST_Request $request ) {
 
         $parameters = $request->get_params();
+        $attributes = $request->get_attributes();
 
-        if ( isset( $request->get_attributes()['args']['route'] ) && ! empty(
-            $request->get_attributes()['args']['route']
-            ) ) {
-            $type = str_replace( '/', '', $request->get_attributes()['args']['route'] );
+        if ( isset( $attributes['args']['route'] ) && ! empty( $attributes['args']['route'] ) ) {
+            $type = str_replace( '/', '', $attributes['args']['route'] );
         }
 
         if ( empty( $type ) ) {
@@ -48,21 +47,23 @@ class API {
             $data = get_transient( 'starterblocks_get_library_' . $type );
         }
 
+        $data = array();
         if ( empty( $data ) ) {
-
             $config = array(
                 'path'    => 'library/',
                 'headers' => array(
                     'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
                 ),
             );
+            if ( isset( $parameters['registered_blocks'] ) ) {
+                $config['headers']['SB-Registered-Blocks'] = implode( ",", $parameters['registered_blocks'] );
+            }
 
             $data = $this->api_request( $config );
 
             if ( empty( $data ) ) {
                 wp_send_json_error( array( 'error' => $data ) );
             }
-
             set_transient( 'starterblocks_get_library_' . $type, $data, DAY_IN_SECONDS );
         }
 
@@ -127,8 +128,7 @@ class API {
             'body'        => json_encode( $data ),
             'method'      => 'POST',
             'data_format' => 'body',
-            'redirection' => 10,
-            'sslverify'   => false,
+            'redirection' => 5,
             'headers'     => $headers
         );
 
@@ -136,6 +136,7 @@ class API {
             $apiUrl,
             $post_args
         );
+//        print_r($request);
 
         # Handle redirects
         if (
@@ -143,11 +144,11 @@ class API {
             && isset( $request['http_response'] )
             && $request['http_response'] instanceof \WP_HTTP_Requests_Response
             && method_exists( $request['http_response'], 'get_response_object' )
+            && strpos($request['http_response']->get_response_object()->url, 'files.starterblocks.io') !== false
         ) {
             $request = wp_remote_get(
-                $request['http_response']->get_response_object()->url, array(
-                                                                         'timeout' => 45,
-                                                                     )
+                $request['http_response']->get_response_object()->url,
+                array( 'timeout' => 45 )
             );
         }
 
@@ -174,31 +175,36 @@ class API {
      */
     public function get_template( \WP_REST_Request $request ) {
 
-        $data = $request->get_params();
+        $parameters = $request->get_params();
+        $attributes = $request->get_attributes();
+
+        if ( in_array( $parameters['type'], [ 'sections', 'pages' ] ) ) {
+            $parameters['type'] = substr_replace( $parameters['type'], "", - 1 );
+        }
 
         $config = array(
             'path'    => 'template',
-            'id'      => (int) sanitize_text_field( $data['id'] ),
-            'type'    => (string) sanitize_text_field( $data['type'] ),
-            'source'  => isset( $_REQUEST['source'] ) ? (int) $_REQUEST['source'] : '',
+            'id'      => sanitize_text_field( $parameters['id'] ),
+            'type'    => (string) sanitize_text_field( $parameters['type'] ),
+            'source'  => isset( $parameters['source'] ) ? $parameters['source'] : '',
             'headers' => array(
                 'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
             ),
         );
-
-        if ( in_array( $data['type'], [ 'sections', 'pages' ] ) ) {
-            $data['type'] = substr_replace( $data['type'], "", - 1 );
+        if ( isset( $parameters['registered_blocks'] ) ) {
+            $config['headers']['SB-Registered-Blocks'] = implode( ",", $parameters['registered_blocks'] );
         }
+//        print_r($parameters);
 
         $response = get_transient( 'starterblocks_get_template_' . $config['id'] );
         $response = array();  // TODO - Remove me
         if ( empty( $response ) ) {
 
             // TODO - Put cached copy timestamp in headers
-
-            $config = wp_parse_args( $data, $config );
+            $config = wp_parse_args( $parameters, $config );
 
             $response = $this->api_request( $config );
+//            print_r( $response );
             if ( empty( $response ) ) {
                 wp_send_json_error( array( 'error' => $response ) );
             }
@@ -207,7 +213,6 @@ class API {
         }
 
         wp_send_json_success( $response );
-
     }
 
     public function request_verify( $data ) {
