@@ -3,7 +3,7 @@
  * Plugin Name:       StarterBlocks - Gutenberg Block Templates
  * Plugin URI:        https://starterblocks.io/
  * Description:       Who wants to start with just blocks? Implement templates immediately with our design library. Shortcut your design process!
- * Version: 		  0.1.3
+ * Version: 		  0.1.5
  * Author:            StarterBlocks
  * Author URI:        https://starterblocks.io/
  * Text Domain:       starterblocks
@@ -81,7 +81,7 @@ if ( function_exists( 'starterblocks_fs' ) ) {
     }
 
 // Define Version
-    define( 'STARTERBLOCKS_VERSION', '0.1.3' );
+    define( 'STARTERBLOCKS_VERSION', '0.1.5' );
 
 // Define File DIR
     define( 'STARTERBLOCKS_FILE', __FILE__ );

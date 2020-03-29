@@ -137,15 +137,18 @@ class API {
             $post_args
         );
 //        print_r($request);
-
+        $html_template = false;
         # Handle redirects
         if (
             ! is_wp_error( $request )
             && isset( $request['http_response'] )
             && $request['http_response'] instanceof \WP_HTTP_Requests_Response
             && method_exists( $request['http_response'], 'get_response_object' )
-            && strpos($request['http_response']->get_response_object()->url, 'files.starterblocks.io') !== false
+            && strpos( $request['http_response']->get_response_object()->url, 'files.starterblocks.io' ) !== false
         ) {
+            if ( strpos( $request['http_response']->get_response_object()->url, '.html' ) !== false ) {
+                $html_template = true;
+            }
             $request = wp_remote_get(
                 $request['http_response']->get_response_object()->url,
                 array( 'timeout' => 45 )
@@ -155,14 +158,21 @@ class API {
         if ( is_wp_error( $request ) ) {
             wp_send_json_error( array( 'messages' => $request->get_error_messages() ) );
         }
-
-        $blockData = json_decode( $request['body'], true );
+        if ( $html_template ) {
+            $blockData = array(
+                'data' => $request['body']
+            );
+        } else {
+            $blockData = json_decode( $request['body'], true );
+        }
 
         if ( $blockData['status'] == "error" ) {
             wp_send_json_error( array( 'message' => $blockData['message'] ) );
         }
+        if ( isset( $blockData['status'] ) ) {
+            unset( $blockData['status'] );
+        }
 
-        unset( $blockData['status'] );
 
         return $blockData;
     }
