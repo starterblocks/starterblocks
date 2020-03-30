@@ -1,5 +1,4 @@
 const {__} = wp.i18n
-const { Fragment } = wp.element;
 import {isBlockPro} from '../../stores/helper';
 
 const MultipleItem = (props) => {
