@@ -1,6 +1,6 @@
-const { Component, useState, useEffect } = wp.element;
-const { compose, withState } = wp.compose;
-const { withDispatch, withSelect, select } = wp.data;
+const {Component, useState, useEffect} = wp.element;
+const {compose, withState} = wp.compose;
+const {withDispatch, withSelect, select} = wp.data;
 
 import './style.scss';
 
@@ -35,19 +35,32 @@ function Pagination(props) {
     }
 
     return (
-        <div className="tablenav-pages">
-            <span className="displaying-num">{pageData.length} items</span>
-            <span className="pagination-links">
-                <span className={firstButtonClass} aria-hidden="true" onClick={() => gotoPage(0, firstButtonClass)}>«</span>
-                <span className={prevButtonClass} aria-hidden="true" onClick={() => gotoPage(currentPage - 1, prevButtonClass)}>‹</span>
+        <fragment>
+
+            {
+                totalPages > 0 &&
+                <div className="tablenav-pages">
+                    <span className="displaying-num">{pageData.length} items</span>
+                    <span className="pagination-links">
+                <span className={firstButtonClass} aria-hidden="true"
+                      onClick={() => gotoPage(0, firstButtonClass)}>«</span>
+                <span className={prevButtonClass} aria-hidden="true"
+                      onClick={() => gotoPage(currentPage - 1, prevButtonClass)}>‹</span>
                 <span className="screen-reader-text">Current Page</span>
                 <span id="table-paging" className="paging-input">
-                    <span className="tablenav-paging-text">{currentPage + 1} of <span className="total-pages">{totalPages}</span></span>
+                    <span className="tablenav-paging-text">{currentPage + 1} of <span
+                        className="total-pages">{totalPages}</span></span>
                 </span>
-                <span className={nextButtonClass} aria-hidden="true" onClick={() => gotoPage(currentPage + 1, nextButtonClass)}>›</span>
-                <span className={lastButtonClass} aria-hidden="true" onClick={() => gotoPage(totalPages - 1, lastButtonClass)}>»</span>
+                <span className={nextButtonClass} aria-hidden="true"
+                      onClick={() => gotoPage(currentPage + 1, nextButtonClass)}>›</span>
+                <span className={lastButtonClass} aria-hidden="true"
+                      onClick={() => gotoPage(totalPages - 1, lastButtonClass)}>»</span>
             </span>
-        </div>
+                </div>
+
+            }
+
+        </fragment>
     );
 }
 
