@@ -65,7 +65,7 @@ function InstallPluginStep(props) {
                 <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.')}</p>
                 {
                     (installingPlugin === null && failedList.length > 0) &&
-                    (<p class='error'>
+                    (<p className='error'>
                         It's us, not you, we recommend you to try again later or contact us <a href='#'>here</a>
                     </p>)
                 }
