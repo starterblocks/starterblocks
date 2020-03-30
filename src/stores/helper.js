@@ -257,3 +257,17 @@ export const installedBlocksTypes = () => {
 
     return filtered
 }
+
+
+
+export const columnMap = {
+    'large': 2,
+    'medium': 3,
+    'small': 4
+};
+
+export const pageSizeMap = {
+    'large': 20,
+    'medium': 30,
+    'small': 40
+};

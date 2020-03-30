@@ -35,7 +35,8 @@ export const initialState = {
         dependencyFilters: {},
         searchContext: '',
         activeCollection: null,
-        sortBy: 'name'
+        sortBy: 'name',
+        currentPage: 0
     },
     installedDependencies: false // used when deciding should or not reload page after importing the template
 };
@@ -69,6 +70,7 @@ export const reducer = ( state = initialState, action ) => {
                 ...state,
                 [state.activeItemType]: {
                     ...state[state.activeItemType],
+                    currentPage: 0,
                     activeCategory: action.activeCategory
                 }
             };
@@ -77,6 +79,7 @@ export const reducer = ( state = initialState, action ) => {
                 ...state,
                 [state.activeItemType]: {
                     ...state[state.activeItemType],
+                    currentPage: 0,
                     searchContext: action.searchContext
                 }
             };
@@ -86,6 +89,7 @@ export const reducer = ( state = initialState, action ) => {
                 ...state,
                 [state.activeItemType]: {
                     ...state[state.activeItemType],
+                    currentPage: 0,
                     priceFilter: action.activePriceFilter
                 }
             };
@@ -99,6 +103,7 @@ export const reducer = ( state = initialState, action ) => {
                 ...state,
                 [state.activeItemType]: {
                     ...state[state.activeItemType],
+                    currentPage: 0,
                     dependencyFilters: action.dependencyFilters
                 }
             }
@@ -107,6 +112,7 @@ export const reducer = ( state = initialState, action ) => {
                 ...state,
                 [state.activeItemType]: {
                     ...state[state.activeItemType],
+                    currentPage: 0,
                     sortBy: action.sortBy
                 }
             };

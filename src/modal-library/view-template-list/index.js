@@ -12,17 +12,7 @@ import { SingleItemProvider } from '../../contexts/SingleItemContext';
 
 import PreviewModal from '../../modal-preview';
 
-const columnMap = {
-    'large': 2,
-    'medium': 3,
-    'small': 4
-};
-
-const pageSizeMap = {
-    'large': 20,
-    'medium': 30,
-    'small': 40
-};
+import {columnMap, pageSizeMap} from '../../stores/helper';
 
 function TemplateList(props) {
     const { pageData, loading, activeItemType, activeCollection, columns, currentPage } = props;
