@@ -47,7 +47,7 @@ class API {
             $data = get_transient( 'starterblocks_get_library_' . $type );
         }
 
-        $data = array();
+//        $data = array();
         if ( empty( $data ) ) {
             $config = array(
                 'path'    => 'library/',
@@ -131,7 +131,7 @@ class API {
         $headers['Content-Type'] = 'application/json; charset=utf-8';
 
         $post_args = array(
-            'timeout'     => 45,
+            'timeout'     => 90,
             'body'        => json_encode( $data ),
             'method'      => 'POST',
             'data_format' => 'body',
@@ -155,7 +155,7 @@ class API {
         ) {
             $request = wp_remote_get(
                 $request['http_response']->get_response_object()->url,
-                array( 'timeout' => 45 )
+                array( 'timeout' => 90 )
             );
         }
 
@@ -197,7 +197,7 @@ class API {
 //        print_r($parameters);
 
         $response = get_transient( 'starterblocks_get_template_' . $config['id'] );
-        $response = array();  // TODO - Remove me
+//        $response = array();  // TODO - Remove me
         if ( empty( $response ) ) {
 
             // TODO - Put cached copy timestamp in headers
