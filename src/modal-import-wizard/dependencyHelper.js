@@ -3,7 +3,7 @@ const getPluginInstance = (pluginKey) => {
 }
 
 const needsPluginInstall = (pluginKey) => {
-    return getPluginInstance(pluginKey).hasOwnProperty('version') === false;
+    return !getPluginInstance(pluginKey) || getPluginInstance(pluginKey).hasOwnProperty('version') === false;
 }
 
 const needsPluginPro = (pluginKey) => {
@@ -17,13 +17,7 @@ const checkTemplateDependencies = (data) => {
     if (data.pro) {
         if (!starterblocks.mokama && data.source === 'starterblocks')
             missingProArray.push('starterblocks');
-
-        if (data.source !== 'starterblocks' && needsPluginPro(data.source))
-            missingProArray.push(data.source);
     }
-
-    if (data.source !== 'starterblocks' && needsPluginInstall(data.source))
-        missingPluginArray.push(data.source);
 
     // dependency blocks check
     Object.keys(data.blocks).forEach(pluginKey => {
