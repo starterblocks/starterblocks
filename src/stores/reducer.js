@@ -14,7 +14,8 @@ export const initialState = {
         activeCategory: '',
         dependencyFilters: {},
         searchContext: '',
-        sortBy: 'name'
+        sortBy: 'name',
+        currentPage: 0
     },
     page: {
         categories: [],
@@ -23,7 +24,8 @@ export const initialState = {
         activeCategory: '',
         dependencyFilters: {},
         searchContext: '',
-        sortBy: 'name'
+        sortBy: 'name',
+        currentPage: 0
     },
     collection: {
         categories: [],
@@ -106,6 +108,14 @@ export const reducer = ( state = initialState, action ) => {
                 [state.activeItemType]: {
                     ...state[state.activeItemType],
                     sortBy: action.sortBy
+                }
+            };
+        case 'SET_CURRENT_PAGE':
+            return {
+                ...state,
+                [state.activeItemType]: {
+                    ...state[state.activeItemType],
+                    currentPage: action.currentPage
                 }
             };
         case 'SET_ACTIVE_COLLECTION':

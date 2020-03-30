@@ -29,6 +29,10 @@ const getDependencyFilters = (state) => {
 const getActiveCategory = (state) => {
     return state[state.activeItemType].activeCategory;
 };
+
+const getCurrentPage = (state) => {
+    return state[state.activeItemType].currentPage;
+};
 const getActiveItemType = (state) => {
     return state.activeItemType;
 };
@@ -49,6 +53,7 @@ const store = registerStore('starterblocks/sectionslist', {
         getSearchContext,
         getDependencyFilters,
         getActiveItemType,
+        getCurrentPage,
         getActiveCategory,
         // get categories from currentState, sortBy alphabetically
         getCategoryData(state) {

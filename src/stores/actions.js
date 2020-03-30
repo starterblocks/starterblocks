@@ -47,6 +47,12 @@ export const actions = {
             dependencyFilters
         }
     },
+    setCurrentPage( currentPage ) {
+        return {
+            type: 'SET_CURRENT_PAGE',
+            currentPage
+        }
+    },
     setLoading( loading ) {
         return {
             type: 'SET_LOADING',

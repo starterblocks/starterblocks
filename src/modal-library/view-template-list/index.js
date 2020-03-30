@@ -5,6 +5,7 @@ const { Spinner } = wp.components;
 
 import SingleItem from '../../components/single-item'
 import MultipleItem from '../../components/multiple-item'
+import Pagination from '../../components/pagination'
 import './style.scss'
 
 import { SingleItemProvider } from '../../contexts/SingleItemContext';
@@ -17,8 +18,14 @@ const columnMap = {
     'small': 4
 };
 
+const pageSizeMap = {
+    'large': 20,
+    'medium': 30,
+    'small': 40
+};
+
 function TemplateList(props) {
-    const { pageData, loading, activeItemType, activeCollection, columns } = props;
+    const { pageData, loading, activeItemType, activeCollection, columns, currentPage } = props;
     const { setActiveCollection} = props;
     const [columnizedData, setColumnizedData] = useState([]);
     const getBackgroundImage = (url) => {
@@ -33,26 +40,29 @@ function TemplateList(props) {
     }
 
     useEffect(() => {
-        let newData = [];
-        const columnsCount = (columns === '') ? 3 : columnMap[columns];
+        let newData = [], index = 0;
+        let colStr = (columns === '') ? 'medium' : columns;
+        const columnsCount = columnMap[colStr];
+        const pageSize = pageSizeMap[colStr];
         for (let i = 0; i < columnsCount; i++)
             newData[i] = [];
         if (pageData) {
-            pageData.forEach((data, index) => {
-                newData[index % columnsCount].push({...data, index});
-            });
+            const lowerLimit = activeItemType !== 'collection' ? (currentPage * pageSize) + 1 : 1;
+            const upperLimit = activeItemType !== 'collection' ? (currentPage + 1) * pageSize : pageData.length;
+            for ( index = lowerLimit; index <= upperLimit && index <= pageData.length; index++) {
+                newData[(index - 1) % columnsCount].push({...pageData[index - 1], index: index - 1});
+            }
         }
         setColumnizedData(newData);
     }, [columns, pageData]);
     let types = starterblocks.mokama === '1' ? 'active' : 'inactive';
-    // Render Part
+
+
     if (!loading)
         return (
             <div id="modalContainer" className="starterblocks-template-list-modal">
                 <div className="starterblocks-builder-template-list-container">
-
                     <div id="collections-sections-list" className={`starterblocks-builder-page-templates ${columns}`}>
-
                         { columnizedData &&
                             columnizedData.map((columnData, colIndex) => (
                                 <div className="starterblocks-pagelist-column" key={colIndex}>
@@ -91,19 +101,19 @@ function TemplateList(props) {
                             ))
                         }
                     </div>
+                    { activeItemType !== 'collection' && <Pagination /> }
                 </div>
             </div>
         );
-    else
-        return (
-            <div>
-                <div style={{ height: '600px' }}>
-                    <div className="starterblocks-modal-loader">
-                        <Spinner />
-                    </div>
+    return (
+        <div>
+            <div style={{ height: '600px' }}>
+                <div className="starterblocks-modal-loader">
+                    <Spinner />
                 </div>
             </div>
-        );
+        </div>
+    );
 }
 
 
@@ -119,7 +129,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const { getPageData, getLoading, getColumns, getActiveItemType, getActiveCollection} = select('starterblocks/sectionslist');
-        return { pageData: getPageData(), loading: getLoading(), activeItemType: getActiveItemType(), columns: getColumns(), activeCollection: getActiveCollection() };
+        const { getPageData, getLoading, getColumns, getActiveItemType, getActiveCollection, getCurrentPage} = select('starterblocks/sectionslist');
+        return { pageData: getPageData(), loading: getLoading(), activeItemType: getActiveItemType(), columns: getColumns(), activeCollection: getActiveCollection(), currentPage: getCurrentPage() };
     })
 ])(TemplateList);

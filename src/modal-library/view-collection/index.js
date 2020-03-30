@@ -19,7 +19,6 @@ function CollectionView(props) {
 
     let previewData = pageData[previewDataIndex];
 
-    // Render Part
     return (
         <div className="starterblocks-collection-details-view">
             <div className="starterblocks-collection-details-left">
