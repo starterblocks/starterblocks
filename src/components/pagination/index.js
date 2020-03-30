@@ -30,8 +30,8 @@ function Pagination(props) {
     }, [pageData]);
 
     const gotoPage = (pageNum, className) => {
-        document.getElementById('modalContent').scrollTop = 0;
         if (className.indexOf('disabled') > 0) return;
+        document.getElementById('modalContent').scrollTop = 0;
         setCurrentPage(pageNum);
     }
 
