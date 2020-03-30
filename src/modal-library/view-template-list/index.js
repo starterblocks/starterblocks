@@ -46,7 +46,8 @@ function TemplateList(props) {
         setColumnizedData(newData);
     }, [columns, pageData]);
     let types = starterblocks.mokama === '1' ? 'active' : 'inactive';
-
+    const dataLength = pageData ? pageData.length : '';
+    const displayPagination = dataLength && dataLength !== 0 && activeItemType !== 'collection'
 
     if (!loading)
         return (
@@ -91,7 +92,7 @@ function TemplateList(props) {
                             ))
                         }
                     </div>
-                    { activeItemType !== 'collection' && <Pagination /> }
+                    { displayPagination == true && activeItemType !== 'collection' && <Pagination /> }
                 </div>
             </div>
         );
