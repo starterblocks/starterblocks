@@ -18,6 +18,7 @@ function TemplateList(props) {
     const { pageData, loading, activeItemType, activeCollection, columns, currentPage } = props;
     const { setActiveCollection} = props;
     const [columnizedData, setColumnizedData] = useState([]);
+    const [shouldShowPagination, setShouldShowPagination] = useState(false);
     const getBackgroundImage = (url) => {
         if (!url) {
             return starterblocks.plugin + 'assets/img/starterblocks-medium.jpg';
@@ -44,6 +45,7 @@ function TemplateList(props) {
             }
         }
         setColumnizedData(newData);
+        setShouldShowPagination(activeItemType !== 'collection' && pageData && pageSize < pageData.length);
     }, [columns, pageData]);
     let types = starterblocks.mokama === '1' ? 'active' : 'inactive';
 
@@ -91,7 +93,7 @@ function TemplateList(props) {
                             ))
                         }
                     </div>
-                    { activeItemType !== 'collection' && <Pagination /> }
+                    { shouldShowPagination && <Pagination /> }
                 </div>
             </div>
         );
