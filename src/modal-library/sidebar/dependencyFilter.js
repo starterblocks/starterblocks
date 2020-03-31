@@ -36,7 +36,7 @@ function DependencyFilter(props) {
         <Fragment>
             {!loading &&
                 <div>
-                    <h3>{__('Dependencies', 'starterblocks')}</h3>
+                    <h3>{__('Required Plugins', 'starterblocks')}</h3>
                     <div className="starterblocks-select-actions">
                         <a href="#" onClick={() => setAllCheckedAs(true)}>Select All</a>
                         <span>&nbsp; / &nbsp;</span>

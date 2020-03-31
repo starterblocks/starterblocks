@@ -245,7 +245,7 @@ class API {
             'post_status' => 'publish'
         );
         $r         = wp_parse_args( null, $args );
-        $get_posts = new WP_Query;
+        $get_posts = new \WP_Query;
         $wp_blocks = $get_posts->query( $r );
         wp_send_json_success( $wp_blocks );
     }

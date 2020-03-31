@@ -57,21 +57,41 @@ class SupportedPlugins {
 
     private static function set_plugins() {
         self::$plugins = array(
-            'advgb'                     => array(
+            'acf-blocks-pro'             => array(
+                'name' => 'ACF Blocks Pro',
+                'url'  => 'https://www.acfblocks.com/pro/',
+            ),
+            'acf-blocks'                 => array(
+                'name' => 'ACF Blocks',
+                'url'  => 'https://wordpress.org/plugins/acf-blocks/',
+            ),
+            'acf'                 => array(
+                'name' => 'Advanced Custom Fields',
+                'url'  => 'https://wordpress.org/plugins/advanced-custom-fields/',
+            ),
+            'acf-pro'                 => array(
+                'name' => 'ACF Pro',
+                'url'  => 'https://www.advancedcustomfields.com/pro/',
+            ),
+            'advgb'                      => array(
                 'name' => 'Advanced Gutenberg',
                 'url'  => 'https://www.joomunited.com/wordpress-products/advanced-gutenberg',
             ),
-            'advanced-gutenberg-blocks' => array(
+            'advanced-gutenberg-blocks'  => array(
                 'name' => 'Adv. Gutenberg Blocks',
                 'url'  => 'https://advanced-gutenberg-blocks.com/',
             ),
-            'atomic-blocks'             => array(
+            'atomic-blocks'              => array(
                 'name' => 'Atomic Blocks',
                 'url'  => 'https://atomicblocks.com/',
             ),
             'blocks-css'                 => array(
                 'name' => 'Blocks CSS',
                 'url'  => 'https://wordpress.org/plugins/blocks-css/',
+            ),
+            'block-slider'               => array(
+                'name' => 'Block Slider',
+                'url'  => 'https://wordpress.org/plugins/block-slider',
             ),
             'coblocks'                   => array(
                 'name' => 'CoBlocks',
@@ -102,6 +122,10 @@ class SupportedPlugins {
             'guteblock'                  => array(
                 'name' => 'Guteblock',
                 'url'  => 'https://guteblock.com/'
+            ),
+            'forms-gutenberg'            => array(
+                'name' => 'Gutenberg Forms',
+                'url'  => 'https://wordpress.org/plugins/forms-gutenberg',
             ),
             'themeisle-blocks'           => array(
                 'name' => 'Gutenberg Blocks by Otter',
