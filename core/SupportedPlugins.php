@@ -65,6 +65,10 @@ class SupportedPlugins {
                 'name' => 'ACF Blocks',
                 'url'  => 'https://wordpress.org/plugins/acf-blocks/',
             ),
+            'acf'                 => array(
+                'name' => 'Advanced Custom Fields',
+                'url'  => 'https://wordpress.org/plugins/advanced-custom-fields/',
+            ),
             'acf-pro'                 => array(
                 'name' => 'ACF Pro',
                 'url'  => 'https://www.advancedcustomfields.com/pro/',
