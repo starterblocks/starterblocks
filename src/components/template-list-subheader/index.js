@@ -12,7 +12,7 @@ import SVGViewNormal from './images/view-normal.svg'
 import './style.scss'
 
 function TemplateListSubHeader(props) {
-    const {fetchLibraryFromAPI, itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData} = props;
+    const {fetchLibraryFromAPI, itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData, loading} = props;
     const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, columns, setColumns} = props;
     const {resetLibrary} = useContext(TemplateModalContext);
 
@@ -40,15 +40,15 @@ function TemplateListSubHeader(props) {
 
     const dataLength = pageData ? pageData.length : '';
 
-    let page_title = '';
-    if (dataLength && dataLength !== 0) {
-        page_title = <span>{dataLength} {itemTypeLabel()}</span>;
+    let pageTitle = '';
+    if (loading === false && dataLength && dataLength !== 0) {
+        pageTitle = <span>{dataLength} {itemTypeLabel()}</span>;
     }
 
     return (
         <div className="starterblocks-template-list-sub-header">
             <h4>
-                {page_title}
+                {pageTitle}
             </h4>
             <div className="starterblocks-template-filters">
                 <IconButton
@@ -101,7 +101,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActivePriceFilter, getActiveCollection, getStatistics, getSortBy} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActivePriceFilter, getActiveCollection, getStatistics, getSortBy, getLoading} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             itemType: getActiveItemType(),
@@ -110,7 +110,8 @@ export default compose([
             statistics: getStatistics(),
             activePriceFilter: getActivePriceFilter(),
             sortBy: getSortBy(),
-            activeCollection: getActiveCollection()
+            activeCollection: getActiveCollection(),
+            loading: getLoading()
         };
     })
 ])(TemplateListSubHeader);
