@@ -11,19 +11,27 @@ const needsPluginPro = (pluginKey) => {
     return (pluginInstance.hasOwnProperty('has_pro') && (pluginInstance.hasOwnProperty('is_pro') === false));
 }
 
+
+
 const checkTemplateDependencies = (data) => {
     let missingPluginArray = [], missingProArray = [];
-    // Template itself check
-    if (data.pro) {
-        if (!starterblocks.mokama && data.source === 'starterblocks')
-            missingProArray.push('starterblocks');
+
+    if (data !== undefined && 'source' in data && data.source !== 'wp_block_patterns') { // We only want to check non wp-block-patterns.
+        // Template itself check
+        if ('pro' in data && data.pro) {
+            if (!starterblocks.mokama && data.source === 'starterblocks')
+                missingProArray.push('starterblocks');
+        }
+
+        // dependency blocks check
+        if ('blocks' in data) {
+            Object.keys(data.blocks).forEach(pluginKey => {
+                if (needsPluginInstall(pluginKey)) missingPluginArray.push(pluginKey);
+                if (needsPluginPro(pluginKey) && data.blocks[pluginKey].pro) missingProArray.push(pluginKey);
+            });
+        }
     }
 
-    // dependency blocks check
-    Object.keys(data.blocks).forEach(pluginKey => {
-        if (needsPluginInstall(pluginKey)) missingPluginArray.push(pluginKey);
-        if (needsPluginPro(pluginKey) && data.blocks[pluginKey].pro) missingProArray.push(pluginKey);
-    });
     return {missingPluginArray, missingProArray};
 }
 

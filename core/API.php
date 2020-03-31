@@ -3,6 +3,7 @@
 namespace StarterBlocks;
 
 use StarterBlocks;
+use WP_Patterns_Registry;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
@@ -22,7 +23,9 @@ class API {
         $this->default_request_headers = apply_filters( 'starterblocks_api_headers', $this->default_request_headers );
 
         add_action( 'rest_api_init', array( $this, 'register_api_hooks' ), 0 );
+
     }
+
 
     /**
      * @since 1.0.0
@@ -31,7 +34,6 @@ class API {
      * @param     WP_REST_Request     $request
      */
     public function get_index( \WP_REST_Request $request ) {
-
         $parameters = $request->get_params();
         $attributes = $request->get_attributes();
 
@@ -77,6 +79,22 @@ class API {
         if ( isset( $parameters['no_cache'] ) ) {
             $data['cache'] = "cleared";
         }
+
+        if ( class_exists( 'WP_Patterns_Registry' ) ) {
+            $patterns = \WP_Patterns_Registry::get_instance()->get_all_registered();
+            foreach ( $patterns as $k => $p ) {
+                $id                      = 'wp_block_pattern_' . $k;
+                $data['sections'][ $id ] = array(
+                    "name"       => $p['title'],
+                    'categories' => array( 'WP Block Patterns' ),
+                    'source'     => 'wp_block_patterns',
+                    'id'         => $id
+                );
+            }
+        }
+
+//        print_r( $patterns );
+
 
         wp_send_json_success( $data );
     }
@@ -191,32 +209,48 @@ class API {
                 'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
             ),
         );
-        if ( isset( $parameters['registered_blocks'] ) ) {
-            $config['headers']['SB-Registered-Blocks'] = implode( ",", $parameters['registered_blocks'] );
-        }
+
+
+        if ( $config['source'] == "wp_block_patterns" && class_exists( 'WP_Patterns_Registry' ) ) {
+            $patterns = \WP_Patterns_Registry::get_instance()->get_all_registered();
+            $id       = explode( '_', $config['id'] );
+            $id       = end( $id );
+
+            if ( isset( $patterns[ $id ] ) ) {
+                $response = array( 'template' => $patterns[ $id ]['content'] );
+            }
+        } else {
+            if ( isset( $parameters['registered_blocks'] ) ) {
+                $config['headers']['SB-Registered-Blocks'] = implode( ",", $parameters['registered_blocks'] );
+            }
 //        print_r($parameters);
 
-        $response = get_transient( 'starterblocks_get_template_' . $config['id'] );
-//        $response = array();  // TODO - Remove me
-        if ( empty( $response ) ) {
-
-            // TODO - Put cached copy timestamp in headers
-            $config = wp_parse_args( $parameters, $config );
-
-            $response = $this->api_request( $config );
-//            print_r( $response );
+            $response = get_transient( 'starterblocks_get_template_' . $config['id'] );
+            $response = array();  // TODO - Remove me
             if ( empty( $response ) ) {
-                wp_send_json_error( array( 'error' => $response ) );
-            }
-            $test = ltrim( $response );
-            if ( ! empty( $test ) and $test[0] == "{" ) {
-                $response = json_decode( $response, true );
-            } else {
-                $response = array( 'template' => $response );
-            }
 
-            set_transient( 'starterblocks_get_template_' . $config['id'], $response, DAY_IN_SECONDS );
+                // TODO - Put cached copy timestamp in headers
+                $config = wp_parse_args( $parameters, $config );
+
+                $response = $this->api_request( $config );
+//            print_r( $response );
+                if ( empty( $response ) ) {
+                    wp_send_json_error( array( 'error' => $response ) );
+                }
+
+
+                $data = json_decode( $response, true );
+
+                if ( $data !== null ) {
+                    $response = $data;
+                } else {
+                    $response = array( 'template' => $response );
+                }
+
+                set_transient( 'starterblocks_get_template_' . $config['id'], $response, DAY_IN_SECONDS );
+            }
         }
+
 
         wp_send_json_success( $response );
     }

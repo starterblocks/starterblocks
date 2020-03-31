@@ -5,7 +5,7 @@ import flatten from 'lodash/flatten';
 
 const {parse, createBlock} = wp.blocks;
 const {apiFetch} = wp;
-const {dispatch, select} = wp.data;
+const {dispatch, select, useDispatch} = wp.data;
 
 const {getBlockTypes} = dispatch('core/blocks');
 const {savePost} = dispatch('core/editor');
@@ -141,6 +141,12 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
         path: the_url,
         headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
     };
+    const { switchEditorMode } = useDispatch( 'core/edit-post' );
+
+    if (select('core/edit-post').getEditorMode() === 'text') {
+        useDispatch('core/edit-post').switchEditorMode()
+    }
+
 
     apiFetch(options).then(response => {
         if (response.success && response.data) {

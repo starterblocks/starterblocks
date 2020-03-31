@@ -65,12 +65,12 @@ class SupportedPlugins {
                 'name' => 'ACF Blocks',
                 'url'  => 'https://wordpress.org/plugins/acf-blocks/',
             ),
-            'acf'                 => array(
+            'acf'                        => array(
                 'name' => 'Advanced Custom Fields',
                 'url'  => 'https://wordpress.org/plugins/advanced-custom-fields/',
                 'slug' => 'advanced-custom-fields',
             ),
-            'acf-pro'                 => array(
+            'acf-pro'                    => array(
                 'name' => 'ACF Pro',
                 'url'  => 'https://www.advancedcustomfields.com/pro/',
             ),
@@ -131,6 +131,10 @@ class SupportedPlugins {
             'themeisle-blocks'           => array(
                 'name' => 'Gutenberg Blocks by Otter',
                 'url'  => 'https://themeisle.com/plugins/otter-blocks'
+            ),
+            'gutenberg'                  => array(
+                'name' => 'Gutenberg',
+                'url'  => 'https://www.cssigniter.com/plugins/gutenberg/',
             ),
             'gutenbee'                   => array(
                 'name' => 'Gutenbee',
