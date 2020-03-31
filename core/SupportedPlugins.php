@@ -65,6 +65,10 @@ class SupportedPlugins {
                 'name' => 'ACF Blocks',
                 'url'  => 'https://wordpress.org/plugins/acf-blocks/',
             ),
+            'acf-pro'                 => array(
+                'name' => 'ACF Pro',
+                'url'  => 'https://www.advancedcustomfields.com/pro/',
+            ),
             'advgb'                      => array(
                 'name' => 'Advanced Gutenberg',
                 'url'  => 'https://www.joomunited.com/wordpress-products/advanced-gutenberg',
