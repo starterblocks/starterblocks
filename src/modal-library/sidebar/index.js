@@ -15,7 +15,7 @@ function Sidebar(props) {
 		return (itemType !== 'collection' || layer === null);
 	};
 	return (
-		<div className="starterblocks-modal-sidebar-content">
+		<div className="starterblocks-modal-sidebar-content" data-tut="tour__filtering">
 			{
 				hasSidebar() &&
 				<div>

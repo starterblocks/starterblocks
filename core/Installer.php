@@ -22,6 +22,7 @@ class Installer {
 
     public static function run( $slug ) {
         $pluginDir = WP_PLUGIN_DIR . '/' . $slug;
+
         /*
          * Don't try installing plugins that already exist (wastes time downloading files that
          * won't be used
@@ -92,6 +93,16 @@ class Installer {
         } elseif ( file_exists( $pluginDir . '/plugin.php' ) ) {
             $pluginPath  = $pluginDir . '/' . $slug . '.php';
             $pluginCheck = $slug . '/plugin.php';
+        } else {
+            $split        = explode( '-', $slug );
+            $new_filename = "";
+            foreach ( $split as $s ) {
+                if ( ! empty( $s ) ) {
+                    $new_filename .= $s[0];
+                }
+            }
+            $pluginPath  = $pluginDir . '/' . $new_filename . '.php';
+            $pluginCheck = $slug . '/' . $new_filename . '.php';
         }
 
         if ( ! empty( $pluginPath ) ) {

@@ -33,7 +33,7 @@ export function TabHeader(props) {
                 }
             </div>
 
-            <div className="starterblocks-template-list-header">
+            <div className="starterblocks-template-list-header" data-tut="tour__navigation">
                 <button className={ isActive('section') } onClick={e => changeTab('section')}> {__('Sections')} </button>
                 <button className={ isActive('page') } onClick={e => changeTab('page')}> {__('Pages')} </button>
                 <button className={ isActive('collection') } onClick={e => changeTab('collection')}> {__('Collections')} </button>

@@ -14,7 +14,7 @@ import { StarterBlocksIcon } from '~starterblocks/icons'
 
 const ToolbarLibraryButton = () => {
 	return (
-		<IconButton
+		<IconButton data-tut="tour__library_button"
 			onClick={ () => {
 				ModalManager.open(<LibraryModal rowClientId={false}/>);
 			} }

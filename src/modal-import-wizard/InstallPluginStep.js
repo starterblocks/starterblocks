@@ -60,7 +60,7 @@ function InstallPluginStep(props) {
     return (
 
         <Fragment>
-            <div className="starterblocks-import-wizard-body">
+            <div className="starterblocks-import-wizard-body" data-tut="tour__import_wizard">
                 <h5>{__('Install Required Plugins')}</h5>
                 <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.')}</p>
                 {

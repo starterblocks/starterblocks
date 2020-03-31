@@ -17,7 +17,7 @@ function WithSidebarCollection (props) {
             <div className="starterblocks-collection-modal-sidebar">
                 <Sidebar />
             </div>
-            <div className="starterblocks-collection-modal-content-area" id="modalContent" ref={contentAreaRef}>
+            <div className="starterblocks-collection-modal-content-area" data-tut="tour__main_body" id="modalContent" ref={contentAreaRef}>
                 <TemplateListSubHeader />
                 <TemplateList />
             </div>

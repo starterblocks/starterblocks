@@ -68,6 +68,7 @@ class SupportedPlugins {
             'acf'                 => array(
                 'name' => 'Advanced Custom Fields',
                 'url'  => 'https://wordpress.org/plugins/advanced-custom-fields/',
+                'slug' => 'advanced-custom-fields',
             ),
             'acf-pro'                 => array(
                 'name' => 'ACF Pro',
