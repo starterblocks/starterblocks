@@ -46,7 +46,7 @@ export const categorizeData = (list) => {
                     }
                 });
                 if (index === -1) {
-                    categories.push({name: catName, slug: catSlug, ids: []})
+                    categories.push({name: catName, slug: catSlug, ids: [item.id]})
                 }
             })
         }
@@ -85,7 +85,6 @@ export const parseCollectionData = (library) => {
         }, {});
         return collection;
     });
-
     return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies.pages}};
 }
 
