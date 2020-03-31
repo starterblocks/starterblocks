@@ -53,7 +53,7 @@ function DependencyFilter(props) {
                         </li>
                         }
                         {
-                            Object.keys(dependencyFilters).map(pluginKey => {
+                            Object.keys(dependencyFilters).sort().map(pluginKey => {
                                 if (pluginKey === 'none') return null;
                                 let pluginInstance = starterblocks.supported_plugins[pluginKey];
                                 // To deal with yet unknown plugins.
