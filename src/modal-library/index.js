@@ -24,7 +24,7 @@ import './style.scss'
 function LibraryModal(props) {
     const {
         fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, categories, savePost, isSavingPost, installedDependencies
+        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies
     } = props;
     const [spinner, setSpinner] = useState(null);
     const [loaded, setLoaded] = useState(false);

@@ -3,6 +3,8 @@ const {compose} = wp.compose;
 const {select, withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
+import uniq from 'lodash/uniq';
+
 function CategoryFilter (props) {
     const {categoryData, activeCategory, activePriceFilter, loading, itemType} = props;
     const {setActiveCategory} = props;
@@ -16,16 +18,15 @@ function CategoryFilter (props) {
     };
 
     const totalItemCount = () => {
-        let totalCount = 0, filteredCount = 0;
+        let totalArr = [], filteredArr = [];
         categoryData.forEach((category) => {
-            if (category.hasOwnProperty('filteredCount')) filteredCount += category.filteredCount;
-            totalCount += category.count;
+            if (category.hasOwnProperty('filteredData')) filteredArr = [...filteredArr, ...category.filteredData];
+            totalArr = [...totalArr, ...category.ids];
         });
-
-        return (activePriceFilter !== '') ? filteredCount + '/' + totalCount : totalCount;
+        return (activePriceFilter !== '') ?  uniq(filteredArr).length + '/' + uniq(totalArr).length : uniq(totalArr).length;
     };
 
-    const isDisabledCategory = (data) => (data && ((data.hasOwnProperty('filteredCount') && data.filteredCount === 0) || data.count === 0));
+    const isDisabledCategory = (data) => (data && ((data.hasOwnProperty('filteredData') && data.filteredData.length === 0) || data.ids.length === 0));
 
     const onChangeCategory = (data) => {
         if (isDisabledCategory(data)) return;
@@ -56,7 +57,7 @@ function CategoryFilter (props) {
                     <li className={activeClassname(data)} onClick={() => onChangeCategory(data)}
                         key={index}>
                         {data.name}
-                        <span> {data.hasOwnProperty('filteredCount') && activePriceFilter !== '' ? data.filteredCount : data.count} </span>
+                        <span> {data.hasOwnProperty('filteredData') && activePriceFilter !== '' ? data.filteredData.length : data.ids.length } </span>
                     </li>
                 ))
                 }

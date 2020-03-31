@@ -42,11 +42,11 @@ export const categorizeData = (list) => {
                 categories.forEach((change, i) => {
                     if (catSlug == change.slug) {
                         index = i
-                        categories[i].count = categories[i].count + 1
+                        categories[i].ids.push(item.id);
                     }
                 });
                 if (index === -1) {
-                    categories.push({name: catName, slug: catSlug, count: 1})
+                    categories.push({name: catName, slug: catSlug, ids: []})
                 }
             })
         }

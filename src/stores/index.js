@@ -6,6 +6,7 @@ import {actions} from './actions';
 import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 import countBy from 'lodash/countBy';
+import map from 'lodash/map';
 import {applyCategoryFilter, applySearchFilter, applyPriceFilter, applyDependencyFilters} from './filters'
 import {getCurrentState, getCollectionChildrenData, installedBlocksTypes} from './helper';
 
@@ -67,8 +68,8 @@ const store = registerStore('starterblocks/sectionslist', {
             if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
                 categories = cloneDeep(getCurrentState(state).categories);
                 categories = categories.map(category => {
-                    const filteredCount = pageData[category.slug] ? pageData[category.slug].length : 0;
-                    return {...category, filteredCount};
+                    const filteredData = map(pageData[category.slug], 'id');
+                    return {...category, filteredData};
                 });
             }
 
