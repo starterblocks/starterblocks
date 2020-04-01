@@ -9,7 +9,8 @@ const needsPluginInstall = (pluginKey) => {
 
 const needsPluginPro = (pluginKey) => {
     const pluginInstance = getPluginInstance(pluginKey);
-    return (pluginInstance && pluginInstance.hasOwnProperty('has_pro') && (pluginInstance.hasOwnProperty('is_pro') === false));
+    return (pluginInstance && pluginInstance.hasOwnProperty('has_pro') && pluginInstance.has_pro &&
+        (pluginInstance.hasOwnProperty('is_pro') === false || pluginInstance.is_pro === false));
 }
 
 
