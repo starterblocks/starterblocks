@@ -7,6 +7,8 @@ const {Spinner} = wp.components;
 
 import '../stores';
 
+import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
+import Tour from 'reactour';
 import {TemplateModalProvider} from '../contexts/TemplateModalContext';
 import {Modal, ModalManager} from '../modal-manager'
 import TabHeader from '../components/tab-header';
@@ -21,11 +23,16 @@ import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
 
+import {tourConfig} from '../tour';
+
+
 function LibraryModal(props) {
     const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies
+        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary, setTourOpen,
+        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, isTourOpen
     } = props;
+    const accentColor = '#5cb7b7';
+
     const [spinner, setSpinner] = useState(null);
     const [loaded, setLoaded] = useState(false);
     const [importingBlock, setImportingBlock] = useState(null);
@@ -97,6 +104,10 @@ function LibraryModal(props) {
     const openSitePreviewModal = (index, item) => {
         ModalManager.openCustomizer(<PreviewModal startIndex={index} currentPageData={item}/>);
     }
+
+    const disableBody = target => disableBodyScroll(target);
+    const enableBody = target => enableBodyScroll(target);
+
     return (
         <Modal className="starterblocks-builder-modal-pages-list"
                customClass="starterblocks-builder-modal-template-list"
@@ -121,6 +132,15 @@ function LibraryModal(props) {
                 <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
                               startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
             </TemplateModalProvider>
+            <Tour
+                onRequestClose={() => setTourOpen(false)}
+                steps={tourConfig}
+                isOpen={isTourOpen}
+                maskClassName="mask"
+                className="helper"
+                rounded={5}
+                accentColor={accentColor}
+            />
         </Modal>
     );
 }
@@ -134,8 +154,8 @@ export default compose([
             setLoading,
             setLibrary,
             setColumns,
+            setTourOpen
         } = dispatch('starterblocks/sectionslist');
-
         const {savePost} = dispatch('core/editor');
 
         return {
@@ -143,18 +163,20 @@ export default compose([
             discardAllErrorMessages,
             setLoading,
             savePost,
-            setLibrary
+            setLibrary,
+            setTourOpen
         };
     }),
 
     withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getInstalledDependencies} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getInstalledDependencies, getTourOpen} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
             errorMessages: getErrorMessages(),
-            installedDependencies: getInstalledDependencies()
+            installedDependencies: getInstalledDependencies(),
+            isTourOpen: getTourOpen()
         };
     })
 ])(LibraryModal);

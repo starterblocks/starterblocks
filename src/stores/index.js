@@ -120,6 +120,9 @@ const store = registerStore('starterblocks/sectionslist', {
         },
         getInstalledDependencies(state) {
             return state.installedDependencies;
+        },
+        getTourOpen(state) {
+            return state.isTourOpen;
         }
     },
 

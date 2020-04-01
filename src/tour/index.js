@@ -1,7 +1,10 @@
 /**
  * WordPress dependencies
  */
+const {compose} = wp.compose;
+const {withDispatch, withSelect, select, subscribe} = wp.data;
 import {__} from '@wordpress/i18n'
+
 import './style.scss'
 
 
@@ -13,21 +16,7 @@ import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
 import './tooltip'
 
-disableBody = target => disableBodyScroll(target);
-enableBody = target => enableBodyScroll(target);
-
-// TODO - See https://codesandbox.io/s/6z56m8x18k for integration example.
-//        See https://github.com/elrumordelaluz/reactour for docs.
-
-const closeTour = () => {
-    this.setState({isTourOpen: false});
-};
-
-const openTour = () => {
-    this.setState({isTourOpen: true});
-};
-
-const tourConfig = [
+export const tourConfig = [
     {
         selector: '[data-tut="tour__library_button"]',
         content: __('Let\'s get started! Click here to open the library.', 'starterblocks'),
@@ -41,14 +30,14 @@ const tourConfig = [
     },
     {
         selector: '[data-tut="tour__filtering"]',
-        content: `This area is where you can search and filter to find the right kind of templates you want.`,
+        content: 'This area is where you can search and filter to find the right kind of templates you want.',
         position: 'right'
     },
     {
         // TODO - Scroll to Required Plugins, should be automatic...
         selector: '[data-tut="tour__filter_dependencies"]',
         content: `Some templates require certain plugins. You can filter or select those templates. Hint, if the text
-         is a <span style="color: #867e76">little orange</span>, you don't have that plugin installed yet, but don't 
+         is a <span style="color: #867e76">little orange</span>, you don't have that plugin installed yet, but don't
          worry. StarterBlocks will help you with that too.`,
         position: 'left'
     },
@@ -91,9 +80,9 @@ const tourConfig = [
     {
         // TODO - Open an import wizard
         selector: '[data-tut="tour__import_wizard"]',
-        content: `Here's an example of the required plugins installer. If you're missing a plugin StarterBlocks can 
-        automatically install and activate it for you as long as it's free. If a premium third party plugin is required, 
-        you will see a button for an external link instead. You must have all the required plugins installed and 
+        content: `Here's an example of the required plugins installer. If you're missing a plugin StarterBlocks can
+        automatically install and activate it for you as long as it's free. If a premium third party plugin is required,
+        you will see a button for an external link instead. You must have all the required plugins installed and
         activated before a template can be imported.`,
         position: 'bottom'
     },
@@ -112,29 +101,31 @@ const tourConfig = [
         //     color: "white"
         // }
         action: () =>
-            console.log(`Close import wizard`),
+            console.log('Close import wizard'),
         position: 'center'
     },
 
 ];
+/*
 
+const StarterBlocksTour = (props) => {
 
-const StarterBlocksTour = () => {
-    const {isTourOpen, isShowingMore} = this.state;
-    const accentColor = "#5cb7b7";
-    return (
-        <Tour
-            onRequestClose={this.closeTour}
-            steps={tourConfig}
-            // isOpen={isTourOpen}
-            maskClassName="mask"
-            className="helper"
-            rounded={5}
-            accentColor={accentColor}
-            onAfterOpen={this.disableBody}
-            onBeforeClose={this.enableBody}
-        />
-    )
 }
 
-export default StarterBlocksTour
+
+export default compose([
+    withDispatch((dispatch) => {
+        const {setTourOpen} = dispatch('starterblocks/sectionslist');
+        return {
+            setTourOpen
+        };
+    }),
+
+    withSelect((select, props) => {
+        const {getTourOpen} = select('starterblocks/sectionslist');
+        return {
+            isTourOpen: getTourOpen()
+        };
+    })
+])(StarterBlocksTour);
+*/

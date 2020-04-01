@@ -38,7 +38,8 @@ export const initialState = {
         sortBy: 'name',
         currentPage: 0
     },
-    installedDependencies: false // used when deciding should or not reload page after importing the template
+    installedDependencies: false, // used when deciding should or not reload page after importing the template
+    isTourOpen: false
 };
 
 export const reducer = ( state = initialState, action ) => {
@@ -158,6 +159,11 @@ export const reducer = ( state = initialState, action ) => {
                 ...state,
                 installedDependencies: action.installedDependencies
             }
+        case 'SET_TOUR_OPEN':
+            return {
+                ...state,
+                isTourOpen: action.isTourOpen
+            };
     }
 
     return state;

@@ -87,5 +87,11 @@ export const actions = {
             type: 'SET_INSTALLED_DEPENDENCIES',
             installedDependencies
         }
+    },
+    setTourOpen(isTourOpen) {
+        return {
+            type: 'SET_TOUR_OPEN',
+            isTourOpen
+        }
     }
 };

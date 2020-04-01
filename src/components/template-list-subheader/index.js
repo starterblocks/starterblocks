@@ -12,8 +12,8 @@ import SVGViewNormal from './images/view-normal.svg'
 import './style.scss'
 
 function TemplateListSubHeader(props) {
-    const {fetchLibraryFromAPI, itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData, loading} = props;
-    const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, columns, setColumns} = props;
+    const {fetchLibraryFromAPI, itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
+    const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setTourOpen} = props;
     const {resetLibrary} = useContext(TemplateModalContext);
 
     const itemTypeLabel = () => {
@@ -52,9 +52,15 @@ function TemplateListSubHeader(props) {
             </h4>
             <div className="starterblocks-template-filters">
                 <IconButton
+                    icon={<i className="far fa-question-circle"></i>}
+                    label={__('Trigger Tour')}
+                    onClick={() => setTourOpen(true)}
+                />
+
+                <IconButton
                     icon="image-rotate"
                     label={__('Refresh Library')}
-                    className="ugb-modal-design-library__refresh"
+                    className="refresh-library"
                     onClick={resetLibrary}
                 />
                 <IconButton
@@ -90,13 +96,14 @@ function TemplateListSubHeader(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns} = dispatch('starterblocks/sectionslist');
+        const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setTourOpen} = dispatch('starterblocks/sectionslist');
         return {
             setLibrary,
             setActivePriceFilter,
             setActiveCollection,
             setSortBy,
-            setColumns
+            setColumns,
+            setTourOpen
         };
     }),
 
