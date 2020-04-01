@@ -3,14 +3,14 @@ const getPluginInstance = (pluginKey) => {
 }
 
 const needsPluginInstall = (pluginKey) => {
-    return !getPluginInstance(pluginKey) || getPluginInstance(pluginKey).hasOwnProperty('version') === false;
+    const pluginInstance = getPluginInstance(pluginKey);
+    return !pluginInstance || pluginInstance.hasOwnProperty('version') === false;
 }
 
 const needsPluginPro = (pluginKey) => {
     const pluginInstance = getPluginInstance(pluginKey);
-    return (pluginInstance.hasOwnProperty('has_pro') && (pluginInstance.hasOwnProperty('is_pro') === false));
+    return (pluginInstance && pluginInstance.hasOwnProperty('has_pro') && (pluginInstance.hasOwnProperty('is_pro') === false));
 }
-
 
 
 const checkTemplateDependencies = (data) => {
@@ -26,6 +26,9 @@ const checkTemplateDependencies = (data) => {
         // dependency blocks check
         if ('blocks' in data) {
             Object.keys(data.blocks).forEach(pluginKey => {
+                if (pluginKey === 'core') {
+                    pluginKey = 'gutenberg';
+                }
                 if (needsPluginInstall(pluginKey)) missingPluginArray.push(pluginKey);
                 if (needsPluginPro(pluginKey) && data.blocks[pluginKey].pro) missingProArray.push(pluginKey);
             });
