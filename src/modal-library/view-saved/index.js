@@ -78,7 +78,7 @@ function SavedView(props) {
                                     <div className="starter-two-section" key={i}
                                         onClick={() => importSections(section.post_content)}>
                                         <div className="preview-image-wrapper">
-                                            <img src="https://brizy.b-cdn.net/screenshot/930493?t=1582105511982"
+                                            <img src={starterblocks.plugin + 'assets/img/starterblocks-medium.jpg'}
                                                 alt="lazyLoad Image"/>
                                         </div>
                                         <div className="saved-section-title">
