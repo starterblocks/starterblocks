@@ -41,7 +41,7 @@ function Sidebar(props) {
             <PluginSidebarMoreMenuItem target="starterblocks-share">
                 {__('StarterBlocks Template')}
             </PluginSidebarMoreMenuItem>
-            <PluginSidebar name="starterblock-sidebar" title={__('StarterBlocks Shares', starterblocks.i18n)}>
+            <PluginSidebar name="starterblocks-share" title={__('StarterBlocks Shares', starterblocks.i18n)}>
                 <PanelBody title={__('Share this post')} initialOpen={true}>
                     <div className="d-flex justify-content-center">
                         <a className="button button-primary" onClick={onShare}>
