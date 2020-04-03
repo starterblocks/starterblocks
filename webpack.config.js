@@ -1,4 +1,3 @@
-const externals = require('./externals')
 const rules = require('./rules')
 const plugins = require('./plugins')
 var path = require('path');
@@ -13,9 +12,13 @@ module.exports = [{
         path: path.join(__dirname, 'assets/js'),
         filename: '[name].dev.js',
         library: '[name]', // assigns this module to the global (window) object
+        libraryTarget: 'commonjs2'
     },
     // Permit importing @wordpress/* packages.
-    externals,
+    externals: {
+        react: 'commonjs react',
+       'react-dom': 'commonjs react-dom',
+    },
 
     optimization: {
         splitChunks: {
@@ -47,7 +50,7 @@ module.exports = [{
     },
     module: {
         strictExportPresence: true,
-        rules,
+        rules
         // rules: [
         //     {
         //         test: /\.js$/,

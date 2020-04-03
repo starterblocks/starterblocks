@@ -29,7 +29,7 @@ import {tourConfig} from '../tour';
 function LibraryModal(props) {
     const {
         fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary, setTourOpen,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, isTourOpen
+        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies
     } = props;
     const accentColor = '#5cb7b7';
 
@@ -38,6 +38,7 @@ function LibraryModal(props) {
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
+    const [isTourOpen, setIsTourOpen] = useState(false);
     const wasSaving = useRef(false);
 
     let stateLibrary = null;
@@ -105,6 +106,14 @@ function LibraryModal(props) {
         ModalManager.openCustomizer(<PreviewModal startIndex={index} currentPageData={item}/>);
     }
 
+    const steps = [
+        {
+            selector: 'h3',
+            content: 'This is my first Step',
+        }
+    ]
+
+
     const disableBody = target => disableBodyScroll(target);
     const enableBody = target => enableBodyScroll(target);
 
@@ -119,6 +128,8 @@ function LibraryModal(props) {
                 resetLibrary,
                 spinner
             }}>
+                <div onClick={() => setIsTourOpen(true)}>Something</div>
+                <h3>Should be highlighting</h3>
                 {
                     errorMessages && errorMessages.length > 0 &&
                     <ErrorNotice discardAllErrorMessages={discardAllErrorMessages} errorMessages={errorMessages}/>
@@ -133,14 +144,9 @@ function LibraryModal(props) {
                               startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
             </TemplateModalProvider>
             <Tour
-                onRequestClose={() => setTourOpen(false)}
-                steps={tourConfig}
+                steps={steps}
                 isOpen={isTourOpen}
-                maskClassName="mask"
-                className="helper"
-                rounded={5}
-                accentColor={accentColor}
-            />
+                onRequestClose={()=> setIsTourOpen(false)} />
         </Modal>
     );
 }
