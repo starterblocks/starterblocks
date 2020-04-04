@@ -2,13 +2,14 @@ const {apiFetch} = wp;
 const {parse} = wp.blocks;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
-const {Component, Fragment, useState, useRef} = wp.element;
+const {Component, Fragment, useState, useEffect, useRef} = wp.element;
 const {Spinner} = wp.components;
 
 import '../stores';
 
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
+
 import {TemplateModalProvider} from '../contexts/TemplateModalContext';
 import {Modal, ModalManager} from '../modal-manager'
 import TabHeader from '../components/tab-header';
@@ -29,7 +30,7 @@ import {tourConfig} from '../tour';
 function LibraryModal(props) {
     const {
         fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary, setTourOpen,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies
+        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, isTourOpen
     } = props;
     const accentColor = '#5cb7b7';
 
@@ -38,15 +39,16 @@ function LibraryModal(props) {
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
-    const [isTourOpen, setIsTourOpen] = useState(false);
     const wasSaving = useRef(false);
 
     let stateLibrary = null;
-    stateLibrary = fetchLibraryFromAPI();
-    if (stateLibrary === null && loaded === false) { // One to be called at first.
-        setLoading(true);
-        setLoaded(true);
-    }
+    useEffect(() => {
+        stateLibrary = fetchLibraryFromAPI();
+        if (stateLibrary === null && loaded === false) { // One to be called at first.
+            setLoading(true);
+            setLoaded(true);
+        }
+    });
 
     const resetLibrary = () => {
         setLoading(true);
@@ -106,14 +108,6 @@ function LibraryModal(props) {
         ModalManager.openCustomizer(<PreviewModal startIndex={index} currentPageData={item}/>);
     }
 
-    const steps = [
-        {
-            selector: 'h3',
-            content: 'This is my first Step',
-        }
-    ]
-
-
     const disableBody = target => disableBodyScroll(target);
     const enableBody = target => enableBodyScroll(target);
 
@@ -128,8 +122,6 @@ function LibraryModal(props) {
                 resetLibrary,
                 spinner
             }}>
-                <div onClick={() => setIsTourOpen(true)}>Something</div>
-                <h3>Should be highlighting</h3>
                 {
                     errorMessages && errorMessages.length > 0 &&
                     <ErrorNotice discardAllErrorMessages={discardAllErrorMessages} errorMessages={errorMessages}/>
@@ -144,9 +136,14 @@ function LibraryModal(props) {
                               startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
             </TemplateModalProvider>
             <Tour
-                steps={steps}
+                onRequestClose={() => setTourOpen(false)}
+                steps={tourConfig}
                 isOpen={isTourOpen}
-                onRequestClose={()=> setIsTourOpen(false)} />
+                maskClassName="mask"
+                className="helper"
+                rounded={5}
+                accentColor={accentColor}
+            />
         </Modal>
     );
 }
