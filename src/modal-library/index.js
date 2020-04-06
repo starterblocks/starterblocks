@@ -1,14 +1,12 @@
 const {apiFetch} = wp;
 const {parse} = wp.blocks;
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select, subscribe} = wp.data;
-const {Component, Fragment, useState, useEffect, useRef} = wp.element;
+const {withDispatch, withSelect, select} = wp.data;
+const {Fragment, useState, useEffect} = wp.element;
 const {Spinner} = wp.components;
 
 import '../stores';
 
-import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
-import Tour from 'reactour';
 
 import {TemplateModalProvider} from '../contexts/TemplateModalContext';
 import {Modal, ModalManager} from '../modal-manager'
@@ -24,22 +22,20 @@ import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
 
-import {tourConfig} from '../tour';
+import StarterBlocksTour from '../tour';
 
 
 function LibraryModal(props) {
     const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary, setTourOpen,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, isTourOpen
+        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
+        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies
     } = props;
-    const accentColor = '#5cb7b7';
 
     const [spinner, setSpinner] = useState(null);
     const [loaded, setLoaded] = useState(false);
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
-    const wasSaving = useRef(false);
 
     let stateLibrary = null;
     useEffect(() => {
@@ -83,12 +79,6 @@ function LibraryModal(props) {
         setImportingBlock(data);
     }
 
-    const useDidSave = () => {
-        const hasJustSaved = wasSaving.current && !isSavingPost;
-        wasSaving.current = isSavingPost;
-        return hasJustSaved;
-    }
-
     // read block data to import and give the control to actual import
     const processImport = () => {
         discardAllErrorMessages();
@@ -107,9 +97,6 @@ function LibraryModal(props) {
     const openSitePreviewModal = (index, item) => {
         ModalManager.openCustomizer(<PreviewModal startIndex={index} currentPageData={item}/>);
     }
-
-    const disableBody = target => disableBodyScroll(target);
-    const enableBody = target => enableBodyScroll(target);
 
     return (
         <Modal className="starterblocks-builder-modal-pages-list"
@@ -135,15 +122,7 @@ function LibraryModal(props) {
                 <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
                               startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
             </TemplateModalProvider>
-            <Tour
-                onRequestClose={() => setTourOpen(false)}
-                steps={tourConfig}
-                isOpen={isTourOpen}
-                maskClassName="mask"
-                className="helper"
-                rounded={5}
-                accentColor={accentColor}
-            />
+            <StarterBlocksTour />
         </Modal>
     );
 }
@@ -156,8 +135,7 @@ export default compose([
             discardAllErrorMessages,
             setLoading,
             setLibrary,
-            setColumns,
-            setTourOpen
+            setColumns
         } = dispatch('starterblocks/sectionslist');
         const {savePost} = dispatch('core/editor');
 
@@ -166,8 +144,7 @@ export default compose([
             discardAllErrorMessages,
             setLoading,
             savePost,
-            setLibrary,
-            setTourOpen
+            setLibrary
         };
     }),
 
@@ -178,8 +155,7 @@ export default compose([
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
             errorMessages: getErrorMessages(),
-            installedDependencies: getInstalledDependencies(),
-            isTourOpen: getTourOpen()
+            installedDependencies: getInstalledDependencies()
         };
     })
 ])(LibraryModal);

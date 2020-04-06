@@ -122,7 +122,13 @@ const store = registerStore('starterblocks/sectionslist', {
             return state.installedDependencies;
         },
         getTourOpen(state) {
-            return state.isTourOpen;
+            return state.tour.isOpen;
+        },
+        getTourButtonGroupsVisible(state) {
+            return state.tour.isButtonGroupsVisible;
+        },
+        getTourPreviewVisible(state) {
+            return state.tour.isPreviewVisible;
         }
     },
 

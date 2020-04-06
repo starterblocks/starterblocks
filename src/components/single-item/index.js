@@ -1,5 +1,6 @@
 const {__} = wp.i18n
-const {useContext} = wp.element;
+const {withDispatch, withSelect, select} = wp.data;
+const {useContext, useState, useEffect} = wp.element;
 const { Spinner } = wp.components;
 
 import LazyLoad from 'react-lazyload';
@@ -8,39 +9,28 @@ import ButtonGroup from '../button-group';
 import {isBlockPro, missingPro, missingRequirement} from '../../stores/helper';
 import './style.scss'
 
-const Loading = ({height}) => (
-    <div className="starterblocks-pagelist-column loading" style={{height: height}}>
-        <Spinner />
-    </div>
-);
 
-const NORMAL_HEIGHT = 300;
-const SMALL_HEIGHT = 223;
-const LARGE_HEIGHT = 468;
-
-const SingleItem = (props) => {
+function SingleItem (props) {
 	// Decoupling props
     const {data, column} = useContext(SingleItemContext);
-
-	const {backgroundImage} = props;
+	const {backgroundImage, isTourButtonGroupVisible} = props;
     const {ID, image, url, pro, source, requirements} = data;
-
-    let height = NORMAL_HEIGHT;
-    if (column === 'large') height = LARGE_HEIGHT;
-    if (column === 'small') height = SMALL_HEIGHT;
-
+    const [innerClassname, setInnerClassname] = useState('starterblocks-single-item-inner starterblocks-item-wrapper ');
 	const background = {
 		'backgroundImage': 'url(' + starterblocks.plugin + 'assets/img/image-loader.gif)',
 		'backgroundPosition': 'center center'
-	};
+    };
+
+    useEffect(() => {
+        setInnerClassname(isTourButtonGroupVisible ? 'starterblocks-single-item-inner starterblocks-item-wrapper focused' : 'starterblocks-single-item-inner starterblocks-item-wrapper');
+    }, [isTourButtonGroupVisible]);
 
 	const isMissingRequirement = missingRequirement(pro, requirements);
     const isMissingPro = missingPro(pro);
 
 	return (
-
-		<div className={'starterblocks-single-section-item '}>
-			<div className={'starterblocks-single-item-inner starterblocks-item-wrapper '}>
+		<div className="starterblocks-single-section-item">
+			<div className={innerClassname}>
 				<div className="starterblocks-default-template-image">
                     <img className="lazy" src={backgroundImage(image)}/>
                     {isBlockPro(pro, source) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
@@ -58,4 +48,10 @@ const SingleItem = (props) => {
 	)
 }
 
-export default SingleItem
+
+export default withSelect((select, props) => {
+    const {getTourButtonGroupsVisible} = select('starterblocks/sectionslist');
+    return {
+        isTourButtonGroupVisible: getTourButtonGroupsVisible()
+    };
+})(SingleItem);

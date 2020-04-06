@@ -358,6 +358,7 @@
         }
     }
 
+    &.focused,
     &:hover {
         .starterblocks-button-overlay {
             opacity: 1;
