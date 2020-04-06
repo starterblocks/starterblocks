@@ -94,10 +94,10 @@ export const actions = {
             isTourOpen
         }
     },
-    setTourButtonGroupVisible(isVisible) {
+    setTourActiveButtonGroup(data) {
         return {
-            type: 'SET_TOUR_BUTTON_GROUP_VISIBLE',
-            isVisible
+            type: 'SET_TOUR_ACTIVE_BUTTON_GROUP',
+            data
         }
     },
     setTourPreviewVisible(isVisible) {

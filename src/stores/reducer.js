@@ -41,7 +41,7 @@ export const initialState = {
     installedDependencies: false, // used when deciding should or not reload page after importing the template
     tour: {
         isOpen: false,
-        isButtonGroupsVisible: false,
+        activeButtonGroup: null,
         isPreviewVisible: false
     }
 };
@@ -166,17 +166,26 @@ export const reducer = ( state = initialState, action ) => {
         case 'SET_TOUR_OPEN':
             return {
                 ...state,
-                'tour.isOpen': action.isTourOpen
+                tour:  {
+                    ...state.tour,
+                    isOpen: action.isTourOpen
+                }
             };
-        case 'SET_TOUR_BUTTON_GROUP_VISIBLE':
+        case 'SET_TOUR_ACTIVE_BUTTON_GROUP':
             return {
                 ...state,
-                'tour.isButtonGroupsVisible': action.isVisible
+                tour:  {
+                    ...state.tour,
+                    activeButtonGroup: action.data
+                }
             };
         case 'SET_PREVIEW_VISIBLE':
             return {
                 ...state,
-                'tour.isPreviewVisible': action.isVisible
+                tour:  {
+                    ...state.tour,
+                    isPreviewVisible: action.isVisible
+                }
             };
     }
 

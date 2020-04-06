@@ -13,7 +13,7 @@ import './style.scss'
 function SingleItem (props) {
 	// Decoupling props
     const {data, column} = useContext(SingleItemContext);
-	const {backgroundImage, isTourButtonGroupVisible} = props;
+	const {backgroundImage, tourActiveButtonGroup} = props;
     const {ID, image, url, pro, source, requirements} = data;
     const [innerClassname, setInnerClassname] = useState('starterblocks-single-item-inner starterblocks-item-wrapper ');
 	const background = {
@@ -22,8 +22,8 @@ function SingleItem (props) {
     };
 
     useEffect(() => {
-        setInnerClassname(isTourButtonGroupVisible ? 'starterblocks-single-item-inner starterblocks-item-wrapper focused' : 'starterblocks-single-item-inner starterblocks-item-wrapper');
-    }, [isTourButtonGroupVisible]);
+        setInnerClassname((tourActiveButtonGroup && tourActiveButtonGroup.ID === ID) ? 'starterblocks-single-item-inner starterblocks-item-wrapper focused' : 'starterblocks-single-item-inner starterblocks-item-wrapper');
+    }, [tourActiveButtonGroup]);
 
 	const isMissingRequirement = missingRequirement(pro, requirements);
     const isMissingPro = missingPro(pro);
@@ -50,8 +50,8 @@ function SingleItem (props) {
 
 
 export default withSelect((select, props) => {
-    const {getTourButtonGroupsVisible} = select('starterblocks/sectionslist');
+    const {getTourActiveButtonGroup} = select('starterblocks/sectionslist');
     return {
-        isTourButtonGroupVisible: getTourButtonGroupsVisible()
+        tourActiveButtonGroup: getTourActiveButtonGroup()
     };
 })(SingleItem);

@@ -5,29 +5,16 @@ import TemplateListSubHeader from '~starterblocks/components/template-list-subhe
 import TemplateList from '../view-template-list';
 
 
-function WithSidebarCollection (props) {
-    const { pageData, activeItemType } = props;
-    const contentAreaRef = useRef(null);
-    /* useEffect(() => {
-        contentAreaRef.current.scrollTop = 0;
-    }, [pageData, activeItemType]) */
-
+export default function WithSidebarCollection (props) {
     return (
         <Fragment>
             <div className="starterblocks-collection-modal-sidebar">
                 <Sidebar />
             </div>
-            <div className="starterblocks-collection-modal-content-area" data-tut="tour__main_body" id="modalContent" ref={contentAreaRef}>
+            <div className="starterblocks-collection-modal-content-area" data-tut="tour__main_body" id="modalContent">
                 <TemplateListSubHeader />
                 <TemplateList />
             </div>
         </Fragment>
     );
 }
-
-
-export default
-    withSelect((select, props) => {
-        const { getPageData, getActiveItemType } = select('starterblocks/sectionslist');
-        return { pageData: getPageData(), activeItemType: getActiveItemType() };
-    })(WithSidebarCollection);

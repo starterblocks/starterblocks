@@ -124,8 +124,8 @@ const store = registerStore('starterblocks/sectionslist', {
         getTourOpen(state) {
             return state.tour.isOpen;
         },
-        getTourButtonGroupsVisible(state) {
-            return state.tour.isButtonGroupsVisible;
+        getTourActiveButtonGroup(state) {
+            return state.tour.activeButtonGroup;
         },
         getTourPreviewVisible(state) {
             return state.tour.isPreviewVisible;

@@ -17,7 +17,7 @@ export default function ButtonGroup (props) {
     }, [spinner])
 
     return (
-        <div className={rootClassName}>
+        <div className={rootClassName} data-tut="main_body">
             <PreviewImport />
             <DependentPlugins />
         </div>

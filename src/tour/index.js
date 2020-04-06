@@ -20,7 +20,9 @@ import StyledTooltip from './tooltip'
 
 
 function StarterBlocksTour(props) {
-    const {setTourButtonGroupVisible, setTourPreviewVisible, isTourOpen, setTourOpen} = props;
+    const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen} = props;
+    const {isTourOpen, pageData} = props;
+
     const tourConfig = [
         {
             selector: '[data-tut="tour__library_button"]',
@@ -46,11 +48,10 @@ function StarterBlocksTour(props) {
             position: 'left'
         },
         {
-            // TODO - Show / scroll to and hover of first template with a preview button
             selector: '[data-tut="main_body"]',
             content: __('When you hover over a template you can see via icons what plugins are required for this template. You can also click to import and sometimes preview a design.', 'starterblocks'),
             action: () => {
-                setTourButtonGroupVisible(true);
+                if (pageData && pageData.length > 0) setTourActiveButtonGroup(pageData[0]);
             },
             position: 'bottom'
         },
@@ -58,8 +59,6 @@ function StarterBlocksTour(props) {
             // TODO - Open the preview dialog for that template.
             selector: '[data-tut="tour__preview_sidebar"]',
             content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', 'starterblocks'),
-            action: () =>
-                console.log('Run the command to open the preview dialog'),
             position: 'right'
         },
         {
@@ -130,18 +129,19 @@ function StarterBlocksTour(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setTourButtonGroupVisible, setTourPreviewVisible, setTourOpen} = dispatch('starterblocks/sectionslist');
+        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen} = dispatch('starterblocks/sectionslist');
         return {
-            setTourButtonGroupVisible,
+            setTourActiveButtonGroup,
             setTourPreviewVisible,
             setTourOpen
         };
     }),
 
     withSelect((select, props) => {
-        const {getTourOpen} = select('starterblocks/sectionslist');
+        const {getTourOpen, getPageData} = select('starterblocks/sectionslist');
         return {
-            isTourOpen: getTourOpen()
+            isTourOpen: getTourOpen(),
+            pageData: getPageData()
         };
     })
 ])(StarterBlocksTour);
