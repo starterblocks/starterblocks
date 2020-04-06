@@ -13,11 +13,13 @@ const {useDispatch} = wp.data;
  * External dependencies
  */
 
-import {Modal, ModalManager} from '../modal-manager'
+import {ModalManager} from '../modal-manager'
 import PreviewModal from '../modal-preview';
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
 import TemplateModalContext from '../contexts/TemplateModalContext';
+
+
 
 
 function StarterBlocksTour(props) {
@@ -85,7 +87,9 @@ function StarterBlocksTour(props) {
             action: () => {
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
-                if (pageData && pageData.length > 0) setTourActiveButtonGroup(pageData[0]);
+                if (pageData && pageData.length > 0) {
+                    setTourActiveButtonGroup(pageData[0])
+                }
             },
             position: 'bottom'
         },
@@ -95,9 +99,17 @@ function StarterBlocksTour(props) {
             action: () => {
                 setTourActiveButtonGroup(false);
                 const pageData = getPageData();
-                if (pageData && pageData.length > 0) ModalManager.openCustomizer(
-                    <PreviewModal startIndex={0} currentPageData={pageData}/>
-                );
+                if (pageData && pageData.length > 0) {
+                    for (let index = 0; index < pageData.length; index++) {
+                        if ('url' in pageData[index] && pageData[index]['url']) {
+                            ModalManager.openCustomizer(
+                                <PreviewModal startIndex={index} currentPageData={pageData}/>
+                            )
+                            break
+                        }
+                    }
+
+                }
             },
             position: 'right'
         },

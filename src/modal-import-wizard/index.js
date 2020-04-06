@@ -7,6 +7,7 @@ const {Spinner} = wp.components;
 
 import InstallPluginStep from './InstallPluginStep';
 import ProPluginStep from './ProPluginsStep';
+import {ModalManager} from '../modal-manager'
 
 import './style.scss'
 
@@ -15,6 +16,7 @@ const PRO_STEP = 1;
 const IMPORT_STEP = 2;
 
 function ImportWizard(props) {
+
     const {missingPlugins, missingPros, startImportTemplate, closeWizard} = props;
     const [currentStep, setCurrentStep] = useState(PLUGIN_STEP);
     const [importing, setImporting] = useState(false);
@@ -25,6 +27,7 @@ function ImportWizard(props) {
 
     const onCloseWizard = () => {
         setCurrentStep(PLUGIN_STEP);
+        ModalManager.closeWizard()
         closeWizard();
     };
 
