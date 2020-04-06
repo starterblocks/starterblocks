@@ -54,9 +54,8 @@ function PreviewModal(props) {
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
     let itemData = currentPageData[currentIndex];
     let image_url = itemData.image
-    if (itemData.image_large) {
-        alert('HERE!!!');
-        image_url = itemData.image_large;
+    if (itemData.image_full) {
+        image_url = itemData.image_full;
     }
 
     return (
