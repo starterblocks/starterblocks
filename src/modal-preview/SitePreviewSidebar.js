@@ -16,7 +16,7 @@ function SitePreviewSidebar(props) {
     const isPro = isBlockPro(itemData.pro, itemData.source);
 
 	return (
-		<div className="wp-full-overlay-sidebar" data-tut="tour__preview_sidebar">
+		<div className="wp-full-overlay-sidebar">
 			<FullyOverlayHeader onCloseCustomizer={onCloseCustomizer} onNextBlock={onNextBlock}
 								onPrevBlock={onPrevBlock}
 								pro={isPro} onImport={onImport}/>

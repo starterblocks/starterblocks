@@ -52,7 +52,7 @@ function TemplateListSubHeader(props) {
             </h4>
             <div className="starterblocks-template-filters">
                 <IconButton
-                    icon={<i className="far fa-question-circle"></i>}
+                    icon={<i className="far fa-question-circle tour-icon"></i>}
                     label={__('Trigger Tour')}
                     onClick={() => setTourOpen(true)}
                 />
