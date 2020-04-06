@@ -24,10 +24,16 @@ function SidebarContent(props) {
     const collectMissingRequirements = () => {
         const dependencies = dependencyHelper.checkTemplateDependencies(itemData);
         let missingPlugins = filter(uniq(dependencies.missingPluginArray).map(plugin => {
-            return starterblocks.supported_plugins[plugin] ? {...starterblocks.supported_plugins[plugin], keyName: plugin} : null;
+            return starterblocks.supported_plugins[plugin] ? {
+                ...starterblocks.supported_plugins[plugin],
+                keyName: plugin
+            } : null;
         }));
         let missingPro = filter(uniq(dependencies.missingProArray).map(plugin => {
-            return starterblocks.supported_plugins[plugin] ? {...starterblocks.supported_plugins[plugin], keyName: plugin }: null;
+            return starterblocks.supported_plugins[plugin] ? {
+                ...starterblocks.supported_plugins[plugin],
+                keyName: plugin
+            } : null;
         }));
         setInstallList(missingPlugins);
         setProList(missingPro);
@@ -38,43 +44,49 @@ function SidebarContent(props) {
             <div className="install-theme-info">
                 <h3 className="theme-name">{name}</h3>
                 <div className="theme-screenshot-wrap">
-                    <img className="theme-screenshot" src={image} alt=""/>{ pro ?
-                        <span className="starterblocks-pro-badge">{__('Premium')}</span> : ''
-                    }</div>
-                <div className="starterblocks-dependencies-list">
-                    <h4>Blocks Used</h4>
-                    {
-                        Object.keys(blocks).map((keyName, i) => {
-                            if (!starterblocks.supported_plugins[keyName]) return null;
-                            const {name, url, version} = starterblocks.supported_plugins[keyName];
-                            const IconComponent = Icons[keyName];
-                            return (
-                                <div key={i}>
-                                    <p className="starterblocks-dependency-blocks">
-                                        <span className="block-head">
+                    <img className="theme-screenshot" src={image} alt=""/>{pro ?
+                    <span className="starterblocks-pro-badge">{__('Premium')}</span> : ''
+                }</div>
+                { blocks &&
+                    <div className="starterblocks-dependencies-list">
+                        <h4>Required Plugins</h4>
+                        {
+                            blocks && Object.keys(blocks).map((keyName, i) => {
+                                if (!starterblocks.supported_plugins[keyName]) return null;
+                                const {name, url, version} = starterblocks.supported_plugins[keyName];
+                                const IconComponent = Icons[keyName];
+                                return (
+                                    <div key={i}>
+                                        <p className="starterblocks-dependency-blocks">
                                             {
                                                 IconComponent &&
                                                 (
-                                                    <a href={url} target="_blank" className={!version ? 'missing-dependency' : ''}>
+                                                    <a href={url} target="_blank"
+                                                       className={!version ? 'missing-dependency' : ''}>
                                                         <IconComponent/>
                                                     </a>
                                                 )
                                             }
                                             <span className="starterblocks-dependency-name">{name}</span>
-                                        </span>
-                                        <span className="block-body">
-                                            {
-                                                sortBy(blocks[keyName]).map(function(item, index) {
-                                                    return <span key={index}>{ (index ? ', ' : '') + item }</span>;
-                                                })
+
+                                            {blocks &&
+                                                <ul>
+                                                    { sortBy(blocks[keyName]).map(function (item, index) {
+                                                        return <li key={index}>{(index ? ', ' : '') + item}</li>;
+                                                    })
+                                                    }
+                                                </ul>
                                             }
-                                        </span>
-                                    </p>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+
+
+                                        </p>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                }
+
                 <div className="requirements-list">
                     <div className="list-type">
                         {
@@ -87,12 +99,12 @@ function SidebarContent(props) {
                                             const {name, url, version, keyName} = install;
                                             const IconComponent = Icons[keyName];
                                             return (
-                                            <li key={keyName}>
-                                                <a href={url} target="_blank" className="missing">
-                                                    { IconComponent && <IconComponent/> }
-                                                    <span className="starterblocks-dependency-name">{name}</span>
-                                                </a>
-                                            </li>);
+                                                <li key={keyName}>
+                                                    <a href={url} target="_blank" className="missing">
+                                                        {IconComponent && <IconComponent/>}
+                                                        <span className="starterblocks-dependency-name">{name}</span>
+                                                    </a>
+                                                </li>);
                                         })
                                     }
                                 </ul>
@@ -110,7 +122,7 @@ function SidebarContent(props) {
                                             return (
                                                 <li key={keyName}>
                                                     <a href={url} target="_blank" className="missing">
-                                                        { IconComponent && <IconComponent/> }
+                                                        {IconComponent && <IconComponent/>}
                                                         <span className="starterblocks-dependency-name">{name}</span>
                                                     </a>
                                                 </li>

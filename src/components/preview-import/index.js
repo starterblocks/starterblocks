@@ -12,13 +12,12 @@ export default function PreviewImport (props) {
 
     return (
         <div className="action-buttons">
-            {
-                data.url &&
-                <a className="starterblocks-button preview-button" target="_blank"
-                    onClick={() => openSitePreviewModal(index, pageData)}>
-                    <i className="fa fa-share"/> {__('Preview')}
-                </a>
-            }
+            <a className="starterblocks-button preview-button" target="_blank"
+                onClick={() => openSitePreviewModal(index, pageData)}>
+                <i className="fa fa-share"/> {__('Preview')}
+            </a>
+
+
             <a className="starterblocks-button download-button"
                 onClick={() => triggerImportTemplate(data)}>
                 {spinner === data.ID ? <i className="fas fa-spinner fa-pulse"/> :

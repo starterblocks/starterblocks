@@ -116,11 +116,24 @@ button {
 
 .requirements-list {
     margin-top: 50px;
+
     a.missing {
         display: inline-flex;
     }
 
     .list-type ul {
         padding-left: 25px;
+    }
+}
+
+.starterblock-modal-preview-box {
+    background: #f1f1f1; // To hide the spinner
+    img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        max-width: 100%;
+        max-height: 100%;
     }
 }

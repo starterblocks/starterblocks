@@ -1,25 +1,25 @@
-const { compose } = wp.compose;
-const { withDispatch, withSelect } = wp.data;
-const { Component, useState } = wp.element
-const { Spinner } = wp.components;
-const { __ } = wp.i18n
+const {compose} = wp.compose;
+const {withDispatch, withSelect} = wp.data;
+const {Component, useState} = wp.element
+const {Spinner} = wp.components;
+const {__} = wp.i18n
 import SitePreviewSidebar from './SitePreviewSidebar';
-import { ModalManager } from '../modal-manager'
+import {ModalManager} from '../modal-manager'
 import ImportWizard from '../modal-import-wizard';
 import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 import {processImportHelper} from '../stores/helper';
 import uniq from 'lodash/uniq';
 import './style.scss';
-import { Fragment } from 'react';
+import {Fragment} from 'react';
 
 function PreviewModal(props) {
 
-    const { startIndex, currentPageData } = props;
-    const { discardAllErrorMessages, appendErrorMessage, activeItemType, savePost, installedDependencies} = props;
-    const [ currentIndex, setCurrentIndex ] = useState(startIndex);
-    const [ previewClass, setPreviewClass ] = useState('preview-desktop')
-    const [ expandedClass, toggleExpanded ] = useState('expanded')
-    const [ importingBlock, setImportingBlock ] = useState(null);
+    const {startIndex, currentPageData} = props;
+    const {discardAllErrorMessages, appendErrorMessage, activeItemType, savePost, installedDependencies} = props;
+    const [currentIndex, setCurrentIndex] = useState(startIndex);
+    const [previewClass, setPreviewClass] = useState('preview-desktop')
+    const [expandedClass, toggleExpanded] = useState('expanded')
+    const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
 
@@ -40,6 +40,7 @@ function PreviewModal(props) {
     const importStarterBlock = () => {
         const type = activeItemType === 'section' ? 'section' : 'page';
         const dependencies = dependencyHelper.checkTemplateDependencies(itemData);
+        console.log(dependencies)
         setMissingPlugin(dependencies.missingPluginArray);
         setMissingPro(dependencies.missingProArray);
         setImportingBlock(itemData);
@@ -47,25 +48,41 @@ function PreviewModal(props) {
 
     const processImport = () => {
         discardAllErrorMessages();
-		processImportHelper(itemData, activeItemType === 'section' ? 'sections' : 'pages', installedDependencies, appendErrorMessage);
+        processImportHelper(itemData, activeItemType === 'section' ? 'sections' : 'pages', installedDependencies, appendErrorMessage);
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
     let itemData = currentPageData[currentIndex];
+    let image_url = itemData.image
+    if (itemData.image_large) {
+        alert('HERE!!!');
+        image_url = itemData.image_large;
+    }
+
     return (
         <Fragment>
             <div className={wrapperClassName} style={{display: 'block'}}>
                 <SitePreviewSidebar itemData={itemData} previewClass={previewClass} expandedClass={expandedClass}
-                    onNextBlock={onNextBlock} onPrevBlock={onPrevBlock}
-                    onCloseCustomizer={onCloseCustomizer} onToggleExpanded={e => toggleExpanded(e)}
-                    onImport={importStarterBlock}
-                    onChangePreviewClass={e => setPreviewClass(e)} />
-                <div className='wp-full-overlay-main'>
+                                    onNextBlock={onNextBlock} onPrevBlock={onPrevBlock}
+                                    onCloseCustomizer={onCloseCustomizer} onToggleExpanded={e => toggleExpanded(e)}
+                                    onImport={importStarterBlock}
+                                    onChangePreviewClass={e => setPreviewClass(e)}/>
+                <div className=' wp-full-overlay-main'>
+                    {itemData.url &&
                     <iframe src={itemData.url} target='Preview'></iframe>
+                    }
+                    {!itemData.url &&
+                        <div className='starterblock-modal-preview-box'><img
+                            src={image_url}
+                            title=''/></div>
+
+                    }
+
                 </div>
             </div>
-            { importingBlock && <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
-                startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)} /> }
+            {importingBlock &&
+            <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
+                          startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
         </Fragment>
     );
 }
@@ -77,7 +94,7 @@ export default compose([
             discardAllErrorMessages
         } = dispatch('starterblocks/sectionslist');
 
-		const {savePost} = dispatch('core/editor');
+        const {savePost} = dispatch('core/editor');
 
         return {
             appendErrorMessage,
@@ -87,7 +104,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const { getActiveItemType, getInstalledDependencies } = select('starterblocks/sectionslist');
-        return { activeItemType: getActiveItemType(), installedDependencies: getInstalledDependencies() };
+        const {getActiveItemType, getInstalledDependencies} = select('starterblocks/sectionslist');
+        return {activeItemType: getActiveItemType(), installedDependencies: getInstalledDependencies()};
     })
 ])(PreviewModal);
