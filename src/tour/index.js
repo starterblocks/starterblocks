@@ -1,11 +1,13 @@
 /**
  * WordPress dependencies
  */
+import {__} from '@wordpress/i18n'
+import {Tooltip} from '@wordpress/components';
+import './style.scss'
+
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
-import {__} from '@wordpress/i18n'
 
-import './style.scss'
 
 
 /**
@@ -34,7 +36,6 @@ export const tourConfig = [
         position: 'right'
     },
     {
-        // TODO - Scroll to Required Plugins, should be automatic...
         selector: '[data-tut="tour__filter_dependencies"]',
         content: `Some templates require certain plugins. You can filter or select those templates. Hint, if the text
          is a <span style="color: #867e76">little orange</span>, you don't have that plugin installed yet, but don't
@@ -63,14 +64,14 @@ export const tourConfig = [
         content: ({goTo}) => (
             <div>
                 These are the different types of templates we have.
-                <br/><Tooltip data-tooltip="AKA blocks, or rows">Sections</Tooltip> are blocks, or parts of a page. A
+                <br/><Tooltip text="AKA blocks, or rows"><span>Sections</span></Tooltip> are blocks, or parts of a page. A
                 full page is made of of many sections.
-                <br/><Tooltip data-tooltip="A complete page template">Pages</Tooltip> are you guessed it, pages full of
+                <br/><Tooltip text="A complete page template"><span>Pages</span></Tooltip> are you guessed it, pages full of
                 sections.
-                <br/><Tooltip data-tooltip="A set, style, or theme of pages">Collections</Tooltip> are groups of pages
+                <br/><Tooltip text="A set, style, or theme of pages"><span>Collections</span></Tooltip> are groups of pages
                 that all follow the same style. Almost like a page
                 themes.
-                <br/><Tooltip data-tooltip="Copy and paste your customized blocks.">Saved</Tooltip> are reusable blocks
+                <br/><Tooltip text="Copy and paste your customized blocks."><span>Saved</span></Tooltip> are reusable blocks
                 that you've saved and want to use.
             </div>
         ),
