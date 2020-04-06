@@ -121,8 +121,8 @@ function LibraryModal(props) {
                 {importingBlock &&
                 <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
                               startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
+                <StarterBlocksTour />
             </TemplateModalProvider>
-            <StarterBlocksTour />
         </Modal>
     );
 }

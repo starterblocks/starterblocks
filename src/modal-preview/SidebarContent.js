@@ -45,6 +45,7 @@ function SidebarContent(props) {
                     <h4>Blocks Used</h4>
                     {
                         Object.keys(blocks).map((keyName, i) => {
+                            if (!starterblocks.supported_plugins[keyName]) return null;
                             const {name, url, version} = starterblocks.supported_plugins[keyName];
                             const IconComponent = Icons[keyName];
                             return (

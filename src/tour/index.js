@@ -3,32 +3,39 @@
  */
 import {__} from '@wordpress/i18n'
 import {Tooltip} from '@wordpress/components';
+import {useContext} from '@wordpress/element';
 import './style.scss'
 
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
 const {useDispatch} = wp.data;
-
-
 /**
  * External dependencies
  */
 
+import {Modal, ModalManager} from '../modal-manager'
+import PreviewModal from '../modal-preview';
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
 import StyledTooltip from './tooltip'
+import TemplateModalContext from '../contexts/TemplateModalContext';
 
 
 function StarterBlocksTour(props) {
     const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen} = props;
-    const {isTourOpen, pageData} = props;
+    const {isTourOpen, getPageData} = props;
+    const {onImportTemplate} = useContext(TemplateModalContext);
 
     const tourConfig = [
         {
             selector: '[data-tut="tour__library_button"]',
             content: __('Let\'s get started! Click here to open the library.', 'starterblocks'),
             // TODO - If the dialog is already open, skip this step.
-            position: 'bottom'
+            position: 'bottom',
+            actions: () => {
+                const pageData = getPageData();
+                if (pageData && pageData.length > 0) onImportTemplate(pageData[0])
+            }
         },
         {
             selector: '[data-tut="tour__main_body"]',
@@ -51,18 +58,21 @@ function StarterBlocksTour(props) {
             selector: '[data-tut="main_body"]',
             content: __('When you hover over a template you can see via icons what plugins are required for this template. You can also click to import and sometimes preview a design.', 'starterblocks'),
             action: () => {
+                const pageData = getPageData();
                 if (pageData && pageData.length > 0) setTourActiveButtonGroup(pageData[0]);
             },
             position: 'bottom'
         },
         {
-            // TODO - Open the preview dialog for that template.
             selector: '[data-tut="tour__preview_sidebar"]',
             content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', 'starterblocks'),
+            action: () => {
+                const pageData = getPageData();
+                if (pageData && pageData.length > 0)  ModalManager.openCustomizer(<PreviewModal startIndex={0} currentPageData={pageData}/>);
+            },
             position: 'right'
         },
         {
-            // TODO - Close Dialog
             selector: '[data-tut="tour__navigation"]',
             content: ({goTo}) => (
                 <div>
@@ -78,20 +88,21 @@ function StarterBlocksTour(props) {
                     that you've saved and want to use.
                 </div>
             ),
+            action: () => ModalManager.closeCustomizer(),
             position: 'bottom'
         },
-
         {
-            // TODO - Open an import wizard
             selector: '[data-tut="tour__import_wizard"]',
             content: `Here's an example of the required plugins installer. If you're missing a plugin StarterBlocks can
             automatically install and activate it for you as long as it's free. If a premium third party plugin is required,
             you will see a button for an external link instead. You must have all the required plugins installed and
             activated before a template can be imported.`,
-            position: 'bottom'
+            position: 'bottom',
+            actions: () => {
+                const pageData = getPageData();
+                if (pageData && pageData.length > 0) onImportTemplate(pageData[0])
+            }
         },
-
-
         {
             selector: '[data-tut="tour__main_body"]',
             content: () => (
@@ -100,10 +111,6 @@ function StarterBlocksTour(props) {
                     <p>Well, that's the tour. Take a look around. We hope you love StarterBlocks!</p>
                 </div>
             ),
-            // style: {
-            //     backgroundColor: "black",
-            //     color: "white"
-            // }
             action: () =>
                 console.log('Close import wizard'),
             position: 'center'
@@ -115,8 +122,12 @@ function StarterBlocksTour(props) {
     const disableBody = target => disableBodyScroll(target);
     const enableBody = target => enableBodyScroll(target);
 
+    const onRequestClose = () => {
+        setTourOpen(false);
+    }
+
     return <Tour
-        onRequestClose={() => setTourOpen(false)}
+        onRequestClose={onRequestClose}
         steps={tourConfig}
         isOpen={isTourOpen}
         maskClassName="mask"
@@ -141,7 +152,7 @@ export default compose([
         const {getTourOpen, getPageData} = select('starterblocks/sectionslist');
         return {
             isTourOpen: getTourOpen(),
-            pageData: getPageData()
+            getPageData
         };
     })
 ])(StarterBlocksTour);
