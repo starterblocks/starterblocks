@@ -17,7 +17,6 @@ import {Modal, ModalManager} from '../modal-manager'
 import PreviewModal from '../modal-preview';
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
-import StyledTooltip from './tooltip'
 import TemplateModalContext from '../contexts/TemplateModalContext';
 
 
@@ -33,40 +32,25 @@ function StarterBlocksTour(props) {
             position: 'center',
         },
         {
-            selector: '[data-tut="tour__main_body"]',
-            content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', 'starterblocks'),
-            position: 'center'
-        },
-        {
             selector: '[data-tut="tour__navigation"]',
             content: ({goTo}) => (
                 <div>
                     These are the different types of templates we have.
                     <ul>
-                        <li><StyledTooltip data-tooltip="AKA blocks, or rows">Sections</StyledTooltip> are blocks, or
-                            parts of a page. A
-                            full page is made of of many sections.
-                        </li>
-                        <li><StyledTooltip data-tooltip="A complete page template">Pages</StyledTooltip> are you guessed
-                            it, pages full
-                            of
+                        <li><strong>Sections</strong> are blocks, or parts of a page. A full page is made of of many
                             sections.
                         </li>
-                        <li><StyledTooltip
-                            data-tooltip="A set, style, or theme of pages">Collections</StyledTooltip> are groups of
-                            pages
-                            that all follow the same style. Almost like a page
-                            themes.
+                        <li><strong>Pages</strong> are you guessed it, pages full of sections.
                         </li>
-                        <li><StyledTooltip
-                            data-tooltip="Copy and paste your customized blocks.">Saved</StyledTooltip> are reusable
-                            blocks
-                            that you've saved and want to use.
+                        <li><strong>Collections</strong> are groups of pages that all follow the same style. Almost like
+                            a page themes.
+                        </li>
+                        <li><strong>Saved</strong> are reusable blocks that you've saved and want to use.
                         </li>
                     </ul>
                 </div>
             ),
-            position: 'bottom'
+            position: 'center'
         },
         {
             selector: '[data-tut="tour__filtering"]',
@@ -91,9 +75,15 @@ function StarterBlocksTour(props) {
             position: 'right'
         },
         {
+            selector: '[data-tut="tour__main_body"]',
+            content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', 'starterblocks'),
+            position: 'center'
+        },
+        {
             selector: '[data-tut="main_body"]',
             content: __('When you hover over a template you can see via icons what plugins are required for this template. You can also click to import and sometimes preview a design.', 'starterblocks'),
             action: () => {
+                ModalManager.closeCustomizer();
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) setTourActiveButtonGroup(pageData[0]);
             },
@@ -103,6 +93,7 @@ function StarterBlocksTour(props) {
             selector: '[data-tut="tour__preview_sidebar"]',
             content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', 'starterblocks'),
             action: () => {
+                setTourActiveButtonGroup(false);
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) ModalManager.openCustomizer(
                     <PreviewModal startIndex={0} currentPageData={pageData}/>
@@ -110,20 +101,20 @@ function StarterBlocksTour(props) {
             },
             position: 'right'
         },
-        // {
-        //     selector: '[data-tut="tour__import_wizard"]',
-        //     content: `Here's an example of the required plugins installer. If you're missing a plugin StarterBlocks can
-        //     automatically install and activate it for you as long as it's free. If a premium third party plugin is required,
-        //     you will see a button for an external link instead. You must have all the required plugins installed and
-        //     activated before a template can be imported.`,
-        //     position: 'bottom',
-        //
-        //     action: () => {
-        //         ModalManager.closeCustomizer();
-        //         const pageData = getPageData();
-        //         if (pageData && pageData.length > 0) onImportTemplate(pageData[0])
-        //     }
-        // },
+        {
+            selector: '[data-tut="tour__import_wizard"]',
+            content: `Here's an example of the required plugins installer. If you're missing a plugin StarterBlocks can
+            automatically install and activate it for you as long as it's free. If a premium third party plugin is required,
+            you will see a button for an external link instead. You must have all the required plugins installed and
+            activated before a template can be imported.`,
+            position: 'bottom',
+
+            action: () => {
+                ModalManager.closeCustomizer();
+                const pageData = getPageData();
+                if (pageData && pageData.length > 0) onImportTemplate(pageData[1])
+            }
+        },
         {
             selector: '[data-tut="tour__main_body"]',
             content: () => (
@@ -148,7 +139,10 @@ function StarterBlocksTour(props) {
     const enableBody = target => enableBodyScroll(target);
 
     const onRequestClose = () => {
+        ModalManager.closeCustomizer();
         setTourOpen(false);
+        setTourActiveButtonGroup(false);
+        // TODO - Add close import dialog close (onImportTemplate)
     }
 
     return <Tour
@@ -157,7 +151,8 @@ function StarterBlocksTour(props) {
         isOpen={isTourOpen}
         maskClassName="mask"
         className="helper"
-        rounded={5}
+        lastStepNextButton={<button>Finish</button>}
+        rounded={0}
         accentColor={accentColor}
     />
 }

@@ -1,7 +1,7 @@
 import {__} from '@wordpress/i18n';
 import {Component, Fragment} from '@wordpress/element';
 
-var onClose;
+var onClose, node, customizerNode, wizardNode, tourNode;
 
 export class Modal extends Component {
 	constructor(props) {
@@ -14,13 +14,19 @@ export class Modal extends Component {
 
 	close() {
 		if (!this.props.onRequestClose || this.props.onRequestClose()) {
-			Manager.close()
+            if (wizardNode) ModalManager.closeWizard()
+		    else if (customizerNode) ModalManager.closeCustomizer()
+            else if (tourNode) ModalManager.closeTour()
+            else ModalManager.close()
 		}
 	}
 
 	handleKeyDown = (event) => {
 		if (event.keyCode === 27) {
-			Manager.close()
+            if (wizardNode) ModalManager.closeWizard()
+		    else if (customizerNode) ModalManager.closeCustomizer()
+            else if (tourNode) ModalManager.closeTour()
+            else ModalManager.close()
 		}
 	}
 
@@ -57,7 +63,7 @@ export class Modal extends Component {
 	}
 }
 
-var node, customizerNode, wizardNode;
+
 export const ModalManager = {
 	open(component) {
 		if (onClose) {
@@ -85,9 +91,11 @@ export const ModalManager = {
 		wp.element.render(component, customizerNode);
 	},
 	closeCustomizer() {
-        if (customizerNode) wp.element.unmountComponentAtNode(customizerNode);
+        if (customizerNode) {
+            wp.element.unmountComponentAtNode(customizerNode);
+            customizerNode = false
+        }
 	},
-
 	openWizard(component) {
 		if (!wizardNode) {
 			wizardNode = document.createElement('div');
@@ -98,7 +106,24 @@ export const ModalManager = {
 		wp.element.render(component, wizardNode);
 	},
 	closeWizard() {
-		if (wizardNode) wp.element.unmountComponentAtNode(wizardNode);
-	}
-
+		if (wizardNode) {
+            wp.element.unmountComponentAtNode(wizardNode);
+            wizardNode = false;
+        }
+	},
+    openTour(component) {
+        if (!tourNode) {
+            tourNode = document.createElement('div');
+            tourNode.className = 'starterblocks-tour'
+            if (node)
+                document.body.insertBefore(tourNode, node);
+        }
+        wp.element.render(component, tourNode);
+    },
+    closeTour() {
+        if (tourNode) {
+            wp.element.unmountComponentAtNode(tourNode);
+            tourNode = false;
+        }
+    }
 }
