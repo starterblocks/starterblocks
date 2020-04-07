@@ -105,5 +105,11 @@ export const actions = {
             type: 'SET_PREVIEW_VISIBLE',
             isVisible
         }
+    },
+    setImportingTemplate(importingTemplate) {
+        return {
+            type: 'SET_IMPORTING_TEMPLATE',
+            importingTemplate
+        }
     }
 };

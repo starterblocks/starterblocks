@@ -8,7 +8,6 @@ import MultipleItem from '../../components/multiple-item'
 import Pagination from '../../components/pagination'
 import './style.scss'
 
-import { SingleItemProvider } from '../../contexts/SingleItemContext';
 
 import PreviewModal from '../../modal-preview';
 
@@ -62,20 +61,11 @@ function TemplateList(props) {
                                         columnData &&
                                         columnData.map((data, cellIndex) => (
                                             (activeItemType !== 'collection' || activeCollection !== null) ?
-                                                <SingleItemProvider value={{
-                                                    data,
-                                                    pageData,
-                                                    index: data.index,
-                                                    activeItemType,
-                                                    spinner: false,
-                                                    column: columns,
-                                                    showDependencyBlock: true
-                                                }} key={cellIndex}>
-                                                    <SingleItem
-                                                        key={cellIndex}
-                                                        backgroundImage={(data) => getBackgroundImage(data)}
-                                                    />
-                                                </SingleItemProvider>
+                                                <SingleItem
+                                                    key={cellIndex}
+                                                    index={data.index}
+                                                    backgroundImage={(data) => getBackgroundImage(data)}
+                                                />
                                                 :
                                                 <MultipleItem
                                                     key={cellIndex}

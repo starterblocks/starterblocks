@@ -1,20 +1,18 @@
 const {__} = wp.i18n;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
-const {Component, useContext, useState} = wp.element;
+const {Component, useState} = wp.element;
 
 import {IconButton} from '@wordpress/components'
-import TemplateModalContext from '../../contexts/TemplateModalContext';
 import SVGViewFew from './images/view-few.svg'
 import SVGViewMany from './images/view-many.svg'
 import SVGViewNormal from './images/view-normal.svg'
-
+import {reloadLibrary} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
 function TemplateListSubHeader(props) {
     const {fetchLibraryFromAPI, itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
     const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setTourOpen} = props;
-    const {resetLibrary} = useContext(TemplateModalContext);
 
     const itemTypeLabel = () => {
         if (itemType === 'section') return __('Sections');
@@ -61,7 +59,7 @@ function TemplateListSubHeader(props) {
                     icon="image-rotate"
                     label={__('Refresh Library')}
                     className="refresh-library"
-                    onClick={resetLibrary}
+                    onClick={reloadLibrary}
                 />
                 <IconButton
                     icon={<SVGViewFew width="18" height="18"/>}

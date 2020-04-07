@@ -7,8 +7,6 @@ const {Spinner} = wp.components;
 
 import '../stores';
 
-
-import {TemplateModalProvider} from '../contexts/TemplateModalContext';
 import {Modal, ModalManager} from '../modal-manager'
 import TabHeader from '../components/tab-header';
 import WithSidebarLayout from './layout-with-sidebar';
@@ -17,7 +15,7 @@ import SavedView from './view-saved';
 import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
-import {installedBlocksTypes, processImportHelper} from '~starterblocks/stores/helper';
+import {installedBlocksTypes, processImportHelper} from '~starterblocks/stores/actionHelper';
 import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
@@ -27,13 +25,10 @@ import StarterBlocksTour from '../tour';
 
 function LibraryModal(props) {
     const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies
+        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary, setImportingTemplate,
+        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, importingTemplate
     } = props;
-
-    const [spinner, setSpinner] = useState(null);
     const [loaded, setLoaded] = useState(false);
-    const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
 
@@ -46,51 +41,21 @@ function LibraryModal(props) {
         }
     });
 
-    const resetLibrary = () => {
-        setLoading(true);
-        apiFetch({
-            path: 'starterblocks/v1/library?no_cache=1',
-            method: 'POST',
-            data: {
-                'registered_blocks': installedBlocksTypes(),
-            }
-        }).then((newLibrary) => {
-                setLoading(false);
-                setLibrary(newLibrary.data);
-            }
-        ).catch((error) => {
-            registerError(error);
-        });
-    }
-
     const hasSidebar = () => {
         return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
-    }
-
-
-    const onImportTemplate = (data) => {
-        importStarterBlock(data, activeItemType === 'section' ? 'sections' : 'pages');
-    }
-
-    const importStarterBlock = (data, type) => {
-        const dependencies = dependencyHelper.checkTemplateDependencies(data);
-        setMissingPlugin(dependencies.missingPluginArray);
-        setMissingPro(dependencies.missingProArray);
-        setImportingBlock(data);
     }
 
     // read block data to import and give the control to actual import
     const processImport = () => {
         discardAllErrorMessages();
-        setSpinner(null);
-        processImportHelper(importingBlock, activeItemType === 'section' ? 'sections' : 'pages', installedDependencies, registerError)
+        processImportHelper(activeItemType === 'section' ? 'sections' : 'pages', registerError)
+        setImportingTemplate(null);
     }
 
 
     const registerError = (errorMessage) => {
         appendErrorMessage(errorMessage);
-        setSpinner(null);
-        setImportingBlock(null);
+        setImportingTemplate(null);
     }
 
     // Open Site Preview Modal
@@ -103,26 +68,19 @@ function LibraryModal(props) {
                customClass="starterblocks-builder-modal-template-list"
                openTimeoutMS={0} closeTimeoutMS={0}>
             <TabHeader/>
-            <TemplateModalProvider value={{
-                openSitePreviewModal,
-                onImportTemplate,
-                resetLibrary,
-                spinner
-            }}>
-                {
-                    errorMessages && errorMessages.length > 0 &&
-                    <ErrorNotice discardAllErrorMessages={discardAllErrorMessages} errorMessages={errorMessages}/>
-                }
-                <div className="starterblocks-collections-modal-body">
-                    {hasSidebar() && <WithSidebarLayout/>}
-                    {(hasSidebar() === false && activeItemType === 'collection') && <CollectionView/>}
-                    {(hasSidebar() === false && activeItemType !== 'collection') && <SavedView/>}
-                </div>
-                {importingBlock &&
-                <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
-                              startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
-                <StarterBlocksTour />
-            </TemplateModalProvider>
+            {
+                errorMessages && errorMessages.length > 0 &&
+                <ErrorNotice discardAllErrorMessages={discardAllErrorMessages} errorMessages={errorMessages}/>
+            }
+            <div className="starterblocks-collections-modal-body">
+                {hasSidebar() && <WithSidebarLayout/>}
+                {(hasSidebar() === false && activeItemType === 'collection') && <CollectionView/>}
+                {(hasSidebar() === false && activeItemType !== 'collection') && <SavedView/>}
+            </div>
+            {
+                importingTemplate && <ImportWizard startImportTemplate={processImport} />
+            }
+            <StarterBlocksTour />
         </Modal>
     );
 }
@@ -135,7 +93,8 @@ export default compose([
             discardAllErrorMessages,
             setLoading,
             setLibrary,
-            setColumns
+            setColumns,
+            setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
         const {savePost} = dispatch('core/editor');
 
@@ -144,18 +103,20 @@ export default compose([
             discardAllErrorMessages,
             setLoading,
             savePost,
-            setLibrary
+            setLibrary,
+            setImportingTemplate
         };
     }),
 
     withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getInstalledDependencies, getTourOpen} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getInstalledDependencies, getTourOpen, getImportingTemplate} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
             errorMessages: getErrorMessages(),
-            installedDependencies: getInstalledDependencies()
+            installedDependencies: getInstalledDependencies(),
+            importingTemplate: getImportingTemplate()
         };
     })
 ])(LibraryModal);

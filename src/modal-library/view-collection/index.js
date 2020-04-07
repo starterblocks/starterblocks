@@ -6,7 +6,6 @@ const {__} = wp.i18n
 import './style.scss'
 
 import ButtonGroup from '../../components/button-group';
-import {SingleItemProvider} from '../../contexts/SingleItemContext';
 import {isBlockPro} from '../../stores/helper';
 
 function CollectionView(props) {
@@ -58,16 +57,7 @@ function CollectionView(props) {
             </div>
             <div className="starterblocks-collection-details-footer">
                 <div className="footer-grid">
-                    <SingleItemProvider value={{
-                        data: previewData,
-                        pageData,
-                        index: previewDataIndex,
-                        activeItemType,
-                        spinner: false,
-                        showDependencyBlock: false
-                    }}>
-                        <ButtonGroup/>
-                    </SingleItemProvider>
+                    <ButtonGroup index={previewDataIndex} showDependencyBlock={false} data={previewData} pageData={pageData} />
                 </div>
             </div>
         </div>

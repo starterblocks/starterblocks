@@ -3,7 +3,6 @@
  */
 import {__} from '@wordpress/i18n'
 import {Tooltip} from '@wordpress/components';
-import {useContext} from '@wordpress/element';
 import './style.scss'
 
 const {compose} = wp.compose;
@@ -17,21 +16,19 @@ import {ModalManager} from '../modal-manager'
 import PreviewModal from '../modal-preview';
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
-import TemplateModalContext from '../contexts/TemplateModalContext';
 
 
 
 
 function StarterBlocksTour(props) {
-    const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen} = props;
+    const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
     const {isTourOpen, getPageData} = props;
-    const {onImportTemplate} = useContext(TemplateModalContext);
 
     const tourConfig = [
         {
             selector: '.starterblocks-pagelist-modal-inner',
             content: __('Welcome to the StarterBlocks! Let\'s go over how to use our library.', 'starterblocks'),
-            position: 'center',
+            position: 'center'
         },
         {
             selector: '[data-tut="tour__navigation"]',
@@ -60,7 +57,6 @@ function StarterBlocksTour(props) {
             position: 'right'
         },
         {
-            // TODO - Scroll to Required Plugins, should be automatic...
             selector: '[data-tut="tour__filter_dependencies"]',
 
             content: () => (
@@ -120,11 +116,10 @@ function StarterBlocksTour(props) {
             you will see a button for an external link instead. You must have all the required plugins installed and
             activated before a template can be imported.`,
             position: 'bottom',
-
             action: () => {
-                ModalManager.closeCustomizer();
                 const pageData = getPageData();
-                if (pageData && pageData.length > 0) onImportTemplate(pageData[1])
+                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
+                ModalManager.closeCustomizer();
             }
         },
         {
@@ -138,7 +133,7 @@ function StarterBlocksTour(props) {
             action: () => {
                 // TODO Remove me when the above step is working
                 ModalManager.closeCustomizer();
-                console.log('Close import wizard');
+                setImportingTemplate(null);
             },
 
             position: 'center'
@@ -166,17 +161,19 @@ function StarterBlocksTour(props) {
         lastStepNextButton={<button>Finish</button>}
         rounded={0}
         accentColor={accentColor}
+        disableInteraction={false}
     />
 }
 
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen} = dispatch('starterblocks/sectionslist');
+        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = dispatch('starterblocks/sectionslist');
         return {
             setTourActiveButtonGroup,
             setTourPreviewVisible,
-            setTourOpen
+            setTourOpen,
+            setImportingTemplate
         };
     }),
 

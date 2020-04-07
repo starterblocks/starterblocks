@@ -1,25 +1,37 @@
-import {useContext, useEffect, useState} from '@wordpress/element';
-import TemplateModalContext from '../../contexts/TemplateModalContext';
+const {compose} = wp.compose;
+const {withDispatch, withSelect, select} = wp.data;
+import {useEffect, useState} from '@wordpress/element';
 import PreviewImport from '../preview-import';
 import DependentPlugins from '../dependent-plugins';
 import './style.scss'
 
-export default function ButtonGroup (props) {
-    const {spinner} = useContext(TemplateModalContext);
+function ButtonGroup (props) {
+    const {importingTemplate, showDependencyBlock, index, data, pageData} = props;
     const [rootClassName, setRootClassName] = useState('starterblocks-import-button-group');
 
     // When some action is in progress, disable the button groups
     useEffect(() => {
-        if (spinner === null && rootClassName !== 'starterblocks-import-button-group')
+        if (importingTemplate === null && rootClassName !== 'starterblocks-import-button-group')
             setRootClassName('starterblocks-import-button-group')
-        if (spinner !== null && rootClassName === 'starterblocks-import-button-group')
+        if (importingTemplate !== null && rootClassName === 'starterblocks-import-button-group')
             setRootClassName('starterblocks-import-button-group disabled');
-    }, [spinner])
-
+    }, [importingTemplate])
     return (
         <div className={rootClassName} data-tut="main_body">
-            <PreviewImport />
-            <DependentPlugins />
+            <PreviewImport index={index} data={data} pageData={pageData} />
+            <DependentPlugins showDependencyBlock={showDependencyBlock} data={data} />
         </div>
     )
 }
+
+
+
+export default compose([
+    withDispatch((dispatch) => {
+        return {};
+    }),
+    withSelect((select, props) => {
+        const {getImportingTemplate} = select('starterblocks/sectionslist');
+        return {importingTemplate: getImportingTemplate()};
+    })
+])(ButtonGroup);

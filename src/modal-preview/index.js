@@ -7,7 +7,7 @@ import SitePreviewSidebar from './SitePreviewSidebar';
 import {ModalManager} from '../modal-manager'
 import ImportWizard from '../modal-import-wizard';
 import dependencyHelper from '../modal-import-wizard/dependencyHelper';
-import {processImportHelper} from '../stores/helper';
+import {processImportHelper} from '../stores/actionHelper';
 import uniq from 'lodash/uniq';
 import './style.scss';
 import {Fragment} from 'react';
@@ -15,10 +15,11 @@ import {Fragment} from 'react';
 function PreviewModal(props) {
 
     const {startIndex, currentPageData} = props;
-    const {discardAllErrorMessages, appendErrorMessage, activeItemType, savePost, installedDependencies} = props;
+    const {discardAllErrorMessages, appendErrorMessage, activeItemType, setImportingTemplate, savePost, importingTemplate} = props;
     const [currentIndex, setCurrentIndex] = useState(startIndex);
     const [previewClass, setPreviewClass] = useState('preview-desktop')
     const [expandedClass, toggleExpanded] = useState('expanded')
+    // const [importingVisible, setImportingVisible] = useState(false);
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
@@ -38,17 +39,13 @@ function PreviewModal(props) {
 
 
     const importStarterBlock = () => {
-        const type = activeItemType === 'section' ? 'section' : 'page';
-        const dependencies = dependencyHelper.checkTemplateDependencies(itemData);
-        console.log(dependencies)
-        setMissingPlugin(dependencies.missingPluginArray);
-        setMissingPro(dependencies.missingProArray);
-        setImportingBlock(itemData);
+        setImportingTemplate(itemData);
     }
 
     const processImport = () => {
         discardAllErrorMessages();
-        processImportHelper(itemData, activeItemType === 'section' ? 'sections' : 'pages', installedDependencies, appendErrorMessage);
+        processImportHelper(activeItemType === 'section' ? 'sections' : 'pages', appendErrorMessage);
+        setImportingVisible(false);
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
@@ -79,9 +76,7 @@ function PreviewModal(props) {
 
                 </div>
             </div>
-            {importingBlock &&
-            <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
-                          startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
+            { importingTemplate && <ImportWizard startImportTemplate={processImport} /> }
         </Fragment>
     );
 }
@@ -90,7 +85,8 @@ export default compose([
     withDispatch((dispatch) => {
         const {
             appendErrorMessage,
-            discardAllErrorMessages
+            discardAllErrorMessages,
+            setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
 
         const {savePost} = dispatch('core/editor');
@@ -98,12 +94,13 @@ export default compose([
         return {
             appendErrorMessage,
             discardAllErrorMessages,
+            setImportingTemplate,
             savePost
         };
     }),
 
     withSelect((select, props) => {
-        const {getActiveItemType, getInstalledDependencies} = select('starterblocks/sectionslist');
-        return {activeItemType: getActiveItemType(), installedDependencies: getInstalledDependencies()};
+        const {getActiveItemType, getImportingTemplate} = select('starterblocks/sectionslist');
+        return {activeItemType: getActiveItemType(), importingTemplate: getImportingTemplate()};
     })
 ])(PreviewModal);

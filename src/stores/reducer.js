@@ -43,7 +43,8 @@ export const initialState = {
         isOpen: false,
         activeButtonGroup: null,
         isPreviewVisible: false
-    }
+    },
+    importingTemplate: null
 };
 
 export const reducer = ( state = initialState, action ) => {
@@ -187,6 +188,11 @@ export const reducer = ( state = initialState, action ) => {
                     isPreviewVisible: action.isVisible
                 }
             };
+        case 'SET_IMPORTING_TEMPLATE':
+            return {
+                ...state,
+                importingTemplate: action.importingTemplate
+            }
     }
 
     return state;

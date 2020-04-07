@@ -16,7 +16,6 @@ function SidebarContent(props) {
     const [proList, setProList] = useState([]);
     const [loaded, setLoaded] = useState(false);
 
-
     useEffect(() => {
         collectMissingRequirements(); // This methods is different from the others, it updates the source of
     }, [itemData]);
