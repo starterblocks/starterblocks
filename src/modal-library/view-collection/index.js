@@ -58,16 +58,7 @@ function CollectionView(props) {
             </div>
             <div className="starterblocks-collection-details-footer">
                 <div className="footer-grid">
-                    <SingleItemProvider value={{
-                        data: previewData,
-                        pageData,
-                        index: previewDataIndex,
-                        activeItemType,
-                        spinner: false,
-                        showDependencyBlock: false
-                    }}>
-                        <ButtonGroup/>
-                    </SingleItemProvider>
+                    <ButtonGroup index={previewDataIndex} showDependencyBlock={false} data={previewData} pageData={pageData} />
                 </div>
             </div>
         </div>

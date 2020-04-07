@@ -1,12 +1,10 @@
 import {__} from '@wordpress/i18n';
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
-import {useContext} from '@wordpress/element';
-import SingleItemContext from '~starterblocks/contexts/SingleItemContext';
 import {openSitePreviewModal} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 function PreviewImport (props) {
-    const {data, index, pageData} = useContext(SingleItemContext);
+    const {data, index, pageData} = props;
     const {setImportingTemplate} = props;
     let spinner = null;
     const triggerImportTemplate = (data) => {

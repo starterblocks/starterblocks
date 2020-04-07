@@ -6,7 +6,7 @@ import DependentPlugins from '../dependent-plugins';
 import './style.scss'
 
 function ButtonGroup (props) {
-    const {importingTemplate} = props;
+    const {importingTemplate, showDependencyBlock, index, data, pageData} = props;
     const [rootClassName, setRootClassName] = useState('starterblocks-import-button-group');
 
     // When some action is in progress, disable the button groups
@@ -18,8 +18,8 @@ function ButtonGroup (props) {
     }, [importingTemplate])
     return (
         <div className={rootClassName} data-tut="main_body">
-            <PreviewImport />
-            <DependentPlugins />
+            <PreviewImport index={index} data={data} pageData={pageData} />
+            <DependentPlugins showDependencyBlock={showDependencyBlock} data={data} />
         </div>
     )
 }

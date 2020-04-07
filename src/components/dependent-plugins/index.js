@@ -5,7 +5,7 @@ import * as Icons from '~starterblocks/icons'
 import './style.scss'
 
 export default function DependentPlugins (props) {
-    const {data, showDependencyBlock} = useContext(SingleItemContext);
+    const {data, showDependencyBlock} = props;
     const {ID} = data;
 
     const getDependentBlocks = (data) => {
