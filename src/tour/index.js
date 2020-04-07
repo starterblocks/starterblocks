@@ -26,7 +26,8 @@ function StarterBlocksTour(props) {
         {
             selector: '.starterblocks-pagelist-modal-inner',
             content: __('Welcome to the StarterBlocks! Let\'s go over how to use our library.', 'starterblocks'),
-            position: 'center'
+            position: 'center',
+            stepInteraction: false,
         },
         {
             selector: '[data-tut="tour__navigation"]',
@@ -84,7 +85,10 @@ function StarterBlocksTour(props) {
         {
             selector: '[data-tut="tour__main_body"]',
             content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', 'starterblocks'),
-            position: 'center'
+            position: 'center',
+            action: () => {
+                setTourActiveButtonGroup(null);
+            }
         },
         {
             selector: '#modalContainer .starterblocks-single-item-inner:first-child',
@@ -99,20 +103,7 @@ function StarterBlocksTour(props) {
             position: 'bottom'
         },
         {
-            // selector: '',
-            // content: __('Let\'s force the dom to show', 'starterblocks'),
-            action: () => {
-                const pageData = getPageData();
-                if (pageData && pageData.length > 0) {
-                    ModalManager.openCustomizer(
-                        <PreviewModal startIndex={0} currentPageData={pageData}/>
-                    )
-                }
-            },
-            // position: 'right'
-        },
-        {
-            selector: '.theme-install-overlay',
+            selector: '.wp-full-overlay-sidebar',
             // selector: '[data-tut="tour__preview_sidebar"]',
             content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', 'starterblocks'),
             action: () => {
@@ -124,28 +115,21 @@ function StarterBlocksTour(props) {
                         <PreviewModal startIndex={0} currentPageData={pageData}/>
                     )
                 }
+                // TODO - Must update the state of the tour component for this to paint properly
             },
             position: 'center'
         },
         {
-            // selector: '.theme-install-overlay',
-            content: 'When you click to import a template, sometimes you will be missing one of the required plugins.',
-            position: 'center',
-            action: (node) => {
+            selector: '.starterblocks-import-wizard-wrapper',
+            content: `When you click to import a template, sometimes you will be missing one of the required plugins. 
+            StarterBlocks will do it's best to help you install what's missing. If some of them are 
+            premium plugins, you will be provided details on where you can get them.`,
+            position: 'top',
+            action: () => {
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
-            }
-        },
-
-        {
-            selector: '.starterblocks-import-wizard-wrapper',
-            content: `StarterBlocks will do it's best to help you install what's missing. If some of them are 
-            premium plugins, you will be provided details on where you can buy them.`,
-            position: 'top',
-            action: node => {
-                const pageData = getPageData();
-                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
+                // TODO - Must update the state of the tour component for this to paint properly
             }
         },
         {
@@ -158,9 +142,7 @@ function StarterBlocksTour(props) {
             ),
             action: () => {
                 setImportingTemplate(null);
-                ModalManager.closeCustomizer();
             },
-
             position: 'center'
         },
     ];
@@ -181,12 +163,12 @@ function StarterBlocksTour(props) {
         onRequestClose={onRequestClose}
         steps={tourConfig}
         isOpen={isTourOpen}
-        maskClassName='mask'
-        className='helper'
-        lastStepNextButton={<button>Finish</button>}
+        // maskClassName='mask'
+        // className='helper'
+        lastStepNextButton={<span className="button button-small">Finish</span>}
         rounded={0}
         accentColor={accentColor}
-        disableInteraction={false}
+        disableInteraction={true}
     />
 }
 
