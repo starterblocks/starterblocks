@@ -29,11 +29,7 @@ function StarterBlocksTour(props) {
         {
             selector: '.starterblocks-pagelist-modal-inner',
             content: __('Welcome to the StarterBlocks! Let\'s go over how to use our library.', 'starterblocks'),
-            position: 'center',
-            action: () => {
-                const pageData = getPageData();
-                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
-            }
+            position: 'center'
         },
         {
             selector: '[data-tut="tour__navigation"]',
@@ -62,7 +58,6 @@ function StarterBlocksTour(props) {
             position: 'right'
         },
         {
-            // TODO - Scroll to Required Plugins, should be automatic...
             selector: '[data-tut="tour__filter_dependencies"]',
 
             content: () => (
@@ -122,11 +117,10 @@ function StarterBlocksTour(props) {
             you will see a button for an external link instead. You must have all the required plugins installed and
             activated before a template can be imported.`,
             position: 'bottom',
-
             action: () => {
-                ModalManager.closeCustomizer();
                 const pageData = getPageData();
-                if (pageData && pageData.length > 0) onImportTemplate(pageData[0])
+                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
+                ModalManager.closeCustomizer();
             }
         },
         {
@@ -140,7 +134,7 @@ function StarterBlocksTour(props) {
             action: () => {
                 // TODO Remove me when the above step is working
                 ModalManager.closeCustomizer();
-                console.log('Close import wizard');
+                setImportingTemplate(null);
             },
 
             position: 'center'

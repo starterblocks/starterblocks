@@ -2,7 +2,8 @@ import {__} from '@wordpress/i18n';
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
 import {useContext} from '@wordpress/element';
-import SingleItemContext from '../../contexts/SingleItemContext';
+import SingleItemContext from '~starterblocks/contexts/SingleItemContext';
+import {openSitePreviewModal} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 function PreviewImport (props) {
     const {data, index, pageData} = useContext(SingleItemContext);
@@ -17,15 +18,12 @@ function PreviewImport (props) {
 
     return (
         <div className="action-buttons">
-            <a className="starterblocks-button preview-button" target="_blank">
-                {/*onClick={() => openSitePreviewModal(index, pageData)} */}
+            <a className="starterblocks-button preview-button" target="_blank" onClick={() => openSitePreviewModal(index, pageData)}>
                 <i className="fa fa-share"/> {__('Preview')}
             </a>
-
-
             <a className="starterblocks-button download-button"
                 onClick={() => triggerImportTemplate(data)}>
-                <i className="fas fa-download"/>}{__('Import')}
+                <i className="fas fa-download"/>{__('Import')}
             </a>
         </div>
     );

@@ -61,8 +61,8 @@ function ImportWizard(props) {
 
 
     return (
-        <div className="starterblocks-import-wizard-overlay" data-tut="tour__import_wizard">
-            <div className="starterblocks-import-wizard-wrapper">
+        <div className="starterblocks-import-wizard-overlay">
+            <div className="starterblocks-import-wizard-wrapper" data-tut="tour__import_wizard">
                 <div className="starterblocks-import-wizard-header">
                     <h3>{__('Template Import Wizard')}</h3>
                     <button className="starterblocks-builder-close-modal" onClick={onCloseWizard}>

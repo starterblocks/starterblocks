@@ -28,8 +28,6 @@ function LibraryModal(props) {
         fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary, setImportingTemplate,
         appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, importingTemplate
     } = props;
-
-    const [spinner, setSpinner] = useState(null);
     const [loaded, setLoaded] = useState(false);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
@@ -54,14 +52,13 @@ function LibraryModal(props) {
     // read block data to import and give the control to actual import
     const processImport = () => {
         discardAllErrorMessages();
-        setSpinner(null);
         processImportHelper(activeItemType === 'section' ? 'sections' : 'pages', registerError)
+        setImportingTemplate(null);
     }
 
 
     const registerError = (errorMessage) => {
         appendErrorMessage(errorMessage);
-        setSpinner(null);
         setImportingTemplate(null);
     }
 
@@ -108,7 +105,8 @@ export default compose([
             discardAllErrorMessages,
             setLoading,
             savePost,
-            setLibrary
+            setLibrary,
+            setImportingTemplate
         };
     }),
 

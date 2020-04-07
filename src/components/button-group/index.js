@@ -16,7 +16,6 @@ function ButtonGroup (props) {
         if (importingTemplate !== null && rootClassName === 'starterblocks-import-button-group')
             setRootClassName('starterblocks-import-button-group disabled');
     }, [importingTemplate])
-
     return (
         <div className={rootClassName} data-tut="main_body">
             <PreviewImport />
@@ -35,4 +34,4 @@ export default compose([
         const {getImportingTemplate} = select('starterblocks/sectionslist');
         return {importingTemplate: getImportingTemplate()};
     })
-])(PreviewImport);
+])(ButtonGroup);
