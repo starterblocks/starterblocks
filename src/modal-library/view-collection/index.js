@@ -6,7 +6,6 @@ const {__} = wp.i18n
 import './style.scss'
 
 import ButtonGroup from '../../components/button-group';
-import {SingleItemProvider} from '../../contexts/SingleItemContext';
 import {isBlockPro} from '../../stores/helper';
 
 function CollectionView(props) {

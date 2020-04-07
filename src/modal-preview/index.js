@@ -15,11 +15,11 @@ import {Fragment} from 'react';
 function PreviewModal(props) {
 
     const {startIndex, currentPageData} = props;
-    const {discardAllErrorMessages, appendErrorMessage, activeItemType, setImportingTemplate, savePost, installedDependencies} = props;
+    const {discardAllErrorMessages, appendErrorMessage, activeItemType, setImportingTemplate, savePost, importingTemplate} = props;
     const [currentIndex, setCurrentIndex] = useState(startIndex);
     const [previewClass, setPreviewClass] = useState('preview-desktop')
     const [expandedClass, toggleExpanded] = useState('expanded')
-    const [importingVisible, setImportingVisible] = useState(false);
+    // const [importingVisible, setImportingVisible] = useState(false);
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
@@ -39,7 +39,6 @@ function PreviewModal(props) {
 
 
     const importStarterBlock = () => {
-        setImportingVisible(true);
         setImportingTemplate(itemData);
     }
 
@@ -77,7 +76,7 @@ function PreviewModal(props) {
 
                 </div>
             </div>
-            { importingVisible && <ImportWizard startImportTemplate={processImport} /> }
+            { importingTemplate && <ImportWizard startImportTemplate={processImport} /> }
         </Fragment>
     );
 }
@@ -101,7 +100,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getActiveItemType, getInstalledDependencies} = select('starterblocks/sectionslist');
-        return {activeItemType: getActiveItemType(), installedDependencies: getInstalledDependencies()};
+        const {getActiveItemType, getImportingTemplate} = select('starterblocks/sectionslist');
+        return {activeItemType: getActiveItemType(), importingTemplate: getImportingTemplate()};
     })
 ])(PreviewModal);

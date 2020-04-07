@@ -8,7 +8,6 @@ import MultipleItem from '../../components/multiple-item'
 import Pagination from '../../components/pagination'
 import './style.scss'
 
-import { SingleItemProvider } from '../../contexts/SingleItemContext';
 
 import PreviewModal from '../../modal-preview';
 

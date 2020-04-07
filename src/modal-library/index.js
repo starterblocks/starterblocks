@@ -77,7 +77,9 @@ function LibraryModal(props) {
                 {(hasSidebar() === false && activeItemType === 'collection') && <CollectionView/>}
                 {(hasSidebar() === false && activeItemType !== 'collection') && <SavedView/>}
             </div>
-            <ImportWizard startImportTemplate={processImport} />
+            {
+                importingTemplate && <ImportWizard startImportTemplate={processImport} />
+            }
             <StarterBlocksTour />
         </Modal>
     );

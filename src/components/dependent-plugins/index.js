@@ -1,6 +1,4 @@
-import {useContext} from '@wordpress/element';
 import {Tooltip} from '@wordpress/components';
-import SingleItemContext from '../../contexts/SingleItemContext';
 import * as Icons from '~starterblocks/icons'
 import './style.scss'
 

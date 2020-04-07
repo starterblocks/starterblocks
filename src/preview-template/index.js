@@ -15,11 +15,10 @@ import { Fragment } from 'react';
 function PreviewTemplate(props) {
 
     const { startIndex, currentPageData } = props;
-    const { discardAllErrorMessages, appendErrorMessage, activeItemType, savePost, installedDependencies} = props;
+    const { setImportingTemplate, discardAllErrorMessages, appendErrorMessage, activeItemType, savePost, installedDependencies, importingTemplate} = props;
     const [ currentIndex, setCurrentIndex ] = useState(startIndex);
     const [ previewClass, setPreviewClass ] = useState('preview-desktop')
     const [ expandedClass, toggleExpanded ] = useState('expanded')
-    const [ importingBlock, setImportingBlock ] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
 
@@ -38,11 +37,13 @@ function PreviewTemplate(props) {
 
 
     const importStarterBlock = () => {
+        setImportingTemplate(itemData);
+        /*
         const type = activeItemType === 'section' ? 'section' : 'page';
         const dependencies = dependencyHelper.checkTemplateDependencies(itemData);
         setMissingPlugin(dependencies.missingPluginArray);
         setMissingPro(dependencies.missingProArray);
-        setImportingBlock(itemData);
+        setImportingBlock(itemData); */
     }
 
     const processImport = () => {
@@ -64,8 +65,7 @@ function PreviewTemplate(props) {
                     <iframe src={itemData.url} target='Preview'></iframe>
                 </div>
             </div>
-            { importingBlock && <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
-                startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)} /> }
+            { importingTemplate && <ImportWizard startImportTemplate={processImport} /> }
         </Fragment>
     );
 }
@@ -73,6 +73,7 @@ function PreviewTemplate(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
+            setImportingTemplate,
             appendErrorMessage,
             discardAllErrorMessages
         } = dispatch('starterblocks/sectionslist');
@@ -80,6 +81,7 @@ export default compose([
 		const {savePost} = dispatch('core/editor');
 
         return {
+            setImportingTemplate,
             appendErrorMessage,
             discardAllErrorMessages,
             savePost
@@ -87,7 +89,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const { getActiveItemType, getInstalledDependencies } = select('starterblocks/sectionslist');
-        return { activeItemType: getActiveItemType(), installedDependencies: getInstalledDependencies() };
+        const { getActiveItemType, getInstalledDependencies, getImportingTemplate } = select('starterblocks/sectionslist');
+        return { activeItemType: getActiveItemType(), installedDependencies: getInstalledDependencies(), importingTemplate: getImportingTemplate() };
     })
 ])(PreviewTemplate);
