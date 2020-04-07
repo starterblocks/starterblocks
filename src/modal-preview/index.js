@@ -15,10 +15,11 @@ import {Fragment} from 'react';
 function PreviewModal(props) {
 
     const {startIndex, currentPageData} = props;
-    const {discardAllErrorMessages, appendErrorMessage, activeItemType, savePost, installedDependencies} = props;
+    const {discardAllErrorMessages, appendErrorMessage, activeItemType, setImportingTemplate, savePost, installedDependencies} = props;
     const [currentIndex, setCurrentIndex] = useState(startIndex);
     const [previewClass, setPreviewClass] = useState('preview-desktop')
     const [expandedClass, toggleExpanded] = useState('expanded')
+    const [importingVisible, setImportingVisible] = useState(false);
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
@@ -38,17 +39,14 @@ function PreviewModal(props) {
 
 
     const importStarterBlock = () => {
-        const type = activeItemType === 'section' ? 'section' : 'page';
-        const dependencies = dependencyHelper.checkTemplateDependencies(itemData);
-        console.log(dependencies)
-        setMissingPlugin(dependencies.missingPluginArray);
-        setMissingPro(dependencies.missingProArray);
-        setImportingBlock(itemData);
+        setImportingVisible(true);
+        setImportingTemplate(itemData);
     }
 
     const processImport = () => {
         discardAllErrorMessages();
         processImportHelper(activeItemType === 'section' ? 'sections' : 'pages', appendErrorMessage);
+        setImportingVisible(false);
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
@@ -79,9 +77,7 @@ function PreviewModal(props) {
 
                 </div>
             </div>
-            {importingBlock &&
-            <ImportWizard missingPlugins={uniq(missingPluginArray)} missingPros={uniq(missingProArray)}
-                          startImportTemplate={processImport} closeWizard={() => setImportingBlock(null)}/>}
+            { importingVisible && <ImportWizard startImportTemplate={processImport} /> }
         </Fragment>
     );
 }
@@ -90,7 +86,8 @@ export default compose([
     withDispatch((dispatch) => {
         const {
             appendErrorMessage,
-            discardAllErrorMessages
+            discardAllErrorMessages,
+            setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
 
         const {savePost} = dispatch('core/editor');
@@ -98,6 +95,7 @@ export default compose([
         return {
             appendErrorMessage,
             discardAllErrorMessages,
+            setImportingTemplate,
             savePost
         };
     }),

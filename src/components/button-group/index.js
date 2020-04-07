@@ -1,6 +1,6 @@
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
-import {useContext, useEffect, useState} from '@wordpress/element';
+import {useEffect, useState} from '@wordpress/element';
 import PreviewImport from '../preview-import';
 import DependentPlugins from '../dependent-plugins';
 import './style.scss'

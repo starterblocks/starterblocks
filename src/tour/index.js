@@ -3,7 +3,6 @@
  */
 import {__} from '@wordpress/i18n'
 import {Tooltip} from '@wordpress/components';
-import {useContext} from '@wordpress/element';
 import './style.scss'
 
 const {compose} = wp.compose;

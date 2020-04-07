@@ -45,10 +45,6 @@ function LibraryModal(props) {
         return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
     }
 
-    const onImportTemplate = (data) => {
-        importStarterBlock(data, activeItemType === 'section' ? 'sections' : 'pages');
-    }
-
     // read block data to import and give the control to actual import
     const processImport = () => {
         discardAllErrorMessages();
