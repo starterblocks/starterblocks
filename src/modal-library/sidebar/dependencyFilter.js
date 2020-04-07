@@ -35,7 +35,7 @@ function DependencyFilter(props) {
     return (
         <Fragment>
             {!loading &&
-                <div data-tut="tour__filter_dependencies">
+                <div id="starterblock-filter-dependencies" data-tut="tour__filter_dependencies">
                     <h3>{__('Required Plugins', 'starterblocks')}</h3>
                     <div className="starterblocks-select-actions">
                         <a href="#" onClick={() => setAllCheckedAs(true)}>Select All</a>

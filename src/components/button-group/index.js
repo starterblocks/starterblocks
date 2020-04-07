@@ -17,7 +17,7 @@ function ButtonGroup (props) {
             setRootClassName('starterblocks-import-button-group disabled');
     }, [importingTemplate])
     return (
-        <div className={rootClassName} data-tut="main_body">
+        <div className={rootClassName}>
             <PreviewImport index={index} data={data} pageData={pageData} />
             <DependentPlugins showDependencyBlock={showDependencyBlock} data={data} />
         </div>

@@ -1,9 +1,11 @@
 import {__} from '@wordpress/i18n';
+
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
 import {openSitePreviewModal} from '~starterblocks/stores/actionHelper';
 import './style.scss'
-function PreviewImport (props) {
+
+function PreviewImport(props) {
     const {data, index, pageData} = props;
     const {setImportingTemplate} = props;
     let spinner = null;
@@ -16,11 +18,16 @@ function PreviewImport (props) {
 
     return (
         <div className="action-buttons">
-            <a className="starterblocks-button preview-button" target="_blank" onClick={() => openSitePreviewModal(index, pageData)}>
-                <i className="fa fa-share"/> {__('Preview')}
-            </a>
+            {
+                pageData[index] && pageData[index]['source'] !== 'wp_block_patterns' &&
+                <a className="starterblocks-button preview-button" target="_blank"
+                   onClick={() => openSitePreviewModal(index, pageData)}>
+                    <i className="fa fa-share"/> {__('Preview')}
+                </a>
+            }
+
             <a className="starterblocks-button download-button"
-                onClick={() => triggerImportTemplate(data)}>
+               onClick={() => triggerImportTemplate(data)}>
                 <i className="fas fa-download"/>{__('Import')}
             </a>
         </div>

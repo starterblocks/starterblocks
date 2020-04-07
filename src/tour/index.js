@@ -57,7 +57,7 @@ function StarterBlocksTour(props) {
             position: 'right'
         },
         {
-            selector: '[data-tut="tour__filter_dependencies"]',
+            selector: '[data-tut="tour__filtering"]',
 
             content: () => (
                 <div>
@@ -68,8 +68,11 @@ function StarterBlocksTour(props) {
                     worry. StarterBlocks will help you with that too.
                 </div>
             ),
-            action: () =>
-                console.log('Scroll down the [data-tut="tour__filtering"] directory smoothly'),
+            action: () => {
+                let objDiv = document.getElementById('starterblock-filter-dependencies');
+                objDiv.scrollTop = objDiv.scrollHeight;
+            },
+
             position: 'right'
         },
         {
@@ -78,8 +81,8 @@ function StarterBlocksTour(props) {
             position: 'center'
         },
         {
-            selector: '[data-tut="main_body"]',
-            content: __('When you hover over a template you can see via icons what plugins are required for this template. You can also click to import and sometimes preview a design.', 'starterblocks'),
+            selector: '#modalContainer .starterblocks-single-item-inner:first-child',
+            content: __('When you hover over a template you can see via icons what plugins are required for this template. You can then choose to Preview or Import a design.', 'starterblocks'),
             action: () => {
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
@@ -93,37 +96,33 @@ function StarterBlocksTour(props) {
             selector: '[data-tut="tour__preview_sidebar"]',
             content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', 'starterblocks'),
             action: () => {
-                setTourActiveButtonGroup(false);
+                setTourActiveButtonGroup(null);
+                setImportingTemplate(null);
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) {
-                    for (let index = 0; index < pageData.length; index++) {
-                        if ('url' in pageData[index] && pageData[index]['url']) {
-                            ModalManager.openCustomizer(
-                                <PreviewModal startIndex={index} currentPageData={pageData}/>
-                            )
-                            break
-                        }
-                    }
-
+                    ModalManager.openCustomizer(
+                        <PreviewModal startIndex={0} currentPageData={pageData}/>
+                    )
                 }
             },
             position: 'right'
         },
         {
-            selector: '[data-tut="tour__import_wizard"]',
+            selector: '.starterblocks-import-wizard-body',
             content: `Here's an example of the required plugins installer. If you're missing a plugin StarterBlocks can
             automatically install and activate it for you as long as it's free. If a premium third party plugin is required,
             you will see a button for an external link instead. You must have all the required plugins installed and
             activated before a template can be imported.`,
-            position: 'bottom',
+            position: 'top',
             action: () => {
+                ModalManager.closeCustomizer();
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
-                ModalManager.closeCustomizer();
+
             }
         },
         {
-            selector: '[data-tut="tour__main_body"]',
+            selector: '.starterblocks-pagelist-modal-inner',
             content: () => (
                 <div>
                     <h3>Congrats!</h3>
@@ -131,8 +130,6 @@ function StarterBlocksTour(props) {
                 </div>
             ),
             action: () => {
-                // TODO Remove me when the above step is working
-                ModalManager.closeCustomizer();
                 setImportingTemplate(null);
             },
 
@@ -148,16 +145,16 @@ function StarterBlocksTour(props) {
     const onRequestClose = () => {
         ModalManager.closeCustomizer();
         setTourOpen(false);
-        setTourActiveButtonGroup(false);
-        // TODO - Add close import dialog close (onImportTemplate)
+        setTourActiveButtonGroup(null);
+        setImportingTemplate(null);
     }
 
     return <Tour
         onRequestClose={onRequestClose}
         steps={tourConfig}
         isOpen={isTourOpen}
-        maskClassName="mask"
-        className="helper"
+        maskClassName='mask'
+        className='helper'
         lastStepNextButton={<button>Finish</button>}
         rounded={0}
         accentColor={accentColor}
