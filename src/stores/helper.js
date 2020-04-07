@@ -180,8 +180,6 @@ export const processImportHelper = (data, type, installedDependencies, errorCall
             else {
                 ModalManager.close();
                 ModalManager.closeCustomizer();
-                ModalManager.closeWizard();
-
             }
         } else {
             errorCallback(response.data.error);

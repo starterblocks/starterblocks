@@ -27,7 +27,6 @@ function ImportWizard(props) {
 
     const onCloseWizard = () => {
         setCurrentStep(PLUGIN_STEP);
-        ModalManager.closeWizard()
         closeWizard();
     };
 
@@ -39,6 +38,7 @@ function ImportWizard(props) {
         setImporting(true);
         startImportTemplate();
     }
+
 
     return (
         <div className="starterblocks-import-wizard-overlay">
