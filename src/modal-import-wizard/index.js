@@ -2,7 +2,7 @@ const {__} = wp.i18n;
 const {parse} = wp.blocks;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
-const {Component, Fragment, useState, useContext} = wp.element;
+const {Component, Fragment, useState} = wp.element;
 const {Spinner} = wp.components;
 
 import InstallPluginStep from './InstallPluginStep';
