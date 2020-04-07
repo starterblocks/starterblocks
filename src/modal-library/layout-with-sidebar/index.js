@@ -8,7 +8,7 @@ import TemplateList from '../view-template-list';
 export default function WithSidebarCollection (props) {
     return (
         <Fragment>
-            <div className="starterblocks-collection-modal-sidebar">
+            <div id="starterblocks-collection-modal-sidebar" className="starterblocks-collection-modal-sidebar">
                 <Sidebar />
             </div>
             <div className="starterblocks-collection-modal-content-area" data-tut="tour__main_body" id="modalContent">

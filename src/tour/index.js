@@ -16,9 +16,7 @@ import {ModalManager} from '../modal-manager'
 import PreviewModal from '../modal-preview';
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
-
-
-
+import {animateScroll} from 'react-scroll';
 
 function StarterBlocksTour(props) {
     const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
@@ -54,7 +52,13 @@ function StarterBlocksTour(props) {
         {
             selector: '[data-tut="tour__filtering"]',
             content: 'This area is where you can search and filter to find the right kind of templates you want.',
-            position: 'right'
+            position: 'right',
+            action: () => {
+                animateScroll.scrollToTop({
+                    containerId: 'starterblocks-collection-modal-sidebar',
+                    duration: 0,
+                });
+            },
         },
         {
             selector: '[data-tut="tour__filtering"]',
@@ -69,8 +73,10 @@ function StarterBlocksTour(props) {
                 </div>
             ),
             action: () => {
-                let objDiv = document.getElementById('starterblock-filter-dependencies');
-                objDiv.scrollTop = objDiv.scrollHeight;
+                animateScroll.scrollToBottom({
+                    containerId: 'starterblocks-collection-modal-sidebar',
+                    duration: 300,
+                });
             },
 
             position: 'right'
@@ -93,7 +99,21 @@ function StarterBlocksTour(props) {
             position: 'bottom'
         },
         {
-            selector: '[data-tut="tour__preview_sidebar"]',
+            // selector: '',
+            // content: __('Let\'s force the dom to show', 'starterblocks'),
+            action: () => {
+                const pageData = getPageData();
+                if (pageData && pageData.length > 0) {
+                    ModalManager.openCustomizer(
+                        <PreviewModal startIndex={0} currentPageData={pageData}/>
+                    )
+                }
+            },
+            // position: 'right'
+        },
+        {
+            selector: '.theme-install-overlay',
+            // selector: '[data-tut="tour__preview_sidebar"]',
             content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', 'starterblocks'),
             action: () => {
                 setTourActiveButtonGroup(null);
@@ -105,20 +125,27 @@ function StarterBlocksTour(props) {
                     )
                 }
             },
-            position: 'right'
+            position: 'center'
         },
         {
-            selector: '.starterblocks-import-wizard-body',
-            content: `Here's an example of the required plugins installer. If you're missing a plugin StarterBlocks can
-            automatically install and activate it for you as long as it's free. If a premium third party plugin is required,
-            you will see a button for an external link instead. You must have all the required plugins installed and
-            activated before a template can be imported.`,
-            position: 'top',
-            action: () => {
+            // selector: '.theme-install-overlay',
+            content: 'When you click to import a template, sometimes you will be missing one of the required plugins.',
+            position: 'center',
+            action: (node) => {
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
+            }
+        },
 
+        {
+            selector: '.starterblocks-import-wizard-wrapper',
+            content: `StarterBlocks will do it's best to help you install what's missing. If some of them are 
+            premium plugins, you will be provided details on where you can buy them.`,
+            position: 'top',
+            action: node => {
+                const pageData = getPageData();
+                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
             }
         },
         {
@@ -131,6 +158,7 @@ function StarterBlocksTour(props) {
             ),
             action: () => {
                 setImportingTemplate(null);
+                ModalManager.closeCustomizer();
             },
 
             position: 'center'

@@ -56,7 +56,7 @@ function SidebarContent(props) {
                                 const IconComponent = Icons[keyName];
                                 return (
                                     <div key={i}>
-                                        <p className="starterblocks-dependency-blocks">
+                                        <div className="starterblocks-dependency-blocks">
                                             {
                                                 IconComponent &&
                                                 (
@@ -78,7 +78,7 @@ function SidebarContent(props) {
                                             }
 
 
-                                        </p>
+                                        </div>
                                     </div>
                                 )
                             })
