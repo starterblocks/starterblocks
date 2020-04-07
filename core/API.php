@@ -49,6 +49,17 @@ class API {
             $data = get_transient( 'starterblocks_get_library_' . $type );
         }
 
+        $test_library = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'library.json';
+        if ( file_exists( $test_library ) ) {
+            $data = json_decode( file_get_contents( $test_library ), true );
+        }
+        if ( isset( $data['plugins'] ) ) {
+            $supported = StarterBlocks\SupportedPlugins::instance();
+            $supported::init( $data['plugins'] );
+
+            $data['plugins'] = $supported::get_plugins();
+        }
+
 //        $data = array();
         if ( empty( $data ) ) {
             $config = array(

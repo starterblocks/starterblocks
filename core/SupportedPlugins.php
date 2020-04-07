@@ -19,18 +19,20 @@ class SupportedPlugins {
         return self::$_instance;
     }
 
-    public function init() {
-        self::set_plugins();
+    public function init( $plugins = array() ) {
+
+        self::set_plugins( $plugins );
         self::detect_versions();
 
-        self::detect_stackable();
-        self::detect_qubely();
-        self::detect_coblocks();
-        self::detect_kioken();
+//        self::detect_stackable();
+//        self::detect_qubely();
+//        self::detect_coblocks();
+//        self::detect_kioken();
     }
 
     private static function detect_versions() {
         $all_plugins    = get_plugins();
+
         $active_plugins = get_option( 'active_plugins' );
 
         $data = array();
@@ -38,6 +40,7 @@ class SupportedPlugins {
             $slug          = explode( '/', $plugin )[0];
             $data[ $slug ] = $all_plugins[ $plugin ];
         }
+//        print_r($data);
 
         foreach ( self::$plugins as $key => $plugin ) {
             $selector = false;
@@ -48,14 +51,58 @@ class SupportedPlugins {
                     $selector = $plugin['slug'];
                 }
             }
-            if ( $selector ) {
-                self::$plugins[ $key ]['version'] = $data[ $selector ]['Version'];
+            if ( isset( $plugin['detect'] ) ) {
+                if ( isset( $plugin['detect']['freemius'] ) && $plugin['detect']['freemius'] ) {
+                    // Freemius Version Detection
+                    if ( isset( $GLOBALS[ $plugin['detect']['freemius'] ] ) && ! empty( $GLOBALS[ $plugin['detect']['freemius'] ] ) ) {
+                        $freemius  = $GLOBALS[ $plugin['detect']['freemius'] ];
+                        $selector  = $freemius->get_plugin_basename();
+                        $true_slug = explode( '/', $selector )[0];
+                        if ( $true_slug !== $key ) {
+                            self::$plugins[ $key ]['true_slug'] = $true_slug;
+                        }
+                        if ( isset( self::$plugins[ $key ]['free_slug'] ) ) {
+                            continue;  // Let's only store the info on the free version
+                        }
+                        $plugin_info = $freemius->get_plugin_data();
+                        if ( $selector && ! isset( $data[ $selector ]['Version'] ) ) {
+                            self::$plugins[ $key ]['version'] = $plugin_info['Version'];
+                        }
+                        if ( $freemius->can_use_premium_code() ) {
+                            self::$plugins[ $key ]['is_pro'] = true;
+                        }
+                        unset( self::$plugins[ $key ]['detect']['freemius'] );
+                    }
+                }
+                if ( isset( $plugin['detect']['defined'] ) ) {
+                    if ( ! empty( $plugin['detect']['defined'] ) ) {
+                        foreach ( $plugin['detect']['defined'] as $key_name => $defined_name ) {
+                            if ( defined( $defined_name ) && ! empty( constant( $defined_name ) ) ) {
+                                self::$plugins[ $key ][ $key_name ] = constant( $defined_name );
+                            }
+                        }
+                    }
+                    unset( self::$plugins[ $key ]['detect']['defined'] );
+                }
+                if ( empty( self::$plugins[ $key ]['detect'] ) ) {
+                    unset( self::$plugins[ $key ]['detect'] );
+                }
+
+            } else {
+                if (isset($data[$key])) {
+                    if (isset($data[$key]['Version'])) {
+                        self::$plugins[ $key ]['version'] = $data[$key]['Version'];
+                    }
+                }
             }
 
         }
     }
 
-    private static function set_plugins() {
+    private static function set_plugins( $plugins = array() ) {
+        self::$plugins = $plugins;
+
+        return;
         self::$plugins = array(
             'acf-blocks-pro'             => array(
                 'name' => 'ACF Blocks Pro',
