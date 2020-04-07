@@ -7,7 +7,7 @@ import SitePreviewSidebar from './SitePreviewSidebar';
 import {ModalManager} from '../modal-manager'
 import ImportWizard from '../modal-import-wizard';
 import dependencyHelper from '../modal-import-wizard/dependencyHelper';
-import {processImportHelper} from '../stores/helper';
+import {processImportHelper} from '../stores/actionHelper';
 import uniq from 'lodash/uniq';
 import './style.scss';
 import {Fragment} from 'react';
@@ -48,7 +48,7 @@ function PreviewModal(props) {
 
     const processImport = () => {
         discardAllErrorMessages();
-        processImportHelper(itemData, activeItemType === 'section' ? 'sections' : 'pages', installedDependencies, appendErrorMessage);
+        processImportHelper(activeItemType === 'section' ? 'sections' : 'pages', appendErrorMessage);
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');

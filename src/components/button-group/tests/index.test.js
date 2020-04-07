@@ -1,17 +1,6 @@
 import ShallowRenderer from 'react-test-renderer/shallow';
 import renderer from 'react-test-renderer';
 import ButtonGroup from '../';
-import {TemplateModalProvider} from '../../../contexts/TemplateModalContext';
-
-// To be used fro snapshot
-const TestComponent = (props) => {
-    const {spinner} = props;
-    return (
-        <TemplateModalProvider value={{spinner}}>
-            <ButtonGroup/>
-        </TemplateModalProvider>
-    );
-}
 
 jest.mock('../../preview-import', () => () => 'PreviewImport');
 jest.mock('../../dependent-plugins', () => () => 'DependentPlugins');

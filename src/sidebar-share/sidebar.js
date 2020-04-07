@@ -5,7 +5,7 @@ const {compose} = wp.compose;
 const {PanelBody, Spinner} = wp.components
 const {withDispatch, select} = wp.data;
 const {PluginSidebar, PluginSidebarMoreMenuItem} = wp.editPost;
-import {installedBlocksTypes} from '~starterblocks/stores/helper';
+import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
 
 function Sidebar(props) {
 

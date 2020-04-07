@@ -8,7 +8,8 @@ import sortBy from 'lodash/sortBy';
 import countBy from 'lodash/countBy';
 import map from 'lodash/map';
 import {applyCategoryFilter, applySearchFilter, applyPriceFilter, applyDependencyFilters} from './filters'
-import {getCurrentState, getCollectionChildrenData, installedBlocksTypes} from './helper';
+import {getCurrentState, getCollectionChildrenData} from './helper';
+import {installedBlocksTypes} from './actionHelper';
 
 const getOriginalPageData = (state) => {
     if (state.activeItemType === 'collection' && state.collection.activeCollection !== null)
@@ -129,6 +130,9 @@ const store = registerStore('starterblocks/sectionslist', {
         },
         getTourPreviewVisible(state) {
             return state.tour.isPreviewVisible;
+        },
+        getImportingTemplate(state) {
+            return state.importingTemplate;
         }
     },
 

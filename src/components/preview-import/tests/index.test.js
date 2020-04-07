@@ -1,7 +1,6 @@
 import renderer from 'react-test-renderer';
 import {mount} from 'enzyme';
 import PreviewImport from '../';
-import {TemplateModalProvider} from '../../../contexts/TemplateModalContext';
 import {SingleItemProvider} from '../../../contexts/SingleItemContext';
 
 let templateMock = {
@@ -18,11 +17,9 @@ let useEffect;
 const WrappedPreviewImport = (props) => {
     const {templateValue, singleValue} = props;
     return (
-        <TemplateModalProvider value={{...templateMock, ...templateValue}}>
-            <SingleItemProvider value={{...singleMock, ...singleValue}}>
-                <PreviewImport />
-            </SingleItemProvider>
-        </TemplateModalProvider>
+        <SingleItemProvider value={{...singleMock, ...singleValue}}>
+            <PreviewImport />
+        </SingleItemProvider>
     );
 }
 

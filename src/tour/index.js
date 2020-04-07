@@ -17,21 +17,23 @@ import {ModalManager} from '../modal-manager'
 import PreviewModal from '../modal-preview';
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
-import TemplateModalContext from '../contexts/TemplateModalContext';
 
 
 
 
 function StarterBlocksTour(props) {
-    const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen} = props;
+    const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
     const {isTourOpen, getPageData} = props;
-    const {onImportTemplate} = useContext(TemplateModalContext);
 
     const tourConfig = [
         {
             selector: '.starterblocks-pagelist-modal-inner',
             content: __('Welcome to the StarterBlocks! Let\'s go over how to use our library.', 'starterblocks'),
             position: 'center',
+            action: () => {
+                const pageData = getPageData();
+                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
+            }
         },
         {
             selector: '[data-tut="tour__navigation"]',
@@ -124,7 +126,7 @@ function StarterBlocksTour(props) {
             action: () => {
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
-                if (pageData && pageData.length > 0) onImportTemplate(pageData[1])
+                if (pageData && pageData.length > 0) onImportTemplate(pageData[0])
             }
         },
         {
@@ -166,17 +168,19 @@ function StarterBlocksTour(props) {
         lastStepNextButton={<button>Finish</button>}
         rounded={0}
         accentColor={accentColor}
+        disableInteraction={false}
     />
 }
 
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen} = dispatch('starterblocks/sectionslist');
+        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = dispatch('starterblocks/sectionslist');
         return {
             setTourActiveButtonGroup,
             setTourPreviewVisible,
-            setTourOpen
+            setTourOpen,
+            setImportingTemplate
         };
     }),
 
