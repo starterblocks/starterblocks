@@ -47,12 +47,12 @@ export const categorizeData = (list) => {
 
 export const parseSectionData = (library) => {
     const librarySectionData = convertObjectToArray(library.sections);
-    return {...categorizeData(librarySectionData), dependencyFilters: {none: true, ...library.dependencies.sections}};
+    return {...categorizeData(librarySectionData), dependencyFilters: {none: true, ...library.dependencies}};
 }
 
 export const parsePageData = (library) => {
     const libraryPageData = convertObjectToArray(library.pages);
-    return {...categorizeData(libraryPageData), dependencyFilters: {none: true, ...library.dependencies.pages}};
+    return {...categorizeData(libraryPageData), dependencyFilters: {none: true, ...library.dependencies}};
 }
 
 export const parseCollectionData = (library) => {
@@ -75,7 +75,7 @@ export const parseCollectionData = (library) => {
         }, {});
         return collection;
     });
-    return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies.pages}};
+    return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies}};
 }
 
 // one of important function

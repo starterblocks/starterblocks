@@ -44,6 +44,7 @@ export const initialState = {
         activeButtonGroup: null,
         isPreviewVisible: false
     },
+    plugins: {},
     importingTemplate: null
 };
 
@@ -52,12 +53,11 @@ export const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case 'SET_LIBRARY':
             let parsedSection = parseSectionData(action.library);
-            let parsedPage = parsePageData(action.library);
-			let parsedCollection = parseCollectionData(action.library);
+            let parsedPage = action.library.pages; // parsePageData(action.library);
+			let parsedCollection = action.library.collections; // parseCollectionData(action.library);
             return {
                 ...state,
                 loading: false,
-                library: action.library,
                 section: {
                     ...state.section,
                     ...parsedSection
@@ -69,7 +69,8 @@ export const reducer = ( state = initialState, action ) => {
                 collection: {
                     ...state.collection,
                     ...parsedCollection
-                }
+                },
+                plugins: action.library.plugins
             };
         case 'SET_ACTIVE_CATEGORY':
             return {

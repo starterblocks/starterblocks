@@ -8,7 +8,7 @@ const {__} = wp.i18n;
 import {CheckboxControl} from '@wordpress/components';
 
 function DependencyFilter(props) {
-    const {dependencyFilters, loading} = props;
+    const {dependencyFilters, loading, plugins} = props;
     const {setDependencyFilters} = props;
 
     const onChangeCategory = (data) => {
@@ -55,7 +55,7 @@ function DependencyFilter(props) {
                         {
                             Object.keys(dependencyFilters).sort().map(pluginKey => {
                                 if (pluginKey === 'none') return null;
-                                let pluginInstance = starterblocks.supported_plugins[pluginKey];
+                                let pluginInstance = plugins[pluginKey];
                                 // To deal with yet unknown plugins.
                                 if (!pluginInstance) pluginInstance = {name: pluginKey, url: ''};
                                 return (
@@ -91,10 +91,11 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getDependencyFilters, getLoading} = select('starterblocks/sectionslist');
+        const {getDependencyFilters, getLoading, getPlugins} = select('starterblocks/sectionslist');
         return {
             loading: getLoading(),
-            dependencyFilters: getDependencyFilters()
+            dependencyFilters: getDependencyFilters(),
+            plugins: getPlugins()
         };
     })
 ])(DependencyFilter);
