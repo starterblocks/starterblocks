@@ -47,7 +47,10 @@ export const categorizeData = (list) => {
 
 export const parseSectionData = (library) => {
     const librarySectionData = convertObjectToArray(library.sections);
-    return {...categorizeData(librarySectionData), dependencyFilters: {none: true, ...library.dependencies}};
+    const dependencies = library.dependencies.reduce((acc, cur) => {
+        return {...acc, cur: true}
+    }, {none: true});
+    return {...categorizeData(librarySectionData), dependencyFilters: dependencies};
 }
 
 export const parsePageData = (library) => {
