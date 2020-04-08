@@ -1,7 +1,7 @@
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
 import {useEffect, useState} from '@wordpress/element';
-import PreviewImport from '../preview-import';
+import PreviewImportButton from '../preview-import-button';
 import DependentPlugins from '../dependent-plugins';
 import './style.scss'
 
@@ -18,7 +18,7 @@ function ButtonGroup (props) {
     }, [importingTemplate])
     return (
         <div className={rootClassName}>
-            <PreviewImport index={index} data={data} pageData={pageData} />
+            <PreviewImportButton index={index} data={data} pageData={pageData} />
             <DependentPlugins showDependencyBlock={showDependencyBlock} data={data} />
         </div>
     )
