@@ -7,7 +7,7 @@ import './style.scss'
 
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
-const {useDispatch} = wp.data;
+const {Component, useState} = wp.element;
 /**
  * External dependencies
  */
@@ -21,6 +21,7 @@ import {animateScroll} from 'react-scroll';
 function StarterBlocksTour(props) {
     const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
     const {isTourOpen, getPageData} = props;
+    const [needUpdate, setNeedUpdate] = useState('');
 
     const tourConfig = [
         {
@@ -115,21 +116,20 @@ function StarterBlocksTour(props) {
                         <PreviewModal startIndex={0} currentPageData={pageData}/>
                     )
                 }
-                // TODO - Must update the state of the tour component for this to paint properly
             },
             position: 'center'
         },
         {
             selector: '.starterblocks-import-wizard-wrapper',
-            content: `When you click to import a template, sometimes you will be missing one of the required plugins. 
-            StarterBlocks will do it's best to help you install what's missing. If some of them are 
+            content: `When you click to import a template, sometimes you will be missing one of the required plugins.
+            StarterBlocks will do it's best to help you install what's missing. If some of them are
             premium plugins, you will be provided details on where you can get them.`,
             position: 'top',
             action: () => {
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
-                // TODO - Must update the state of the tour component for this to paint properly
+                setNeedUpdate(new Date().toString());
             }
         },
         {
@@ -163,8 +163,7 @@ function StarterBlocksTour(props) {
         onRequestClose={onRequestClose}
         steps={tourConfig}
         isOpen={isTourOpen}
-        // maskClassName='mask'
-        // className='helper'
+        update={needUpdate}
         lastStepNextButton={<span className="button button-small">Finish</span>}
         rounded={0}
         accentColor={accentColor}
