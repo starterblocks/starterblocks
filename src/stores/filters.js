@@ -67,14 +67,14 @@ export const applyDependencyFilters = (pageData, dependencyFilters) => {
     if (Array.isArray(pageData)) {
         return pageData.filter(item => {
             if (!item.dependencies || Object.keys(item.dependencies).length === 0) return dependencyFilters['none'];
-            return Object.keys(item.dependencies).reduce((acc, k) => acc || dependencyFilters[k], false);
+            return item.dependencies.reduce((acc, k) => acc || dependencyFilters[k], false);
         });
     } else {
         let newPageData = {};
         Object.keys(pageData).forEach(key => {
             newPageData[key] =  pageData[key].filter(item => {
                 if (!item.dependencies || Object.keys(item.dependencies).length === 0) return dependencyFilters['none'];
-                return Object.keys(item.dependencies).reduce((acc, k) => acc || dependencyFilters[k], false);
+                return item.dependencies.reduce((acc, k) => acc || dependencyFilters[k], false);
             });
         });
         return newPageData;
