@@ -12,6 +12,7 @@ import PreviewModal from '../modal-preview';
 export const processImportHelper = (type, errorCallback) => {
     const data = select('starterblocks/sectionslist').getImportingTemplate();
     const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
+    const { setImportingTemplate } = useDispatch('starterblocks/sectionslist');
     let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
     if ('source' in data) {
         the_url += '&source=' + data.source;
@@ -54,6 +55,7 @@ export const processImportHelper = (type, errorCallback) => {
             }
             insertBlocks(block_data)
             createSuccessNotice('Template inserted', {type: 'snackbar'});
+            setImportingTemplate(null);
             if (installedDependencies === true)
                 savePost()
                     .then(() => window.location.reload())
