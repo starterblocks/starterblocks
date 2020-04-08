@@ -19,7 +19,6 @@ function PreviewModal(props) {
     const [currentIndex, setCurrentIndex] = useState(startIndex);
     const [previewClass, setPreviewClass] = useState('preview-desktop')
     const [expandedClass, toggleExpanded] = useState('expanded')
-    // const [importingVisible, setImportingVisible] = useState(false);
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
@@ -45,7 +44,6 @@ function PreviewModal(props) {
     const processImport = () => {
         discardAllErrorMessages();
         processImportHelper(activeItemType === 'section' ? 'sections' : 'pages', appendErrorMessage);
-        setImportingVisible(false);
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
