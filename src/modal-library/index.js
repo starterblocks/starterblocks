@@ -49,7 +49,7 @@ function LibraryModal(props) {
     const processImport = () => {
         discardAllErrorMessages();
         processImportHelper(activeItemType === 'section' ? 'sections' : 'pages', registerError)
-        setImportingTemplate(null);
+
     }
 
 

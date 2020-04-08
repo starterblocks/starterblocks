@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 import {mount} from 'enzyme';
-import PreviewImport from '../';
+import PreviewImport from '..';
 import {SingleItemProvider} from '../../../contexts/SingleItemContext';
 
 let templateMock = {

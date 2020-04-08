@@ -5,7 +5,7 @@ const {withDispatch, withSelect, select} = wp.data;
 import {openSitePreviewModal} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
-function PreviewImport(props) {
+function PreviewImportButton(props) {
     const {data, index, pageData} = props;
     const {setImportingTemplate} = props;
     let spinner = null;
@@ -49,4 +49,4 @@ export default compose([
     withSelect((select, props) => {
         return {};
     })
-])(PreviewImport);
+])(PreviewImportButton);

@@ -8,10 +8,36 @@ const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
 import {ModalManager} from '~starterblocks/modal-manager';
 import PreviewModal from '../modal-preview';
 
+const handleBlock = (data) => {
+    const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
+    //import template
+    let block_data = null;
+    if ('template' in data) {
+        block_data = parse(data.template);
+    } else if ('attributes' in data) {
+        if (!('innerBlocks' in data)) {
+            data.innerBlocks = [];
+        }
+        if (!('name' in data)) {
+            errorCallback('Template malformed, `name` for block not specified.');
+        }
+        // This kind of plugins are not ready to accept before reloading, thus, we save it into localStorage and just reload for now.
+        if (installedDependencies === true) {
+            localStorage.setItem('block_data', JSON.stringify(data));
+            window.location.reload();
+        } else {
+            block_data = createBlock(data.name, data.attributes, data.innerBlocks)
+        }
+    } else {
+        errorCallback('Template error. Please try again.');
+    }
+    insertBlocks(block_data)
+}
 
 export const processImportHelper = (type, errorCallback) => {
     const data = select('starterblocks/sectionslist').getImportingTemplate();
     const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
+    const { setImportingTemplate } = useDispatch('starterblocks/sectionslist');
     let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
     if ('source' in data) {
         the_url += '&source=' + data.source;
@@ -31,29 +57,14 @@ export const processImportHelper = (type, errorCallback) => {
 
     apiFetch(options).then(response => {
         if (response.success && response.data) {
-            //import template
-            let block_data = null;
-            if ('template' in response.data) {
-                block_data = parse(response.data.template);
-            } else if ('attributes' in response.data) {
-                if (!('innerBlocks' in response.data)) {
-                    response.data.innerBlocks = [];
-                }
-                if (!('name' in response.data)) {
-                    errorCallback('Template malformed, `name` for block not specified.');
-                }
-                // This kind of plugins are not ready to accept before reloading, thus, we save it into localStorage and just reload for now.
-                if (installedDependencies === true) {
-                    localStorage.setItem('block_data', JSON.stringify(response.data));
-                    window.location.reload();
-                } else {
-                    block_data = createBlock(response.data.name, response.data.attributes, response.data.innerBlocks)
-                }
-            } else {
-                errorCallback('Template error. Please try again.');
-            }
-            insertBlocks(block_data)
+            let responseBlockData = response.data;
+            if (Array.isArray(responseBlockData)) {
+                for (let blockData of responseBlockData)
+                    handleBlock(blockData);
+            } else
+                handleBlock(responseBlockData);
             createSuccessNotice('Template inserted', {type: 'snackbar'});
+            setImportingTemplate(null);
             if (installedDependencies === true)
                 savePost()
                     .then(() => window.location.reload())

@@ -16,7 +16,7 @@ const PRO_STEP = 1;
 const IMPORT_STEP = 2;
 const tourPlugins = ['qubely', 'kioken'];
 function ImportWizard(props) {
-    const {startImportTemplate,setImportingTemplate, isTourOpen, importingTemplate} = props;
+    const {startImportTemplate, setImportingTemplate, isTourOpen, importingTemplate} = props;
     const [currentStep, setCurrentStep] = useState(PLUGIN_STEP);
     const [importing, setImporting] = useState(false);
     const [missingPlugins, setMissingPlugins] = useState([]);
@@ -41,17 +41,17 @@ function ImportWizard(props) {
         setImportingTemplate(null);
     };
 
-    if (importingTemplate === null) return null;
+    if (!importingTemplate) return null;
 
     if (isTourOpen) {
         // exception handling for tour mode
         if (currentStep !== PLUGIN_STEP) setCurrentStep(PLUGIN_STEP)
     } else {
-        if (currentStep === PLUGIN_STEP && missingPlugins.length < 1)
+        if (importingTemplate && currentStep === PLUGIN_STEP && missingPlugins.length < 1)
             setCurrentStep(PRO_STEP);
-        if (currentStep === PRO_STEP && missingPros.length < 1)
+        if (importingTemplate && currentStep === PRO_STEP && missingPros.length < 1)
             setCurrentStep(IMPORT_STEP);
-        if (currentStep === IMPORT_STEP && importing === false) {
+        if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
             setImporting(true);
             startImportTemplate();
         }
