@@ -1,6 +1,7 @@
 <?php
 
 namespace StarterBlocks;
+
 use StarterBlocks;
 
 
@@ -60,17 +61,23 @@ class Init {
             STARTERBLOCKS_VERSION
         );
 
+        $global_vars = array(
+            'i18n'              => 'starterblocks',
+            'plugin'            => STARTERBLOCKS_DIR_URL,
+            'mokama'            => starterblocks_fs()->can_use_premium_code(),
+            'icon'              => file_get_contents( STARTERBLOCKS_DIR_URL . 'assets/img/logo.svg' ),
+            'version'           => STARTERBLOCKS_VERSION,
+            'supported_plugins' => [], // Load the supported plugins
+        );
+
+        if ( isset( $_REQUEST['starterblocks_tour'] ) ) {
+            $global_vars['tour'] = true;
+        }
+
         wp_localize_script(
             'starterblocks-js',
             'starterblocks',
-            array(
-                'i18n'              => 'starterblocks',
-                'plugin'            => STARTERBLOCKS_DIR_URL,
-                'mokama'            => starterblocks_fs()->can_use_premium_code(),
-                'icon'              => file_get_contents( STARTERBLOCKS_DIR_URL . 'assets/img/logo.svg' ),
-                'version'           => STARTERBLOCKS_VERSION,
-                'supported_plugins' => StarterBlocks\SupportedPlugins::get_plugins(), // Load the supported plugins
-            )
+            $global_vars
         );
 
     }

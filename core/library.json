@@ -4130,7 +4130,7 @@
             "free_slug": "acf-blocks",
             "name": "ACF Blocks Pro"
         },
-        "advanced-custom-fields-pro": {
+        "advanced-custom-fields": {
             "detect": {
                 "defined": {
                     "is_pro": "ACF_PRO",
@@ -4138,8 +4138,11 @@
                 }
             },
             "name": "ACF Pro",
-            "url": "https://www.advancedcustomfields.com/pro/",
-            "wp_org": false
+            "url": "https://www.advancedcustomfields.com/pro/"
+        },
+        "advanced-custom-fields-pro": {
+            "free_slug": "advanced-custom-fields",
+            "name": "ACF Pro"
         },
         "block-options": {
             "detect": {
