@@ -16,7 +16,7 @@ function DependentPlugins (props) {
     if (showDependencyBlock)
         return (
             <div className="starterblocks-button-display-dependencies">
-                {
+                { data.dependencies &&
                     data.dependencies.map(plugin => {
                         const IconComponent = Icons[plugin];
                         const pluginInstance = plugins[plugin];
