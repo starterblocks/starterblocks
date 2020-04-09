@@ -8,7 +8,7 @@ import sortBy from 'lodash/sortBy';
 import countBy from 'lodash/countBy';
 import map from 'lodash/map';
 import {applyCategoryFilter, applySearchFilter, applyPriceFilter, applyDependencyFilters} from './filters'
-import {getCurrentState, getCollectionChildrenData} from './helper';
+import {getCurrentState, getCollectionChildrenData, isTemplateReadyToInstall} from './helper';
 import {installedBlocksTypes} from './actionHelper';
 
 const getOriginalPageData = (state) => {
@@ -97,7 +97,7 @@ const store = registerStore('starterblocks/sectionslist', {
                 pageData = applySearchFilter(pageData, getSearchContext(state));
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
                 if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getActiveCategory(state));
-                staticsData = countBy(pageData, 'pro');
+                staticsData = countBy(pageData, isTemplateReadyToInstall);
             }
             return staticsData;
         },

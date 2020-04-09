@@ -1,3 +1,4 @@
+import {isTemplateReadyToInstall} from './helper';
 // Just get current Page Data
 export const applyCategoryFilter = (pageData, activeCategory) => {
     let currentPageData = [];
@@ -45,15 +46,15 @@ export const applyPriceFilter = (pageData, activePriceFilter) => {
     if (activePriceFilter !== '') {
         if (Array.isArray(pageData)) {
             return pageData.filter(item => {
-                if (activePriceFilter === 'free') return item.pro === false;
-                if (activePriceFilter === 'pro') return item.pro === true;
+                if (activePriceFilter === 'free') return isTemplateReadyToInstall(item);
+                if (activePriceFilter === 'pro') return (isTemplateReadyToInstall(item) === false);
             });
         } else {
             let newPageData = {};
             Object.keys(pageData).forEach(key => {
                 newPageData[key] =  pageData[key].filter(item => {
-                    if (activePriceFilter === 'free') return item.pro === false;
-                    if (activePriceFilter === 'pro') return item.pro === true;
+                    if (activePriceFilter === 'free') return isTemplateReadyToInstall(item);
+                    if (activePriceFilter === 'pro') return (isTemplateReadyToInstall(item) === false);
                 });
             });
             return newPageData;

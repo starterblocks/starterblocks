@@ -185,3 +185,9 @@ export const pageSizeMap = {
     'medium': 30,
     'small': 40
 };
+
+export const isTemplateReadyToInstall = (item) => {
+    return ((item.proDependencies && item.proDependencies.length > 0)
+        || (item.installDependencies && item.installDependencies.length > 0))
+        ? false : true;
+}
