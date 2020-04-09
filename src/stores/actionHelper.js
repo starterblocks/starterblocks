@@ -38,7 +38,8 @@ export const processImportHelper = (type, errorCallback) => {
     const data = select('starterblocks/sectionslist').getImportingTemplate();
     const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
     const { setImportingTemplate } = useDispatch('starterblocks/sectionslist');
-    let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.ID;
+    console.log('importing template', data);
+    let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
     if ('source' in data) {
         the_url += '&source=' + data.source;
     }

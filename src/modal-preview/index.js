@@ -38,6 +38,7 @@ function PreviewModal(props) {
 
     const importStarterBlock = () => {
         setImportingTemplate(itemData);
+        ModalManager.closeCustomizer();
     }
 
     const processImport = () => {

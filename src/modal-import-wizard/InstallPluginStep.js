@@ -74,6 +74,7 @@ function InstallPluginStep(props) {
 
                 <ul className="starterblocks-import-progress">
                     {
+                        missingPlugins &&
                         missingPlugins.map(pluginKey => {
                             const {name} = plugins[pluginKey];
                             if (installingPlugin && installingPlugin.pluginKey === pluginKey)

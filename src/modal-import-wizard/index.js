@@ -62,9 +62,10 @@ function ImportWizard(props) {
                     </button>
                 </div>
                 {(currentStep === PLUGIN_STEP) &&
-                <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : importingTemplate.installDependencies || []} toNextStep={toNextStep}
+                    <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : importingTemplate.installDependencies || []} toNextStep={toNextStep}
                                    onCloseWizard={onCloseWizard}/>}
-                {(currentStep === PRO_STEP) && <ProPluginStep missingPros={importingTemplate.proDependencies } onCloseWizard={onCloseWizard}/>}
+                {(currentStep === PRO_STEP) && importingTemplate.proDependencies &&
+                    <ProPluginStep missingPros={importingTemplate.proDependencies } onCloseWizard={onCloseWizard}/>}
                 {(currentStep === IMPORT_STEP) &&
                     <div className="starterblocks-import-wizard-spinner-wrapper"><Spinner/></div>
                 }
