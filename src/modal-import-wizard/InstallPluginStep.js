@@ -1,15 +1,16 @@
 const {apiFetch} = wp;
+const {compose} = wp.compose;
+const {withDispatch, withSelect, select} = wp.data;
 const {Component, Fragment, useState} = wp.element;
-const {withDispatch} = wp.data;
 const {__} = wp.i18n;
 
 import {ModalManager} from '../modal-manager';
-import dependencyHelper from './dependencyHelper';
 
 function InstallPluginStep(props) {
 
     const {missingPlugins, toNextStep, onCloseWizard} = props;
     const {setInstalledDependencies} = props;
+    const {plugins} = props;
     const [installingPlugin, setInstallingPlugin] = useState(null);
     const [installedList, setInstalledList] = useState([]);
     const [failedList, setFailedList] = useState([]);
@@ -29,12 +30,13 @@ function InstallPluginStep(props) {
         let localFailedList = [];
         let localWaitingList = [...waitingList];
         for (let pluginKey of missingPlugins) {
-            const pluginInstance = dependencyHelper.pluginInfo(pluginKey);
+            const pluginInstance = plugins[pluginKey];
             setInstallingPlugin({...pluginInstance, pluginKey});
             localWaitingList = localWaitingList.filter(key => key !== pluginKey )
             setWaitingList(localWaitingList);
+            let pluginSlug = pluginInstance.free_slug ? pluginInstance.free_slug : pluginKey;
             await apiFetch({
-                    path: 'starterblocks/v1/plugin-install?slug=' + pluginInstance.slug
+                    path: 'starterblocks/v1/plugin-install?slug=' + pluginSlug
                 })
                 .then(res => {
                     if (res.success) {
@@ -73,7 +75,7 @@ function InstallPluginStep(props) {
                 <ul className="starterblocks-import-progress">
                     {
                         missingPlugins.map(pluginKey => {
-                            const {name} = dependencyHelper.pluginInfo(pluginKey);
+                            const {name} = plugins[pluginKey];
                             if (installingPlugin && installingPlugin.pluginKey === pluginKey)
                                 return (<li className="installing" key={installingPlugin.pluginKey}>{installingPlugin.name}<i className="fas fa-spinner fa-pulse"></i></li>);
                             if (failedList.includes(pluginKey))
@@ -102,13 +104,18 @@ function InstallPluginStep(props) {
 }
 
 
-export default withDispatch((dispatch) => {
-    const {
-        setInstalledDependencies
-    } = dispatch('starterblocks/sectionslist');
+export default compose([
+    withDispatch((dispatch) => {
+        const {
+            setInstalledDependencies
+        } = dispatch('starterblocks/sectionslist');
+        return {
+            setInstalledDependencies
+        };
+    }),
 
-    return {
-        setInstalledDependencies
-    };
-})
-(InstallPluginStep);
+    withSelect((select, props) => {
+        const { getPlugins } = select('starterblocks/sectionslist');
+        return { plugins: getPlugins() };
+    })
+])(InstallPluginStep);

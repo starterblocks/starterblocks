@@ -6,7 +6,6 @@ const {__} = wp.i18n
 import SitePreviewSidebar from './SitePreviewSidebar';
 import {ModalManager} from '../modal-manager'
 import ImportWizard from '../modal-import-wizard';
-import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 import {processImportHelper} from '../stores/actionHelper';
 import uniq from 'lodash/uniq';
 import './style.scss';

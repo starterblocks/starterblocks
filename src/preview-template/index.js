@@ -6,7 +6,6 @@ const { __ } = wp.i18n
 import SitePreviewSidebar from './SitePreviewSidebar';
 import { ModalManager } from '../modal-manager'
 import ImportWizard from '../import-wizard';
-import dependencyHelper from '../import-wizard/dependencyHelper';
 import {processImportHelper} from '../stores/actionHelper';
 import uniq from 'lodash/uniq';
 import './style.scss';
@@ -38,12 +37,6 @@ function PreviewTemplate(props) {
 
     const importStarterBlock = () => {
         setImportingTemplate(itemData);
-        /*
-        const type = activeItemType === 'section' ? 'section' : 'page';
-        const dependencies = dependencyHelper.checkTemplateDependencies(itemData);
-        setMissingPlugin(dependencies.missingPluginArray);
-        setMissingPro(dependencies.missingProArray);
-        setImportingBlock(itemData); */
     }
 
     const processImport = () => {

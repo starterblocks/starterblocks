@@ -43,7 +43,7 @@ function SingleItem (props) {
 				<div className="starterblocks-default-template-image">
                     <img className="lazy" src={backgroundImage(data.image)}/>
                     {requiresPro(data) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
-                    {!requiresPro(data) && requiresInstall(data) && <span className="starterblocks-missing-badge"><i class="fas fa-exclamation-triangle" /></span>}
+                    {!requiresPro(data) && requiresInstall(data) && <span className="starterblocks-missing-badge"><i className="fas fa-exclamation-triangle" /></span>}
                     <div className="starterblocks-tmpl-title">{data.name}</div>
 				</div>
 				{/* starterblocks-default-template-image */}

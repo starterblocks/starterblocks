@@ -16,7 +16,6 @@ import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
 import {installedBlocksTypes, processImportHelper} from '~starterblocks/stores/actionHelper';
-import dependencyHelper from '../modal-import-wizard/dependencyHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
 
