@@ -3,6 +3,11 @@ import uniq from 'lodash/uniq';
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 
+const {createBlock} = wp.blocks;
+const {dispatch} = wp.data;
+const {createSuccessNotice} = dispatch('core/notices');
+const {insertBlocks} = dispatch('core/block-editor');
+
 export const getCurrentState = (state) => state[state.activeItemType]
 // Helper function not to be exported
 const convertObjectToArray = (list) => {

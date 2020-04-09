@@ -481,7 +481,7 @@
         "getwid": 38,
         "kioken-blocks": 29,
         "kioken-blocks-pro": 24,
-        "qubely": 22,
+        "qubely": 83,
         "qubely-pro": 236,
         "stackable-ultimate-gutenberg-blocks": 73,
         "stackable-ultimate-gutenberg-blocks-premium": 131
@@ -4291,7 +4291,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "eb4d5fcf9e07fe6b680ea65f944e29d3",
             "id": "0255d7706e777ef4e388eb45fbabc38e",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0002s_0014_Content-7-Copy.jpg",
@@ -4478,7 +4480,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "92b836d56e3cbbf8132b13fa146f1ce8",
             "id": "063d13f8e3740de44736fff008e16615",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0015_Intro-2.jpg",
@@ -4593,7 +4597,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "96b3cba88f8c27de1efb3dc130521918",
             "id": "08e43fb7fe7a1ab4ce0d08fc8bba8d65",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0007_Features-8.jpg",
@@ -4610,7 +4616,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "da4d9f6a32a12e94f9b78a4f13b76d75",
             "id": "090cab2868da6ce1b6a03faef1e94f53",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0004_Features-11.jpg",
@@ -4627,7 +4635,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "169f5faf5f99eced960d24f7571d2e01",
             "id": "0913f1fa84e6708ceda97b2637b4eca1",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0013_Features-3.jpg",
@@ -4646,7 +4656,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "b3fd4a040ad3a6f8ab1d5b1291dcd702",
             "id": "09ccf5bbf7d16d608253f70052f010be",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0007_Intro-10.jpg",
@@ -4995,7 +5007,9 @@
             "categories": [
                 "Testimonials"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "4cc1aa27f259f4244903c4bf37095ca5",
             "id": "11d4f9c00940f03d50d5d26147762a3f",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0000s_0005_Testimonials-3.jpg",
@@ -5102,7 +5116,9 @@
             "categories": [
                 "Team"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "8aa52cf9531e4cd160196b8b628c29d2",
             "id": "134486452bdd82b4dc3f1d5169f95dbc",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0008s_0006_Team-1-Copy.jpg",
@@ -5300,7 +5316,9 @@
             "categories": [
                 "Pricing"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "c260ac36504d0d05afed996ff4a021ad",
             "id": "190a3d354e5fc55c1bdf11e86eb8a09f",
             "image": "https://qubely.io/wp-content/uploads/2019/06/blocks-images_0009_Screenshot-2019-06-18-at-5.17.42-PM.jpg",
@@ -5493,7 +5511,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "fd2be0f1750688e375eec6a2739d3dda",
             "id": "1b9baca9e696b6cf63528940fd6524a4",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0006_Intro-11.jpg",
@@ -5697,7 +5717,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "46fcd957304baf2ee1f29eddb64e591f",
             "id": "1f97fdf5fd37b640c6e3711a7ead5d7c",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0011_Intro-6.jpg",
@@ -5732,7 +5754,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "2a3ade2abe77fe52bc5898f3d6602c2a",
             "id": "20cd2ecdf159e8a6cc785b910252efd7",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0002_Intro-15.jpg",
@@ -5931,7 +5955,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "76877d300b93c8f309236463d3d4e06b",
             "id": "251c8a9ad65558a37f80e4fa5fd18286",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0008_Intro-9.jpg",
@@ -6128,7 +6154,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "55987dc44ddec6a4274b989843929fab",
             "id": "275b6a6bc8fb175b4c2a2f7cdb0c061e",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0007s_0003_Intro-14.jpg",
@@ -6436,7 +6464,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "a6617605e747e6411d8e457875249d0c",
             "id": "35d828272c959e65be25eb403a196dd1",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0002s_0013_Content-7.jpg",
@@ -6684,7 +6714,9 @@
             "categories": [
                 "Team"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "8b051d85ace91b9571a94dd30ee518c1",
             "id": "3c6b739b762626208ea9547cc994f356",
             "image": "https://qubely.io/wp-content/uploads/2019/06/blocks-images_0007_Screenshot-2019-06-18-at-4.57.46-PM.jpg",
@@ -7060,7 +7092,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "a3b1b8570f2b7c275c752c6c2452688b",
             "id": "41dae0531008af6c373bb81ed284e8c7",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0011_Features-5.jpg",
@@ -7164,7 +7198,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "896398fe7aa0b94b90e9942f31d0d2dd",
             "id": "4370b5d1b3544026f38b8b2d021a1d93",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0007s_0007_Intro-12.jpg",
@@ -7615,7 +7651,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "32cedc368d82e08e6f13e8d6fc0b88fc",
             "id": "4c02cc2ca59293a2a67739d2ce6ad7b7",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0006_Features-9.jpg",
@@ -8021,7 +8059,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "cc51700d9f391a2852bdcef85f142fa5",
             "id": "548d1fdc346cc9081e63a90a1456d3b3",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0007s_0000_Intro-15.jpg",
@@ -8114,7 +8154,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "c8a4d291cedeaa292aef63356385a757",
             "id": "55b8944e13dd123f00a2bed01cd5cc6b",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0014_Features-2.jpg",
@@ -8345,7 +8387,9 @@
             "categories": [
                 "Testimonials"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "f71ce53e1e7052b4776a67db89169ee7",
             "id": "59959b3a696e8b920c9ede45def7ec46",
             "image": "https://qubely.io/wp-content/uploads/2019/06/blocks-images_0004_Screenshot-2019-06-18-at-4.43.31-PM.jpg",
@@ -8410,7 +8454,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "034c6f02edf261eb25d0d997e08415c0",
             "id": "5c9f6c1984f2eba38ec9e55fb07483c6",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0007s_0005_Intro-14-Copy-3.jpg",
@@ -8757,7 +8803,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "33b52c79558572626b544c11b7524c1e",
             "id": "677f8e51440fa4b6563335a7db19a206",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0008_Features-8-Copy.jpg",
@@ -8792,7 +8840,9 @@
             "categories": [
                 "Call to Action"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "fa192fb7aac1c536b8ff88625d32e51c",
             "id": "67f18cd0987df66c7f8dd60949b507c3",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0003s_0007_Call-to-Action-6-Copy.jpg",
@@ -8935,7 +8985,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "235129e9a1ec051cc9137b14f745a83d",
             "id": "6acc62f97d67b84f1dfc6ce4ea3f732b",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0009_Features-7.jpg",
@@ -8991,7 +9043,9 @@
             "categories": [
                 "Testimonials"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "5bc1932328a3f6293ce3357f55062921",
             "id": "6cd930f7ef1fdefd2d451a556df048b3",
             "image": "https://qubely.io/wp-content/uploads/2019/06/blocks-images_0005_Screenshot-2019-06-18-at-4.51.44-PM.jpg",
@@ -9123,7 +9177,9 @@
             "categories": [
                 "Call to Action"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "4b141126cab5e9f1123364ea9ed2834e",
             "id": "6eee23d4e91476a553a3407f98d83ead",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0003s_0010_Call-to-Action-4-Copy.jpg",
@@ -9141,7 +9197,9 @@
             "categories": [
                 "Pricing"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "d2b4623b585fbcfd66bb6bf79dbb0b14",
             "id": "6f2b53b3e55301f62edd6116deb3b0b5",
             "image": "https://qubely.io/wp-content/uploads/2019/06/blocks-images_0008_Screenshot-2019-06-18-at-5.17.51-PM.jpg",
@@ -9253,7 +9311,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "837e4108c8067f0b51061f2b2ba7542e",
             "id": "72cbd95551e130a687de76f39493cff1",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0005_Features-10.jpg",
@@ -9520,7 +9580,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "73457c03a61c9daab2d3a3d0fe6f83b1",
             "id": "79da7ce97a15e8c76f4d5b22157484ad",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0002s_0015_Content-6.jpg",
@@ -9869,7 +9931,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "2e02ffc76577a12f1f33c7481a66d031",
             "id": "808d136841d4aa2cd8c7810317021d75",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0012_Intro-5.jpg",
@@ -9932,7 +9996,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "3126825c78f881fba273bbaa878cb9c4",
             "id": "81f38db25a00e0bb5de64a90cb83ddd1",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0002s_0017_Content-4.jpg",
@@ -9977,7 +10043,9 @@
             "categories": [
                 "Team"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "2a47d3227ea2ce391f1cdce9fcd7ea67",
             "id": "83bb53fad327ad089d84c046fb74b799",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0008s_0004_Team-2.jpg",
@@ -10472,7 +10540,9 @@
             "categories": [
                 "Pricing"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "8fc43050d83ca30a9e2f3a077460f2b2",
             "id": "8f5105e13b8acd89abfb3d52df1b8285",
             "image": "https://qubely.io/wp-content/uploads/2019/06/blocks-images_0010_Screenshot-2019-06-18-at-5.17.32-PM.jpg",
@@ -10608,7 +10678,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "5aab4c60aa4ce0c5940d969f64596755",
             "id": "90e212b6bef3c33acf57d328ea1bb2dd",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0016_Features-1.jpg",
@@ -10839,7 +10911,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "ec4c011a4831131bbbbcdf9ad7a50971",
             "id": "9652b9ff90d20fe089043465014be19a",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0003_Intro-14.jpg",
@@ -10879,7 +10953,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "be07f5638b7951d221072c27a7ddbcd6",
             "id": "969ecc600559319757bb3796cab733e5",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0005_Intro-12.jpg",
@@ -11017,7 +11093,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "8ea12fab3add9651b1439d49434acf19",
             "id": "9964483224449f98dc565f254e9be455",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0007s_0002_Intro-15-Copy-2.jpg",
@@ -11450,7 +11528,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "4e881cefcec8c2a342ec059a308ce7bf",
             "id": "a12e961d63058b65e09b1301bffc41bd",
             "image": "https://qubely.io/wp-content/uploads/2019/06/blocks.jpg",
@@ -11752,7 +11832,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "2deb5470c2f5015db166d26a8d1d3b1f",
             "id": "a6b1b2a1eafe8c328670c854bd27b938",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Block-Content-13.jpg",
@@ -12031,7 +12113,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "8ed72038da2de083d6f58cf1adf06169",
             "id": "aadf03bf9c11fcdc3c21263903b5255b",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0007s_0004_Intro-14-Copy.jpg",
@@ -12049,7 +12133,9 @@
             "categories": [
                 "Team"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "4de4673abdcf2aa688bdf55af62bc4ec",
             "id": "ab8bd16473c6d3329b916548d3cdd0c9",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0008s_0005_Team-1.jpg",
@@ -12107,7 +12193,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "a89281a8680ab830b3cdf2fa2e3aee2a",
             "id": "ad10f71f32c29f4800c2acd5dd94353b",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0015_Features-2-Copy.jpg",
@@ -12430,7 +12518,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "408c1836874c961caf287e3c17eb86a1",
             "id": "b1069ba28be6a0e105c56b69b010b10b",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0012_Features-4.jpg",
@@ -12559,7 +12649,9 @@
             "categories": [
                 "Team"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "1dc1cf7d5665f23e696310fbcde4bf20",
             "id": "b3d39603cbb567090401e1cbbddae2ae",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0008s_0001_Team-7.jpg",
@@ -12590,7 +12682,9 @@
             "categories": [
                 "Call to Action"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "c20b58c6140ae39e6fa4b357f9f18597",
             "id": "b47668854a1d9eae2986d98b11962559",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Call-to-Action-17.jpg",
@@ -12880,7 +12974,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "48ae7a2b690a6ffd008784465f353874",
             "id": "bc2a5af8c7b5d693a80bcd3434ebaa75",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0007s_0001_Intro-15-Copy.jpg",
@@ -12950,7 +13046,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "6d3569219acb82842836d15dee5096b0",
             "id": "bd5b5c4346c37e55f7ee5501b03a0747",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0014_Intro-3.jpg",
@@ -12986,7 +13084,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "6b98d2fc25ee16ba4ff8b73b93fa9b50",
             "id": "bdea11d4db0a9013ae70619c44aa80a3",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0005s_0004_Intro-13.jpg",
@@ -13080,7 +13180,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "795f8e8269bcca300bdc4c24622fc3d2",
             "id": "c1700c57b15e0d02f3585dde9acdf655",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0002s_0011_Content-8.jpg",
@@ -13264,7 +13366,9 @@
             "categories": [
                 "Call to Action"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "ab2762496e1836668018bf62f60f423d",
             "id": "c61607f9fbd0d868b25047a054f33ee1",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0003s_0009_Call-to-Action-4.jpg",
@@ -13873,7 +13977,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "63e719a02363a4dcdf4b9472e44d6a98",
             "id": "d16c69f421e0a2deb24baf2b2dfcdef0",
             "image": "https://qubely.io/wp-content/uploads/2019/06/blocks-images_0001_Screenshot-2019-06-18-at-5.01.23-PM.jpg",
@@ -13922,7 +14028,9 @@
             "categories": [
                 "Team"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "2726dedc8f0dd366f322f9dd127c2c31",
             "id": "d2946c076fce1520a125c7d7de041fc7",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0008s_0000_Team-9.jpg",
@@ -14123,7 +14231,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "9cd1f2f41589c5ba65dd370935dfd7fe",
             "id": "d90ad0aad3dae1e0f5892b8be3071563",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0003_Features-12.jpg",
@@ -14397,7 +14507,9 @@
             "categories": [
                 "Team"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "b9be649bfd71631a51fa0b9a923fbf0d",
             "id": "de8b0f3bedf0e642ee68b37306dcf9f3",
             "image": "https://qubely.io/wp-content/uploads/2019/06/team.jpg",
@@ -14474,7 +14586,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "87f398b939010767ec8d6044d661b22f",
             "id": "e06d888804a01dd64217c5791170d955",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0002s_0012_Content-8-Copy.jpg",
@@ -14656,7 +14770,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "51d81036cf2e1728581bf28459127191",
             "id": "e50ab12b5ecad66298c8050ed1ae51ea",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0001s_0006_Content-1.jpg",
@@ -14674,7 +14790,9 @@
             "categories": [
                 "Features"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "b9f3645d96fa72c32071cc9c8396942b",
             "id": "e565ee1b43c49d976367ffe0ad46e239",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0004s_0010_Features-6.jpg",
@@ -14714,7 +14832,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "6d81fb1982dc032daa101a5b84e421dc",
             "id": "e5a6463925e9df876f6b03d72b272148",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0002s_0018_Content-2.jpg",
@@ -15571,7 +15691,9 @@
             "categories": [
                 "Content"
             ],
-            "dependencies": [],
+            "dependencies": [
+                "qubely"
+            ],
             "hash": "1d5c06fba788aef1d6063a97815a188b",
             "id": "fb33753817aa64eca0a6c4d4b159fa38",
             "image": "https://qubely.io/wp-content/uploads/2019/06/Qubely-Blocks_0007s_0006_Intro-14-Copy-2.jpg",

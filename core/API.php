@@ -26,11 +26,11 @@ class API {
 
     }
 
-    private function process_dependencies($data, $key) {
+    private function process_dependencies( $data, $key ) {
 
-        foreach ( $data[$key] as $kk => $pp ) {
+        foreach ( $data[ $key ] as $kk => $pp ) {
             $debug = false;
-            if ($kk == "088337e76cb5e49fa09229dc8218e8a7") {
+            if ( $pp == "449dc59dcbb7c002132807ac127292b9" ) {
 //                $debug = true;
             }
 
@@ -40,37 +40,37 @@ class API {
                         if ( isset( $data['plugins'][ $dep ]['free_slug'] ) ) {
 
                             if ( isset( $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ] ) ) {
-                                if ($debug) {
+                                if ( $debug ) {
                                     echo 'here';
                                 }
                                 $plugin = $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ];
                                 if ( ! isset( $plugin['is_pro'] ) ) {
-                                    if ($debug) {
+                                    if ( $debug ) {
                                         echo 'there';
                                     }
-                                    if ( ! isset( $data[$key][ $kk ]['proDependencies'] ) ) {
-                                        $data[$key][ $kk ]['proDependencies'] = array();
+                                    if ( ! isset( $data[ $key ][ $kk ]['proDependencies'] ) ) {
+                                        $data[ $key ][ $kk ]['proDependencies'] = array();
                                     }
-                                    $data[$key][ $kk ]['proDependencies'][] = $dep;
+                                    $data[ $key ][ $kk ]['proDependencies'][] = $dep;
                                 }
                             }
                         } else {
-
                             if ( ! isset( $data['plugins'][ $dep ]['version'] ) ) {
-                                if ( ! isset( $data[$key][ $kk ]['installDependencies'] ) ) {
-                                    $data[$key][ $kk ]['installDependencies'] = array();
+                                if ( ! isset( $data[ $key ][ $kk ]['installDependencies'] ) ) {
+                                    $data[ $key ][ $kk ]['installDependencies'] = array();
                                 }
-                                $data[$key][ $kk ]['installDependencies'][] = $dep;
+                                $data[ $key ][ $kk ]['installDependencies'][] = $dep;
                             }
                         }
                     }
                 }
             }
-            if ($debug) {
-                print_r($data[$key][ $kk ]);
+            if ( $debug ) {
+                print_r( $data[ $key ][ $kk ] );
                 exit();
             }
         }
+
         return $data;
 
     }
@@ -139,8 +139,8 @@ class API {
             $supported::init( $data['plugins'] );
             $data['plugins'] = $supported::get_plugins();
 
-            $data = $this->process_dependencies($data, 'sections');
-            $data = $this->process_dependencies($data, 'pages');
+            $data = $this->process_dependencies( $data, 'sections' );
+            $data = $this->process_dependencies( $data, 'pages' );
         }
 
         if ( class_exists( 'WP_Patterns_Registry' ) ) {
