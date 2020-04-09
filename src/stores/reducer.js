@@ -60,6 +60,7 @@ export const reducer = ( state = initialState, action ) => {
             let parsedSection = parseSectionData(action.library.sections);
             let parsedPage = parsePageData(action.library.pages);
 			let parsedCollection = parseCollectionData(action.library);
+            starterblocks.supported_plugins = action.library.plugins;
             return {
                 ...state,
                 loading: false,

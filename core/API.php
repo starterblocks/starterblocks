@@ -27,14 +27,27 @@ class API {
     }
 
     private function process_dependencies($data, $key) {
+
         foreach ( $data[$key] as $kk => $pp ) {
+            $debug = false;
+            if ($kk == "088337e76cb5e49fa09229dc8218e8a7") {
+//                $debug = true;
+            }
+
             if ( isset( $pp['dependencies'] ) ) {
                 foreach ( $pp['dependencies'] as $dep ) {
                     if ( isset( $data['plugins'][ $dep ] ) ) {
                         if ( isset( $data['plugins'][ $dep ]['free_slug'] ) ) {
-                            if ( isset( $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ]['version'] ) ) {
+
+                            if ( isset( $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ] ) ) {
+                                if ($debug) {
+                                    echo 'here';
+                                }
                                 $plugin = $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ];
                                 if ( ! isset( $plugin['is_pro'] ) ) {
+                                    if ($debug) {
+                                        echo 'there';
+                                    }
                                     if ( ! isset( $data[$key][ $kk ]['proDependencies'] ) ) {
                                         $data[$key][ $kk ]['proDependencies'] = array();
                                     }
@@ -52,6 +65,10 @@ class API {
                         }
                     }
                 }
+            }
+            if ($debug) {
+                print_r($data[$key][ $kk ]);
+                exit();
             }
         }
         return $data;

@@ -328,7 +328,6 @@
 .starterblocks-missing-badge {
     position: absolute;
     background: #f2a848;
-    padding: 4px 5px;
     border-radius: 3px;
     color: #fff;
     font-size: 10px;
@@ -336,6 +335,9 @@
     top: 20px;
     text-transform: uppercase;
     line-height: 1;
+    i {
+        margin: 5px;
+    }
 }
 
 .starterblocks-default-template-image {

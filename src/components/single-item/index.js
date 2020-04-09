@@ -1,3 +1,5 @@
+import {Tooltip} from '@wordpress/components';
+
 const {__} = wp.i18n
 const {withDispatch, withSelect, select} = wp.data;
 const {useState, useEffect} = wp.element;
@@ -48,6 +50,8 @@ function SingleItem (props) {
 				</div>
 				{/* starterblocks-default-template-image */}
 				<div className="starterblocks-button-overlay">
+                    {requiresPro(data) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
+                    {!requiresPro(data) && requiresInstall(data) && <Tooltip text={__('Required Plugins')} position="bottom" key={data.source+data.source_id}><div className="starterblocks-missing-badge"><i className="fas fa-exclamation-triangle" /></div></Tooltip>}
 					<ButtonGroup index={index} showDependencyBlock={true} data={data} pageData={pageData} />
 				</div>
 

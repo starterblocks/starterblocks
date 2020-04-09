@@ -168,7 +168,6 @@ export const handlingLocalStorageData = () => {
 }
 
 
-
 export const columnMap = {
     'large': 2,
     'medium': 3,
