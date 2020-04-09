@@ -5,7 +5,6 @@ const { Spinner } = wp.components;
 
 import LazyLoad from 'react-lazyload';
 import ButtonGroup from '../button-group';
-import {isBlockPro, missingPro, missingRequirement} from '../../stores/helper';
 import './style.scss'
 
 
@@ -20,6 +19,13 @@ function SingleItem (props) {
 		'backgroundImage': 'url(' + starterblocks.plugin + 'assets/img/image-loader.gif)',
 		'backgroundPosition': 'center center'
     };
+
+    const requiresPro = (data) => {
+        return (data && data.proDependencies && data.proDependencies.length > 0);
+    }
+    const requiresInstall = (data) => {
+        return (data && data.installDependencies && data.installDependencies.length > 0);
+    }
 
     useEffect(() => {
         if (pageData) setData(pageData[index]);
@@ -36,12 +42,12 @@ function SingleItem (props) {
 			<div className={innerClassname}>
 				<div className="starterblocks-default-template-image">
                     <img className="lazy" src={backgroundImage(data.image)}/>
-                    {isBlockPro(data.pro, data.source) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
+                    {requiresPro(data) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
+                    {!requiresPro(data) && requiresInstall(data) && <span className="starterblocks-missing-badge"><i class="fas fa-exclamation-triangle" /></span>}
                     <div className="starterblocks-tmpl-title">{data.name}</div>
 				</div>
 				{/* starterblocks-default-template-image */}
 				<div className="starterblocks-button-overlay">
-                    {isBlockPro(data.pro, data.source) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
 					<ButtonGroup index={index} showDependencyBlock={true} data={data} pageData={pageData} />
 				</div>
 

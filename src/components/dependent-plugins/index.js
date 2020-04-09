@@ -1,37 +1,29 @@
+const {withSelect, select} = wp.data;
 import {Tooltip} from '@wordpress/components';
 import * as Icons from '~starterblocks/icons'
 import './style.scss'
 
-export default function DependentPlugins (props) {
+function DependentPlugins (props) {
     const {data, showDependencyBlock} = props;
-    const {ID} = data;
+    const {plugins} = props;
+    const {id} = data;
 
-    const getDependentBlocks = (data) => {
-        if ('blocks' in data) {
-            return Object.keys(data.blocks).map((block) => {
-                const pluginReference = starterblocks.supported_plugins[block];
-                return {
-                    name: pluginReference ? pluginReference.name : block,
-                    slug: block,
-                    missingDependency: pluginReference ? pluginReference.hasOwnProperty('version') === false : true
-                };
-            });
-        }
+    const isMissingPlugin = (plugin) => {
+        return ((data.proDependencies && data.proDependencies.indexOf(plugin) >=0)
+            || (data.installDependencies && data.installDependencies.indexOf(plugin) >=0))
     }
 
     if (showDependencyBlock)
         return (
             <div className="starterblocks-button-display-dependencies">
                 {
-                    data.blocks &&
-                    getDependentBlocks(data).map(block => {
-                        const {name, slug, missingDependency} = block;
-                        const IconComponent = Icons[slug];
-
-                        if (IconComponent)
+                    data.dependencies.map(plugin => {
+                        const IconComponent = Icons[plugin];
+                        const pluginInstance = plugins[plugin];
+                        if (IconComponent && pluginInstance)
                             return (
-                                <Tooltip text={name} position="bottom" key={ID +slug}>
-                                    <span className={missingDependency ? 'missing-dependency' : ''}>
+                                <Tooltip text={pluginInstance.name} position="bottom" key={ID + plugin}>
+                                    <span className={isMissingPlugin(plugin) ? 'missing-dependency' : ''}>
                                         <IconComponent/>
                                     </span>
                                 </Tooltip>
@@ -42,3 +34,10 @@ export default function DependentPlugins (props) {
         );
     return null;
 }
+
+export default withSelect((select, props) => {
+    const {getPlugins} = select('starterblocks/sectionslist');
+    return {
+        plugins: getPlugins()
+    };
+})(DependentPlugins);
