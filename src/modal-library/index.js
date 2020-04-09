@@ -15,7 +15,7 @@ import SavedView from './view-saved';
 import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
-import {installedBlocksTypes, processImportHelper} from '~starterblocks/stores/actionHelper';
+import {installedBlocksTypes, handleBlock} from '~starterblocks/stores/actionHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
 
@@ -24,8 +24,9 @@ import StarterBlocksTour from '../tour';
 
 function LibraryModal(props) {
     const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary, setImportingTemplate,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, importingTemplate
+        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
+        setImportingTemplate, switchEditorMode, createSuccessNotice, createErrorNotice,
+        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, importingTemplate, editorMode
     } = props;
     const [loaded, setLoaded] = useState(false);
     const [missingPluginArray, setMissingPlugin] = useState([]);
@@ -47,8 +48,51 @@ function LibraryModal(props) {
     // read block data to import and give the control to actual import
     const processImport = () => {
         discardAllErrorMessages();
-        processImportHelper(activeItemType === 'section' ? 'sections' : 'pages', registerError)
+        if (importingTemplate) processImportHelper(importingTemplate, registerError)
+    }
 
+    const processImportHelper = (data, errorCallback) => {
+        const type = activeItemType === 'section' ? 'sections' : 'pages';
+        let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
+        if ('source' in data) {
+            the_url += '&source=' + data.source;
+        }
+
+        const options = {
+            method: 'GET',
+            path: the_url,
+            headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
+        };
+
+        if (editorMode === 'text') {
+            switchEditorMode();
+        }
+
+
+        apiFetch(options).then(response => {
+            if (response.success && response.data) {
+                let responseBlockData = response.data;
+                if (Array.isArray(responseBlockData)) {
+                    for (let blockData of responseBlockData)
+                        handleBlock(blockData, installedDependencies);
+                } else
+                    handleBlock(responseBlockData, installedDependencies);
+                createSuccessNotice('Template inserted', {type: 'snackbar'});
+                setImportingTemplate(null);
+                if (installedDependencies === true)
+                    savePost()
+                        .then(() => window.location.reload())
+                        .catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
+                else {
+                    ModalManager.close();
+                    ModalManager.closeCustomizer();
+                }
+            } else {
+                errorCallback(response.data.error);
+            }
+        }).catch(error => {
+            errorCallback(error.code + ' : ' + error.message);
+        });
     }
 
 
@@ -96,25 +140,31 @@ export default compose([
             setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
         const {savePost} = dispatch('core/editor');
-
+        const { switchEditorMode } = dispatch( 'core/edit-post' );
+        const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
         return {
             appendErrorMessage,
             discardAllErrorMessages,
             setLoading,
             savePost,
             setLibrary,
-            setImportingTemplate
+            switchEditorMode,
+            setImportingTemplate,
+            createSuccessNotice,
+            createErrorNotice
         };
     }),
 
     withSelect((select, props) => {
         const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getInstalledDependencies, getTourOpen, getImportingTemplate} = select('starterblocks/sectionslist');
+        const { getEditorMode } = select('core/edit-post');
         return {
             fetchLibraryFromAPI,
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
             errorMessages: getErrorMessages(),
             installedDependencies: getInstalledDependencies(),
+            editorMode: getEditorMode(),
             importingTemplate: getImportingTemplate()
         };
     })

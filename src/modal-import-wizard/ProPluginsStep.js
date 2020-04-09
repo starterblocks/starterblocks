@@ -15,7 +15,7 @@ function ProPluginStep(props) {
                         missingPros.map(pluginKey => {
                             const {name, url} = plugins[pluginKey];
                             return (
-                                <li>
+                                <li key={pluginKey}>
                                     {name}&nbsp;&nbsp;
                                     <a href={url} className={'button button-primary button-small'} target="_blank">Learn
                                         More <i

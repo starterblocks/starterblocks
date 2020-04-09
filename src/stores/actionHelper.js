@@ -8,8 +8,7 @@ const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
 import {ModalManager} from '~starterblocks/modal-manager';
 import PreviewModal from '../modal-preview';
 
-const handleBlock = (data) => {
-    const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
+export const handleBlock = (data, installedDependencies) => {
     //import template
     let block_data = null;
     if ('template' in data) {
@@ -34,11 +33,7 @@ const handleBlock = (data) => {
     insertBlocks(block_data)
 }
 
-export const processImportHelper = (type, errorCallback) => {
-    const data = select('starterblocks/sectionslist').getImportingTemplate();
-    const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
-    const { setImportingTemplate } = useDispatch('starterblocks/sectionslist');
-    console.log('importing template', data);
+export const processImportHelper = (type, data, installedDependencies, setImportingTemplate, errorCallback) => {
     let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
     if ('source' in data) {
         the_url += '&source=' + data.source;
