@@ -1,6 +1,7 @@
 const {Component, Fragment, useState} = wp.element;
 const {withSelect, select} = wp.data;
 const {__} = wp.i18n;
+import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
 
 function ProPluginStep(props) {
     const {missingPros, onCloseWizard} = props;
@@ -10,16 +11,16 @@ function ProPluginStep(props) {
             <div className="starterblocks-import-wizard-body">
                 <h5>{__('External Dependencies Required')}</h5>
                 <p>{__('The following premium plugin(s) are required to import this template:')}</p>
-                <ul className="starterblocks-import-wizard-missing-dependency">
+
+                <ul className="starterblocks-import-progress">
                     {
                         missingPros.map(pluginKey => {
-                            const {name, url} = plugins[pluginKey];
+                            let plugin = pluginInfo(pluginKey)
                             return (
-                                <li key={pluginKey}>
-                                    {name}&nbsp;&nbsp;
-                                    <a href={url} className={'button button-primary button-small'} target="_blank">Learn
-                                        More <i
-                                            className="fa fa-external-link-alt"></i></a>
+                                <li className='installing' key={pluginKey}>
+                                    {plugin.name} {plugin.url &&
+                                <a href={plugin.url} target="_blank"><i className="fa fa-external-link-alt"/></a>
+                                }
                                 </li>);
                         })
                     }
@@ -35,6 +36,6 @@ function ProPluginStep(props) {
 }
 
 export default withSelect((select, props) => {
-    const { getPlugins } = select('starterblocks/sectionslist');
-    return { plugins: getPlugins() };
+    const {getPlugins} = select('starterblocks/sectionslist');
+    return {plugins: getPlugins()};
 })(ProPluginStep);

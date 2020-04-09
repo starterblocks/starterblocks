@@ -5,7 +5,7 @@ const {compose} = wp.compose;
 const {select, withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
-import {CheckboxControl} from '@wordpress/components';
+import {CheckboxControl, Tooltip} from '@wordpress/components';
 import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
 
 function DependencyFilter(props) {
@@ -46,11 +46,19 @@ function DependencyFilter(props) {
                     <ul className="starterblocks-sidebar-dependencies">
                         { (loading === false) &&
                         <li>
+                            {/*<Tooltip*/}
+                            {/*    position='right'*/}
+                            {/*    text="These templates only use native WordPress Gutenberg Blocks"*/}
+                            {/*>*/}
                             <CheckboxControl
-                                label='None'
+                                label={__('Native', 'starterblocks')}
                                 checked={isChecked('none')}
                                 onChange={() => toggleChecked('none')}
                             />
+                            <Tooltip text={__('Only default WordPress blocks used.', 'starterblocks')} position='right'>
+                                <span style={{float:'right', marginRight:'2px'}}><i className="fa fa-info-circle" /></span>
+                            </Tooltip>
+                            {/*</Tooltip>*/}
                         </li>
                         }
                         {

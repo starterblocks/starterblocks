@@ -1,3 +1,5 @@
+import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
+
 const {apiFetch} = wp;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
@@ -32,12 +34,12 @@ function InstallPluginStep(props) {
         for (let pluginKey of missingPlugins) {
             const pluginInstance = plugins[pluginKey];
             setInstallingPlugin({...pluginInstance, pluginKey});
-            localWaitingList = localWaitingList.filter(key => key !== pluginKey )
+            localWaitingList = localWaitingList.filter(key => key !== pluginKey)
             setWaitingList(localWaitingList);
             let pluginSlug = pluginInstance.free_slug ? pluginInstance.free_slug : pluginKey;
             await apiFetch({
-                    path: 'starterblocks/v1/plugin-install?slug=' + pluginSlug
-                })
+                path: 'starterblocks/v1/plugin-install?slug=' + pluginSlug
+            })
                 .then(res => {
                     if (res.success) {
                         setInstalledDependencies(true);
@@ -76,27 +78,37 @@ function InstallPluginStep(props) {
                     {
                         missingPlugins &&
                         missingPlugins.map(pluginKey => {
-                            const {name} = plugins[pluginKey];
+
+                            let plugin = pluginInfo(pluginKey)
+
                             if (installingPlugin && installingPlugin.pluginKey === pluginKey)
-                                return (<li className="installing" key={installingPlugin.pluginKey}>{installingPlugin.name}<i className="fas fa-spinner fa-pulse"></i></li>);
+                                return (
+                                    <li className="installing" key={installingPlugin.pluginKey}>{installingPlugin.name}
+                                        <i className="fas fa-spinner fa-pulse"/></li>);
                             if (failedList.includes(pluginKey))
-                                return (<li className="failure" key={pluginKey}>{name}<i className="fas fa-exclamation-triangle"></i></li>);
+                                return (<li className="failure" key={pluginKey}>{plugin.name} <i
+                                    className="fas fa-exclamation-triangle"/></li>);
                             if (waitingList.includes(pluginKey))
-                                return (<li className="todo" key={pluginKey}>{name}<i className="far fa-square"></i></li>);
+                                return (<li className="todo" key={pluginKey}>{plugin.name} {plugin.url &&
+                                <a href={plugin.url} target="_blank"><i className="fa fa-external-link-alt"/></a>
+                                }</li>);
                             if (installedList.includes(pluginKey))
-                                return (<li className="success" key={pluginKey}>{name}<i className="fas fa-check-square"></i></li>);
+                                return (<li className="success" key={pluginKey}>{plugin.name} <i
+                                    className="fas fa-check-square"/></li>);
                         })
                     }
                 </ul>
             </div>
             <div className="starterblocks-import-wizard-footer">
-                { waitingList.length !== 0 &&
-                    <button className="button button-primary" disabled={installingPlugin !== null} onClick={() => onInstallPlugins()}>
-                        {installingPlugin !== null && <i className="fas fa-spinner fa-pulse"/>}
-                        <span>{__('Install')}</span>
-                    </button>
+                {waitingList.length !== 0 &&
+                <button className="button button-primary" disabled={installingPlugin !== null}
+                        onClick={() => onInstallPlugins()}>
+                    {installingPlugin !== null && <i className="fas fa-spinner fa-pulse"/>}
+                    <span>{__('Install')}</span>
+                </button>
                 }
-                <button className="button button-secondary" disabled={installingPlugin !== null} onClick={onCloseWizard}>
+                <button className="button button-secondary" disabled={installingPlugin !== null}
+                        onClick={onCloseWizard}>
                     {__('Cancel')}
                 </button>
             </div>
@@ -116,7 +128,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const { getPlugins } = select('starterblocks/sectionslist');
-        return { plugins: getPlugins() };
+        const {getPlugins} = select('starterblocks/sectionslist');
+        return {plugins: getPlugins()};
     })
 ])(InstallPluginStep);
