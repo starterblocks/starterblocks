@@ -129,7 +129,8 @@
                 border: 1px solid #ececec;
                 position: relative;
 
-                .pro {
+                .pro,
+                .install {
                     position: absolute;
                     background: #f00;
                     padding: 2px 3px;
@@ -140,6 +141,12 @@
                     top: 5px;
                     text-transform: uppercase;
                     line-height: 1;
+                }
+                .pro {
+                    background: #f00;
+                }
+                .install {
+                    background: #f2a848;
                 }
             }
 

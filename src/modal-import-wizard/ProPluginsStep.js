@@ -1,11 +1,10 @@
 const {Component, Fragment, useState} = wp.element;
+const {withSelect, select} = wp.data;
 const {__} = wp.i18n;
 
-import dependencyHelper from './dependencyHelper';
-
-export default function InstallPluginStep(props) {
+function ProPluginStep(props) {
     const {missingPros, onCloseWizard} = props;
-
+    const {plugins} = props;
     return (
         <Fragment>
             <div className="starterblocks-import-wizard-body">
@@ -14,9 +13,9 @@ export default function InstallPluginStep(props) {
                 <ul className="starterblocks-import-wizard-missing-dependency">
                     {
                         missingPros.map(pluginKey => {
-                            const {name, url} = dependencyHelper.pluginInfo(pluginKey);
+                            const {name, url} = plugins[pluginKey];
                             return (
-                                <li>
+                                <li key={pluginKey}>
                                     {name}&nbsp;&nbsp;
                                     <a href={url} className={'button button-primary button-small'} target="_blank">Learn
                                         More <i
@@ -34,3 +33,8 @@ export default function InstallPluginStep(props) {
         </Fragment>
     );
 }
+
+export default withSelect((select, props) => {
+    const { getPlugins } = select('starterblocks/sectionslist');
+    return { plugins: getPlugins() };
+})(ProPluginStep);

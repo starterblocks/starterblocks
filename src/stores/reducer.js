@@ -44,6 +44,7 @@ export const initialState = {
         activeButtonGroup: null,
         isPreviewVisible: false
     },
+    plugins: {},
     importingTemplate: null
 };
 
@@ -51,25 +52,35 @@ export const reducer = ( state = initialState, action ) => {
 
     switch ( action.type ) {
         case 'SET_LIBRARY':
-            let parsedSection = parseSectionData(action.library);
-            let parsedPage = parsePageData(action.library);
+
+            const dependencies = Object.keys(action.library.dependencies).reduce((acc, cur) => {
+                return {...acc, [cur]: true}
+            }, {none: true});
+
+            let parsedSection = parseSectionData(action.library.sections);
+            let parsedPage = parsePageData(action.library.pages);
 			let parsedCollection = parseCollectionData(action.library);
+            starterblocks.supported_plugins = action.library.plugins;
             return {
                 ...state,
                 loading: false,
                 library: action.library,
                 section: {
                     ...state.section,
-                    ...parsedSection
+                    ...parsedSection,
+                    dependencyFilters: dependencies
                 },
                 page: {
                     ...state.page,
-                    ...parsedPage
+                    ...parsedPage,
+                    dependencyFilters: dependencies
                 },
                 collection: {
                     ...state.collection,
-                    ...parsedCollection
-                }
+                    ...parsedCollection,
+                    dependencyFilters: dependencies
+                },
+                plugins: action.library.plugins
             };
         case 'SET_ACTIVE_CATEGORY':
             return {

@@ -8,7 +8,6 @@ const {Spinner} = wp.components;
 import InstallPluginStep from './InstallPluginStep';
 import ProPluginStep from './ProPluginsStep';
 import {ModalManager} from '../modal-manager'
-import dependencyHelper from './dependencyHelper';
 import './style.scss'
 
 const PLUGIN_STEP = 0;
@@ -19,16 +18,21 @@ function ImportWizard(props) {
     const {startImportTemplate, setImportingTemplate, isTourOpen, importingTemplate} = props;
     const [currentStep, setCurrentStep] = useState(PLUGIN_STEP);
     const [importing, setImporting] = useState(false);
-    const [missingPlugins, setMissingPlugins] = useState([]);
-    const [missingPros, setMissingPros] = useState([]);
 
     useEffect(() => {
         if (importingTemplate) {
-            const dependencies = dependencyHelper.checkTemplateDependencies(importingTemplate);
-            setMissingPlugins(dependencies.missingPluginArray);
-            setMissingPros(dependencies.missingProArray);
+            if (importingTemplate && currentStep === PLUGIN_STEP &&
+                (!importingTemplate.installDependencies || importingTemplate.installDependencies.length < 1))
+                setCurrentStep(PRO_STEP);
+            if (importingTemplate && currentStep === PRO_STEP &&
+                    (!importingTemplate.proDependencies || importingTemplate.proDependencies.length < 1))
+                setCurrentStep(IMPORT_STEP);
+            if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
+                setImporting(true);
+                startImportTemplate();
+            }
         }
-    }, [importingTemplate])
+    }, [importingTemplate, currentStep])
 
     const toNextStep = () => {
         if (isTourOpen) return;
@@ -41,25 +45,13 @@ function ImportWizard(props) {
         setImportingTemplate(null);
     };
 
-    if (!importingTemplate) return null;
 
     if (isTourOpen) {
         // exception handling for tour mode
         if (currentStep !== PLUGIN_STEP) setCurrentStep(PLUGIN_STEP)
-    } else {
-        if (importingTemplate && currentStep === PLUGIN_STEP && missingPlugins.length < 1)
-            setCurrentStep(PRO_STEP);
-        if (importingTemplate && currentStep === PRO_STEP && missingPros.length < 1)
-            setCurrentStep(IMPORT_STEP);
-        if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
-            setImporting(true);
-            startImportTemplate();
-        }
     }
 
-
-
-
+    if (!importingTemplate) return null;
     return (
         <div className="starterblocks-import-wizard-overlay">
             <div className="starterblocks-import-wizard-wrapper" data-tut="tour__import_wizard">
@@ -70,11 +62,12 @@ function ImportWizard(props) {
                     </button>
                 </div>
                 {(currentStep === PLUGIN_STEP) &&
-                <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : missingPlugins} toNextStep={toNextStep}
+                    <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : importingTemplate.installDependencies || []} toNextStep={toNextStep}
                                    onCloseWizard={onCloseWizard}/>}
-                {(currentStep === PRO_STEP) && <ProPluginStep missingPros={missingPros} onCloseWizard={onCloseWizard}/>}
+                {(currentStep === PRO_STEP) && importingTemplate.proDependencies &&
+                    <ProPluginStep missingPros={importingTemplate.proDependencies } onCloseWizard={onCloseWizard}/>}
                 {(currentStep === IMPORT_STEP) &&
-                <div className="starterblocks-import-wizard-spinner-wrapper"><Spinner/></div>
+                    <div className="starterblocks-import-wizard-spinner-wrapper"><Spinner/></div>
                 }
             </div>
         </div>

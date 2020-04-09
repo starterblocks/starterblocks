@@ -3,6 +3,11 @@ import uniq from 'lodash/uniq';
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 
+const {createBlock} = wp.blocks;
+const {dispatch} = wp.data;
+const {createSuccessNotice} = dispatch('core/notices');
+const {insertBlocks} = dispatch('core/block-editor');
+
 export const getCurrentState = (state) => state[state.activeItemType]
 // Helper function not to be exported
 const convertObjectToArray = (list) => {
@@ -45,14 +50,14 @@ export const categorizeData = (list) => {
     return {categories, data};
 }
 
-export const parseSectionData = (library) => {
-    const librarySectionData = convertObjectToArray(library.sections);
-    return {...categorizeData(librarySectionData), dependencyFilters: {none: true, ...library.dependencies.sections}};
+export const parseSectionData = (sections) => {
+    const librarySectionData = convertObjectToArray(sections);
+    return categorizeData(librarySectionData);
 }
 
-export const parsePageData = (library) => {
-    const libraryPageData = convertObjectToArray(library.pages);
-    return {...categorizeData(libraryPageData), dependencyFilters: {none: true, ...library.dependencies.pages}};
+export const parsePageData = (pages) => {
+    const libraryPageData = convertObjectToArray(pages);
+    return categorizeData(libraryPageData);
 }
 
 export const parseCollectionData = (library) => {
@@ -65,17 +70,15 @@ export const parseCollectionData = (library) => {
         else {
             collection.homepageData = library.pages[collection.pages[0]];
         }
-        if (collection.homepageData) collection.pro = collection.homepageData.pro;
 
-        let dependentPluginsList = [];
-        if (collection.pages)
-            dependentPluginsList = uniq(concat(flatten(collection.pages.map(page => library.pages[page].blocks ? Object.keys(library.pages[page].blocks) : []))));
-        collection.blocks = dependentPluginsList.reduce((acc, plugin) => {
-            return {...acc, [plugin]: ''};
-        }, {});
+        if (collection.pages) {
+            collection.installDependencies = uniq(concat(flatten(collection.pages.map(page => library.pages[page].installDependencies || []))));
+            collection.proDependencies = uniq(concat(flatten(collection.pages.map(page => library.pages[page].proDependencies || []))));
+        }
+
         return collection;
     });
-    return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies.pages}};
+    return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies}};
 }
 
 // one of important function
@@ -170,7 +173,6 @@ export const handlingLocalStorageData = () => {
 }
 
 
-
 export const columnMap = {
     'large': 2,
     'medium': 3,
@@ -182,3 +184,9 @@ export const pageSizeMap = {
     'medium': 30,
     'small': 40
 };
+
+export const isTemplateReadyToInstall = (item) => {
+    return ((item.proDependencies && item.proDependencies.length > 0)
+        || (item.installDependencies && item.installDependencies.length > 0))
+        ? false : true;
+}

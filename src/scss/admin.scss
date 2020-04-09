@@ -214,6 +214,13 @@ h3.starterblocks-options-section-title {
             list-style-position: inside;
         }
 
+        &.grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1fr;
+            grid-gap: 35px;
+            justify-content: center;
+        }
+
         .components-button {
             border: none;
             border-radius: 35px;

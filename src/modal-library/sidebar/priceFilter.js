@@ -22,7 +22,7 @@ function PriceFilter (props) {
     }
 
     return (
-        <div className="starterblocks-template-filter-button-group">
+        <div className='starterblocks-template-filter-button-group'>
             <div>
                 <button onClick={() => setActivePriceFilter('')}
                         className={getClassnames('')}>{__('All')}</button>

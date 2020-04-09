@@ -1,3 +1,4 @@
+import {isTemplateReadyToInstall} from './helper';
 // Just get current Page Data
 export const applyCategoryFilter = (pageData, activeCategory) => {
     let currentPageData = [];
@@ -45,15 +46,15 @@ export const applyPriceFilter = (pageData, activePriceFilter) => {
     if (activePriceFilter !== '') {
         if (Array.isArray(pageData)) {
             return pageData.filter(item => {
-                if (activePriceFilter === 'free') return item.pro === false;
-                if (activePriceFilter === 'pro') return item.pro === true;
+                if (activePriceFilter === 'free') return isTemplateReadyToInstall(item);
+                if (activePriceFilter === 'pro') return (isTemplateReadyToInstall(item) === false);
             });
         } else {
             let newPageData = {};
             Object.keys(pageData).forEach(key => {
                 newPageData[key] =  pageData[key].filter(item => {
-                    if (activePriceFilter === 'free') return item.pro === false;
-                    if (activePriceFilter === 'pro') return item.pro === true;
+                    if (activePriceFilter === 'free') return isTemplateReadyToInstall(item);
+                    if (activePriceFilter === 'pro') return (isTemplateReadyToInstall(item) === false);
                 });
             });
             return newPageData;
@@ -66,15 +67,15 @@ export const applyPriceFilter = (pageData, activePriceFilter) => {
 export const applyDependencyFilters = (pageData, dependencyFilters) => {
     if (Array.isArray(pageData)) {
         return pageData.filter(item => {
-            if (!item.blocks || Object.keys(item.blocks).length === 0) return dependencyFilters['none'];
-            return Object.keys(item.blocks).reduce((acc, key) => acc || dependencyFilters[key], false);
+            if (!item.dependencies || Object.keys(item.dependencies).length === 0) return dependencyFilters['none'];
+            return item.dependencies.reduce((acc, k) => acc || dependencyFilters[k], false);
         });
     } else {
         let newPageData = {};
         Object.keys(pageData).forEach(key => {
             newPageData[key] =  pageData[key].filter(item => {
-                if (!item.blocks || Object.keys(item.blocks).length === 0) return dependencyFilters['none'];
-                return Object.keys(item.blocks).reduce((acc, key) => acc || dependencyFilters[key], false);
+                if (!item.dependencies || Object.keys(item.dependencies).length === 0) return dependencyFilters['none'];
+                return item.dependencies.reduce((acc, k) => acc || dependencyFilters[k], false);
             });
         });
         return newPageData;

@@ -6,9 +6,10 @@ const {select, withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
 import {CheckboxControl} from '@wordpress/components';
+import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
 
 function DependencyFilter(props) {
-    const {dependencyFilters, loading} = props;
+    const {dependencyFilters, loading, plugins} = props;
     const {setDependencyFilters} = props;
 
     const onChangeCategory = (data) => {
@@ -46,7 +47,7 @@ function DependencyFilter(props) {
                         { (loading === false) &&
                         <li>
                             <CheckboxControl
-                                label="None"
+                                label='None'
                                 checked={isChecked('none')}
                                 onChange={() => toggleChecked('none')}
                             />
@@ -55,9 +56,10 @@ function DependencyFilter(props) {
                         {
                             Object.keys(dependencyFilters).sort().map(pluginKey => {
                                 if (pluginKey === 'none') return null;
-                                let pluginInstance = starterblocks.supported_plugins[pluginKey];
-                                // To deal with yet unknown plugins.
-                                if (!pluginInstance) pluginInstance = {name: pluginKey, url: ''};
+                                let pluginInstance = pluginInfo(pluginKey)
+                                if (pluginInstance.name == null) {
+                                    return // Skip extra items
+                                }
                                 return (
                                     <li className={!pluginInstance.version ? 'missing-dependency' : ''} key={pluginKey}>
                                         <CheckboxControl
@@ -68,7 +70,7 @@ function DependencyFilter(props) {
 
                                         {pluginInstance.url ?
                                             <a href={pluginInstance.url} target="_blank">
-                                                <i className="fa fa-external-link-alt"></i>
+                                                <i className="fa fa-external-link-alt" />
                                             </a> : null}
                                     </li>
                                 );
@@ -91,10 +93,11 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getDependencyFilters, getLoading} = select('starterblocks/sectionslist');
+        const {getDependencyFilters, getLoading, getPlugins} = select('starterblocks/sectionslist');
         return {
             loading: getLoading(),
-            dependencyFilters: getDependencyFilters()
+            dependencyFilters: getDependencyFilters(),
+            plugins: getPlugins()
         };
     })
 ])(DependencyFilter);
