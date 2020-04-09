@@ -22,7 +22,7 @@ function DependentPlugins (props) {
                         const pluginInstance = plugins[plugin];
                         if (IconComponent && pluginInstance)
                             return (
-                                <Tooltip text={pluginInstance.name} position="bottom" key={ID + plugin}>
+                                <Tooltip text={pluginInstance.name} position="bottom" key={id + plugin}>
                                     <span className={isMissingPlugin(plugin) ? 'missing-dependency' : ''}>
                                         <IconComponent/>
                                     </span>

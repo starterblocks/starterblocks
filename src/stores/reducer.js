@@ -52,19 +52,26 @@ export const reducer = ( state = initialState, action ) => {
 
     switch ( action.type ) {
         case 'SET_LIBRARY':
-            let parsedSection = parseSectionData(action.library);
-            let parsedPage = action.library.pages; // parsePageData(action.library);
+
+            const dependencies = Object.keys(action.library.dependencies).reduce((acc, cur) => {
+                return {...acc, [cur]: true}
+            }, {none: true});
+
+            let parsedSection = parseSectionData(action.library.sections);
+            let parsedPage = parsePageData(action.library.pages);
 			let parsedCollection = action.library.collections; // parseCollectionData(action.library);
             return {
                 ...state,
                 loading: false,
                 section: {
                     ...state.section,
-                    ...parsedSection
+                    ...parsedSection,
+                    dependencyFilters: dependencies
                 },
                 page: {
                     ...state.page,
-                    ...parsedPage
+                    ...parsedPage,
+                    dependencyFilters: dependencies
                 },
                 collection: {
                     ...state.collection,
