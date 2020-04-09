@@ -18,6 +18,15 @@ function CollectionView(props) {
 
     let previewData = pageData[previewDataIndex];
 
+
+    const requiresPro = (data) => {
+        return (data && data.proDependencies && data.proDependencies.length > 0);
+    }
+    const requiresInstall = (data) => {
+        return (data && data.installDependencies && data.installDependencies.length > 0);
+    }
+
+
     return (
         <div className="starterblocks-collection-details-view">
             <div className="starterblocks-collection-details-left">
@@ -45,7 +54,8 @@ function CollectionView(props) {
                                 return (
                                     <div className={className} onClick={() => setPreviewDataIndex(index)} key={index}>
                                         <div className="detail-image" style={divStyle}>
-                                            {isBlockPro(detail.pro, detail.source) && <span className="pro">{__('Premium')}</span>}
+                                            {requiresPro(detail) && <span className="pro">{__('Premium')}</span>}
+                                            {!requiresPro(detail) && requiresInstall(detail) && <span className="install"><i className="fas fa-exclamation-triangle" /></span>}
                                             <div className="detail-label">{detail.name}</div>
                                         </div>
                                     </div>

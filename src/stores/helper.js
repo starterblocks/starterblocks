@@ -65,14 +65,12 @@ export const parseCollectionData = (library) => {
         else {
             collection.homepageData = library.pages[collection.pages[0]];
         }
-        if (collection.homepageData) collection.pro = collection.homepageData.pro;
 
-        let dependentPluginsList = [];
-        if (collection.pages)
-            dependentPluginsList = uniq(concat(flatten(collection.pages.map(page => library.pages[page].blocks ? Object.keys(library.pages[page].blocks) : []))));
-        collection.blocks = dependentPluginsList.reduce((acc, plugin) => {
-            return {...acc, [plugin]: ''};
-        }, {});
+        if (collection.pages) {
+            collection.installDependencies = uniq(concat(flatten(collection.pages.map(page => library.pages[page].installDependencies || []))));
+            collection.proDependencies = uniq(concat(flatten(collection.pages.map(page => library.pages[page].proDependencies || []))));
+        }
+
         return collection;
     });
     return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies}};

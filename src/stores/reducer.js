@@ -59,10 +59,11 @@ export const reducer = ( state = initialState, action ) => {
 
             let parsedSection = parseSectionData(action.library.sections);
             let parsedPage = parsePageData(action.library.pages);
-			let parsedCollection = action.library.collections; // parseCollectionData(action.library);
+			let parsedCollection = parseCollectionData(action.library);
             return {
                 ...state,
                 loading: false,
+                library: action.library,
                 section: {
                     ...state.section,
                     ...parsedSection,
@@ -75,7 +76,8 @@ export const reducer = ( state = initialState, action ) => {
                 },
                 collection: {
                     ...state.collection,
-                    ...parsedCollection
+                    ...parsedCollection,
+                    dependencyFilters: dependencies
                 },
                 plugins: action.library.plugins
             };
