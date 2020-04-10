@@ -96,6 +96,10 @@ function StarterBlocksTour(props) {
             content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', 'starterblocks'),
             position: 'center',
             action: () => {
+                animateScroll.scrollToTop({
+                    containerId: 'starterblocks-collection-modal-sidebar',
+                    duration: 0,
+                });
                 setTourActiveButtonGroup(null);
             }
         },
