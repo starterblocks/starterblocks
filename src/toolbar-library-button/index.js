@@ -15,7 +15,7 @@ const {Component, useEffect} = wp.element;
 
 function ToolbarLibraryButton (props) {
     useEffect(() => {
-        if (starterblocks.tour === 1)
+        if (starterblocks.tour === '1')
             ModalManager.open(<LibraryModal autoTourStart={true} />);
     }, [])
 	return (
