@@ -27,7 +27,7 @@ function StarterBlocksTour(props) {
     useEffect(() => {
         if (autoTourStart === true) {
             setTourOpen(true);
-            starterblocks.tour = 0;
+            delete starterblocks.tour;
         }
     }, [autoTourStart]);
 
