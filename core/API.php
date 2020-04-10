@@ -11,8 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class API {
 
+    private $cache_time = 24 * 3600; // 24 hours
     protected $api_base_url = 'https://us-east4-starterblocks.cloudfunctions.net/';
     protected $default_request_headers = array();
+    protected $filesystem;
 
     /**
      * Constructor
@@ -24,6 +26,14 @@ class API {
 
         add_action( 'rest_api_init', array( $this, 'register_api_hooks' ), 0 );
 
+    }
+
+    private function get_filesystem() {
+        if ( empty( $this->filesystem ) ) {
+            $this->filesystem = new Filesystem();
+        }
+
+        return $this->filesystem;
     }
 
     private function process_dependencies( $data, $key ) {
@@ -75,6 +85,90 @@ class API {
 
     }
 
+    private function get_cache_time( $abs_path ) {
+        $filesystem    = $this->get_filesystem();
+        $last_modified = false;
+        if ( $filesystem->file_exists( $abs_path ) ) {
+            $last_modified = filemtime( $abs_path );
+        }
+
+        return $last_modified;
+    }
+
+
+    public function api_cache_fetch( $parameters, $config, $path ) {
+        $filesystem = $this->get_filesystem();
+
+        if ( strpos( $path, $filesystem->cache_folder ) === false ) {
+            $path = $filesystem->cache_folder . $path;
+        }
+        if ( ! $filesystem->file_exists( dirname( $path ) ) ) {
+            $filesystem->mkdir( dirname( $path ) );
+        }
+
+        $last_modified = $this->get_cache_time( $path );
+        $use_cache     = true;
+        if ( isset( $parameters['no_cache'] ) ) {
+            $use_cache = false;
+        }
+        if ( ! empty( $last_modified ) ) {
+            $config['headers']['SB-Cache-Time'] = $last_modified;
+            if ( time() > $last_modified + $this->cache_time ) {
+                $use_cache = false;
+            }
+        }
+
+        if ( $use_cache ) {
+            $data = @json_decode( $filesystem->get_contents( $path ), true );
+        }
+        $data = array();
+
+        if ( empty( $data ) ) {
+
+            if ( isset( $parameters['registered_blocks'] ) ) {
+                $config['headers']['SB-Registered-Blocks'] = implode( ",", $parameters['registered_blocks'] );
+            }
+
+            $results = $this->api_request( $config );
+
+            if ( ! empty( $results ) ) {
+                $data = @json_decode( $results, true );
+                if ( isset( $data['use_cache'] ) ) {
+                    $data          = @json_decode( $filesystem->get_contents( $path ), true );
+                    $data['cache'] = "used";
+                } else {
+                    if ( empty( $data ) ) {
+                        $data = array( 'message' => $results );
+                    }
+                    if ( $data['status'] == "error" ) {
+                        wp_send_json_error( array( 'message' => $data['message'] ) );
+                    }
+                    $filesystem->put_contents( $path, json_encode( $data ) );
+                }
+            } else {
+                wp_send_json_error( array( 'message' => 'API fetch failure.' ) );
+            }
+        }
+
+        if ( empty( $data ) ) {
+            $data = @json_decode( $filesystem->get_contents( $path ), true );
+            if ( $data ) {
+                $data['status']  = "error";
+                $data['message'] = "Fetching failed, used a cached version.";
+            } else {
+                $data = array(
+                    'message' => 'Error Fetching'
+                );
+            }
+        } else {
+            if ( ! $use_cache ) {
+                $data['cache'] = "cleared";
+            }
+        }
+
+        return $data;
+    }
+
 
     /**
      * @since 1.0.0
@@ -83,6 +177,7 @@ class API {
      * @param     WP_REST_Request     $request
      */
     public function get_index( \WP_REST_Request $request ) {
+
         $parameters = $request->get_params();
         $attributes = $request->get_attributes();
 
@@ -93,46 +188,12 @@ class API {
         if ( empty( $type ) ) {
             wp_send_json_error( 'No type specified.' );
         }
-        $data = array();
-        if ( ! isset( $parameters['no_cache'] ) ) {
-            $data = get_transient( 'starterblocks_get_library_' . $type );
-        }
 
-        $test_library = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'library.json';
-        if ( file_exists( $test_library ) ) {
-            $data = json_decode( file_get_contents( $test_library ), true );
-        }
+        $config = array(
+            'path' => 'library/'
+        );
 
-//        $data = array();
-        if ( empty( $data ) ) {
-            $config = array(
-                'path'    => 'library/',
-                'headers' => array(
-                    'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
-                ),
-            );
-            if ( isset( $parameters['registered_blocks'] ) ) {
-                $config['headers']['SB-Registered-Blocks'] = implode( ",", $parameters['registered_blocks'] );
-            }
-
-            $data = $this->api_request( $config );
-            $data = json_decode( $data, true );
-
-            if ( $data['status'] == "error" ) {
-                wp_send_json_error( array( 'message' => $data['message'] ) );
-            }
-
-            unset( $data['status'] );
-
-            if ( empty( $data ) ) {
-                wp_send_json_error( array( 'error' => $data ) );
-            }
-            set_transient( 'starterblocks_get_library_' . $type, $data, DAY_IN_SECONDS );
-        }
-
-        if ( isset( $parameters['no_cache'] ) ) {
-            $data['cache'] = "cleared";
-        }
+        $data = $this->api_cache_fetch( $parameters, $config, 'library.json' );
 
         if ( isset( $data['plugins'] ) ) {
             $supported = StarterBlocks\SupportedPlugins::instance();
@@ -155,9 +216,6 @@ class API {
                 );
             }
         }
-
-//        print_r( $patterns );
-
 
         wp_send_json_success( $data );
     }
@@ -211,8 +269,12 @@ class API {
 
         $headers['Content-Type'] = 'application/json; charset=utf-8';
 
+        if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+            $headers['SB-User-Agent'] = (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] );
+        }
+
         $post_args = array(
-            'timeout'     => 90,
+            'timeout'     => 120,
             'body'        => json_encode( $data ),
             'method'      => 'POST',
             'data_format' => 'body',
@@ -220,10 +282,14 @@ class API {
             'headers'     => $headers
         );
 
+//        echo $apiUrl . PHP_EOL;
+//        print_r( $post_args );
+//        exit();
         $request = wp_remote_post(
             $apiUrl,
             $post_args
         );
+
 //        print_r($request);
 
         # Handle redirects
@@ -236,7 +302,7 @@ class API {
         ) {
             $request = wp_remote_get(
                 $request['http_response']->get_response_object()->url,
-                array( 'timeout' => 90 )
+                array( 'timeout' => 145 )
             );
         }
 
@@ -264,15 +330,11 @@ class API {
         }
 
         $config = array(
-            'path'    => 'template',
-            'id'      => sanitize_text_field( $parameters['id'] ),
-            'type'    => (string) sanitize_text_field( $parameters['type'] ),
-            'source'  => isset( $parameters['source'] ) ? $parameters['source'] : '',
-            'headers' => array(
-                'SB-User-Agent' => (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] )
-            ),
+            'path'   => 'template',
+            'id'     => sanitize_text_field( $parameters['id'] ),
+            'type'   => (string) sanitize_text_field( $parameters['type'] ),
+            'source' => isset( $parameters['source'] ) ? $parameters['source'] : '',
         );
-
 
         if ( $config['source'] == "wp_block_patterns" && class_exists( 'WP_Patterns_Registry' ) ) {
             $patterns = \WP_Patterns_Registry::get_instance()->get_all_registered();
@@ -283,35 +345,9 @@ class API {
                 $response = array( 'template' => $patterns[ $id ]['content'] );
             }
         } else {
-            if ( isset( $parameters['registered_blocks'] ) ) {
-                $config['headers']['SB-Registered-Blocks'] = implode( ",", $parameters['registered_blocks'] );
-            }
-//        print_r($parameters);
-
-            $response = get_transient( 'starterblocks_get_template_' . $config['id'] );
-            $response = array();  // TODO - Remove me
-            if ( empty( $response ) ) {
-
-                // TODO - Put cached copy timestamp in headers
-                $config = wp_parse_args( $parameters, $config );
-
-                $response = $this->api_request( $config );
-//            print_r( $response );
-                if ( empty( $response ) ) {
-                    wp_send_json_error( array( 'error' => $response ) );
-                }
-
-
-                $data = json_decode( $response, true );
-
-                if ( $data !== null ) {
-                    $response = $data;
-                } else {
-                    $response = array( 'template' => $response );
-                }
-
-                set_transient( 'starterblocks_get_template_' . $config['id'], $response, DAY_IN_SECONDS );
-            }
+            $cache_path             = $config['type'] . DIRECTORY_SEPARATOR . $config['id'] . '.json';
+            $parameters['no_cache'] = 1;
+            $response               = $this->api_cache_fetch( $parameters, $config, $cache_path );
         }
 
 
