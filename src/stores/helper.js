@@ -162,10 +162,16 @@ export const handlingLocalStorageData = () => {
         let blockData = localStorage.getItem('block_data');
         if (!blockData || blockData == null) return;
         blockData = JSON.parse(blockData);
-        if (!blockData || blockData == null) return;
-        blockData = createBlock(blockData.name, blockData.attributes, blockData.innerBlocks);
-        insertBlocks(blockData);
-        createSuccessNotice('Template inserted', {type: 'snackbar'});
+        if (!blockData || blockData == null || blockData.length < 1) return;
+
+        blockData = blockData.filter(block => (block.name && block.attributes && block.innerBlocks) )
+            .map(block => {
+                if (block.name && block.attributes && block.innerBlocks) return createBlock(block.name, block.attributes, block.innerBlocks);
+            });
+        if (blockData.length > 0) {
+            insertBlocks(blockData);
+            createSuccessNotice('Template inserted', {type: 'snackbar'});
+        }
         localStorage.setItem('block_data', null);
     } catch (error) {
         alert(error.code + ' : ' + error.message);

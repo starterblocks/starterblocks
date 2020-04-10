@@ -18,7 +18,7 @@ import SavedView from './view-saved';
 import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
-import {installedBlocksTypes, handleBlock} from '~starterblocks/stores/actionHelper';
+import {installedBlocksTypes, handleBlock, processImportHelper} from '~starterblocks/stores/actionHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
 
@@ -53,53 +53,7 @@ function LibraryModal(props) {
     // read block data to import and give the control to actual import
     const processImport = () => {
         discardAllErrorMessages();
-        if (importingTemplate) processImportHelper(importingTemplate, registerError)
-    }
-
-    const processImportHelper = (data, errorCallback) => {
-        const type = activeItemType === 'section' ? 'sections' : 'pages';
-        let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
-        if ('source' in data) {
-            the_url += '&source=' + data.source;
-        }
-
-        const options = {
-            method: 'GET',
-            path: the_url,
-            headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
-        };
-
-        if (editorMode === 'text') {
-            switchEditorMode();
-        }
-
-
-        apiFetch(options).then(response => {
-            if (response.success && response.data) {
-                let responseBlockData = response.data;
-                let handledData;
-                console.log('response block data', responseBlockData);
-                /* if (Array.isArray(responseBlockData)) {
-                    for (let blockData of responseBlockData)
-                        handleBlock(blockData, installedDependencies);
-                } else */
-                if ('template' in responseBlockData)
-                    handledData = parse(responseBlockData.template);
-                insertBlocks(handledData);
-                createSuccessNotice('Template inserted', {type: 'snackbar'});
-                if (installedDependencies === true) {
-                    savePost().then(() => window.location.reload());
-                } else {
-                    setImportingTemplate(null);
-                    ModalManager.close();
-                    ModalManager.closeCustomizer();
-                }
-            } else {
-                errorCallback(response.data.error);
-            }
-        }).catch(error => {
-            errorCallback(error.code + ' : ' + error.message);
-        });
+        if (importingTemplate) processImportHelper(activeItemType, importingTemplate, installedDependencies, registerError)
     }
 
 

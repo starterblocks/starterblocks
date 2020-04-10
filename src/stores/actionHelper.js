@@ -3,7 +3,8 @@ const {apiFetch} = wp;
 const {dispatch, select, useDispatch} = wp.data;
 const {getBlockTypes} = dispatch('core/blocks');
 const {savePost} = dispatch('core/editor');
-const {insertBlocks} = dispatch('core/block-editor');
+const {insertBlocks} = dispatch('core/editor');
+const { switchEditorMode } = dispatch('core/edit-post');
 const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
 import {ModalManager} from '~starterblocks/modal-manager';
 import PreviewModal from '../modal-preview';
@@ -22,7 +23,8 @@ export const handleBlock = (data, installedDependencies) => {
         }
         // This kind of plugins are not ready to accept before reloading, thus, we save it into localStorage and just reload for now.
         if (installedDependencies === true) {
-            // localStorage.setItem('block_data', JSON.stringify(data));
+            starterblocks_tempdata = [...starterblocks_tempdata, data];
+            return null;
         } else {
             block_data = createBlock(data.name, data.attributes, data.innerBlocks)
         }
@@ -32,7 +34,7 @@ export const handleBlock = (data, installedDependencies) => {
     return block_data;
 }
 
-export const processImportHelper = (type, data, installedDependencies, setImportingTemplate, errorCallback) => {
+export const processImportHelper = (type, data, installedDependencies, errorCallback) => {
     let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
     if ('source' in data) {
         the_url += '&source=' + data.source;
@@ -43,23 +45,25 @@ export const processImportHelper = (type, data, installedDependencies, setImport
         path: the_url,
         headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
     };
-    const { switchEditorMode } = useDispatch( 'core/edit-post' );
+
 
     if (select('core/edit-post').getEditorMode() === 'text') {
-        useDispatch('core/edit-post').switchEditorMode()
+        switchEditorMode()
     }
-
+    window.starterblocks_tempdata = [];
 
     apiFetch(options).then(response => {
         if (response.success && response.data) {
             let responseBlockData = response.data;
+            let handledData = [];
             if (Array.isArray(responseBlockData)) {
-                for (let blockData of responseBlockData)
-                    handleBlock(blockData);
+                handledData = responseBlockData.map(blockData => handleBlock(blockData, installedDependencies));
             } else
-                handleBlock(responseBlockData);
+                handledData.push(handleBlock(responseBlockData, installedDependencies));
+
+            localStorage.setItem('block_data', JSON.stringify(starterblocks_tempdata));
+            insertBlocks(handledData);
             createSuccessNotice('Template inserted', {type: 'snackbar'});
-            setImportingTemplate(null);
             if (installedDependencies === true)
                 savePost()
                     .then(() => window.location.reload())
