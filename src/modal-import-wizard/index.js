@@ -13,7 +13,7 @@ import './style.scss'
 const PLUGIN_STEP = 0;
 const PRO_STEP = 1;
 const IMPORT_STEP = 2;
-const tourPlugins = ['qubely', 'kioken'];
+const tourPlugins = ['qubely', 'kioken-blocks'];
 function ImportWizard(props) {
     const {startImportTemplate, setImportingTemplate, isTourOpen, importingTemplate} = props;
     const [currentStep, setCurrentStep] = useState(PLUGIN_STEP);
