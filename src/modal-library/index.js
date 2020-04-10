@@ -26,7 +26,8 @@ function LibraryModal(props) {
     const {
         fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
         setImportingTemplate, switchEditorMode, createSuccessNotice, createErrorNotice,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, importingTemplate, editorMode
+        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, importingTemplate, editorMode,
+        autoTourStart
     } = props;
     const [loaded, setLoaded] = useState(false);
     const [missingPluginArray, setMissingPlugin] = useState([]);
@@ -39,7 +40,8 @@ function LibraryModal(props) {
             setLoading(true);
             setLoaded(true);
         }
-    });
+    }, []);
+
 
     const hasSidebar = () => {
         return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
@@ -123,7 +125,7 @@ function LibraryModal(props) {
             {
                 importingTemplate && <ImportWizard startImportTemplate={processImport} />
             }
-            <StarterBlocksTour />
+            <StarterBlocksTour autoTourStart={autoTourStart} />
         </Modal>
     );
 }

@@ -7,7 +7,7 @@ import './style.scss'
 
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
-const {Component, useState} = wp.element;
+const {Component, useState, useEffect} = wp.element;
 /**
  * External dependencies
  */
@@ -19,9 +19,17 @@ import Tour from 'reactour';
 import {animateScroll} from 'react-scroll';
 
 function StarterBlocksTour(props) {
+    const {autoTourStart} = props;
     const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
     const {isTourOpen, getPageData} = props;
     const [needUpdate, setNeedUpdate] = useState('');
+
+    useEffect(() => {
+        if (autoTourStart === true) {
+            setTourOpen(true);
+            starterblocks.tour = 0;
+        }
+    }, [autoTourStart]);
 
     const tourConfig = [
         {

@@ -11,12 +11,17 @@ import './style.scss'
 import {ModalManager} from '../modal-manager';
 import LibraryModal from '../modal-library';
 import { StarterBlocksIcon } from '~starterblocks/icons'
+const {Component, useEffect} = wp.element;
 
-const ToolbarLibraryButton = () => {
+function ToolbarLibraryButton (props) {
+    useEffect(() => {
+        if (starterblocks.tour === 1)
+            ModalManager.open(<LibraryModal autoTourStart={true} />);
+    }, [])
 	return (
 		<IconButton data-tut="tour__library_button"
 			onClick={ () => {
-				ModalManager.open(<LibraryModal rowClientId={false}/>);
+				ModalManager.open(<LibraryModal autoTourStart={false} />);
 			} }
 			className="sb-insert-library-button"
 			label={ __( 'Open Library', starterblocks.i18n ) }
