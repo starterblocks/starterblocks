@@ -350,6 +350,11 @@ class API {
             $response               = $this->api_cache_fetch( $parameters, $config, $cache_path );
         }
 
+        if (isset($response['message'])) {
+            $response['template'] = $response['message'];
+            unset($response['message']);
+        }
+
 
         wp_send_json_success( $response );
     }
