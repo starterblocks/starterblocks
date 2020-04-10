@@ -59,7 +59,7 @@ export const processImportHelper = (type, data, installedDependencies, errorCall
             if (Array.isArray(responseBlockData)) {
                 handledData = responseBlockData.map(blockData => handleBlock(blockData, installedDependencies));
             } else
-                handledData.push(handleBlock(responseBlockData, installedDependencies));
+                handledData = handleBlock(responseBlockData, installedDependencies);
 
             localStorage.setItem('block_data', JSON.stringify(starterblocks_tempdata));
             insertBlocks(handledData);
