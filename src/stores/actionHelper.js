@@ -22,15 +22,14 @@ export const handleBlock = (data, installedDependencies) => {
         }
         // This kind of plugins are not ready to accept before reloading, thus, we save it into localStorage and just reload for now.
         if (installedDependencies === true) {
-            localStorage.setItem('block_data', JSON.stringify(data));
-            window.location.reload();
+            // localStorage.setItem('block_data', JSON.stringify(data));
         } else {
             block_data = createBlock(data.name, data.attributes, data.innerBlocks)
         }
     } else {
         errorCallback('Template error. Please try again.');
     }
-    insertBlocks(block_data)
+    return block_data;
 }
 
 export const processImportHelper = (type, data, installedDependencies, setImportingTemplate, errorCallback) => {

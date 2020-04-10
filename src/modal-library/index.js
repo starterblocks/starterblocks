@@ -1,10 +1,13 @@
 const {apiFetch} = wp;
 const {parse} = wp.blocks;
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
+const {withDispatch, withSelect, select, dispatch} = wp.data;
 const {Fragment, useState, useEffect} = wp.element;
 const {Spinner} = wp.components;
-
+const {insertBlocks} = dispatch('core/block-editor');
+const {savePost} = dispatch('core/editor');
+const { switchEditorMode } = dispatch( 'core/edit-post' );
+const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
 import '../stores';
 
 import {Modal, ModalManager} from '../modal-manager'
@@ -25,7 +28,7 @@ import StarterBlocksTour from '../tour';
 function LibraryModal(props) {
     const {
         fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
-        setImportingTemplate, switchEditorMode, createSuccessNotice, createErrorNotice,
+        setImportingTemplate, switchEditorMode,
         appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, importingTemplate, editorMode,
         autoTourStart
     } = props;
@@ -74,18 +77,20 @@ function LibraryModal(props) {
         apiFetch(options).then(response => {
             if (response.success && response.data) {
                 let responseBlockData = response.data;
-                if (Array.isArray(responseBlockData)) {
+                let handledData;
+                console.log('response block data', responseBlockData);
+                /* if (Array.isArray(responseBlockData)) {
                     for (let blockData of responseBlockData)
                         handleBlock(blockData, installedDependencies);
-                } else
-                    handleBlock(responseBlockData, installedDependencies);
+                } else */
+                if ('template' in responseBlockData)
+                    handledData = parse(responseBlockData.template);
+                insertBlocks(handledData);
                 createSuccessNotice('Template inserted', {type: 'snackbar'});
-                setImportingTemplate(null);
-                if (installedDependencies === true)
-                    savePost()
-                        .then(() => window.location.reload())
-                        .catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
-                else {
+                if (installedDependencies === true) {
+                    savePost().then(() => window.location.reload());
+                } else {
+                    setImportingTemplate(null);
                     ModalManager.close();
                     ModalManager.closeCustomizer();
                 }
@@ -141,9 +146,7 @@ export default compose([
             setColumns,
             setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
-        const {savePost} = dispatch('core/editor');
-        const { switchEditorMode } = dispatch( 'core/edit-post' );
-        const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
+
         return {
             appendErrorMessage,
             discardAllErrorMessages,
@@ -152,8 +155,6 @@ export default compose([
             setLibrary,
             switchEditorMode,
             setImportingTemplate,
-            createSuccessNotice,
-            createErrorNotice
         };
     }),
 
