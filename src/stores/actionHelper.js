@@ -35,11 +35,13 @@ export const handleBlock = (data, installedDependencies) => {
     return block_data;
 }
 
-export const processImportHelper = (/*type, data, installedDependencies*/) => {
-    const {setImportingTemplate} = dispatch('starterblocks/sectionslist');
-    const type = select('starterblocks/sectionslist').getActiveItemType();
+export const processImportHelper = () => {
+    const {setImportingTemplate, discardAllErrorMessages} = dispatch('starterblocks/sectionslist');
+    const type = select('starterblocks/sectionslist').getActiveItemType() === 'section' ? 'sections' : 'pages';
     const data = select('starterblocks/sectionslist').getImportingTemplate();
     const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
+
+    discardAllErrorMessages();
     let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
     if ('source' in data) {
         the_url += '&source=' + data.source;

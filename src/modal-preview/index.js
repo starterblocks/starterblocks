@@ -9,12 +9,12 @@ import ImportWizard from '../modal-import-wizard';
 import uniq from 'lodash/uniq';
 import './style.scss';
 import {Fragment} from 'react';
-import {handleBlock} from '~starterblocks/stores/actionHelper';
+import {handleBlock, processImportHelper} from '~starterblocks/stores/actionHelper';
 
 function PreviewModal(props) {
 
     const {startIndex, currentPageData} = props;
-    const {discardAllErrorMessages, appendErrorMessage, activeItemType, setImportingTemplate, savePost, switchEditorMode, editorMode,
+    const {discardAllErrorMessages, activeItemType, setImportingTemplate, savePost, switchEditorMode, editorMode,
         createSuccessNotice, createErrorNotice, importingTemplate, installedDependencies} = props;
     const [currentIndex, setCurrentIndex] = useState(startIndex);
     const [previewClass, setPreviewClass] = useState('preview-desktop')
@@ -43,52 +43,7 @@ function PreviewModal(props) {
     }
 
     const processImport = () => {
-        discardAllErrorMessages();
-        if (importingTemplate) processImportHelper(importingTemplate, appendErrorMessage);
-    }
-
-    const processImportHelper = (data, errorCallback) => {
-        const type = activeItemType === 'section' ? 'sections' : 'pages';
-        let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
-        if ('source' in data) {
-            the_url += '&source=' + data.source;
-        }
-
-        const options = {
-            method: 'GET',
-            path: the_url,
-            headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
-        };
-
-        if (editorMode === 'text') {
-            switchEditorMode()
-        }
-
-
-        apiFetch(options).then(response => {
-            if (response.success && response.data) {
-                let responseBlockData = response.data;
-                if (Array.isArray(responseBlockData)) {
-                    for (let blockData of responseBlockData)
-                        handleBlock(blockData, installedDependencies);
-                } else
-                    handleBlock(responseBlockData, installedDependencies);
-                createSuccessNotice('Template inserted', {type: 'snackbar'});
-                setImportingTemplate(null);
-                if (installedDependencies === true)
-                    savePost()
-                        .then(() => window.location.reload())
-                        .catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
-                else {
-                    ModalManager.close();
-                    ModalManager.closeCustomizer();
-                }
-            } else {
-                errorCallback(response.data.error);
-            }
-        }).catch(error => {
-            errorCallback(error.code + ' : ' + error.message);
-        });
+        if (importingTemplate) processImportHelper();
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
@@ -127,8 +82,6 @@ function PreviewModal(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
-            appendErrorMessage,
-            discardAllErrorMessages,
             setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
 
@@ -136,8 +89,6 @@ export default compose([
         const { switchEditorMode } = dispatch( 'core/edit-post' );
         const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
         return {
-            appendErrorMessage,
-            discardAllErrorMessages,
             setImportingTemplate,
             savePost,
             switchEditorMode,

@@ -1,14 +1,6 @@
-const {apiFetch} = wp;
-const {parse} = wp.blocks;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, dispatch} = wp.data;
-const {Fragment, useState, useEffect} = wp.element;
-const {Spinner} = wp.components;
-const {insertBlocks} = dispatch('core/block-editor');
-const {savePost} = dispatch('core/editor');
-const { switchEditorMode } = dispatch( 'core/edit-post' );
-const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
-import '../stores';
+const {useState, useEffect} = wp.element;
 
 import {Modal, ModalManager} from '../modal-manager'
 import TabHeader from '../components/tab-header';
@@ -18,7 +10,7 @@ import SavedView from './view-saved';
 import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
-import {installedBlocksTypes, handleBlock, processImportHelper} from '~starterblocks/stores/actionHelper';
+import {processImportHelper} from '~starterblocks/stores/actionHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
 
@@ -27,9 +19,8 @@ import StarterBlocksTour from '../tour';
 
 function LibraryModal(props) {
     const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, setLoading, setColumns, setLibrary,
-        setImportingTemplate, switchEditorMode,
-        appendErrorMessage, discardAllErrorMessages, blockTypes, inserterItems, savePost, isSavingPost, installedDependencies, importingTemplate, editorMode,
+        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate,
+        setLoading, setLibrary, setImportingTemplate,
         autoTourStart
     } = props;
     const [loaded, setLoaded] = useState(false);
@@ -52,13 +43,7 @@ function LibraryModal(props) {
 
     // read block data to import and give the control to actual import
     const processImport = () => {
-        discardAllErrorMessages();
-        if (importingTemplate) processImportHelper(activeItemType, importingTemplate, installedDependencies, registerError)
-    }
-
-
-    const registerError = (errorMessage) => {
-        appendErrorMessage(errorMessage);
+        if (importingTemplate) processImportHelper();
     }
 
     // Open Site Preview Modal
@@ -92,35 +77,25 @@ function LibraryModal(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
-            appendErrorMessage,
-            discardAllErrorMessages,
             setLoading,
             setLibrary,
-            setColumns,
             setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
 
         return {
-            appendErrorMessage,
-            discardAllErrorMessages,
             setLoading,
-            savePost,
             setLibrary,
-            switchEditorMode,
             setImportingTemplate,
         };
     }),
 
     withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getInstalledDependencies, getTourOpen, getImportingTemplate} = select('starterblocks/sectionslist');
-        const { getEditorMode } = select('core/edit-post');
+        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getImportingTemplate} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
             errorMessages: getErrorMessages(),
-            installedDependencies: getInstalledDependencies(),
-            editorMode: getEditorMode(),
             importingTemplate: getImportingTemplate()
         };
     })
