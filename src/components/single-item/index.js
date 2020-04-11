@@ -23,10 +23,10 @@ function SingleItem (props) {
     };
 
     const requiresPro = (data) => {
-        return (data && data.proDependencies && data.proDependencies.length > 0);
+        return (data && data.proDependenciesMissing && data.proDependenciesMissing.length > 0);
     }
     const requiresInstall = (data) => {
-        return (data && data.installDependencies && data.installDependencies.length > 0);
+        return (data && data.installDependenciesMissing && data.installDependenciesMissing.length > 0);
     }
 
     useEffect(() => {
