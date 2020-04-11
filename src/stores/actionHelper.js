@@ -4,7 +4,8 @@ const {dispatch, select, useDispatch} = wp.data;
 const {getBlockTypes} = dispatch('core/blocks');
 const {savePost} = dispatch('core/editor');
 const {insertBlocks} = dispatch('core/editor');
-const { switchEditorMode } = dispatch('core/edit-post');
+const {switchEditorMode} = dispatch('core/edit-post');
+
 const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
 import {ModalManager} from '~starterblocks/modal-manager';
 import PreviewModal from '../modal-preview';
@@ -34,7 +35,11 @@ export const handleBlock = (data, installedDependencies) => {
     return block_data;
 }
 
-export const processImportHelper = (type, data, installedDependencies, errorCallback) => {
+export const processImportHelper = (/*type, data, installedDependencies*/) => {
+    const {setImportingTemplate} = dispatch('starterblocks/sectionslist');
+    const type = select('starterblocks/sectionslist').getActiveItemType();
+    const data = select('starterblocks/sectionslist').getImportingTemplate();
+    const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
     let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
     if ('source' in data) {
         the_url += '&source=' + data.source;
@@ -45,7 +50,6 @@ export const processImportHelper = (type, data, installedDependencies, errorCall
         path: the_url,
         headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
     };
-
 
     if (select('core/edit-post').getEditorMode() === 'text') {
         switchEditorMode()
@@ -71,6 +75,7 @@ export const processImportHelper = (type, data, installedDependencies, errorCall
             else {
                 ModalManager.close();
                 ModalManager.closeCustomizer();
+                setImportingTemplate(null);
             }
         } else {
             errorCallback(response.data.error);
@@ -82,7 +87,7 @@ export const processImportHelper = (type, data, installedDependencies, errorCall
 
 // reload library button handler
 export const reloadLibrary = () => {
-    const { setLoading, setLibrary } = useDispatch('starterblocks/sectionslist');
+    const { setLoading, setLibrary } = dispatch('starterblocks/sectionslist');
     setLoading(true);
     apiFetch({
         path: 'starterblocks/v1/library?no_cache=1',
@@ -125,4 +130,10 @@ export const openSitePreviewModal = (index, pageData) => {
     ModalManager.openCustomizer(
         <PreviewModal startIndex={index} currentPageData={pageData}/>
     )
+}
+
+const errorCallback = (errorMessage) => {
+    const {appendErrorMessage, setImportingTemplate} = dispatch('starterblocks/sectionslist');
+    appendErrorMessage(errorMessage);
+    setImportingTemplate(null);
 }
