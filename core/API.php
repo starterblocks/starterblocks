@@ -48,29 +48,30 @@ class API {
                 foreach ( $pp['dependencies'] as $dep ) {
                     if ( isset( $data['plugins'][ $dep ] ) ) {
                         if ( isset( $data['plugins'][ $dep ]['free_slug'] ) ) {
-
                             if ( isset( $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ] ) ) {
-                                if ( $debug ) {
-                                    echo 'here';
-                                }
                                 $plugin = $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ];
                                 if ( ! isset( $plugin['is_pro'] ) ) {
-                                    if ( $debug ) {
-                                        echo 'there';
+                                    if ( ! isset( $data[ $key ][ $kk ]['proDependenciesMissing'] ) ) {
+                                        $data[ $key ][ $kk ]['proDependenciesMissing'] = array();
                                     }
-                                    if ( ! isset( $data[ $key ][ $kk ]['proDependencies'] ) ) {
-                                        $data[ $key ][ $kk ]['proDependencies'] = array();
-                                    }
-                                    $data[ $key ][ $kk ]['proDependencies'][] = $dep;
+                                    $data[ $key ][ $kk ]['proDependenciesMissing'][] = $dep;
                                 }
+                                if ( ! isset( $data[ $key ][ $kk ]['proDependencies'] ) ) {
+                                    $data[ $key ][ $kk ]['proDependencies'] = array();
+                                }
+                                $data[ $key ][ $kk ]['proDependencies'][] = $dep;
                             }
                         } else {
                             if ( ! isset( $data['plugins'][ $dep ]['version'] ) ) {
-                                if ( ! isset( $data[ $key ][ $kk ]['installDependencies'] ) ) {
-                                    $data[ $key ][ $kk ]['installDependencies'] = array();
+                                if ( ! isset( $data[ $key ][ $kk ]['installDependenciesMissing'] ) ) {
+                                    $data[ $key ][ $kk ]['installDependenciesMissing'] = array();
                                 }
-                                $data[ $key ][ $kk ]['installDependencies'][] = $dep;
+                                $data[ $key ][ $kk ]['installDependenciesMissing'][] = $dep;
                             }
+                            if ( ! isset( $data[ $key ][ $kk ]['installDependencies'] ) ) {
+                                $data[ $key ][ $kk ]['installDependencies'] = array();
+                            }
+                            $data[ $key ][ $kk ]['installDependencies'][] = $dep;
                         }
                     }
                 }
