@@ -6,16 +6,14 @@ const {__} = wp.i18n
 import SitePreviewSidebar from './SitePreviewSidebar';
 import {ModalManager} from '../modal-manager'
 import ImportWizard from '../modal-import-wizard';
-import uniq from 'lodash/uniq';
-import './style.scss';
 import {Fragment} from 'react';
-import {handleBlock, processImportHelper} from '~starterblocks/stores/actionHelper';
+import {processImportHelper} from '~starterblocks/stores/actionHelper';
+import './style.scss';
 
 function PreviewModal(props) {
 
     const {startIndex, currentPageData} = props;
-    const {discardAllErrorMessages, activeItemType, setImportingTemplate, savePost, switchEditorMode, editorMode,
-        createSuccessNotice, createErrorNotice, importingTemplate, installedDependencies} = props;
+    const {setImportingTemplate, importingTemplate} = props;
     const [currentIndex, setCurrentIndex] = useState(startIndex);
     const [previewClass, setPreviewClass] = useState('preview-desktop')
     const [expandedClass, toggleExpanded] = useState('expanded')
@@ -85,26 +83,15 @@ export default compose([
             setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
 
-        const {savePost} = dispatch('core/editor');
-        const { switchEditorMode } = dispatch( 'core/edit-post' );
-        const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
         return {
-            setImportingTemplate,
-            savePost,
-            switchEditorMode,
-            createSuccessNotice,
-            createErrorNotice
+            setImportingTemplate
         };
     }),
 
     withSelect((select, props) => {
-        const {getActiveItemType, getImportingTemplate, getInstalledDependencies} = select('starterblocks/sectionslist');
-        const {getEditorMode} = select('core/edit-post');
+        const {getImportingTemplate} = select('starterblocks/sectionslist');
         return {
-            activeItemType: getActiveItemType(),
-            importingTemplate: getImportingTemplate(),
-            installedDependencies: getInstalledDependencies(),
-            editorMode: getEditorMode()
+            importingTemplate: getImportingTemplate()
         };
     })
 ])(PreviewModal);

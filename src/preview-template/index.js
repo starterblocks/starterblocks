@@ -14,8 +14,7 @@ import { Fragment } from 'react';
 function PreviewTemplate(props) {
 
     const { startIndex, currentPageData } = props;
-    const { setImportingTemplate, discardAllErrorMessages, appendErrorMessage, activeItemType, savePost, editorMode, switchEditorMode,
-        createSuccessNotice, createErrorNotice, installedDependencies, importingTemplate} = props;
+    const { setImportingTemplate, importingTemplate} = props;
     const [ currentIndex, setCurrentIndex ] = useState(startIndex);
     const [ previewClass, setPreviewClass ] = useState('preview-desktop')
     const [ expandedClass, toggleExpanded ] = useState('expanded')
@@ -41,53 +40,9 @@ function PreviewTemplate(props) {
     }
 
     const processImport = () => {
-		discardAllErrorMessages();
-		processImportHelper(importingTemplate, appendErrorMessage);
+        if (importingTemplate) processImportHelper();
     }
 
-    const processImportHelper = (data, errorCallback) => {
-        const type = activeItemType === 'section' ? 'sections' : 'pages';
-        let the_url = 'starterblocks/v1/template?type=' + type + '&id=' + data.id;
-        if ('source' in data) {
-            the_url += '&source=' + data.source;
-        }
-
-        const options = {
-            method: 'GET',
-            path: the_url,
-            headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
-        };
-
-        if (editorMode === 'text') {
-            switchEditorMode();
-        }
-
-
-        apiFetch(options).then(response => {
-            if (response.success && response.data) {
-                let responseBlockData = response.data;
-                if (Array.isArray(responseBlockData)) {
-                    for (let blockData of responseBlockData)
-                        handleBlock(blockData, installedDependencies);
-                } else
-                    handleBlock(responseBlockData, installedDependencies);
-                createSuccessNotice('Template inserted', {type: 'snackbar'});
-                setImportingTemplate(null);
-                if (installedDependencies === true)
-                    savePost()
-                        .then(() => window.location.reload())
-                        .catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
-                else {
-                    ModalManager.close();
-                    ModalManager.closeCustomizer();
-                }
-            } else {
-                errorCallback(response.data.error);
-            }
-        }).catch(error => {
-            errorCallback(error.code + ' : ' + error.message);
-        });
-    }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
     let itemData = currentPageData[currentIndex];
@@ -111,33 +66,18 @@ function PreviewTemplate(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
-            setImportingTemplate,
-            appendErrorMessage,
-            discardAllErrorMessages
+            setImportingTemplate
         } = dispatch('starterblocks/sectionslist');
 
-		const {savePost} = dispatch('core/editor');
-        const { switchEditorMode } = dispatch( 'core/edit-post' );
-        const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
         return {
-            setImportingTemplate,
-            appendErrorMessage,
-            discardAllErrorMessages,
-            switchEditorMode,
-            savePost,
-            createSuccessNotice,
-            createErrorNotice
+            setImportingTemplate
         };
     }),
 
     withSelect((select, props) => {
-        const { getActiveItemType, getInstalledDependencies, getImportingTemplate } = select('starterblocks/sectionslist');
-        const { getEditorMode } = select('core/edit-post');
+        const { getImportingTemplate } = select('starterblocks/sectionslist');
         return {
-            activeItemType: getActiveItemType(),
-            installedDependencies: getInstalledDependencies(),
-            importingTemplate: getImportingTemplate(),
-            editorMode: getEditorMode()
+            importingTemplate: getImportingTemplate()
         };
     })
 ])(PreviewTemplate);

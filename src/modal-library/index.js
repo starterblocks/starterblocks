@@ -1,5 +1,5 @@
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select, dispatch} = wp.data;
+const {withDispatch, withSelect, select} = wp.data;
 const {useState, useEffect} = wp.element;
 
 import {Modal, ModalManager} from '../modal-manager'
