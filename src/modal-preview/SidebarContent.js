@@ -8,8 +8,7 @@ import findIndex from 'lodash/findIndex';
 import sortBy from 'lodash/sortBy';
 import uniq from 'lodash/uniq';
 import filter from 'lodash/filter';
-import dependencyHelper from '../modal-import-wizard/dependencyHelper';
-
+import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 function SidebarContent(props) {
     const {plugins} = props;
     const {itemData, pro} = props;
@@ -27,7 +26,7 @@ function SidebarContent(props) {
                 <div className="requirements-list">
                     <div className="list-type">
                         {
-                            installDependencies && installDependencies.length > 0 &&
+                            requiresInstall(itemData) &&
                             <div>
                                 <h4>Missing Plugins</h4>
                                 <ul>
@@ -49,7 +48,7 @@ function SidebarContent(props) {
                             </div>
                         }
                         {
-                            proDependencies && proDependencies.length > 0 &&
+                            requiresPro(itemData) &&
                             <div>
                                 <h4>Require to be pro</h4>
                                 <ul>

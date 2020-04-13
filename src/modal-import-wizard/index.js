@@ -14,6 +14,7 @@ const PLUGIN_STEP = 0;
 const PRO_STEP = 1;
 const IMPORT_STEP = 2;
 const tourPlugins = ['qubely', 'kioken-blocks'];
+import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 function ImportWizard(props) {
     const {startImportTemplate, setImportingTemplate, isTourOpen, importingTemplate} = props;
     const [currentStep, setCurrentStep] = useState(PLUGIN_STEP);
@@ -21,11 +22,9 @@ function ImportWizard(props) {
 
     useEffect(() => {
         if (importingTemplate) {
-            if (importingTemplate && currentStep === PLUGIN_STEP &&
-                (!importingTemplate.installDependencies || importingTemplate.installDependencies.length < 1))
+            if (importingTemplate && currentStep === PLUGIN_STEP && requiresInstall(importingTemplate) === false)
                 setCurrentStep(PRO_STEP);
-            if (importingTemplate && currentStep === PRO_STEP &&
-                    (!importingTemplate.proDependencies || importingTemplate.proDependencies.length < 1))
+            if (importingTemplate && currentStep === PRO_STEP && requiresPro(importingTemplate) === false)
                 setCurrentStep(IMPORT_STEP);
             if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
                 setImporting(true);
@@ -62,10 +61,10 @@ function ImportWizard(props) {
                     </button>
                 </div>
                 {(currentStep === PLUGIN_STEP) &&
-                    <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : importingTemplate.installDependencies || []} toNextStep={toNextStep}
+                    <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : importingTemplate.installDependenciesMissing || []} toNextStep={toNextStep}
                                    onCloseWizard={onCloseWizard}/>}
-                {(currentStep === PRO_STEP) && importingTemplate.proDependencies &&
-                    <ProPluginStep missingPros={importingTemplate.proDependencies } onCloseWizard={onCloseWizard}/>}
+                {(currentStep === PRO_STEP) && requiresPro(importingTemplate) &&
+                    <ProPluginStep missingPros={importingTemplate.proDependenciesMissing } onCloseWizard={onCloseWizard}/>}
                 {(currentStep === IMPORT_STEP) &&
                     <div className="starterblocks-import-wizard-spinner-wrapper"><Spinner/></div>
                 }

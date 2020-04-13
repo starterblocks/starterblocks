@@ -72,8 +72,8 @@ export const parseCollectionData = (library) => {
         }
 
         if (collection.pages) {
-            collection.installDependencies = uniq(concat(flatten(collection.pages.map(page => library.pages[page].installDependencies || []))));
-            collection.proDependencies = uniq(concat(flatten(collection.pages.map(page => library.pages[page].proDependencies || []))));
+            collection.installDependenciesMissing = uniq(concat(flatten(collection.pages.map(page => library.pages[page].installDependenciesMissing || []))));
+            collection.proDependenciesMissing = uniq(concat(flatten(collection.pages.map(page => library.pages[page].proDependenciesMissing || []))));
         }
 
         return collection;
@@ -190,9 +190,3 @@ export const pageSizeMap = {
     'medium': 30,
     'small': 40
 };
-
-export const isTemplateReadyToInstall = (item) => {
-    return ((item.proDependencies && item.proDependencies.length > 0)
-        || (item.installDependencies && item.installDependencies.length > 0))
-        ? false : true;
-}

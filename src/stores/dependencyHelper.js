@@ -49,3 +49,13 @@ export const processPlugin = (pluginKey) => {
     return pluginInstance
 }
 
+export const requiresPro = (data) => {
+    return (data && data.proDependenciesMissing && data.proDependenciesMissing.length > 0) ? true : false;
+}
+export const requiresInstall = (data) => {
+    return (data && data.installDependenciesMissing && data.installDependenciesMissing.length > 0) ? true : false;
+}
+
+export const isTemplateReadyToInstall = (item) => {
+    return (requiresInstall(item) || requiresPro(item)) ? false : true;
+}

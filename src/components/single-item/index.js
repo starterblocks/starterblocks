@@ -3,10 +3,12 @@ import {Tooltip} from '@wordpress/components';
 const {__} = wp.i18n
 const {withDispatch, withSelect, select} = wp.data;
 const {useState, useEffect} = wp.element;
-const { Spinner } = wp.components;
 
 import LazyLoad from 'react-lazyload';
 import ButtonGroup from '../button-group';
+
+import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
+
 import './style.scss'
 
 
@@ -22,12 +24,6 @@ function SingleItem (props) {
 		'backgroundPosition': 'center center'
     };
 
-    const requiresPro = (data) => {
-        return (data && data.proDependenciesMissing && data.proDependenciesMissing.length > 0);
-    }
-    const requiresInstall = (data) => {
-        return (data && data.installDependenciesMissing && data.installDependenciesMissing.length > 0);
-    }
 
     useEffect(() => {
         if (pageData) setData(pageData[index]);

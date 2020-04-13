@@ -5,8 +5,8 @@ const {__} = wp.i18n
 
 import './style.scss'
 
-import ButtonGroup from '../../components/button-group';
-import {isBlockPro} from '../../stores/helper';
+import ButtonGroup from '~starterblocks/components/button-group';
+import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 
 function CollectionView(props) {
     const {pageData, loading, activeCollection, activeItemType} = props;
@@ -18,13 +18,6 @@ function CollectionView(props) {
 
     let previewData = pageData[previewDataIndex];
 
-
-    const requiresPro = (data) => {
-        return (data && data.proDependencies && data.proDependencies.length > 0);
-    }
-    const requiresInstall = (data) => {
-        return (data && data.installDependencies && data.installDependencies.length > 0);
-    }
 
 
     return (

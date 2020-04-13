@@ -9,8 +9,8 @@ function DependentPlugins (props) {
     const {id} = data;
 
     const isMissingPlugin = (plugin) => {
-        return ((data.proDependencies && data.proDependencies.indexOf(plugin) >=0)
-            || (data.installDependencies && data.installDependencies.indexOf(plugin) >=0))
+        return ((data.proDependenciesMissing && data.proDependenciesMissing.indexOf(plugin) >=0)
+            || (data.installDependenciesMissing && data.installDependenciesMissing.indexOf(plugin) >=0))
     }
 
     if (showDependencyBlock)

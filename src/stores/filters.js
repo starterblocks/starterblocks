@@ -1,4 +1,4 @@
-import {isTemplateReadyToInstall} from './helper';
+import {isTemplateReadyToInstall} from './dependencyHelper';
 // Just get current Page Data
 export const applyCategoryFilter = (pageData, activeCategory) => {
     let currentPageData = [];

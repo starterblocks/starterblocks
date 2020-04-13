@@ -8,7 +8,8 @@ import sortBy from 'lodash/sortBy';
 import countBy from 'lodash/countBy';
 import map from 'lodash/map';
 import {applyCategoryFilter, applySearchFilter, applyPriceFilter, applyDependencyFilters} from './filters'
-import {getCurrentState, getCollectionChildrenData, isTemplateReadyToInstall} from './helper';
+import {getCurrentState, getCollectionChildrenData} from './helper';
+import {isTemplateReadyToInstall} from './dependencyHelper'
 import {installedBlocksTypes} from './actionHelper';
 
 const getOriginalPageData = (state) => {
