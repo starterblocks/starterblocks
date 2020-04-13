@@ -1,4 +1,4 @@
-import {isTemplateReadyToInstall} from './dependencyHelper';
+import {isTemplatePremium} from './dependencyHelper';
 // Just get current Page Data
 export const applyCategoryFilter = (pageData, activeCategory) => {
     let currentPageData = [];
@@ -42,19 +42,19 @@ export const applySearchFilter = (pageData, searchContext) => {
 
 
 // Apply Price filter afterwards : Should make sure if it is a best practise to split this filtering
-export const applyPriceFilter = (pageData, activePriceFilter) => {
+export const applyPriceFilter = (pageData, activePriceFilter, activeDependencyFilter) => {
     if (activePriceFilter !== '') {
         if (Array.isArray(pageData)) {
             return pageData.filter(item => {
-                if (activePriceFilter === 'free') return isTemplateReadyToInstall(item);
-                if (activePriceFilter === 'pro') return (isTemplateReadyToInstall(item) === false);
+                if (activePriceFilter === 'free') return (isTemplatePremium(item, activeDependencyFilter) === false);
+                if (activePriceFilter === 'pro') return  isTemplatePremium(item, activeDependencyFilter);
             });
         } else {
             let newPageData = {};
             Object.keys(pageData).forEach(key => {
                 newPageData[key] =  pageData[key].filter(item => {
-                    if (activePriceFilter === 'free') return isTemplateReadyToInstall(item);
-                    if (activePriceFilter === 'pro') return (isTemplateReadyToInstall(item) === false);
+                    if (activePriceFilter === 'free') return (isTemplatePremium(item, activeDependencyFilter) === false);
+                    if (activePriceFilter === 'pro') return isTemplatePremium(item, activeDependencyFilter);
                 });
             });
             return newPageData;

@@ -190,3 +190,7 @@ export const pageSizeMap = {
     'medium': 30,
     'small': 40
 };
+
+export const getOnlySelectedDependencyFilters = (dependencyFilters) => {
+    return Object.keys(dependencyFilters).filter(key => dependencyFilters[key]);
+}

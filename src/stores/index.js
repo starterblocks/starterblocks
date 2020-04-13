@@ -9,7 +9,7 @@ import countBy from 'lodash/countBy';
 import map from 'lodash/map';
 import {applyCategoryFilter, applySearchFilter, applyPriceFilter, applyDependencyFilters} from './filters'
 import {getCurrentState, getCollectionChildrenData} from './helper';
-import {isTemplateReadyToInstall} from './dependencyHelper'
+import {isTemplatePremium} from './dependencyHelper'
 import {installedBlocksTypes} from './actionHelper';
 
 const getOriginalPageData = (state) => {
@@ -64,8 +64,8 @@ const store = registerStore('starterblocks/sectionslist', {
             let pageData = getOriginalPageData(state);
             if (pageData && Object.keys(pageData).length > 0) {
                 pageData = applySearchFilter(pageData, getSearchContext(state));
-                pageData = applyPriceFilter(pageData, getActivePriceFilter(state));
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
+                pageData = applyPriceFilter(pageData, getActivePriceFilter(state), getDependencyFilters(state));
             }
             if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
                 categories = cloneDeep(getCurrentState(state).categories);
@@ -83,8 +83,8 @@ const store = registerStore('starterblocks/sectionslist', {
             let pageData = getOriginalPageData(state);
             if (pageData && Object.keys(pageData).length > 0) {
                 pageData = applySearchFilter(pageData, getSearchContext(state));
-                pageData = applyPriceFilter(pageData, getActivePriceFilter(state));
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
+                pageData = applyPriceFilter(pageData, getActivePriceFilter(state), getDependencyFilters(state));
                 if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getActiveCategory(state));
                 pageData = sortBy(pageData, getCurrentState(state).sortBy);
                 return pageData;
@@ -98,7 +98,8 @@ const store = registerStore('starterblocks/sectionslist', {
                 pageData = applySearchFilter(pageData, getSearchContext(state));
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
                 if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getActiveCategory(state));
-                staticsData = countBy(pageData, isTemplateReadyToInstall);
+                // const selectedDependencyFilters = getOnlySelectedDependencyFilters(getDependencyFilters(state));
+                staticsData = countBy(pageData, (item) => isTemplatePremium(item, getDependencyFilters(state)));
             }
             return staticsData;
         },

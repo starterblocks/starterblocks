@@ -56,6 +56,14 @@ export const requiresInstall = (data) => {
     return (data && data.installDependenciesMissing && data.installDependenciesMissing.length > 0) ? true : false;
 }
 
-export const isTemplateReadyToInstall = (item) => {
-    return (requiresInstall(item) || requiresPro(item)) ? false : true;
+export const isTemplateReadyToInstall = (data) => {
+    return (requiresInstall(data) || requiresPro(data)) ? false : true;
+}
+
+export const isTemplatePremium = (data, activeDependencyFilter) => {
+    // console.log("Active dependency filter", activeDependencyFilter, data);
+    if (data && data.proDependencies && data.proDependencies.length > 0) {
+        return data.proDependencies.reduce((acc, cur) => acc || activeDependencyFilter[cur], false);
+    }
+    return false;
 }
