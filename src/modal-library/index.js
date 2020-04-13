@@ -1,6 +1,7 @@
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
 const {useState, useEffect} = wp.element;
+import '../stores';
 
 import {Modal, ModalManager} from '../modal-manager'
 import TabHeader from '../components/tab-header';
