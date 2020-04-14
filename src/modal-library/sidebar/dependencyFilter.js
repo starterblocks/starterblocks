@@ -27,9 +27,11 @@ function DependencyFilter(props) {
 
     const setAllCheckedAs = (newVal) => {
         setDependencyFilters(
-            Object.keys(dependencyFilters).reduce((acc, key) => {
-                return {...acc, [key]: newVal}
-            }, {})
+            Object.keys(dependencyFilters)
+                .filter(key => key!=='none')
+                .reduce((acc, key) => {
+                    return {...acc, [key]: newVal}
+                }, {none: true})
         );
     };
 
@@ -44,23 +46,6 @@ function DependencyFilter(props) {
                         <a href="#" onClick={() => setAllCheckedAs(false)}>Select None</a>
                     </div>
                     <ul className="starterblocks-sidebar-dependencies">
-                        { (loading === false) &&
-                        <li>
-                            {/*<Tooltip*/}
-                            {/*    position='right'*/}
-                            {/*    text="These templates only use native WordPress Gutenberg Blocks"*/}
-                            {/*>*/}
-                            <CheckboxControl
-                                label={__('Native', 'starterblocks')}
-                                checked={isChecked('none')}
-                                onChange={() => toggleChecked('none')}
-                            />
-                            <Tooltip text={__('Only default WordPress blocks used.', 'starterblocks')} position='right'>
-                                <span style={{float:'right', marginRight:'2px'}}><i className="fa fa-info-circle" /></span>
-                            </Tooltip>
-                            {/*</Tooltip>*/}
-                        </li>
-                        }
                         {
                             Object.keys(dependencyFilters).sort().map(pluginKey => {
                                 if (pluginKey === 'none') return null;
