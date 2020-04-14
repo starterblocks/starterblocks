@@ -1,11 +1,11 @@
 <?php
 /*
- * Plugin Name:       StarterBlocks - Gutenberg Block Templates
+ * Plugin Name:       StarterBlocks
  * Plugin URI:        https://starterblocks.io/
  * Description:       Who wants to start with just blocks? Implement templates immediately with our design library. Shortcut your design process!
  * Version: 		  0.1.7
- * Author:            StarterBlocks
- * Author URI:        https://starterblocks.io/
+ * Author:            Team Redux
+ * Author URI:        https://redux.io/
  * Text Domain:       starterblocks
  * Requires at least: 5.0
  * Tested up to: 	  5.3
