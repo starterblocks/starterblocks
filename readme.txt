@@ -43,5 +43,5 @@ For basic usage, you can also have a look at the plugin website [StarterBlocks](
 
 == Changelog ==
 For more information, visit [StarterBlocks](https://starterblocks.io).
-= 0.2.0 (April 2020) =
+= 0.1.7 (April 2020) =
 * Initial release with over 700+ templates!
