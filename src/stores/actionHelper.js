@@ -62,7 +62,7 @@ export const processImportHelper = () => {
         if (response.success && response.data) {
             let responseBlockData = response.data;
             let handledData = [];
-            if (responseBlockData.hasOwnProperty('template'))
+            if (responseBlockData.hasOwnProperty('template') || responseBlockData.hasOwnProperty('attributes'))
                 handledData = handleBlock(responseBlockData, installedDependencies);
             else
                 handledData = Object.keys(responseBlockData).filter(key => key!=='cache')
