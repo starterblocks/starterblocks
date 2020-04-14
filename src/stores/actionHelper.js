@@ -16,7 +16,6 @@ export const handleBlock = (data, installedDependencies) => {
     if ('template' in data) {
         block_data = parse(data.template);
     } else if ('attributes' in data) {
-        debugger;
         if (!('innerBlocks' in data)) {
             data.innerBlocks = [];
         }
@@ -63,7 +62,7 @@ export const processImportHelper = () => {
         if (response.success && response.data) {
             let responseBlockData = response.data;
             let handledData = [];
-            if (responseBlockData.hasOwnProperty('name'))
+            if (responseBlockData.hasOwnProperty('template'))
                 handledData = handleBlock(responseBlockData, installedDependencies);
             else
                 handledData = Object.keys(responseBlockData).filter(key => key!=='cache')

@@ -27,7 +27,7 @@ function PreviewModal(props) {
     }
 
     const onNextBlock = () => {
-        if (currentIndex < currentPageData.length) setCurrentIndex(currentIndex + 1);
+        if (currentIndex < currentPageData.length - 1) setCurrentIndex(currentIndex + 1);
     }
 
     const onPrevBlock = () => {
