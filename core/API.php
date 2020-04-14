@@ -337,6 +337,7 @@ class API {
             'source' => isset( $parameters['source'] ) ? $parameters['source'] : '',
         );
 
+        $response = array();
         if ( $config['source'] == "wp_block_patterns" && class_exists( 'WP_Patterns_Registry' ) ) {
             $patterns = \WP_Patterns_Registry::get_instance()->get_all_registered();
             $id       = explode( '_', $config['id'] );
@@ -351,9 +352,9 @@ class API {
             $response               = $this->api_cache_fetch( $parameters, $config, $cache_path );
         }
 
-        if (isset($response['message'])) {
+        if ( ! empty( $response ) && isset( $response['message'] ) ) {
             $response['template'] = $response['message'];
-            unset($response['message']);
+            unset( $response['message'] );
         }
 
 
