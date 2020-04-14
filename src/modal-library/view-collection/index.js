@@ -9,7 +9,7 @@ import ButtonGroup from '~starterblocks/components/button-group';
 import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 
 function CollectionView(props) {
-    const {pageData, loading, activeCollection, activeItemType} = props;
+    const {pageData, loading, activeCollectionData, activeItemType} = props;
     const {setActiveCollection} = props;
     const [previewData, setPreviewData] = useState(null);
     const [previewDataIndex, setPreviewDataIndex] = useState(0);
@@ -19,7 +19,6 @@ function CollectionView(props) {
     useEffect(() => {
         if (pageData) setPreviewData(pageData[previewDataIndex]);
     }, [pageData, previewDataIndex]);
-
 
     if (previewData)
         return (
@@ -34,7 +33,7 @@ function CollectionView(props) {
                 </div>
                 <div className="starterblocks-collection-details-right">
                     <div className="details-title">
-                        <h3>{previewData.name}</h3>
+                        <h3>{activeCollectionData.name}</h3>
                         <span>{dataLength} pages</span>
                     </div>
                     <div className="details-list">
@@ -83,12 +82,12 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getPageData, getLoading, getActiveCollection, getActiveItemType} = select('starterblocks/sectionslist');
+        const {getPageData, getLoading, getActiveCollectionData, getActiveItemType} = select('starterblocks/sectionslist');
         return {
             pageData: getPageData(),
             loading: getLoading(),
             activeItemType: getActiveItemType(),
-            activeCollection: getActiveCollection()
+            activeCollectionData: getActiveCollectionData()
         };
     })
 ])(CollectionView);

@@ -85,8 +85,10 @@ const store = registerStore('starterblocks/sectionslist', {
                 pageData = applySearchFilter(pageData, getSearchContext(state));
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
                 pageData = applyPriceFilter(pageData, getActivePriceFilter(state), getDependencyFilters(state));
-                if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getActiveCategory(state));
-                pageData = sortBy(pageData, getCurrentState(state).sortBy);
+                if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
+                    pageData = applyCategoryFilter(pageData, getActiveCategory(state));
+                    pageData = sortBy(pageData, getCurrentState(state).sortBy);
+                }
                 return pageData;
             }
             return null;
@@ -113,6 +115,11 @@ const store = registerStore('starterblocks/sectionslist', {
         },
         getActiveCollection(state) {
             return state.collection.activeCollection;
+        },
+        getActiveCollectionData(state) {
+            if (state.library && state.library.collections && state.collection)
+                return state.library.collections[state.collection.activeCollection];
+            return null;
         },
         getSaved(state) {
             return state.saved;

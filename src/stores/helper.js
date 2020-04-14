@@ -2,6 +2,7 @@ import kebabCase from 'lodash/kebabCase'
 import uniq from 'lodash/uniq';
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
+import sortBy from 'lodash/sortBy';
 
 const {createBlock} = wp.blocks;
 const {dispatch} = wp.data;
@@ -83,12 +84,21 @@ export const parseCollectionData = (library) => {
 
 // one of important function
 // get collection children data upon clicking on collection in collections tab
+// always homepage page first, sort alphabetically afterward
 export const getCollectionChildrenData = (library, activeCollection) => {
-    let childrenSections = library.collections[activeCollection];
-    childrenSections = childrenSections.pages.map(child => {
-        return {...library.pages[child], ID: child}
-    });
-    return childrenSections;
+    let activeCollectionData = library.collections[activeCollection];
+    // sort page except homepage
+    let childrenPages = activeCollectionData.pages
+        .filter(page => page !== activeCollectionData.homepage)
+        .map(child => {
+            return {...library.pages[child], ID: child}
+        });
+    childrenPages = sortBy(childrenPages, 'name');
+    // insert homepage at the beginning of the array
+    if (activeCollectionData.homepage && library.pages[activeCollectionData.homepage]) {
+        childrenPages.unshift(library.pages[activeCollectionData.homepage]);
+    }
+    return childrenPages;
 }
 
 // Check if the block is pro
