@@ -59,7 +59,7 @@ function LibraryModal(props) {
             <TabHeader/>
             {
                 errorMessages && errorMessages.length > 0 &&
-                <ErrorNotice discardAllErrorMessages={discardAllErrorMessages} errorMessages={errorMessages}/>
+                <ErrorNotice errorMessages={errorMessages}/>
             }
             <div className="starterblocks-collections-modal-body">
                 {hasSidebar() && <WithSidebarLayout/>}

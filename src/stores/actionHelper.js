@@ -10,12 +10,13 @@ const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
 import {ModalManager} from '~starterblocks/modal-manager';
 import PreviewModal from '../modal-preview';
 
+// create Block to import template
 export const handleBlock = (data, installedDependencies) => {
-    //import template
     let block_data = null;
     if ('template' in data) {
         block_data = parse(data.template);
     } else if ('attributes' in data) {
+        debugger;
         if (!('innerBlocks' in data)) {
             data.innerBlocks = [];
         }
@@ -24,7 +25,7 @@ export const handleBlock = (data, installedDependencies) => {
         }
         // This kind of plugins are not ready to accept before reloading, thus, we save it into localStorage and just reload for now.
         if (installedDependencies === true) {
-            starterblocks_tempdata = [...starterblocks_tempdata, data];
+            window.starterblocks_tempdata = [...window.starterblocks_tempdata, data];
             return null;
         } else {
             block_data = createBlock(data.name, data.attributes, data.innerBlocks)
@@ -62,10 +63,11 @@ export const processImportHelper = () => {
         if (response.success && response.data) {
             let responseBlockData = response.data;
             let handledData = [];
-            if (Array.isArray(responseBlockData)) {
-                handledData = responseBlockData.map(blockData => handleBlock(blockData, installedDependencies));
-            } else
+            if (responseBlockData.hasOwnProperty('name'))
                 handledData = handleBlock(responseBlockData, installedDependencies);
+            else
+                handledData = Object.keys(responseBlockData).filter(key => key!=='cache')
+                    .map(key => handleBlock(responseBlockData[key], installedDependencies));
 
             localStorage.setItem('block_data', JSON.stringify(starterblocks_tempdata));
             insertBlocks(handledData);
