@@ -7,6 +7,7 @@ const {__} = wp.i18n;
 
 import {CheckboxControl, Tooltip} from '@wordpress/components';
 import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
+import groupBy from 'lodash/groupBy';
 
 function DependencyFilter(props) {
     const {dependencyFilters, loading, plugins} = props;
@@ -22,7 +23,19 @@ function DependencyFilter(props) {
     };
 
     const toggleChecked = (pluginKey) => {
-        setDependencyFilters({...dependencyFilters, [pluginKey]: !dependencyFilters[pluginKey]});
+        if (pluginKey === 'none') {
+            setDependencyFilters({...dependencyFilters, [pluginKey]: !dependencyFilters[pluginKey]});
+        } else {
+            let newDependencyFilters = {...dependencyFilters, [pluginKey]: !dependencyFilters[pluginKey]};
+            delete newDependencyFilters.none;
+            let valueCount = groupBy(Object.keys(newDependencyFilters), key => newDependencyFilters[key]);
+
+            if (valueCount['true'] && valueCount['true'].length > 0 && valueCount['false'] && valueCount['false'].length > 0) {
+                setDependencyFilters({...newDependencyFilters, none: false});
+            } else {
+                setDependencyFilters({...newDependencyFilters, none: true});
+            }
+        }
     };
 
     const setAllCheckedAs = (newVal) => {
@@ -46,6 +59,23 @@ function DependencyFilter(props) {
                         <a href="#" onClick={() => setAllCheckedAs(false)}>Select None</a>
                     </div>
                     <ul className="starterblocks-sidebar-dependencies">
+                        { (loading === false) &&
+                            <li>
+                                {/*<Tooltip*/}
+                                {/*    position='right'*/}
+                                {/*    text="These templates only use native WordPress Gutenberg Blocks"*/}
+                                {/*>*/}
+                                <CheckboxControl
+                                    label={__('Native', 'starterblocks')}
+                                    checked={isChecked('none')}
+                                    onChange={() => toggleChecked('none')}
+                                />
+                                <Tooltip text={__('Only default WordPress blocks used.', 'starterblocks')} position='right'>
+                                    <span style={{float:'right', marginRight:'2px'}}><i className="fa fa-info-circle" /></span>
+                                </Tooltip>
+                                {/*</Tooltip>*/}
+                            </li>
+                        }
                         {
                             Object.keys(dependencyFilters).sort().map(pluginKey => {
                                 if (pluginKey === 'none') return null;
