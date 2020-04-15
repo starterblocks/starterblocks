@@ -8,16 +8,27 @@ import findIndex from 'lodash/findIndex';
 import sortBy from 'lodash/sortBy';
 import uniq from 'lodash/uniq';
 import filter from 'lodash/filter';
+import copy from 'clipboard-copy';
 import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 function SidebarContent(props) {
     const {plugins} = props;
     const {itemData, pro} = props;
-    const {name, image, blocks, proDependencies, installDependencies} = itemData;
+    const {hash, name, image, blocks, proDependencies, installDependencies} = itemData;
+    const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+        setCopied(false);
+    }, [itemData])
 
     return (
         <div className="wp-full-overlay-sidebar-content">
             <div className="install-theme-info">
                 <h3 className="theme-name">{name}</h3>
+                <h5 className="theme-hash">
+                    <span>{hash.substring(0, 7)}</span>
+                    <i className="fa fa-copy" aria-hidden="true" onClick={() => {copy(hash.substring(0, 7)); setCopied(true); }}></i>
+                    { copied && <span className="copied">Copied</span> }
+                </h5>
                 <div className="theme-screenshot-wrap">
                     <img className="theme-screenshot" src={image} alt=""/>{pro ?
                     <span className="starterblocks-pro-badge">{__('Premium')}</span> : ''

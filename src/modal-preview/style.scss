@@ -137,3 +137,15 @@ button {
         max-height: 100%;
     }
 }
+
+.theme-hash {
+    font-size: 14px;
+    i {
+        cursor: pointer;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+    .copied {
+        color: #e00;
+    }
+}
