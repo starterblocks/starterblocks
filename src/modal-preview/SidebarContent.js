@@ -16,9 +16,14 @@ function SidebarContent(props) {
     const {hash, name, image, blocks, proDependencies, installDependencies} = itemData;
     const [copied, setCopied] = useState(false);
 
+    const copyHash = () => {
+        copy(hash.substring(0, 7));
+        setCopied(true);
+    }
+
     useEffect(() => {
         setCopied(false);
-    }, [itemData])
+    }, [itemData]);
 
     return (
         <div className="wp-full-overlay-sidebar-content">
@@ -26,7 +31,7 @@ function SidebarContent(props) {
                 <h3 className="theme-name">{name}</h3>
                 <h5 className="theme-hash">
                     <span>{hash.substring(0, 7)}</span>
-                    <i className="fa fa-copy" aria-hidden="true" onClick={() => {copy(hash.substring(0, 7)); setCopied(true); }}></i>
+                    <i className="fa fa-copy" aria-hidden="true" onClick={copyHash}></i>
                     { copied && <span className="copied">Copied</span> }
                 </h5>
                 <div className="theme-screenshot-wrap">
