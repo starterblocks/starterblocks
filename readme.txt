@@ -31,6 +31,28 @@ give you a step up from the competition. So why not give it a try, you’ll be g
 Please pass your suggestions and feedback to us via the support forum to help us improve the plugin. Found a way to fix
 some code, feel free to submit a pull request to our [GitHub repo](https://github.com/starterblocks/starterblocks).
 
+PRIVACY
+StarterBlocks does not interact with end users on your website. Our templates will continue to work even if
+StarterBlocks is uninstalled.
+
+StarterBlocks utilizes Freemius for account management as well as to enable our premium offerings. You can find their
+privacy policy here: https://freemius.com/privacy/ and their terms of service here: https://freemius.com/terms/.
+
+The StarterBlocks plugin uses a custom API to fetch our content library and  templates. To improve the service and
+stability we store logs which may or may not contain the following "Non-Personal Information:"
+    browser type
+    referring site
+    date and time of request
+    template ID requested
+    date of cached version of the given API request
+    supported block plugins installed (slug only, no versions)
+    version of StarterBlocks installed
+
+API requests are only made when a user clicks on the Library button or click to launch the StarterBlocks tour.
+
+For more details on our privacy policy: https://starterblocks.io/privacy
+For more details on on our terms and conditions: https://starterblocks.io/terms
+
 == Installation ==
 1. Upload the entire plugin folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
