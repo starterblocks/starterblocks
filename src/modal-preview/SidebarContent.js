@@ -19,6 +19,7 @@ function SidebarContent(props) {
     const copyHash = () => {
         copy(hash.substring(0, 7));
         setCopied(true);
+        setTimeout(function(){ setCopied(false); }, 3500);
     }
 
     useEffect(() => {
@@ -29,15 +30,19 @@ function SidebarContent(props) {
         <div className="wp-full-overlay-sidebar-content">
             <div className="install-theme-info">
                 <h3 className="theme-name">{name}</h3>
-                <h5 className="theme-hash">
-                    <span>{hash.substring(0, 7)}</span>
-                    <i className="fa fa-copy" aria-hidden="true" onClick={copyHash}></i>
-                    { copied && <span className="copied">Copied</span> }
-                </h5>
                 <div className="theme-screenshot-wrap">
                     <img className="theme-screenshot" src={image} alt=""/>{pro ?
                     <span className="starterblocks-pro-badge">{__('Premium')}</span> : ''
                 }</div>
+
+                <h5 className="theme-hash">
+                    <div className="button-container">
+                        <span className="button button-secondary the-copy" onClick={copyHash} title="Copy Identifier"><i className="fa fa-copy" aria-hidden="true"></i></span>
+                        <span className="button button-secondary the-hash" title="Identifier">{hash.substring(0, 7)}</span>
+                        { copied && <span className="copied hideMe"><br />copied</span> }
+                    </div>
+
+                </h5>
 
                 <div className="requirements-list">
                     <div className="list-type">

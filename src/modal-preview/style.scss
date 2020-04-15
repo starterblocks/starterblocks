@@ -139,13 +139,60 @@ button {
 }
 
 .theme-hash {
+    text-align: center;
     font-size: 14px;
+    position: relative;
+
     i {
         cursor: pointer;
         margin-right: 5px;
         margin-left: 5px;
     }
+
     .copied {
-        color: #e00;
+        color: #656a6f;
+        position: absolute;
+        line-height: 75%;
+        margin-left: 10px;
+        opacity: 0.6;
+    }
+
+    .the-copy {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .the-hash {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        border-left: 0;
+    }
+
+    .hideMe {
+        -webkit-animation: cssAnimation 3s forwards;
+        animation: cssAnimation 3s forwards;
+    }
+
+    @keyframes cssAnimation {
+        0% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+    @-webkit-keyframes cssAnimation {
+        0% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
     }
 }

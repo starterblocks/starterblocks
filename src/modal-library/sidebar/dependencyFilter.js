@@ -68,6 +68,7 @@ function DependencyFilter(props) {
                                 <CheckboxControl
                                     label={__('Native', 'starterblocks')}
                                     checked={isChecked('none')}
+                                    disabled={isChecked('none')}
                                     onChange={() => toggleChecked('none')}
                                 />
                                 <Tooltip text={__('Only default WordPress blocks used.', 'starterblocks')} position='right'>
