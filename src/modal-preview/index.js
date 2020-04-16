@@ -1,6 +1,6 @@
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
-const {Component, useState} = wp.element
+const {Component, useState, useEffect} = wp.element
 const {Spinner} = wp.components;
 const {__} = wp.i18n
 import SitePreviewSidebar from './SitePreviewSidebar';
@@ -20,7 +20,26 @@ function PreviewModal(props) {
     const [importingBlock, setImportingBlock] = useState(null);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
+    const [pressedKey, setPressedKey] = useState(null);
 
+    useEffect(() => {
+        const handleKeyDown = ({keyCode}) => {
+            setPressedKey(keyCode);
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (pressedKey !== null) {
+            if (pressedKey === 37) onPrevBlock();
+            if (pressedKey === 39) onNextBlock();
+            setPressedKey(null);
+        }
+    }, [pressedKey])
 
     const onCloseCustomizer = () => {
         ModalManager.closeCustomizer();
@@ -80,11 +99,13 @@ function PreviewModal(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
-            setImportingTemplate
+            setImportingTemplate,
+            setCustomizerOpened
         } = dispatch('starterblocks/sectionslist');
 
         return {
-            setImportingTemplate
+            setImportingTemplate,
+            setCustomizerOpened
         };
     }),
 
