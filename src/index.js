@@ -12,7 +12,8 @@ import { render } from '@wordpress/element'
  * External dependencies
  */
 import './editor.scss'
-import './sidebar-share'
+import './plugins/sidebar-share'
+import './plugins/share-block-btn'
 import ToolbarLibraryButton from './toolbar-library-button'
 import {handlingLocalStorageData} from './stores/helper';
 
