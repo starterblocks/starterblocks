@@ -27,6 +27,7 @@ function LibraryModal(props) {
     const [loaded, setLoaded] = useState(false);
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
+    const [escKeyPressed, setEscKeyPressed] = useState(false);
 
     let stateLibrary = null;
     useEffect(() => {
@@ -35,7 +36,31 @@ function LibraryModal(props) {
             setLoading(true);
             setLoaded(true);
         }
+        const handleKeyUp = ({keyCode}) => {
+            if (keyCode === 27) {
+                setEscKeyPressed(true);
+            }
+        }
+        document.addEventListener('keyup', handleKeyUp);
+        return () => {
+            document.removeEventListener('keyup', handleKeyUp);
+        }
     }, []);
+
+    useEffect(() => {
+        if (escKeyPressed) {
+            setEscKeyPressed(false);
+            if (ModalManager.isCustomizerOpened()) {
+                ModalManager.closeCustomizer();
+            } else {
+                if (importingTemplate)
+                    setImportingTemplate(null);
+                else
+                    ModalManager.close();
+            }
+        }
+    }, [escKeyPressed])
+
 
 
     const hasSidebar = () => {
@@ -86,7 +111,7 @@ export default compose([
         return {
             setLoading,
             setLibrary,
-            setImportingTemplate,
+            setImportingTemplate
         };
     }),
 

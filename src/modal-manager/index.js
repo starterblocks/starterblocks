@@ -19,16 +19,8 @@ export class Modal extends Component {
         }
     }
 
-    handleKeyDown = (event) => {
-        if (event.keyCode === 27) {
-            if (customizerNode) ModalManager.closeCustomizer()
-            else ModalManager.close()
-        }
-    }
-
     componentDidMount() {
         const {openTimeoutMS, closeTimeoutMS} = this.props
-        document.addEventListener('keydown', this.handleKeyDown)
         setTimeout(() => this.setState({afterOpen: true}), openTimeoutMS ? openTimeoutMS : 150)
 
         onClose = (callback) => {
@@ -41,7 +33,6 @@ export class Modal extends Component {
     componentWillUnmount() {
         onClose = null;
         clearTimeout(this.closeTimer)
-        document.removeEventListener('keydown', this.handleKeyDown)
     }
 
     render() {
@@ -91,5 +82,8 @@ export const ModalManager = {
             wp.element.unmountComponentAtNode(customizerNode);
             customizerNode = false
         }
+    },
+    isCustomizerOpened() {
+        return customizerNode ? true : false;
     }
 }
