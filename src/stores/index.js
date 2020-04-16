@@ -82,9 +82,10 @@ const store = registerStore('starterblocks/sectionslist', {
         getPageData(state) {
             let pageData = getOriginalPageData(state);
             let hashFilteredData = [];
-            if (state.activeItemType !== 'collection') hashFilteredData = applyHashFilter(pageData, getSearchContext(state));
+            const searchKeyword = getSearchContext(state);
+            if (state.activeItemType !== 'collection' && searchKeyword.length == 7) hashFilteredData = applyHashFilter(pageData, searchKeyword);
             if (pageData && Object.keys(pageData).length > 0) {
-                pageData = applySearchFilter(pageData, getSearchContext(state));
+                pageData = applySearchFilter(pageData, searchKeyword);
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
                 pageData = applyPriceFilter(pageData, getActivePriceFilter(state), getDependencyFilters(state));
                 if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
