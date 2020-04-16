@@ -190,11 +190,17 @@ class API {
             wp_send_json_error( 'No type specified.' );
         }
 
-        $config = array(
+        $config    = array(
             'path' => 'library/'
         );
+        $test_path = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'library.json';
 
-        $data = $this->api_cache_fetch( $parameters, $config, 'library.json' );
+        if ( file_exists( $test_path ) ) {
+            $data = json_decode( file_get_contents( $test_path ), true );
+        } else {
+            $data = $this->api_cache_fetch( $parameters, $config, 'library.json' );
+        }
+
 
         if ( isset( $data['plugins'] ) ) {
             $supported = StarterBlocks\SupportedPlugins::instance();
@@ -362,10 +368,16 @@ class API {
     }
 
     public function request_verify( $data ) {
-        $config = array(
+        global $starterblocks_fs;
+        $config   = array(
             'SB-Version'   => STARTERBLOCKS_VERSION,
             'SB-Multisite' => is_multisite(),
         );
+        $the_site = $starterblocks_fs->get_site();
+        if ( ! empty( $the_site->site_id ) ) {
+            $config['SB-API-Key'] = $the_site->site_id . '-' . $the_site->user_id;
+        }
+
         if ( starterblocks_fs()->can_use_premium_code() ) {
             $config['SB-Pro'] = starterblocks_fs()->can_use_premium_code();
         }
