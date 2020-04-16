@@ -83,3 +83,5 @@ package-lock.json
 .vscode/
 .DS_Store
 yarn.lock
+
+core/library.json

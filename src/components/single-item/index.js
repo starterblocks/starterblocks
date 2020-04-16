@@ -4,7 +4,6 @@ const {__} = wp.i18n
 const {withDispatch, withSelect, select} = wp.data;
 const {useState, useEffect} = wp.element;
 
-import LazyLoad from 'react-lazyload';
 import ButtonGroup from '../button-group';
 
 import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
