@@ -31,16 +31,31 @@ export const applyCategoryFilter = (pageData, activeCategory) => {
 export const applySearchFilter = (pageData, searchContext) => {
     let lowercasedSearchContext = searchContext.toLowerCase();
     if (Array.isArray(pageData)) {
-        return pageData.filter(item => ((item.hash && item.hash.toLowerCase().indexOf(lowercasedSearchContext) !== -1) || item.name.toLowerCase().indexOf(lowercasedSearchContext) !== -1))
+        return pageData.filter(item => (item.name.toLowerCase().indexOf(lowercasedSearchContext) !== -1))
     } else {
         let newPageData = {};
         Object.keys(pageData).forEach(key => {
-            newPageData[key] =  pageData[key].filter(item => ((item.hash && item.hash.toLowerCase().indexOf(lowercasedSearchContext) !== -1) || item.name.toLowerCase().indexOf(lowercasedSearchContext) != -1))
+            newPageData[key] =  pageData[key].filter(item => (item.name.toLowerCase().indexOf(lowercasedSearchContext) != -1))
         });
         return newPageData;
     }
 }
 
+
+
+export const applyHashFilter = (pageData, searchContext) => {
+    let lowercasedSearchContext = searchContext.toLowerCase();
+    if (Array.isArray(pageData)) {
+        return pageData.filter(item => (item.hash && item.hash.toLowerCase().indexOf(lowercasedSearchContext) !== -1))
+    } else {
+        let newPageData = [];
+        Object.keys(pageData).forEach(key => {
+            let filteredData = pageData[key].filter(item => (item.hash && item.hash.toLowerCase().indexOf(lowercasedSearchContext) !== -1));
+            newPageData = [...newPageData, ...filteredData];
+        });
+        return newPageData;
+    }
+}
 
 // Apply Price filter afterwards : Should make sure if it is a best practise to split this filtering
 export const applyPriceFilter = (pageData, activePriceFilter, activeDependencyFilter) => {

@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 import countBy from 'lodash/countBy';
 import map from 'lodash/map';
-import {applyCategoryFilter, applySearchFilter, applyPriceFilter, applyDependencyFilters} from './filters'
+import {applyCategoryFilter, applySearchFilter, applyHashFilter, applyPriceFilter, applyDependencyFilters} from './filters'
 import {getCurrentState, getCollectionChildrenData} from './helper';
 import {isTemplatePremium} from './dependencyHelper'
 import {installedBlocksTypes} from './actionHelper';
@@ -81,6 +81,8 @@ const store = registerStore('starterblocks/sectionslist', {
         // get relevant page data, apply category, price, search filters
         getPageData(state) {
             let pageData = getOriginalPageData(state);
+            let hashFilteredData = [];
+            if (state.activeItemType !== 'collection') hashFilteredData = applyHashFilter(pageData, getSearchContext(state));
             if (pageData && Object.keys(pageData).length > 0) {
                 pageData = applySearchFilter(pageData, getSearchContext(state));
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
@@ -89,7 +91,7 @@ const store = registerStore('starterblocks/sectionslist', {
                     pageData = applyCategoryFilter(pageData, getActiveCategory(state));
                     pageData = sortBy(pageData, getCurrentState(state).sortBy);
                 }
-                return pageData;
+                return [...hashFilteredData, ...pageData];
             }
             return null;
         },
