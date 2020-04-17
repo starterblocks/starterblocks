@@ -63,6 +63,10 @@ function PreviewModal(props) {
         if (importingTemplate) processImportHelper();
     }
 
+    const hideSpinner = () => {
+        console.log('More handsome handling here');
+    }
+
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
     let itemData = currentPageData[currentIndex];
     let image_url = itemData.image
@@ -80,7 +84,7 @@ function PreviewModal(props) {
                                     onChangePreviewClass={e => setPreviewClass(e)}/>
                 <div className=' wp-full-overlay-main'>
                     {itemData.url &&
-                    <iframe src={itemData.url} target='Preview'></iframe>
+                        <iframe src={itemData.url} target='Preview' onLoad={hideSpinner}></iframe>
                     }
                     {!itemData.url &&
                         <div className='starterblock-modal-preview-box'><img
