@@ -44,13 +44,12 @@ function StarterBlocksTour(props) {
                 <div>
                     These are the different types of templates we have.
                     <ul>
-                        <li><strong>Sections</strong> are blocks, or parts of a page. A full page is made of of many
-                            sections.
+                        <li><strong>Sections</strong> are the building blocks of a page. Each "row" of content on a page
+                            we consider a section.
                         </li>
                         <li><strong>Pages</strong> are you guessed it, pages full of sections.
                         </li>
-                        <li><strong>Collections</strong> are groups of pages that all follow the same style. Almost like
-                            a page themes.
+                        <li><strong>Collections</strong> are groups of pages that all follow a style.
                         </li>
                         <li><strong>Saved</strong> are reusable blocks that you've saved and want to use.
                         </li>
@@ -134,7 +133,7 @@ function StarterBlocksTour(props) {
         {
             selector: '.starterblocks-import-wizard-wrapper',
             content: `When you click to import a template, sometimes you will be missing one of the required plugins.
-            StarterBlocks will do it's best to help you install what's missing. If some of them are
+            StarterBlocks will do its best to help you install what's missing. If some of them are
             premium plugins, you will be provided details on where you can get them.`,
             position: 'top',
             action: () => {
@@ -142,18 +141,25 @@ function StarterBlocksTour(props) {
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
                 setNeedUpdate(new Date().toString());
+                // ModalManager.open();
             }
         },
+        // TODO - Hide the modal, but keep everything alive. Then show it again. Running .close() kills the tour.
+        // {
+        //     selector: '.editor-page-attributes__template',
+        //     content: `Sometimes your theme may conflict with a template. If you're on a page, you can set a page template
+        //     and override your theme in different ways, including just passing it all together.`,
+        //     action: () => {
+        //         ModalManager.close();
+        //     },
+        //     position: 'left'
+        // },
         {
             selector: '.starterblocks-pagelist-modal-inner',
-            content: () => (
-                <div>
-                    <h3>Congrats!</h3>
-                    <p>Well, that's the tour. Take a look around. We hope you love StarterBlocks!</p>
-                </div>
-            ),
+            content: `Well, that's the tour. Take a look around. We hope you love StarterBlocks!`,
             action: () => {
                 setImportingTemplate(null);
+                // ModalManager.open();
             },
             position: 'center'
         },
