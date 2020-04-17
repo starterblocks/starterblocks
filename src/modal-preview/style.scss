@@ -94,6 +94,9 @@ button {
     bottom: 0;
     height: 100%;
 }
+.wp-full-overlay-main.loaded::before {
+    display: none;
+}
 
 .theme-install-overlay iframe {
     height: 100%;

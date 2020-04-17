@@ -21,6 +21,7 @@ function PreviewModal(props) {
     const [missingPluginArray, setMissingPlugin] = useState([]);
     const [missingProArray, setMissingPro] = useState([]);
     const [pressedKey, setPressedKey] = useState(null);
+    const [overlayClassname, setOverlayClassname] = useState('wp-full-overlay-main');
 
     useEffect(() => {
         const handleKeyDown = ({keyCode}) => {
@@ -64,7 +65,7 @@ function PreviewModal(props) {
     }
 
     const hideSpinner = () => {
-        console.log('More handsome handling here');
+        setOverlayClassname('wp-full-overlay-main loaded');
     }
 
     let wrapperClassName = ['wp-full-overlay sites-preview theme-install-overlay ', previewClass, expandedClass].join(' ');
@@ -82,7 +83,7 @@ function PreviewModal(props) {
                                     onCloseCustomizer={onCloseCustomizer} onToggleExpanded={e => toggleExpanded(e)}
                                     onImport={importStarterBlock}
                                     onChangePreviewClass={e => setPreviewClass(e)}/>
-                <div className=' wp-full-overlay-main'>
+                <div className={overlayClassname}>
                     {itemData.url &&
                         <iframe src={itemData.url} target='Preview' onLoad={hideSpinner}></iframe>
                     }
