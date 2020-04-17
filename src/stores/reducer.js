@@ -68,17 +68,17 @@ export const reducer = ( state = initialState, action ) => {
                 section: {
                     ...state.section,
                     ...parsedSection,
-                    dependencyFilters: getWithExpiry('section_plugin', dependencies)
+                    dependencyFilters: {...dependencies, ...getWithExpiry('section_plugin', dependencies)}
                 },
                 page: {
                     ...state.page,
                     ...parsedPage,
-                    dependencyFilters: getWithExpiry('page_plugin', dependencies)
+                    dependencyFilters: {...dependencies, ...getWithExpiry('page_plugin', dependencies)}
                 },
                 collection: {
                     ...state.collection,
                     ...parsedCollection,
-                    dependencyFilters: getWithExpiry('collection_plugin', dependencies)
+                    dependencyFilters: {...dependencies, ...getWithExpiry('collection_plugin', dependencies)}
                 },
                 plugins: action.library.plugins
             };

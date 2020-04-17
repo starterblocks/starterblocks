@@ -83,7 +83,7 @@ const store = registerStore('starterblocks/sectionslist', {
             let pageData = getOriginalPageData(state);
             let hashFilteredData = [];
             const searchKeyword = getSearchContext(state);
-            if (state.activeItemType !== 'collection' && searchKeyword.length == 7) hashFilteredData = applyHashFilter(pageData, searchKeyword);
+            if (state.activeItemType !== 'collection' && searchKeyword.length > 5) hashFilteredData = applyHashFilter(pageData, searchKeyword);
             if (pageData && Object.keys(pageData).length > 0) {
                 pageData = applySearchFilter(pageData, searchKeyword);
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
