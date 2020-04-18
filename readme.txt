@@ -31,7 +31,7 @@ give you a step up from the competition. So why not give it a try, you’ll be g
 Please pass your suggestions and feedback to us via the support forum to help us improve the plugin. Found a way to fix
 some code, feel free to submit a pull request to our [GitHub repo](https://github.com/starterblocks/starterblocks).
 
-PRIVACY
+= Privacy =
 StarterBlocks does not interact with end users on your website. Our templates will continue to work even if
 StarterBlocks is uninstalled.
 
