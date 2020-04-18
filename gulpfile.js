@@ -24,6 +24,8 @@ function makeBuild() {
         '!./assets/js/*.dev.*',
 		'!./node_modules/**/*.*',
 		'!./src/**/*.*',
+        '!./.wordpress-org/**/*.*',
+        '!./.github/**/*.*',
 		'!./build/**/*.zip',
 		'!./gulpfile.js',
 		'!./yarn.lock',
