@@ -54,7 +54,8 @@ export class Modal extends Component {
 export const ModalManager = {
     open(component) {
         if (onClose) {
-            throw __('There is already one modal.It must be closed before one new modal will be opened');
+            this.close();
+            // throw __('There is already one modal.It must be closed before one new modal will be opened');
         }
         if (!node) {
             node = document.createElement('div')

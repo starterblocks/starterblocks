@@ -15,14 +15,11 @@ import {processImportHelper} from '~starterblocks/stores/actionHelper';
 import uniq from 'lodash/uniq';
 import './style.scss'
 
-import StarterBlocksTour from '../tour';
-
 
 function LibraryModal(props) {
     const {
         fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate,
-        setLoading, setLibrary, setImportingTemplate,
-        autoTourStart
+        setLoading, setLibrary, setImportingTemplate
     } = props;
     const [loaded, setLoaded] = useState(false);
     const [missingPluginArray, setMissingPlugin] = useState([]);
@@ -94,7 +91,6 @@ function LibraryModal(props) {
             {
                 importingTemplate && <ImportWizard startImportTemplate={processImport} />
             }
-            <StarterBlocksTour autoTourStart={autoTourStart} />
         </Modal>
     );
 }

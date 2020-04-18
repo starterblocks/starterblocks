@@ -14,6 +14,7 @@ const {Component, useState, useEffect} = wp.element;
 
 import {ModalManager} from '../modal-manager'
 import PreviewModal from '../modal-preview';
+import LibraryModal from '../modal-library';
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
 import Tour from 'reactour';
 import {animateScroll} from 'react-scroll';
@@ -145,21 +146,21 @@ function StarterBlocksTour(props) {
             }
         },
         // TODO - Hide the modal, but keep everything alive. Then show it again. Running .close() kills the tour.
-        // {
-        //     selector: '.editor-page-attributes__template',
-        //     content: `Sometimes your theme may conflict with a template. If you're on a page, you can set a page template
-        //     and override your theme in different ways, including just passing it all together.`,
-        //     action: () => {
-        //         ModalManager.close();
-        //     },
-        //     position: 'left'
-        // },
         {
-            selector: '.starterblocks-pagelist-modal-inner',
-            content: `Well, that's the tour. Take a look around. We hope you love StarterBlocks!`,
+            selector: '.sb-insert-library-button',
+            content: `Sometimes your theme may conflict with a template. If you're on a page, you can set a page template
+            and override your theme in different ways, including just passing it all together.`,
             action: () => {
                 setImportingTemplate(null);
-                // ModalManager.open();
+                ModalManager.close();
+            },
+            position: 'left'
+        },
+        {
+            selector: '.starterblocks-pagelist-modal-inner',
+            content: 'Well, that is the tour. Take a look around. We hope you love StarterBlocks!',
+            action: () => {
+                ModalManager.open(<LibraryModal autoTourStart={false} />)
             },
             position: 'center'
         },

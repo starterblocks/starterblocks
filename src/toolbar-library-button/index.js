@@ -14,14 +14,10 @@ import { StarterBlocksIcon } from '~starterblocks/icons'
 const {Component, useEffect} = wp.element;
 
 function ToolbarLibraryButton (props) {
-    useEffect(() => {
-        if (starterblocks.tour === '1')
-            ModalManager.open(<LibraryModal autoTourStart={true} />);
-    }, [])
 	return (
 		<IconButton data-tut="tour__library_button"
 			onClick={ () => {
-				ModalManager.open(<LibraryModal autoTourStart={false} />);
+				ModalManager.open(<LibraryModal />);
 			} }
 			className="sb-insert-library-button"
 			label={ __( 'Open Library', starterblocks.i18n ) }
