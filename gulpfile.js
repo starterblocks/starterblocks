@@ -32,8 +32,6 @@ function makeBuild() {
 		'!./yarn-error.log',
 		'!.babelrc',
 		'!.eslintrc',
-		'!./readme.md',
-		'!./LICENSE.txt',
 		'!./package-lock.json',
         '!./composer-lock.json',
 		'!./webpack.*.js',
