@@ -14,6 +14,7 @@ The largest open template library for the WordPress gutenberg block editor. Free
 == Description ==
 = StarterBlocks - The Largest Gutenberg Template Library =
 StarterBlocks allows you to see all that’s possible with the new Gutenberg Block Editor. You can browse an ever-growing library of designs to see all the different possibilities. Choose from over 700+ sections and full page designs to create your perfect web page.
+
 Worried that our templates may not work with your theme? No problem! With our page templates you can transform any site into exactly what you want it to be. Don’t waste hours trying to recreate a web page you love. Instead click a button and it’s on your own website where you can start customizing it for your needs. Missing a plugin the template needs? No worries, we’ll even help you install what you need, all from the Gutenberg editor.
 
 And what’s more is we are block agnostic. That’s a fancy way of saying we don’t force you to use our blocks. So that means if you ever want to uninstall StarterBlocks you can. We have zero vendor lock-in here. We believe in freedom of choice, not product dependence. With over 700 section designs and full site designs, it’s safe to say StarterBlocks will give you a step up from the competition. So why not give it a try, you’ll be glad you did.
