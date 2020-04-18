@@ -61,7 +61,11 @@ Once Activated, you will find a 'Library' at the top of the Gutenberg editor.
 For basic usage, you can also have a look at the plugin website [StarterBlocks](https://starterblocks.io/).
 
 == Screenshots ==
-1. How to launch our demo.
+1. The StarterBlocks every-growing library of templates.
+2. Grouped pages known as collections, helping you build out any website.
+3. Preview the template before you import it.
+4. Import wizard with integrated dependency installer.
+5. Integrated tour.
 
 == Changelog ==
 For more information, visit [StarterBlocks](https://starterblocks.io).
