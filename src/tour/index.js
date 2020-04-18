@@ -147,14 +147,14 @@ function StarterBlocksTour(props) {
         },
         // TODO - Hide the modal, but keep everything alive. Then show it again. Running .close() kills the tour.
         {
-            selector: '.sb-insert-library-button',
+            selector: '.components-base-control.editor-page-attributes__template',
             content: `Sometimes your theme may conflict with a template. If you're on a page, you can set a page template
             and override your theme in different ways, including just passing it all together.`,
             action: () => {
                 setImportingTemplate(null);
                 ModalManager.close();
             },
-            position: 'left'
+            position: 'center'
         },
         {
             selector: '.starterblocks-pagelist-modal-inner',
