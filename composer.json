@@ -1,7 +1,7 @@
 {
     "name": "starterblocks/starterblocks",
     "type": "wordpress-plugin",
-    "license": "GPL-2.0-only",
+    "license": "gpl-2.0-or-later",
     "description": "WordPress",
     "homepage": "https://starterblocks.io/",
     "authors": [
