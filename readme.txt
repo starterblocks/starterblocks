@@ -63,6 +63,7 @@ For more information, visit [StarterBlocks](https://starterblocks.io).
 
 = 1.0.1 (April 18 2020) =
 * Fixed an issue with the library refresh button
+* Fixed issue with API cache mechanism.
 
 = 1.0.0 (April 18 2020) =
 * Initial release with over 700+ templates!
