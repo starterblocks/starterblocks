@@ -102,7 +102,7 @@ export const reloadLibrary = () => {
         setLoading(false);
         setLibrary(newLibrary.data);
     }).catch((error) => {
-        registerError(error);
+        errorCallback(error);
     });
 }
 
