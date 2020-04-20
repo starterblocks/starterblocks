@@ -145,7 +145,6 @@ function StarterBlocksTour(props) {
                 // ModalManager.open();
             }
         },
-        // TODO - Hide the modal, but keep everything alive. Then show it again. Running .close() kills the tour.
         {
             selector: '.components-base-control.editor-page-attributes__template',
             content: `Sometimes your theme may conflict with a template. If you're on a page, you can set a page template

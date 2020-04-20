@@ -5,6 +5,7 @@ const {withDispatch} = wp.data;
 const {Spinner} = wp.components;
 const {parse} = wp.blocks;
 const {__} = wp.i18n;
+import {BlockPreview} from '@wordpress/block-editor';
 
 import './style.scss'
 
@@ -74,12 +75,13 @@ function SavedView(props) {
                     (savedSections && savedSections.length > 0) ?
                         mapToColumnData(savedSections).map((column, key) => {
                             let sections = column.map((section, i) => {
+                                let blocks = parse(section.post_content);
                                 return (
                                     <div className="starter-two-section" key={i}
                                         onClick={() => importSections(section.post_content)}>
+
                                         <div className="preview-image-wrapper">
-                                            <img src={starterblocks.plugin + 'assets/img/starterblocks-medium.jpg'}
-                                                alt="lazyLoad Image"/>
+                                            <BlockPreview blocks={blocks} />
                                         </div>
                                         <div className="saved-section-title">
                                             {section.post_title}
