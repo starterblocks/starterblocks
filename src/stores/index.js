@@ -7,6 +7,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 import countBy from 'lodash/countBy';
 import map from 'lodash/map';
+import flattenDeep from 'lodash/flattenDeep';
+import uniq from 'lodash/uniq';
 import {applyCategoryFilter, applySearchFilter, applyHashFilter, applyPriceFilter, applyDependencyFilters} from './filters'
 import {getCurrentState, getCollectionChildrenData} from './helper';
 import {isTemplatePremium} from './dependencyHelper'
@@ -26,10 +28,7 @@ const getActivePriceFilter = (state) => {
 const getSearchContext = (state) => {
     return (state.activeItemType !== 'saved') ? getCurrentState(state).searchContext : null;
 };
-const getDependencyFilters = (state) => {
-    // console.log("Dependency Filters", getCurrentState(state).dependencyFilters);
-    return getCurrentState(state).dependencyFilters;
-};
+
 const getActiveCategory = (state) => {
     return state[state.activeItemType].activeCategory;
 };
@@ -40,6 +39,41 @@ const getCurrentPage = (state) => {
 const getActiveItemType = (state) => {
     return state.activeItemType;
 };
+
+// get relevant page data, apply category, price, search, dependent filters
+const getPageData = (state) => {
+    let pageData = getOriginalPageData(state);
+    let hashFilteredData = [];
+    const searchKeyword = getSearchContext(state);
+    if (state.activeItemType !== 'collection' && searchKeyword.length > 5) hashFilteredData = applyHashFilter(pageData, searchKeyword);
+    if (pageData && Object.keys(pageData).length > 0) {
+        pageData = applySearchFilter(pageData, searchKeyword);
+        pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
+        pageData = applyPriceFilter(pageData, getActivePriceFilter(state), getDependencyFilters(state));
+        if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
+            pageData = applyCategoryFilter(pageData, getActiveCategory(state));
+            pageData = sortBy(pageData, getCurrentState(state).sortBy);
+        }
+        return [...hashFilteredData, ...pageData];
+    }
+    return null;
+};
+
+const getDependencyFilters = (state) => {
+    return getCurrentState(state).dependencyFilters;;
+};
+
+
+const getDependencyFiltersStatistics = (state) => {
+    const pageData = getPageData(state);
+    const dependentPluginsArray = uniq(flattenDeep(map(pageData, 'dependencies')));
+    let dependencyFilters = getDependencyFilters(state);
+    Object.keys(dependencyFilters).forEach((plugin) => {
+        dependencyFilters[plugin] = {...dependencyFilters[plugin], disabled: dependentPluginsArray.indexOf(plugin) === -1}
+    })
+    return dependencyFilters;
+};
+
 const store = registerStore('starterblocks/sectionslist', {
 
     reducer,
@@ -56,6 +90,7 @@ const store = registerStore('starterblocks/sectionslist', {
         getActivePriceFilter,
         getSearchContext,
         getDependencyFilters,
+        getDependencyFiltersStatistics,
         getActiveItemType,
         getCurrentPage,
         getActiveCategory,
@@ -80,23 +115,8 @@ const store = registerStore('starterblocks/sectionslist', {
             return categories;
         },
         // get relevant page data, apply category, price, search, dependent filters
-        getPageData(state) {
-            let pageData = getOriginalPageData(state);
-            let hashFilteredData = [];
-            const searchKeyword = getSearchContext(state);
-            if (state.activeItemType !== 'collection' && searchKeyword.length > 5) hashFilteredData = applyHashFilter(pageData, searchKeyword);
-            if (pageData && Object.keys(pageData).length > 0) {
-                pageData = applySearchFilter(pageData, searchKeyword);
-                pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
-                pageData = applyPriceFilter(pageData, getActivePriceFilter(state), getDependencyFilters(state));
-                if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
-                    pageData = applyCategoryFilter(pageData, getActiveCategory(state));
-                    pageData = sortBy(pageData, getCurrentState(state).sortBy);
-                }
-                return [...hashFilteredData, ...pageData];
-            }
-            return null;
-        },
+        getPageData,
+
         getStatistics(state) {
             let pageData = getOriginalPageData(state);
             let staticsData = {true: 0, false: 0};

@@ -121,10 +121,10 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getDependencyFilters, getLoading, getPlugins} = select('starterblocks/sectionslist');
+        const {getDependencyFiltersStatistics, getLoading, getPlugins} = select('starterblocks/sectionslist');
         return {
             loading: getLoading(),
-            dependencyFilters: getDependencyFilters(),
+            dependencyFilters: getDependencyFiltersStatistics(),
             plugins: getPlugins()
         };
     })
