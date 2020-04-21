@@ -19,21 +19,25 @@ function DependencyFilter(props) {
     };
     // Give the selected category(activeCategory) label className as "active"
     const isChecked = (pluginKey) => {
-        return dependencyFilters[pluginKey];
+        if (dependencyFilters.hasOwnProperty(pluginKey))
+            return dependencyFilters[pluginKey].hasOwnProperty('value') ? dependencyFilters[pluginKey].value : dependencyFilters[pluginKey];
+        return false;
     };
 
     const toggleChecked = (pluginKey) => {
         if (pluginKey === 'none') {
-            setDependencyFilters({...dependencyFilters, [pluginKey]: !dependencyFilters[pluginKey]});
+            setDependencyFilters({...dependencyFilters,
+                [pluginKey]: { value: dependencyFilters[pluginKey].value === false, disabled: dependencyFilters[pluginKey]['disabled'] === true }});
         } else {
-            let newDependencyFilters = {...dependencyFilters, [pluginKey]: !dependencyFilters[pluginKey]};
-            delete newDependencyFilters.none;
-            let valueCount = groupBy(Object.keys(newDependencyFilters), key => newDependencyFilters[key]);
+            let newDependencyFilters = {...dependencyFilters,
+                [pluginKey]: { value: dependencyFilters[pluginKey].value === false, disabled: dependencyFilters[pluginKey]['disabled'] === true }};
+
+            let valueCount = groupBy(Object.keys(newDependencyFilters), key => (newDependencyFilters[key] === true || newDependencyFilters[key].value === true));
 
             if (valueCount['true'] && valueCount['true'].length > 0 && valueCount['false'] && valueCount['false'].length > 0) {
-                setDependencyFilters({...newDependencyFilters, none: false});
+                setDependencyFilters({...newDependencyFilters, none: {value: false, disabled: newDependencyFilters['none']['disabled']}});
             } else {
-                setDependencyFilters({...newDependencyFilters, none: true});
+                setDependencyFilters({...newDependencyFilters, none: {value: true, disabled: newDependencyFilters['none']['disabled']}});
             }
         }
     };
@@ -43,7 +47,7 @@ function DependencyFilter(props) {
             Object.keys(dependencyFilters)
                 .filter(key => key!=='none')
                 .reduce((acc, key) => {
-                    return {...acc, [key]: newVal}
+                    return {...acc, [key]: {value: newVal, disabled: acc[key]['disabled']}}
                 }, {none: true})
         );
     };

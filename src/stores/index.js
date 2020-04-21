@@ -27,6 +27,7 @@ const getSearchContext = (state) => {
     return (state.activeItemType !== 'saved') ? getCurrentState(state).searchContext : null;
 };
 const getDependencyFilters = (state) => {
+    // console.log("Dependency Filters", getCurrentState(state).dependencyFilters);
     return getCurrentState(state).dependencyFilters;
 };
 const getActiveCategory = (state) => {
@@ -58,7 +59,7 @@ const store = registerStore('starterblocks/sectionslist', {
         getActiveItemType,
         getCurrentPage,
         getActiveCategory,
-        // get categories from currentState, sortBy alphabetically
+        // get categories from currentState, sortBy alphabetically, with the count of pageData within the current category
         getCategoryData(state) {
             let categories = [];
             let pageData = getOriginalPageData(state);
@@ -78,7 +79,7 @@ const store = registerStore('starterblocks/sectionslist', {
             categories = sortBy(categories, 'name');
             return categories;
         },
-        // get relevant page data, apply category, price, search filters
+        // get relevant page data, apply category, price, search, dependent filters
         getPageData(state) {
             let pageData = getOriginalPageData(state);
             let hashFilteredData = [];

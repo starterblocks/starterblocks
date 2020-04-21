@@ -52,10 +52,9 @@ export const reducer = ( state = initialState, action ) => {
 
     switch ( action.type ) {
         case 'SET_LIBRARY':
-
             const dependencies = Object.keys(action.library.dependencies).reduce((acc, cur) => {
-                return {...acc, [cur]: true}
-            }, {none: true});
+                return {...acc, [cur]: {value: true, disabled: false}}
+            }, {none: {value: true, disabled: false}});
 
             let parsedSection = parseSectionData(action.library.sections);
             let parsedPage = parsePageData(action.library.pages);
@@ -68,17 +67,17 @@ export const reducer = ( state = initialState, action ) => {
                 section: {
                     ...state.section,
                     ...parsedSection,
-                    dependencyFilters: {...dependencies, ...getWithExpiry('section_plugin', dependencies)}
+                    dependencyFilters: {...dependencies, ...getWithExpiry('section_plugin')}
                 },
                 page: {
                     ...state.page,
                     ...parsedPage,
-                    dependencyFilters: {...dependencies, ...getWithExpiry('page_plugin', dependencies)}
+                    dependencyFilters: {...dependencies, ...getWithExpiry('page_plugin')}
                 },
                 collection: {
                     ...state.collection,
                     ...parsedCollection,
-                    dependencyFilters: {...dependencies, ...getWithExpiry('collection_plugin', dependencies)}
+                    dependencyFilters: {...dependencies, ...getWithExpiry('collection_plugin')}
                 },
                 plugins: action.library.plugins
             };
