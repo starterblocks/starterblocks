@@ -121,8 +121,15 @@ class API {
 
         if ( $use_cache ) {
             $data = @json_decode( $filesystem->get_contents( $path ), true );
+            if ( empty( $data ) || ( ! empty( $data ) && ! isset( $data['sections'] ) ) ) {
+                $data      = array();
+                $use_cache = false;
+            }
         }
-        $data = array();
+
+        if ( ! $use_cache && isset( $config['headers']['SB-Cache-Time'] ) ) {
+            unset( $config['headers']['SB-Cache-Time'] );
+        }
 
         if ( empty( $data ) ) {
 

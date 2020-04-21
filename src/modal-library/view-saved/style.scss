@@ -145,7 +145,7 @@
 .starter-two-section {
     .preview-image-wrapper {
         width: 100%;
-        min-height: 200px;
+        min-height: 130px;
         max-height: 300px;
         overflow: hidden;
         img {
@@ -159,11 +159,18 @@
     }
 
     .saved-section-title {
+        background: rgba(255, 255, 255, 0.95);
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        color: #23282d;
+        padding: 13px 15px;
+        font-size: 15px;
         text-align: center;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px;
     }
 }
 
