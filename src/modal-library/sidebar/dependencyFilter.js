@@ -33,8 +33,9 @@ function DependencyFilter(props) {
             Object.keys(dependencyFilters)
                 .filter(key => key!=='none')
                 .reduce((acc, key) => {
-                    return {...acc, [key]: {value: newVal, disabled: acc[key]['disabled']}}
-                }, {none: true})
+                    const disabled = dependencyFilters[key] ? dependencyFilters[key]['disabled'] : false;
+                    return {...acc, [key]: {value: disabled ? false : newVal, disabled }}
+                }, {none: {value: true, disabled: false}})
         );
     };
 
@@ -58,7 +59,6 @@ function DependencyFilter(props) {
                                 <CheckboxControl
                                     label={__('Native', 'starterblocks')}
                                     checked={isNoneChecked()}
-                                    disabled={isNoneChecked()}
                                     onChange={() => toggleNoneChecked('none')}
                                 />
                                 <Tooltip text={__('Only default WordPress blocks used.', 'starterblocks')} position='right'>

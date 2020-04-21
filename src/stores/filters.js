@@ -99,6 +99,6 @@ export const applyDependencyFilters = (pageData, dependencyFilters) => {
 }
 
 export const valueOfDependencyFilter = (dependencyFilter) => {
-    if (dependencyFilter.hasOwnProperty('value')) return (dependencyFilter.value === true);
+    if (dependencyFilter != null && dependencyFilter.hasOwnProperty('value')) return (dependencyFilter.value === true);
     return (dependencyFilter === true);
 }

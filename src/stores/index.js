@@ -9,7 +9,7 @@ import countBy from 'lodash/countBy';
 import map from 'lodash/map';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
-import {applyCategoryFilter, applySearchFilter, applyHashFilter, applyPriceFilter, applyDependencyFilters} from './filters'
+import {applyCategoryFilter, applySearchFilter, applyHashFilter, applyPriceFilter, applyDependencyFilters, valueOfDependencyFilter} from './filters'
 import {getCurrentState, getCollectionChildrenData} from './helper';
 import {isTemplatePremium} from './dependencyHelper'
 import {installedBlocksTypes} from './actionHelper';
@@ -41,14 +41,14 @@ const getActiveItemType = (state) => {
 };
 
 // get relevant page data, apply category, price, search, dependent filters
-const getPageData = (state) => {
+const getPageData = (state, applyDependencyFilter = true) => {
     let pageData = getOriginalPageData(state);
     let hashFilteredData = [];
     const searchKeyword = getSearchContext(state);
     if (state.activeItemType !== 'collection' && searchKeyword.length > 5) hashFilteredData = applyHashFilter(pageData, searchKeyword);
     if (pageData && Object.keys(pageData).length > 0) {
         pageData = applySearchFilter(pageData, searchKeyword);
-        pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
+        if (applyDependencyFilter) pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
         pageData = applyPriceFilter(pageData, getActivePriceFilter(state), getDependencyFilters(state));
         if (state.collection.activeCollection === null || state.activeItemType !== 'collection') {
             pageData = applyCategoryFilter(pageData, getActiveCategory(state));
@@ -65,12 +65,13 @@ const getDependencyFilters = (state) => {
 
 
 const getDependencyFiltersStatistics = (state) => {
-    const pageData = getPageData(state);
+    const pageData = getPageData(state, false);
     const dependentPluginsArray = uniq(flattenDeep(map(pageData, 'dependencies')));
     let dependencyFilters = getDependencyFilters(state);
     Object.keys(dependencyFilters).forEach((plugin) => {
         dependencyFilters[plugin] = {...dependencyFilters[plugin], disabled: dependentPluginsArray.indexOf(plugin) === -1}
     })
+    dependencyFilters['none'] = {value: valueOfDependencyFilter(dependencyFilters['none']), disabled: false};
     return dependencyFilters;
 };
 

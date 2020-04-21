@@ -11,27 +11,21 @@ import groupBy from 'lodash/groupBy';
 function DependencyFilterRow(props) {
     const {pluginKey, dependencyFilters} = props;
     const {setDependencyFilters} = props;
-    const [pluginInstance, setPluginInstance] = useState(null);
-    const [pluginClassname, setPluginClassname] = useState('');
 
-    useEffect(() => {
-        setPluginInstance(pluginInfo(pluginKey));
-    }, [pluginKey]);
-
-
-    useEffect(() => {
-        if (pluginInstance) {
-            let pluginClassnameList = [];
-            pluginClassnameList.push(!pluginInstance.version ? 'missing-dependency' : '');
-            pluginClassnameList.push((!dependencyFilters[pluginKey] || dependencyFilters[pluginKey].disabled) ? 'disabled' : '');
-            setPluginClassname(pluginClassnameList.join(' '));
-        }
-    }, [pluginInstance]);
+    const pluginInstance = pluginInfo(pluginKey);
+    let pluginClassname = '';
 
     if (!pluginKey || pluginKey === 'none') return null;
 
     if (!pluginInstance || pluginInstance.name == null) {
         return null// Skip extra items
+    }
+
+    if (pluginInstance) {
+        let pluginClassnameList = [];
+        pluginClassnameList.push(!pluginInstance.version ? 'missing-dependency' : '');
+        pluginClassnameList.push((!dependencyFilters[pluginKey] || dependencyFilters[pluginKey].disabled) ? 'disabled' : '');
+        pluginClassname = pluginClassnameList.join(' ');
     }
 
 
@@ -43,7 +37,7 @@ function DependencyFilterRow(props) {
 
     const toggleChecked = (pluginKey) => {
         // disable check first
-        if (!dependencyFilters[pluginKey] || dependencyFilters[pluginKey].disabled) return;
+        if (dependencyFilters[pluginKey] === null || dependencyFilters[pluginKey] === undefined || dependencyFilters[pluginKey].disabled) return;
 
 
         let newDependencyFilters = {...dependencyFilters,
