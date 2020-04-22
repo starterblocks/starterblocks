@@ -39,7 +39,7 @@ function SingleItem (props) {
             <div className={innerClassname}>
                 <div className="starterblocks-default-template-image">
 
-                    {<img className="lazy" src={backgroundImage(data.image)}/>}
+                    {data.source !== 'wp_block_patterns' &&<img className="lazy" src={backgroundImage(data.image)}/>}
                     {data.source === 'wp_block_patterns' && <BackgroundImage data={data} />}
                     {requiresPro(data) && <span className="starterblocks-pro-badge">{__('Premium')}</span>}
                     {!requiresPro(data) && requiresInstall(data) && <span className="starterblocks-missing-badge"><i className="fas fa-exclamation-triangle" /></span>}

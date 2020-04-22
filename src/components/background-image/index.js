@@ -7,7 +7,7 @@ const {parse} = wp.blocks;
 import {BlockPreview} from '@wordpress/block-editor';
 import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
 function BackgroundImage(props) {
-    const {data, discardAllErrorMessages, appendErrorMessage, insertBlocks, activeItemType} = props;
+    const {data, discardAllErrorMessages, appendErrorMessage, activeItemType} = props;
     const [dataLoaded, setDataLoaded] = useState(false);
     const [blocks, setBlocks] = useState(null);
 
@@ -39,7 +39,11 @@ function BackgroundImage(props) {
 
     if (dataLoaded === true) {
         let parsed = parse(blocks.template);
-        return <BlockPreview blocks={parsed} />;
+        return (
+            <div style={{height: 200}}>
+                <BlockPreview blocks={parsed} />
+            </div>
+        );
     }
     return null;
 }
@@ -47,17 +51,13 @@ function BackgroundImage(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
-            insertBlocks
-        } = dispatch('core/block-editor');
-        const {
             appendErrorMessage,
             discardAllErrorMessages
         } = dispatch('starterblocks/sectionslist');
 
         return {
             appendErrorMessage,
-            discardAllErrorMessages,
-            insertBlocks
+            discardAllErrorMessages
         };
     }),
     withSelect((select, props) => {
