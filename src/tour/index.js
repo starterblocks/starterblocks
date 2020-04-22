@@ -138,11 +138,12 @@ function StarterBlocksTour(props) {
             premium plugins, you will be provided details on where you can get them.`,
             position: 'top',
             action: () => {
+                // if (ModalManager.isModalOpened() === false) ModalManager.open(<LibraryModal autoTourStart={false} />)
+                ModalManager.show();
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
                 setNeedUpdate(new Date().toString());
-                // ModalManager.open();
             }
         },
         {
@@ -151,7 +152,7 @@ function StarterBlocksTour(props) {
             and override your theme in different ways, including just passing it all together.`,
             action: () => {
                 setImportingTemplate(null);
-                ModalManager.close();
+                ModalManager.hide();
             },
             position: 'center'
         },
@@ -159,7 +160,8 @@ function StarterBlocksTour(props) {
             selector: '.starterblocks-pagelist-modal-inner',
             content: 'Well, that is the tour. Take a look around. We hope you love StarterBlocks!',
             action: () => {
-                ModalManager.open(<LibraryModal autoTourStart={false} />)
+                ModalManager.show();
+                setNeedUpdate(new Date().toString());
             },
             position: 'center'
         },
@@ -181,6 +183,7 @@ function StarterBlocksTour(props) {
         onRequestClose={onRequestClose}
         steps={tourConfig}
         isOpen={isTourOpen}
+        onBeforeClose={() => ModalManager.show()}
         update={needUpdate}
         lastStepNextButton={<span className="button button-small">Finish</span>}
         rounded={0}

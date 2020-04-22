@@ -40,6 +40,10 @@
     justify-content: center;
     pointer-events: none;
 
+    &.hidden {
+        display: none;
+    }
+
     .wp-full-overlay-sidebar {
         .wp-core-ui .button-group.button-hero .button,
         .wp-core-ui .button.button-hero {

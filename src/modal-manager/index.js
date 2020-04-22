@@ -86,5 +86,16 @@ export const ModalManager = {
     },
     isCustomizerOpened() {
         return customizerNode ? true : false;
+    },
+    isModalOpened() {
+        return node ? true : false;
+    },
+    hide () {
+        document.body.classList.remove('starterblocks-builder-modal-open')
+        node.classList.add('hidden')
+    },
+    show () {
+        document.body.classList.add('starterblocks-builder-modal-open')
+        node.classList.remove('hidden')
     }
 }
