@@ -39,8 +39,7 @@ function BackgroundImage(props) {
 
     if (dataLoaded === true) {
         let parsed = parse(blocks.template);
-        insertBlocks(parsed);
-        //return <BlockPreview blocks={parsed} />;
+        return <BlockPreview blocks={parsed} />;
     }
     return null;
 }
