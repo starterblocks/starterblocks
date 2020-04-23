@@ -151,6 +151,19 @@ If you want, you can use the [Gutenberg](https://starterblocks.io/) plugin to ge
 4. Import wizard with integrated dependency installer.
 5. Integrated tour.
 
+== Changelog ==
+
+= 1.0.2 =
+* Feature: Better filtering response.
+* Update: Added hiding of extra buttons not needed.
+
+= 1.0.1 =
+* Fix: API cache issue.
+* Feature: Preview Saved and Block Patterns in library.
+
+= 1.0.0 =
+* Initial release - April 2020
+
 == Frequently Asked Questions ==
 
 = Who should use the StarterBlocks Block Library for Gutenberg? =
