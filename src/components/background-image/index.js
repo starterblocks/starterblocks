@@ -6,6 +6,8 @@ const {parse} = wp.blocks;
 
 import {BlockPreview} from '@wordpress/block-editor';
 import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
+import './style.scss'
+
 function BackgroundImage(props) {
     const {data, discardAllErrorMessages, appendErrorMessage, activeItemType} = props;
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -40,7 +42,7 @@ function BackgroundImage(props) {
     if (dataLoaded === true) {
         let parsed = parse(blocks.template);
         return (
-            <div style={{height: 200}}>
+            <div>
                 <BlockPreview blocks={parsed} />
             </div>
         );
