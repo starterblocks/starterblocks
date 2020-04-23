@@ -8,78 +8,8 @@ import {
 import {compose} from '@wordpress/compose'
 import {PluginBlockSettingsMenuItem} from '@wordpress/edit-post'
 import StarterblocksIcon from './icons'
-
-
-//
-// export function ShareBlockButton({
-//                                      onShareBlock,
-//                                      onExportBlock
-//                                  }) {
-//     if (!select('core/block-editor').getSelectedBlockClientIds) {
-//         return null
-//     }
-//
-//     return (
-//         <PluginBlockSettingsMenuItem
-//             icon={StarterblocksIcon}
-//             label={__('Share this Design')}
-//             onClick={onShareBlock}
-//         />
-//         // ,
-//         // {/*<PluginBlockSettingsMenuItem*/}
-//         // {/*    icon={StarterblocksIcon}*/}
-//         // {/*    label={__('Export Template (JSON)')}*/}
-//         // {/*    onClick={onExportBlock('json')}*/}
-//         // {/*/>,*/}
-//         // {/*<PluginBlockSettingsMenuItem*/}
-//         // {/*    icon={StarterblocksIcon}*/}
-//         // {/*    label={__('Export Template (HTML)')}*/}
-//         // {/*    onClick={onExportBlock('html')}*/}
-//         // {/*/>*/}
-//     )
-// }
-//
-// export default compose([
-//     withSelect((select, {clientIds}) => {
-//         const {
-//             getBlocksByClientId
-//         } = select('core/block-editor')
-//
-//         const blocksSelection = getBlocksByClientId(clientIds)
-//
-//         return {
-//             blocksSelection
-//         }
-//     }),
-//     withDispatch((dispatch, {
-//         clientIds, onToggle = noop, blocksSelection = [], groupingBlockName,
-//     }) => {
-//         const {
-//             replaceBlocks,
-//         } = dispatch('core/block-editor')
-//
-//         return {
-//             onShareBlock() {
-//                 if (!blocksSelection.length) {
-//                     return
-//                 }
-//
-//                 onToggle()
-//             },
-//             onExportBlock(type) {
-//                 if (!blocksSelection.length) {
-//                     return
-//                 }
-//                 alert('here');
-//             },
-//
-//
-//         }
-//     }),
-// ])(ShareBlockButton2)
-//
-//
-
+import {Modal, ModalManager} from '../../modal-manager'
+import ShareModal from './modal'
 
 /**
  * Based on: https://github.com/WordPress/gutenberg/blob/master/packages/editor/src/components/convert-to-group-buttons/convert-button.js
@@ -92,14 +22,14 @@ import StarterblocksIcon from './icons'
 import {Group, Ungroup} from './icons'
 
 const saveData = (function () {
-    var a = document.createElement("a");
+    var a = document.createElement('a');
     document.body.appendChild(a);
-    a.style = "display: none";
+    a.style = 'display: none';
     return function (data, fileName, type) {
         if (!type || (type && type != 'html')) {
             data = JSON.stringify(data)
         }
-        var blob = new Blob([data], {type: "octet/stream"}),
+        var blob = new Blob([data], {type: 'octet/stream'}),
             url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fileName;
@@ -111,7 +41,7 @@ const saveData = (function () {
 
 export function ShareBlockButton(
     {
-        onShareBlock,
+        blocksSelection,
         onExportBlockJSON,
         onExportBlockHTML,
         onExportBlockReusable
@@ -120,6 +50,13 @@ export function ShareBlockButton(
     // Only supported by WP >= 5.3.
     if (!select('core/block-editor').getSelectedBlockClientIds) {
         return null
+    }
+
+    const onShareBlock = () => {
+        if (!blocksSelection.length) {
+            return
+        }
+        ModalManager.open(<ShareModal blocksSelection={blocksSelection} />);
     }
 
     return (
@@ -175,21 +112,12 @@ export default compose([
         } = dispatch('core/block-editor')
 
         return {
-            onShareBlock() {
-                if (!blocksSelection.length) {
-                    return
-                }
-                console.log(blocksSelection);
-                console.log('share');
-
-                onToggle()
-            },
             onExportBlockJSON() {
                 if (!blocksSelection.length) {
                     return
                 }
 
-                let blocks = wp.data.select("core/block-editor").getBlocks();
+                let blocks = wp.data.select('core/block-editor').getBlocks();
                 let fileName = 'blocks.json'
                 if (blocksSelection.length == 1) {
                     fileName = blocksSelection[0].name.replace('/', '_') + '.json'

@@ -1,7 +1,7 @@
 import {__} from '@wordpress/i18n';
 import {Component, Fragment} from '@wordpress/element';
 
-var onClose, node, customizerNode, wizardNode, tourNode;
+var onClose, node, customizerNode, shareNode;
 
 export class Modal extends Component {
     constructor(props) {
@@ -42,7 +42,7 @@ export class Modal extends Component {
                 <span onClick={e => {
                     this.close()
                 }} className={'starterblocks-pagelist-modal-overlay'}>&nbsp;</span>
-                <div className={'starterblocks-pagelist-modal-inner'} onClick={e => e.stopPropagation()}>
+                <div className={ this.props.compactMode ? 'starterblocks-modal-inner' : 'starterblocks-pagelist-modal-inner'} onClick={e => e.stopPropagation()}>
                     {this.props.children}
                 </div>
             </Fragment>
@@ -86,9 +86,6 @@ export const ModalManager = {
     },
     isCustomizerOpened() {
         return customizerNode ? true : false;
-    },
-    isModalOpened() {
-        return node ? true : false;
     },
     hide () {
         document.body.classList.remove('starterblocks-builder-modal-open')
