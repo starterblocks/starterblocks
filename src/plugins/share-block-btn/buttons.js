@@ -9,7 +9,7 @@ import {compose} from '@wordpress/compose'
 import {PluginBlockSettingsMenuItem} from '@wordpress/edit-post'
 import StarterblocksIcon from './icons'
 import {Modal, ModalManager} from '../../modal-manager'
-import ShareModal from './modal'
+// import ShareModal from './modal'
 
 /**
  * Based on: https://github.com/WordPress/gutenberg/blob/master/packages/editor/src/components/convert-to-group-buttons/convert-button.js
