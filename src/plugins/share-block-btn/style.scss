@@ -1,0 +1,16 @@
+@import "../../variables";
+.starterblocks-modal-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: $primaryBack;
+    box-shadow: 0 0 45px 10px rgba(3, 8, 15, 0.2);
+    //border-radius: 5px;
+    animation: components-modal__appear-animation 0.1s ease-out;
+    animation-fill-mode: forwards;
+}
+
+.starterblocks-share {
+    padding: 20px;
+}
