@@ -4,7 +4,7 @@
  * Plugin URI:        https://starterblocks.io/
  * Description:       Who wants to start with just blocks? Implement templates immediately with our design library. Shortcut your design process!
  * Version: 		  1.0.1
- * Author:            Team Redux
+ * Author:            Redux.io
  * Author URI:        https://redux.io/
  * Text Domain:       starterblocks
  * Requires at least: 5.0
