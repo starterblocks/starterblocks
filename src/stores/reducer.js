@@ -83,6 +83,7 @@ export const reducer = ( state = initialState, action ) => {
             };
         case 'SET_ACTIVE_CATEGORY':
             setWithExpiry(state.activeItemType + '_category', action.activeCategory, EXIPRY_TIME);
+            setWithExpiry(state.activeItemType + '_page', 0, EXIPRY_TIME);
             return {
                 ...state,
                 [state.activeItemType]: {
@@ -93,6 +94,7 @@ export const reducer = ( state = initialState, action ) => {
             };
         case 'SET_SEARCH_CONTEXT':
             setWithExpiry(state.activeItemType + '_search', action.searchContext, EXIPRY_TIME);
+            setWithExpiry(state.activeItemType + '_page', 0, EXIPRY_TIME);
             return {
                 ...state,
                 [state.activeItemType]: {
@@ -103,6 +105,7 @@ export const reducer = ( state = initialState, action ) => {
             };
         case 'SET_ACTIVE_PRICE_FILTER':
             setWithExpiry(state.activeItemType + '_price', action.activePriceFilter, EXIPRY_TIME);
+            setWithExpiry(state.activeItemType + '_page', 0, EXIPRY_TIME);
             return {
                 ...state,
                 [state.activeItemType]: {
@@ -119,6 +122,7 @@ export const reducer = ( state = initialState, action ) => {
             };
         case 'SET_DEPENDENCY_FILTERS':
             setWithExpiry(state.activeItemType + '_plugin', action.dependencyFilters, EXIPRY_TIME);
+            setWithExpiry(state.activeItemType + '_page', 0, EXIPRY_TIME);
             return {
                 ...state,
                 [state.activeItemType]: {
@@ -129,6 +133,7 @@ export const reducer = ( state = initialState, action ) => {
             }
         case 'SET_SORT_BY':
             setWithExpiry(state.activeItemType + '_sort', action.sortBy, EXIPRY_TIME);
+            setWithExpiry(state.activeItemType + '_page', 0, EXIPRY_TIME);
             return {
                 ...state,
                 [state.activeItemType]: {
