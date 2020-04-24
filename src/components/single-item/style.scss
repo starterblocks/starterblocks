@@ -1,9 +1,11 @@
 .starterblocks-single-section-item {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
+    transition: all 0.05s ease-in-out;
 
     .starterblocks-tmpl-title {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.9);
+        border-top: 1px solid #f2f4f7;
         position: absolute;
         bottom: 0;
         width: 100%;
@@ -40,5 +42,4 @@
 
 #collections-sections-list.small > div {
     width: 25%;
-
 }

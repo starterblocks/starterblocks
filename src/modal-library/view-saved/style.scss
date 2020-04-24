@@ -144,6 +144,7 @@
 
 .starter-two-section {
     .preview-image-wrapper {
+        transition: all 0.05s ease-in-out;
         width: 100%;
         min-height: 130px;
         max-height: 300px;
@@ -160,7 +161,8 @@
     }
 
     .saved-section-title {
-        background: rgba(255, 255, 255, 0.95);
+        border-top: 1px solid #f2f4f7;
+        background: rgba(255, 255, 255, 0.9);
         position: absolute;
         bottom: 0;
         width: 100%;
@@ -185,6 +187,8 @@
 
 .preview-image-wrapper {
     .block-editor-block-preview__container {
+        transition: all 0.05s ease-in-out;
+        background: #fff;
         margin: 0 auto;
         min-height: 130px;
     }

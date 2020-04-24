@@ -145,7 +145,6 @@
     position: relative;
     flex-grow: 1;
     padding-right: 50px;
-    //border-top-right-radius: 5px;
 
     button:not(.starterblocks-builder-close-modal) {
         display: inline-block;
@@ -435,7 +434,8 @@
         width: 100%;
         -webkit-transition: opacity 0.3s ease-in-out;
         transition: opacity 0.3s ease-in-out;
-        background: #3dbfe8;
+        background-color: rgba(61, 192, 232, 0.9);
+        border-top: 1px solid #f2f4f7;
 
         h5 {
             margin: 0;

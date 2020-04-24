@@ -36,6 +36,40 @@ class API {
         return $this->filesystem;
     }
 
+    private function process_registered_blocks( $parameters ) {
+        $data = $this->api_cache_fetch( array(), array(), 'library.json' );
+
+        if ( empty( $data ) || ( ! empty( $data ) && ! isset( $data['plugins'] ) ) ) {
+            return $parameters;
+        }
+        $supported = StarterBlocks\SupportedPlugins::instance();
+        $supported::init( $data['plugins'] );
+        $plugins           = $supported::get_plugins();
+        $installed_plugins = array();
+        if ( ! isset( $parameters['registered_blocks'] ) ) {
+            $parameters['registered_blocks'] = array();
+        }
+
+        foreach ( $plugins as $key => $value ) {
+            if ( isset( $value['version'] ) ) {
+                array_push( $installed_plugins, $key );
+                $found_already = array_search( $key, $parameters['registered_blocks'] );
+                if ( $found_already !== false ) {
+                    unset( $parameters['registered_blocks'][ $found_already ] );
+                }
+                if ( isset( $value['namespace'] ) && $value['namespace'] != $key ) {
+                    $found = array_search( $value['namespace'], $parameters['registered_blocks'] );
+                    if ( $found !== false ) {
+                        unset( $parameters['registered_blocks'][ $found ] );
+                    }
+                }
+            }
+        }
+        $parameters['registered_blocks'] = array_merge( $installed_plugins, $parameters['registered_blocks'] );
+
+        return $parameters;
+    }
+
     private function process_dependencies( $data, $key ) {
 
         foreach ( $data[ $key ] as $kk => $pp ) {
@@ -97,7 +131,7 @@ class API {
     }
 
 
-    public function api_cache_fetch( $parameters, $config, $path ) {
+    public function api_cache_fetch( $parameters, $config, $path, $cache_only = false ) {
         $filesystem = $this->get_filesystem();
 
         if ( strpos( $path, $filesystem->cache_folder ) === false ) {
@@ -119,12 +153,15 @@ class API {
             }
         }
 
+        if ( $cache_only ) {
+            $use_cache = true;
+        }
+        $data = array();
         if ( $use_cache ) {
             $data = @json_decode( $filesystem->get_contents( $path ), true );
-            if ( empty( $data ) || ( ! empty( $data ) && ! isset( $data['sections'] ) ) ) {
-                $data      = array();
-                $use_cache = false;
-            }
+        }
+        if ( $cache_only ) {
+            return $data;
         }
 
         if ( ! $use_cache && isset( $config['headers']['SB-Cache-Time'] ) ) {
@@ -241,7 +278,10 @@ class API {
      * @param     WP_REST_Request     $request
      */
     public function share_template( \WP_REST_Request $request ) {
-        $parameters = $request->get_params();
+        $parameters             = $request->get_params();
+        $attributes             = $request->get_attributes();
+        $parameters             = $this->process_registered_blocks( $parameters );
+        $parameters['no_cache'] = 1;
 
         if ( empty( $parameters ) ) {
             wp_send_json_error( 'No template data found.' );
@@ -338,6 +378,7 @@ class API {
 
         $parameters = $request->get_params();
         $attributes = $request->get_attributes();
+        $parameters = $this->process_registered_blocks( $parameters );
 
         if ( in_array( $parameters['type'], [ 'sections', 'pages' ] ) ) {
             $parameters['type'] = substr_replace( $parameters['type'], "", - 1 );
