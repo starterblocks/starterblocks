@@ -1,4 +1,5 @@
 import {noop} from 'lodash'
+import {kebabCase} from 'lodash';
 import {Fragment} from '@wordpress/element'
 import {__} from '@wordpress/i18n'
 import {setGroupingBlockName, switchToBlockType} from '@wordpress/blocks'
@@ -9,7 +10,9 @@ import {compose} from '@wordpress/compose'
 import {PluginBlockSettingsMenuItem} from '@wordpress/edit-post'
 import StarterblocksIcon from './icons'
 import {Modal, ModalManager} from '../../modal-manager'
-// import ShareModal from './modal'
+import ShareModal from './modal'
+
+import {download} from '~starterblocks/plugins/export'
 
 /**
  * Based on: https://github.com/WordPress/gutenberg/blob/master/packages/editor/src/components/convert-to-group-buttons/convert-button.js
@@ -19,7 +22,6 @@ import {Modal, ModalManager} from '../../modal-manager'
 /**
  * Internal dependencies
  */
-import {Group, Ungroup} from './icons'
 
 const saveData = (function () {
     var a = document.createElement('a');
@@ -42,9 +44,7 @@ const saveData = (function () {
 export function ShareBlockButton(
     {
         blocksSelection,
-        onExportBlockJSON,
-        onExportBlockHTML,
-        onExportBlockReusable
+        onExportBlock,
     }
 ) {
     // Only supported by WP >= 5.3.
@@ -56,7 +56,7 @@ export function ShareBlockButton(
         if (!blocksSelection.length) {
             return
         }
-        ModalManager.open(<ShareModal blocksSelection={blocksSelection} />);
+        ModalManager.open(<ShareModal blocksSelection={blocksSelection}/>);
     }
 
     return (
@@ -66,20 +66,10 @@ export function ShareBlockButton(
                 label={__('Share Block', 'starterblocks')}
                 onClick={onShareBlock}
             />
-            <PluginBlockSettingsMenuItem
-                icon={StarterblocksIcon}
-                label={__('Export as JSON Object', 'starterblocks')}
-                onClick={onExportBlockJSON}
-            />
-            {/*<PluginBlockSettingsMenuItem*/}
-            {/*    icon={StarterblocksIcon}*/}
-            {/*    label={__('Export as HTML', 'starterblocks')}*/}
-            {/*    onClick={onExportBlockHTML}*/}
-            {/*/>*/}
             {/*<PluginBlockSettingsMenuItem*/}
             {/*    icon={StarterblocksIcon}*/}
             {/*    label={__('Export as Reusable Block', 'starterblocks')}*/}
-            {/*    onClick={onExportBlockReusable}*/}
+            {/*    onClick={onExportBlock}*/}
             {/*/>*/}
         </Fragment>
     )
@@ -112,38 +102,40 @@ export default compose([
         } = dispatch('core/block-editor')
 
         return {
-            onExportBlockJSON() {
+            onExportBlock() {
                 if (!blocksSelection.length) {
                     return
                 }
+
+                console.log(blocksSelection);
 
                 let blocks = wp.data.select('core/block-editor').getBlocks();
                 let fileName = 'blocks.json'
-                if (blocksSelection.length == 1) {
-                    fileName = blocksSelection[0].name.replace('/', '_') + '.json'
-                }
 
-                saveData(blocksSelection, fileName, 'json');
-
-                onToggle()
-            },
-            onExportBlockHTML() {
-                if (!blocksSelection.length) {
-                    return
-                }
-
-                console.log(blocksSelection);
-                console.log('export HTML');
-
-                onToggle()
-            },
-            onExportBlockReusable() {
-                if (!blocksSelection.length) {
-                    return
-                }
-
-                console.log(blocksSelection);
-                console.log('export HTML');
+                const title = select('core/block-editor').getSelectedBlockName();
+                const content = select('core/block-editor').getSelectedBlockClientId();
+                // const content = post.content.raw;
+                const fileContent = JSON.stringify(
+                    {
+                        __file: 'wp_block',
+                        title,
+                        content,
+                    },
+                    null,
+                    2
+                );
+                console.log(fileContent);
+                // const theFileName = kebabCase( title ) + '.json';
+                //
+                // download( theFileName, fileContent, 'application/json' );
+                //
+                //
+                //
+                // if (blocksSelection.length == 1) {
+                //     fileName = blocksSelection[0].name.replace('/', '_') + '.json'
+                // }
+                //
+                // saveData(blocksSelection, fileName, 'json');
 
                 onToggle()
             },
