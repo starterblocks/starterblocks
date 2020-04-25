@@ -62,27 +62,28 @@ export default function ShareModal(props) {
     return (
         <Modal compactMode={true}>
             <div className="starterblocks-share">
-                <div className="input-panel">
-
-                    <div className="field">
-                        <label>Category</label>
-                        <CreatableSelect
-                            isMulti
-                            onChange={handleChange}
-                            options={options}
-                        />
+                <div className="panel">
+                    <div className="input-panel">
+                        <div className="field">
+                            <label>Category</label>
+                            <CreatableSelect
+                                isMulti
+                                onChange={handleChange}
+                                options={options}
+                            />
+                        </div>
+                        <div className="field">
+                            <label>Block Title</label>
+                            <input type="text" value={blockTitle} onClick={setBlockTitle} />
+                        </div>
+                        <div className="field">
+                            <label>Description</label>
+                            <input type="text" value={description} onClick={setDescription} />
+                        </div>
                     </div>
-                    <div className="field">
-                        <label>Block Title</label>
-                        <input type="text" value={blockTitle} onClick={setBlockTitle} />
+                    <div className="preview-panel">
+                        <BlockPreview blocks={blocksSelection} />
                     </div>
-                    <div className="field">
-                        <label>Description</label>
-                        <input type="text" value={description} onClick={setDescription} />
-                    </div>
-                </div>
-                <div className="preview-panel">
-                    <BlockPreview blocks={blocksSelection} />
                 </div>
                 <button className="button button-primary" onClick={shareThisBlock}>
                     {loading ? <i className="fas fa-spinner fa-pulse"/> : <i className="fas fa-share"></i>}

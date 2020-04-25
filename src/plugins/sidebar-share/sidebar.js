@@ -6,6 +6,8 @@ const {PanelBody, Spinner} = wp.components
 const {withDispatch, select} = wp.data;
 const {PluginSidebar, PluginSidebarMoreMenuItem} = wp.editPost;
 import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
+import {Modal, ModalManager} from '../../modal-manager'
+import ShareModal from '../share-block-btn/modal'
 
 function Sidebar(props) {
 
@@ -13,27 +15,7 @@ function Sidebar(props) {
     const [loading, setLoading] = useState(false);
 
     const onShare = () => {
-        if (loading) return; // prevent duplicate efforts
-        setLoading(true);
-
-        savePost().then(() => {
-            apiFetch({
-                path: 'starterblocks/v1/share/',
-                method: 'POST',
-                headers: {'Registed-Blocks': installedBlocksTypes()},
-                data: {
-                    'postID': select('core/editor').getCurrentPostId(),
-                    'editor_content': select('core/editor').getEditedPostContent(),
-                    'editor_blocks': select('core/editor').getEditorBlocks(),
-                    'registered_blocks': installedBlocksTypes(),
-                }
-            }).then(data => {
-                setLoading(false);
-            }).catch(err => {
-                setLoading(false);
-                alert('There was an error: ' + err);
-            });
-        })
+        ModalManager.open(<ShareModal blocksSelection={select('core/editor').getEditorBlocks()} type='page' />);
     }
 
     return (

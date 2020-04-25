@@ -13,4 +13,12 @@
 
 .starterblocks-share {
     padding: 20px;
+    .panel {
+        display: flex;
+        .preview-panel {
+            width: 300px;
+            height: 200px;
+            overflow-y: auto;
+        }
+    }
 }
