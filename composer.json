@@ -2,7 +2,7 @@
     "name": "starterblocks/starterblocks",
     "type": "wordpress-plugin",
     "license": "gpl-2.0-or-later",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "WordPress",
     "homepage": "https://starterblocks.io/",
     "authors": [

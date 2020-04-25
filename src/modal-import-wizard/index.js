@@ -8,6 +8,7 @@ const {Spinner} = wp.components;
 import InstallPluginStep from './InstallPluginStep';
 import ProPluginStep from './ProPluginsStep';
 import {ModalManager} from '../modal-manager'
+import '../modals.scss'
 import './style.scss'
 
 const PLUGIN_STEP = 0;
@@ -52,11 +53,11 @@ function ImportWizard(props) {
 
     if (!importingTemplate) return null;
     return (
-        <div className="starterblocks-import-wizard-overlay">
-            <div className="starterblocks-import-wizard-wrapper" data-tut="tour__import_wizard">
-                <div className="starterblocks-import-wizard-header">
+        <div className="starterblocks-modal-overlay">
+            <div className="starterblocks-modal-wrapper" data-tut="tour__import_wizard">
+                <div className="starterblocks-modal-header">
                     <h3>{__('Template Import Wizard')}</h3>
-                    <button className="starterblocks-builder-close-modal" onClick={onCloseWizard}>
+                    <button className="starterblocks-modal-close" onClick={onCloseWizard}>
                         <i className={'fas fa-times'}/>
                     </button>
                 </div>

@@ -8,7 +8,7 @@ function ProPluginStep(props) {
     const {plugins} = props;
     return (
         <Fragment>
-            <div className="starterblocks-import-wizard-body">
+            <div className="starterblocks-modal-body">
                 <h5>{__('External Dependencies Required')}</h5>
                 <p>{__('The following premium plugin(s) are required to import this template:')}</p>
 
@@ -26,7 +26,7 @@ function ProPluginStep(props) {
                     }
                 </ul>
             </div>
-            <div className="starterblocks-import-wizard-footer">
+            <div className="starterblocks-modal-footer">
                 <a className="button button-secondary" onClick={onCloseWizard}>
                     {__('Close')}
                 </a>

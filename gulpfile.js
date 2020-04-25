@@ -34,6 +34,7 @@ function makeBuild() {
 		'!.eslintrc',
 		'!./package-lock.json',
         '!./composer-lock.json',
+        '!./composer.lock',
 		'!./webpack.*.js',
         '!./jest.config.js',
         '!./babel.config.js',

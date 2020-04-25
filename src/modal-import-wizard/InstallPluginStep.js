@@ -64,7 +64,7 @@ function InstallPluginStep(props) {
     return (
 
         <Fragment>
-            <div className="starterblocks-import-wizard-body">
+            <div className="starterblocks-modal-body">
                 <h5>{__('Install Required Plugins')}</h5>
                 <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.')}</p>
                 {
@@ -99,7 +99,7 @@ function InstallPluginStep(props) {
                     }
                 </ul>
             </div>
-            <div className="starterblocks-import-wizard-footer">
+            <div className="starterblocks-modal-footer">
                 {waitingList.length !== 0 &&
                 <button className="button button-primary" disabled={installingPlugin !== null}
                         onClick={() => onInstallPlugins()}>
