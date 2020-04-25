@@ -42,7 +42,7 @@ export default function ShareModal(props) {
                 'title': blockTitle,
                 'description': description,
                 'type': type,
-                'categories': categories
+                'categories': category
             }
         }).then(data => {
             setLoading(false);
@@ -74,11 +74,11 @@ export default function ShareModal(props) {
                         </div>
                         <div className="field">
                             <label>Block Title</label>
-                            <input type="text" value={blockTitle} onClick={setBlockTitle} />
+                            <input type="text" value={blockTitle} onChange={(e) => setBlockTitle(e.target.value)} />
                         </div>
                         <div className="field">
                             <label>Description</label>
-                            <input type="text" value={description} onClick={setDescription} />
+                            <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
                         </div>
                     </div>
                     <div className="preview-panel">
