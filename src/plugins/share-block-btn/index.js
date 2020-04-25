@@ -15,7 +15,7 @@ const Buttons = withSelect( select => {
     }
 } )( ShareBlockButton )
 
-registerPlugin( 'starterblocks-share-block-btn', {
-    icon: StarterblocksIcon,
-    render: Buttons,
-} );
+// registerPlugin( 'starterblocks-share-block-btn', {
+//     icon: StarterblocksIcon,
+//     render: Buttons,
+// } );

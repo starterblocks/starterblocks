@@ -271,6 +271,16 @@ class API {
         wp_send_json_success( $data );
     }
 
+    function array_filter_recursive( $input ) {
+        foreach ( $input as &$value ) {
+            if ( is_array( $value ) ) {
+                $value = $this->array_filter_recursive( $value );
+            }
+        }
+
+        return array_filter( $input );
+    }
+
     /**
      * @since 1.0.0
      * Method for transmitting a template the user is sharing remotely.
@@ -278,25 +288,60 @@ class API {
      * @param     WP_REST_Request     $request
      */
     public function share_template( \WP_REST_Request $request ) {
-        $parameters             = $request->get_params();
-        $attributes             = $request->get_attributes();
-        $parameters             = $this->process_registered_blocks( $parameters );
-        $parameters['no_cache'] = 1;
+        $parameters = $request->get_params();
+        $attributes = $request->get_attributes();
+        $parameters = $this->process_registered_blocks( $parameters );
 
         if ( empty( $parameters ) ) {
             wp_send_json_error( 'No template data found.' );
         }
 
-        $data = array(
-            'url'    => get_site_url(),
-            'params' => $parameters
+        $config = array(
+            'path'           => 'share/',
+            'uid'            => get_current_user_id(),
+            'editor_content' => isset( $parameters['editor_content'] ) ? (string) $parameters['editor_content'] : '',
+            'editor_blocks'  => isset( $parameters['editor_blocks'] ) ? $parameters['editor_blocks'] : '',
+            'postID'         => isset( $parameters['postID'] ) ? (string) sanitize_text_field(
+                $parameters['postID']
+            ) : '',
+            'title'          => isset( $parameters['title'] ) ? (string) sanitize_text_field(
+                $parameters['title']
+            ) : 'The Title',
+            'type'           => isset( $parameters['type'] ) ? (string) sanitize_text_field(
+                $parameters['type']
+            ) : 'page',
+            'categories'     => isset( $parameters['categories'] ) ? (string) sanitize_text_field(
+                $parameters['categories']
+            ) : '',
+            'description'    => isset( $parameters['description'] ) ? (string) sanitize_text_field(
+                $parameters['description']
+            ) : '',
+            'headers'        => array(
+                'SB-Registered-Blocks' => isset( $parameters['registered_blocks'] ) ? (string) sanitize_text_field(
+                    implode( ",", $parameters['registered_blocks'] )
+                ) : '',
+            ),
         );
 
-        $key = md5( get_site_url() ) . md5( $parameters['postID'] );
+        $config = $this->array_filter_recursive( $config );
 
-        $url = "https://share.starterblocks.io/share/" . $key;
+        if ( ! isset( $config['title'] ) ) {
+            wp_send_json_error( array( 'messages' => 'A title is required.' ) );
+        }
+        if ( ! isset( $config['type'] ) ) {
+            wp_send_json_error( array( 'messages' => 'A type is required.' ) );
+        }
 
-        wp_send_json_success( array( $url ) );
+        $response = $this->api_request( $config );
+
+        $data = @json_decode( $response, true );
+
+        if ( $data['status'] == "success" && isset( $data['url'] ) ) {
+            wp_send_json_success( array( 'url' => $data['url'] ) );
+        }
+
+        wp_send_json_error( $data );
+
     }
 
     public function api_request( $data ) {
@@ -322,10 +367,13 @@ class API {
         $headers = wp_parse_args( $headers, $this->default_request_headers );
 
         $headers['Content-Type'] = 'application/json; charset=utf-8';
+        $headers                 = array_filter( $headers );
 
         if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
             $headers['SB-User-Agent'] = (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] );
         }
+
+        $headers['SB-SiteURL'] = get_site_url( get_current_blog_id() );
 
         $post_args = array(
             'timeout'     => 120,
@@ -344,7 +392,8 @@ class API {
             $post_args
         );
 
-//        print_r($request);
+//        print_r( $request );
+//        exit();
 
         # Handle redirects
         if (
