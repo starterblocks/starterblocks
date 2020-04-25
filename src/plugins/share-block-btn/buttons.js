@@ -56,7 +56,7 @@ export function ShareBlockButton(
         if (!blocksSelection.length) {
             return
         }
-        ModalManager.open(<ShareModal blocksSelection={blocksSelection}/>);
+        ModalManager.open(<ShareModal blocksSelection={blocksSelection} type='block' />);
     }
 
     return (
