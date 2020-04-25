@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class API {
 
     private $cache_time = 24 * 3600; // 24 hours
-    protected $api_base_url = 'https://us-east4-starterblocks.cloudfunctions.net/';
+    protected $api_base_url = 'https://api.starterblocks.io/';
     protected $default_request_headers = array();
     protected $filesystem;
 
