@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class API {
 
     private $cache_time = 24 * 3600; // 24 hours
-    protected $api_base_url = 'https://api.starterblocks.io/';
+    protected $api_base_url = 'https://us-east4-starterblocks.cloudfunctions.net/';
     protected $default_request_headers = array();
     protected $filesystem;
 
@@ -34,40 +34,6 @@ class API {
         }
 
         return $this->filesystem;
-    }
-
-    private function process_registered_blocks( $parameters ) {
-        $data = $this->api_cache_fetch( array(), array(), 'library.json' );
-
-        if ( empty( $data ) || ( ! empty( $data ) && ! isset( $data['plugins'] ) ) ) {
-            return $parameters;
-        }
-        $supported = StarterBlocks\SupportedPlugins::instance();
-        $supported::init( $data['plugins'] );
-        $plugins           = $supported::get_plugins();
-        $installed_plugins = array();
-        if ( ! isset( $parameters['registered_blocks'] ) ) {
-            $parameters['registered_blocks'] = array();
-        }
-
-        foreach ( $plugins as $key => $value ) {
-            if ( isset( $value['version'] ) ) {
-                array_push( $installed_plugins, $key );
-                $found_already = array_search( $key, $parameters['registered_blocks'] );
-                if ( $found_already !== false ) {
-                    unset( $parameters['registered_blocks'][ $found_already ] );
-                }
-                if ( isset( $value['namespace'] ) && $value['namespace'] != $key ) {
-                    $found = array_search( $value['namespace'], $parameters['registered_blocks'] );
-                    if ( $found !== false ) {
-                        unset( $parameters['registered_blocks'][ $found ] );
-                    }
-                }
-            }
-        }
-        $parameters['registered_blocks'] = array_merge( $installed_plugins, $parameters['registered_blocks'] );
-
-        return $parameters;
     }
 
     private function process_dependencies( $data, $key ) {
@@ -133,23 +99,24 @@ class API {
 
     public function api_cache_fetch( $parameters, $config, $path, $cache_only = false ) {
         $filesystem = $this->get_filesystem();
-
-        if ( strpos( $path, $filesystem->cache_folder ) === false ) {
-            $path = $filesystem->cache_folder . $path;
-        }
-        if ( ! $filesystem->file_exists( dirname( $path ) ) ) {
-            $filesystem->mkdir( dirname( $path ) );
-        }
-
-        $last_modified = $this->get_cache_time( $path );
-        $use_cache     = true;
-        if ( isset( $parameters['no_cache'] ) ) {
-            $use_cache = false;
-        }
-        if ( ! empty( $last_modified ) ) {
-            $config['headers']['SB-Cache-Time'] = $last_modified;
-            if ( time() > $last_modified + $this->cache_time ) {
+        $use_cache  = false;
+        if ( ! empty( $path ) ) {
+            $use_cache = true;
+            if ( strpos( $path, $filesystem->cache_folder ) === false ) {
+                $path = $filesystem->cache_folder . $path;
+            }
+            if ( ! $filesystem->file_exists( dirname( $path ) ) ) {
+                $filesystem->mkdir( dirname( $path ) );
+            }
+            $last_modified = $this->get_cache_time( $path );
+            if ( isset( $parameters['no_cache'] ) ) {
                 $use_cache = false;
+            }
+            if ( ! empty( $last_modified ) ) {
+                $config['headers']['SB-Cache-Time'] = $last_modified;
+                if ( time() > $last_modified + $this->cache_time ) {
+                    $use_cache = false;
+                }
             }
         }
 
@@ -163,16 +130,16 @@ class API {
         if ( $cache_only ) {
             return $data;
         }
-
-        if ( ! $use_cache && isset( $config['headers']['SB-Cache-Time'] ) ) {
-            unset( $config['headers']['SB-Cache-Time'] );
-        }
+//        $data = array();
 
         if ( empty( $data ) ) {
 
             if ( isset( $parameters['registered_blocks'] ) ) {
                 $config['headers']['SB-Registered-Blocks'] = implode( ",", $parameters['registered_blocks'] );
             }
+            print_r( $config );
+            exit();
+            // TODO - Get the body in there!
 
             $results = $this->api_request( $config );
 
@@ -271,14 +238,38 @@ class API {
         wp_send_json_success( $data );
     }
 
-    function array_filter_recursive( $input ) {
-        foreach ( $input as &$value ) {
-            if ( is_array( $value ) ) {
-                $value = $this->array_filter_recursive( $value );
-            }
+    private function process_registered_blocks( $parameters ) {
+        $data = $this->api_cache_fetch( array(), array(), 'library.json' );
+
+        if ( empty( $data ) || ( ! empty( $data ) && ! isset( $data['plugins'] ) ) ) {
+            return $parameters;
+        }
+        $supported = StarterBlocks\SupportedPlugins::instance();
+        $supported::init( $data['plugins'] );
+        $plugins           = $supported::get_plugins();
+        $installed_plugins = array();
+        if ( ! isset( $parameters['registered_blocks'] ) ) {
+            $parameters['registered_blocks'] = array();
         }
 
-        return array_filter( $input );
+        foreach ( $plugins as $key => $value ) {
+            if ( isset( $value['version'] ) ) {
+                array_push( $installed_plugins, $key );
+                $found_already = array_search( $key, $parameters['registered_blocks'] );
+                if ( $found_already !== false ) {
+                    unset( $parameters['registered_blocks'][ $found_already ] );
+                }
+                if ( isset( $value['namespace'] ) && $value['namespace'] != $key ) {
+                    $found = array_search( $value['namespace'], $parameters['registered_blocks'] );
+                    if ( $found !== false ) {
+                        unset( $parameters['registered_blocks'][ $found ] );
+                    }
+                }
+            }
+        }
+        $parameters['registered_blocks'] = array_merge( $installed_plugins, $parameters['registered_blocks'] );
+
+        return $parameters;
     }
 
     /**
@@ -288,60 +279,37 @@ class API {
      * @param     WP_REST_Request     $request
      */
     public function share_template( \WP_REST_Request $request ) {
-        $parameters = $request->get_params();
-        $attributes = $request->get_attributes();
-        $parameters = $this->process_registered_blocks( $parameters );
+        $parameters             = $request->get_params();
+        $attributes             = $request->get_attributes();
+        $parameters             = $this->process_registered_blocks( $parameters );
+        $parameters['no_cache'] = 1;
 
         if ( empty( $parameters ) ) {
             wp_send_json_error( 'No template data found.' );
         }
 
         $config = array(
-            'path'           => 'share/',
-            'uid'            => get_current_user_id(),
-            'editor_content' => isset( $parameters['editor_content'] ) ? (string) $parameters['editor_content'] : '',
-            'editor_blocks'  => isset( $parameters['editor_blocks'] ) ? $parameters['editor_blocks'] : '',
-            'postID'         => isset( $parameters['postID'] ) ? (string) sanitize_text_field(
-                $parameters['postID']
-            ) : '',
-            'title'          => isset( $parameters['title'] ) ? (string) sanitize_text_field(
-                $parameters['title']
-            ) : 'The Title',
-            'type'           => isset( $parameters['type'] ) ? (string) sanitize_text_field(
-                $parameters['type']
-            ) : 'page',
-            'categories'     => isset( $parameters['categories'] ) ? (string) sanitize_text_field(
-                $parameters['categories']
-            ) : '',
-            'description'    => isset( $parameters['description'] ) ? (string) sanitize_text_field(
-                $parameters['description']
-            ) : '',
-            'headers'        => array(
-                'SB-Registered-Blocks' => isset( $parameters['registered_blocks'] ) ? (string) sanitize_text_field(
-                    implode( ",", $parameters['registered_blocks'] )
-                ) : '',
-            ),
+            'path' => 'share/',
         );
 
-        $config = $this->array_filter_recursive( $config );
+        $body   = array(
+            'id'     => isset( $parameters['editor_blocks'] ) ? (string) sanitize_text_field(
+                $parameters['editor_blocks']
+            ) : '',
+            'postId' => isset( $parameters['postID'] ) ? (string) sanitize_text_field( $parameters['postID'] ) : '',
+            'title'  => isset( $parameters['title'] ) ? (string) sanitize_text_field( $parameters['title'] ) : '',
+            'type'   => isset( $parameters['type'] ) ? (string) sanitize_text_field( $parameters['type'] ) : '',
+            'categories'   => isset( $parameters['categories'] ) ? (string) sanitize_text_field( $parameters['categories'] ) : '',
+            'description'   => isset( $parameters['description'] ) ? (string) sanitize_text_field( $parameters['description'] ) : '',
+        );
+        $body   = array_filter( $body, 'strlen' );
+        $config = wp_parse_args( $parameters, $body );
 
-        if ( ! isset( $config['title'] ) ) {
-            wp_send_json_error( array( 'messages' => 'A title is required.' ) );
-        }
-        if ( ! isset( $config['type'] ) ) {
-            wp_send_json_error( array( 'messages' => 'A type is required.' ) );
-        }
+        print_r($config);
 
-        $response = $this->api_request( $config );
+//        $response = $this->api_cache_fetch( $parameters, $config, false, false );
 
-        $data = @json_decode( $response, true );
-
-        if ( $data['status'] == "success" && isset( $data['url'] ) ) {
-            wp_send_json_success( array( 'url' => $data['url'] ) );
-        }
-
-        wp_send_json_error( $data );
-
+        wp_send_json_success( $config );
     }
 
     public function api_request( $data ) {
@@ -367,13 +335,10 @@ class API {
         $headers = wp_parse_args( $headers, $this->default_request_headers );
 
         $headers['Content-Type'] = 'application/json; charset=utf-8';
-        $headers                 = array_filter( $headers );
 
         if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
             $headers['SB-User-Agent'] = (string) sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] );
         }
-
-        $headers['SB-SiteURL'] = get_site_url( get_current_blog_id() );
 
         $post_args = array(
             'timeout'     => 120,
@@ -392,8 +357,7 @@ class API {
             $post_args
         );
 
-//        print_r( $request );
-//        exit();
+//        print_r($request);
 
         # Handle redirects
         if (
@@ -534,7 +498,7 @@ class API {
                 'callback' => 'get_template'
             ),
             '/share/'              => array(
-                'method'   => 'POST',
+//                'method'   => 'POST',  // TODO - Uncomment
                 'callback' => 'share_template'
             ),
             '/get_saved_blocks/'   => array(
