@@ -88,6 +88,10 @@ export default function ShareModal(props) {
                 <div className="panel">
                     <div className="input-panel">
                         <div className="field">
+                            <label>Block Title</label>
+                            <input type="text" value={blockTitle} onChange={(e) => setBlockTitle(e.target.value)} />
+                        </div>
+                        <div className="field">
                             <label>Category</label>
                             <CreatableSelect
                                 isMulti
@@ -98,22 +102,19 @@ export default function ShareModal(props) {
                             />
                         </div>
                         <div className="field">
-                            <label>Block Title</label>
-                            <input type="text" value={blockTitle} onChange={(e) => setBlockTitle(e.target.value)} />
-                        </div>
-                        <div className="field">
                             <label>Description</label>
-                            <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
                         </div>
+                        <button className="button button-primary" onClick={shareThisBlock}>
+                            {loading ? <i className="fas fa-spinner fa-pulse"/> : <i className="fas fa-share"></i>} Share this block
+                        </button>
                     </div>
                     <div className="preview-panel">
+                        <div className="starterblocks-block-preview-hover" />
                         <BlockPreview blocks={blocksSelection} />
                     </div>
                 </div>
-                <button className="button button-primary" onClick={shareThisBlock}>
-                    {loading ? <i className="fas fa-spinner fa-pulse"/> : <i className="fas fa-share"></i>}
-                    Share this block
-                </button>
+
             </div>
         </Modal>
     );
