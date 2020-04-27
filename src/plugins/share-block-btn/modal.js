@@ -8,6 +8,7 @@ import {BlockPreview} from '@wordpress/block-editor';
 import {Modal, ModalManager} from '../../modal-manager'
 import uniq from 'lodash/uniq';
 import map from 'lodash/map';
+import sortBy from 'lodash/sortBy';
 import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
 import {setWithExpiry, getWithExpiry} from '../../stores/helper';
 import './style.scss'
@@ -42,7 +43,7 @@ export default function ShareModal(props) {
 
     useEffect(() => {
         const keyName = type === 'page' ? 'page_categories_list' : 'section_categories_list';
-        const options = getWithExpiry(keyName);
+        const options = sortBy(getWithExpiry(keyName), 'label');
         setOptions(options);
     }, [type]);
 
