@@ -10,6 +10,7 @@ const {createSuccessNotice} = dispatch('core/notices');
 const {insertBlocks} = dispatch('core/block-editor');
 
 const prefix = 'sb_';
+const EXIPRY_TIME = 5 * 24 * 3600 * 1000;
 
 export const getCurrentState = (state) => state[state.activeItemType]
 // Helper function not to be exported
@@ -55,12 +56,18 @@ export const categorizeData = (list) => {
 
 export const parseSectionData = (sections) => {
     const librarySectionData = convertObjectToArray(sections);
-    return categorizeData(librarySectionData);
+    const toBeReturned = categorizeData(librarySectionData);
+    const categoriesList = toBeReturned.categories.map((category) => {return {label: category.name, value: category.slug}; });
+    setWithExpiry('section_categories_list', categoriesList, EXIPRY_TIME);
+    return toBeReturned;
 }
 
 export const parsePageData = (pages) => {
     const libraryPageData = convertObjectToArray(pages);
-    return categorizeData(libraryPageData);
+    const toBeReturned = categorizeData(libraryPageData);
+    const categoriesList = toBeReturned.categories.map((category) => {return {label: category.name, value: category.slug}; });
+    setWithExpiry('page_categories_list', categoriesList, EXIPRY_TIME);
+    return toBeReturned;
 }
 
 export const parseCollectionData = (library) => {

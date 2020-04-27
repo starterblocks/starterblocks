@@ -8,6 +8,7 @@ import {BlockPreview} from '@wordpress/block-editor';
 import {Modal, ModalManager} from '../../modal-manager'
 import uniq from 'lodash/uniq';
 import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
+import {setWithExpiry, getWithExpiry} from '../../stores/helper';
 import './style.scss'
 
 
@@ -17,12 +18,13 @@ export default function ShareModal(props) {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [options, setOptions] = useState([]);
 
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
-    ];
+    useEffect(() => {
+        const keyName = type === 'page' ? 'page_categories_list' : 'section_categories_list';
+        const options = getWithExpiry(keyName);
+        setOptions(options);
+    }, [type]);
 
     const handleChange = (newValue, actionMeta) => {
         console.group('Value Changed');
