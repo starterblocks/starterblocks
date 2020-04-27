@@ -7,12 +7,17 @@ import CreatableSelect from 'react-select/creatable';
 import {BlockPreview} from '@wordpress/block-editor';
 import {Modal, ModalManager} from '../../modal-manager'
 import uniq from 'lodash/uniq';
+import map from 'lodash/map';
 import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
 import {setWithExpiry, getWithExpiry} from '../../stores/helper';
 import './style.scss'
 
 
 const customStyles = {
+    container: (provided, state) => ({
+        ...provided,
+        width: 300
+    }),
     menu: (provided, state) => ({
         ...provided,
         marginTop: 0
@@ -42,13 +47,12 @@ export default function ShareModal(props) {
     }, [type]);
 
     const handleChange = (newValue, actionMeta) => {
-        console.group('Value Changed');
-        console.log(newValue);
-        console.log(`action: ${actionMeta.action}`);
-        console.groupEnd();
+        setCategory(map(newValue, 'value'));
     };
 
     const shareThisBlock = () => {
+        if (loading) return;
+        setLoading(true);
         apiFetch({
             path: 'starterblocks/v1/share/',
             method: 'POST',
@@ -65,6 +69,7 @@ export default function ShareModal(props) {
             setLoading(false);
             if (data.success) {
                 alert('Successfully shared your block!');
+                window.open(data.data.url, '_blank');
             } else {
                 alert('An unexpected error occured');
             }
@@ -87,6 +92,7 @@ export default function ShareModal(props) {
                                 isMulti
                                 onChange={handleChange}
                                 options={options}
+                                width='200px'
                                 styles={customStyles}
                             />
                         </div>
