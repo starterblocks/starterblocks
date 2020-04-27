@@ -12,6 +12,21 @@ import {setWithExpiry, getWithExpiry} from '../../stores/helper';
 import './style.scss'
 
 
+const customStyles = {
+    menu: (provided, state) => ({
+        ...provided,
+        marginTop: 0
+    }),
+    menuList: (provided, state) => ({
+        ...provided,
+        height: 180
+    }),
+    control: (provided, state) => ({
+        ...provided,
+        minHeight: 30
+    })
+}
+
 export default function ShareModal(props) {
     const {blocksSelection, type} = props;
     const [blockTitle, setBlockTitle] = useState('');
@@ -72,6 +87,7 @@ export default function ShareModal(props) {
                                 isMulti
                                 onChange={handleChange}
                                 options={options}
+                                styles={customStyles}
                             />
                         </div>
                         <div className="field">
