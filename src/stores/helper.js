@@ -9,6 +9,8 @@ const {dispatch} = wp.data;
 const {createSuccessNotice} = dispatch('core/notices');
 const {insertBlocks} = dispatch('core/block-editor');
 
+const prefix = 'sb_';
+
 export const getCurrentState = (state) => state[state.activeItemType]
 // Helper function not to be exported
 const convertObjectToArray = (list) => {
@@ -134,6 +136,7 @@ export const missingRequirement = (pro, requirements) => {
 
 
 export const setWithExpiry = (key, value, ttl) => {
+    const prefixedKey = prefix + key;
     const now = new Date();
 
     // `item` is an object which contains the original value
@@ -142,11 +145,12 @@ export const setWithExpiry = (key, value, ttl) => {
         value: value,
         expiry: now.getTime() + ttl
     };
-    localStorage.setItem(key, JSON.stringify(item));
+    localStorage.setItem(prefixedKey, JSON.stringify(item));
 }
 
 export const getWithExpiry = (key, defaultValue = null) => {
-    const itemStr = localStorage.getItem(key);
+    const prefixedKey = prefix + key;
+    const itemStr = localStorage.getItem(prefixedKey);
 
     // if the item doesn't exist, return null
     if (!itemStr) {
@@ -160,7 +164,7 @@ export const getWithExpiry = (key, defaultValue = null) => {
     if (now.getTime() > item.expiry) {
         // If the item is expired, delete the item from storage
         // and return null
-        localStorage.removeItem(key);
+        localStorage.removeItem(prefixedKey);
         return defaultValue;
     }
     return item.value;
