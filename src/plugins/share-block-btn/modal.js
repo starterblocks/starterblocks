@@ -4,6 +4,7 @@ const {withDispatch, withSelect, select} = wp.data;
 const {useState, useEffect} = wp.element;
 const {apiFetch} = wp;
 const {parse} = wp.blocks;
+const {Spinner} = wp.components;
 import CreatableSelect from 'react-select/creatable';
 import {BlockPreview} from '@wordpress/block-editor';
 import {Modal, ModalManager} from '../../modal-manager'
@@ -34,19 +35,32 @@ const customStyles = {
     })
 }
 
-export default function ShareModal(props) {
-    const {blocksSelection, type} = props;
+function ShareModal(props) {
+    const {clientIds, type} = props;
+    const {getBlocksByClientId, getEditorBlocks} = props;
     const [blockTitle, setBlockTitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(false);
     const [options, setOptions] = useState([]);
+    const [blocksSelection, setBlocksSelection] = useState(null);
+
+    console.log('Client IDs', clientIds, type);
 
     useEffect(() => {
         const keyName = type === 'page' ? 'page_categories_list' : 'section_categories_list';
         const options = sortBy(getWithExpiry(keyName), 'label');
         setOptions(options);
     }, [type]);
+
+    useEffect(() => {
+        if (type === 'block') {
+            if (clientIds) setBlocksSelection(getBlocksByClientId(clientIds));
+        }
+        if (type === 'page') {
+            setBlocksSelection(getEditorBlocks());
+        }
+    }, [type, clientIds])
 
     const handleChange = (newValue, actionMeta) => {
         setCategory(map(newValue, 'value'));
@@ -87,6 +101,24 @@ export default function ShareModal(props) {
         ModalManager.close();
     }
 
+    if (!blocksSelection)
+        return (
+            <Modal compactMode={true}>
+                <div className="starterblocks-share-modal-wrapper">
+                    <div className="starterblocks-modal-header">
+                        <h3>{__('Share Wizard')}</h3>
+                        <button className="starterblocks-modal-close" onClick={onCloseWizard}>
+                            <i className={'fas fa-times'}/>
+                        </button>
+                    </div>
+                    <div className="starterblocks-share">
+                        <div className="spinner-wrapper">
+                            <Spinner />
+                        </div>
+                    </div>
+                </div>
+            </Modal>
+        );
     return (
         <Modal compactMode={true}>
             <div className="starterblocks-share-modal-wrapper">
@@ -132,3 +164,17 @@ export default function ShareModal(props) {
         </Modal>
     );
 }
+
+
+
+
+export default compose([
+    withSelect((select, props) => {
+        const {getBlocksByClientId} = select('core/block-editor');
+        const {getEditorBlocks} = select('core/editor');
+        return {
+            getBlocksByClientId,
+            getEditorBlocks
+        };
+    })
+])(ShareModal);

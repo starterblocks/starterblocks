@@ -43,20 +43,17 @@ const saveData = (function () {
 
 export function ShareBlockButton(
     {
-        blocksSelection,
+        clientIds,
         onExportBlock,
     }
 ) {
     // Only supported by WP >= 5.3.
-    if (!select('core/block-editor').getSelectedBlockClientIds) {
+    if (!clientIds) {
         return null
     }
 
     const onShareBlock = () => {
-        if (!blocksSelection.length) {
-            return
-        }
-        ModalManager.open(<ShareModal blocksSelection={blocksSelection} type='block' />);
+        ModalManager.open(<ShareModal clientIds={clientIds} type='block' />);
     }
 
     return (
@@ -76,24 +73,7 @@ export function ShareBlockButton(
 }
 
 export default compose([
-    withSelect((select, {clientIds}) => {
-        const {
-            getBlockRootClientId,
-            getBlocksByClientId,
-            canInsertBlockType,
-        } = select('core/block-editor')
 
-        const rootClientId = clientIds && clientIds.length > 0 ?
-            getBlockRootClientId(clientIds[0]) :
-            undefined
-
-        const blocksSelection = getBlocksByClientId(clientIds)
-
-        return {
-            blocksSelection,
-
-        }
-    }),
     withDispatch((dispatch, {
         clientIds, onToggle = noop, blocksSelection = [],
     }) => {

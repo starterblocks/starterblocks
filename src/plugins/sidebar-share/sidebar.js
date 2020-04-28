@@ -15,7 +15,7 @@ function Sidebar(props) {
     const [loading, setLoading] = useState(false);
 
     const onShare = () => {
-        ModalManager.open(<ShareModal blocksSelection={select('core/editor').getEditorBlocks()} type='page' />);
+        ModalManager.open(<ShareModal type='page' />);
     }
 
     return (
