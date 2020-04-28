@@ -3,10 +3,10 @@ const {parse} = wp.blocks;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
 const {Component, Fragment, useState, useEffect} = wp.element;
-const {Spinner} = wp.components;
 
 import InstallPluginStep from './InstallPluginStep';
 import ProPluginStep from './ProPluginsStep';
+import ImportingStep from './ImportingStep';
 import {ModalManager} from '../modal-manager'
 import '../modals.scss'
 import './style.scss'
@@ -29,7 +29,7 @@ function ImportWizard(props) {
                 setCurrentStep(IMPORT_STEP);
             if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
                 setImporting(true);
-                startImportTemplate();
+                // startImportTemplate();
             }
         }
     }, [importingTemplate, currentStep])
@@ -67,7 +67,7 @@ function ImportWizard(props) {
                 {(currentStep === PRO_STEP) && requiresPro(importingTemplate) &&
                     <ProPluginStep missingPros={importingTemplate.proDependenciesMissing } onCloseWizard={onCloseWizard}/>}
                 {(currentStep === IMPORT_STEP) &&
-                    <div className="starterblocks-import-wizard-spinner-wrapper"><Spinner/></div>
+                    <ImportingStep />
                 }
             </div>
         </div>

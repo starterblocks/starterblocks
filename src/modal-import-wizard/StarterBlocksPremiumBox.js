@@ -14,10 +14,10 @@ export default function StarterBlocksPremiumBox(props) {
             <li><strong>Priority</strong>Support</li>
         </ul>
         <p>
-            <a href="" class="components-button" title="Get StarterBlocks Pro">Get StarterBlocks Premium</a>
+            <a href="/wp-admin/admin.php?billing_cycle=annual&page=starterblocks-pricing&utm_source=welcome&utm_medium=settings&utm_campaign=sidebar&utm_campaign=sidebar" class="components-button" title="Get StarterBlocks Pro">Get StarterBlocks Premium</a>
         </p>
         <p class="text-center">
-            <a href="https://starterblocks.io/pro/?" title="Learn More" target="_blank"
+            <a href="https://starterblocks.io/pro/?utm_source=welcome&utm_medium=settings&utm_campaign=get_started&utm_campaign=get_started" title="Learn More" target="_blank"
             rel="noopener noreferrer">Learn More →</a>
         </p>
     </div>);
