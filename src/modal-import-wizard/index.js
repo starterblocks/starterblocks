@@ -23,9 +23,9 @@ function ImportWizard(props) {
 
     useEffect(() => {
         if (importingTemplate) {
-            if (importingTemplate && currentStep === PRO_STEP && requiresInstall(importingTemplate) === false)
+            if (importingTemplate && currentStep === PRO_STEP && requiresPro(importingTemplate) === false)
                 setCurrentStep(PLUGIN_STEP);
-            if (importingTemplate && currentStep === PLUGIN_STEP && requiresPro(importingTemplate) === false)
+            if (importingTemplate && currentStep === PLUGIN_STEP && requiresInstall(importingTemplate) === false)
                 setCurrentStep(IMPORT_STEP);
             if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
                 setImporting(true);
