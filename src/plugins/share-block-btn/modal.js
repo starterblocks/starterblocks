@@ -1,3 +1,4 @@
+const {__} = wp.i18n;
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
 const {useState, useEffect} = wp.element;
@@ -82,39 +83,51 @@ export default function ShareModal(props) {
         });
     }
 
+    const onCloseWizard = () => {
+        ModalManager.close();
+    }
+
     return (
         <Modal compactMode={true}>
-            <div className="starterblocks-share">
-                <div className="panel">
-                    <div className="input-panel">
-                        <div className="field">
-                            <label>Block Title</label>
-                            <input type="text" value={blockTitle} onChange={(e) => setBlockTitle(e.target.value)} />
-                        </div>
-                        <div className="field">
-                            <label>Category</label>
-                            <CreatableSelect
-                                isMulti
-                                onChange={handleChange}
-                                options={options}
-                                width='200px'
-                                styles={customStyles}
-                            />
-                        </div>
-                        <div className="field">
-                            <label>Description</label>
-                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-                        </div>
-                        <button className="button button-primary" onClick={shareThisBlock}>
-                            {loading ? <i className="fas fa-spinner fa-pulse"/> : <i className="fas fa-share"></i>} Share this block
-                        </button>
-                    </div>
-                    <div className="preview-panel">
-                        <div className="starterblocks-block-preview-hover" />
-                        <BlockPreview blocks={blocksSelection} />
-                    </div>
+            <div className="starterblocks-share-modal-wrapper">
+                <div className="starterblocks-modal-header">
+                    <h3>{__('Share Wizard')}</h3>
+                    <button className="starterblocks-modal-close" onClick={onCloseWizard}>
+                        <i className={'fas fa-times'}/>
+                    </button>
                 </div>
+                <div className="starterblocks-share">
+                    <div className="panel">
+                        <div className="input-panel">
+                            <div className="field">
+                                <label>Block Title</label>
+                                <input type="text" value={blockTitle} onChange={(e) => setBlockTitle(e.target.value)} />
+                            </div>
+                            <div className="field">
+                                <label>Category</label>
+                                <CreatableSelect
+                                    isMulti
+                                    onChange={handleChange}
+                                    options={options}
+                                    width='200px'
+                                    styles={customStyles}
+                                />
+                            </div>
+                            <div className="field">
+                                <label>Description</label>
+                                <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+                            </div>
+                            <button className="button button-primary" onClick={shareThisBlock}>
+                                {loading ? <i className="fas fa-spinner fa-pulse"/> : <i className="fas fa-share"></i>} Share this block
+                            </button>
+                        </div>
+                        <div className="preview-panel">
+                            <div className="starterblocks-block-preview-hover" />
+                            <BlockPreview blocks={blocksSelection} />
+                        </div>
+                    </div>
 
+                </div>
             </div>
         </Modal>
     );
