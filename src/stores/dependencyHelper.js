@@ -61,7 +61,6 @@ export const isTemplateReadyToInstall = (data) => {
 }
 
 export const isTemplatePremium = (data, activeDependencyFilter) => {
-    // console.log("Active dependency filter", activeDependencyFilter, data);
     if (data && data.proDependencies && data.proDependencies.length > 0) {
         return data.proDependencies.reduce((acc, cur) => acc || activeDependencyFilter[cur], false);
     }

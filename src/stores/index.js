@@ -125,7 +125,7 @@ const store = registerStore('starterblocks/sectionslist', {
                 pageData = applySearchFilter(pageData, getSearchContext(state));
                 pageData = applyDependencyFilters(pageData, getDependencyFilters(state));
                 if (state.collection.activeCollection === null || state.activeItemType !== 'collection') pageData = applyCategoryFilter(pageData, getActiveCategory(state));
-                staticsData = countBy(pageData, (item) => isTemplatePremium(item, getDependencyFilters(state)));
+                staticsData = countBy(pageData, (item) => isTemplatePremium(item, getDependencyFilters(state)) === false);
             }
             return staticsData;
         },

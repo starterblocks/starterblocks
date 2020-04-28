@@ -11,21 +11,21 @@ import {ModalManager} from '../modal-manager'
 import '../modals.scss'
 import './style.scss'
 
-const PLUGIN_STEP = 0;
-const PRO_STEP = 1;
+const PRO_STEP = 0;
+const PLUGIN_STEP = 1;
 const IMPORT_STEP = 2;
 const tourPlugins = ['qubely', 'kioken-blocks'];
 import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 function ImportWizard(props) {
     const {startImportTemplate, setImportingTemplate, isTourOpen, importingTemplate} = props;
-    const [currentStep, setCurrentStep] = useState(PLUGIN_STEP);
+    const [currentStep, setCurrentStep] = useState(PRO_STEP);
     const [importing, setImporting] = useState(false);
 
     useEffect(() => {
         if (importingTemplate) {
-            if (importingTemplate && currentStep === PLUGIN_STEP && requiresInstall(importingTemplate) === false)
-                setCurrentStep(PRO_STEP);
-            if (importingTemplate && currentStep === PRO_STEP && requiresPro(importingTemplate) === false)
+            if (importingTemplate && currentStep === PRO_STEP && requiresInstall(importingTemplate) === false)
+                setCurrentStep(PLUGIN_STEP);
+            if (importingTemplate && currentStep === PLUGIN_STEP && requiresPro(importingTemplate) === false)
                 setCurrentStep(IMPORT_STEP);
             if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
                 setImporting(true);
