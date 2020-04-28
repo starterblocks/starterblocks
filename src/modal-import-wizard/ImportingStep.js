@@ -1,7 +1,7 @@
 const {Component, useState, useEffect, useRef} = wp.element;
 const {Spinner} = wp.components;
 
-const MESSAGE_DELAY_MILLISECONDS = 1000;
+const MESSAGE_DELAY_MILLISECONDS = 4000;
 
 const MESSAGES_LIST = [
     'Please wait while your template is prepared.',

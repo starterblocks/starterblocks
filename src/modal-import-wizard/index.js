@@ -29,7 +29,7 @@ function ImportWizard(props) {
                 setCurrentStep(IMPORT_STEP);
             if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
                 setImporting(true);
-                // startImportTemplate();
+                startImportTemplate();
             }
         }
     }, [importingTemplate, currentStep])
