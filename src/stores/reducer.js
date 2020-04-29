@@ -1,4 +1,5 @@
 import {parseSectionData, parsePageData, parseCollectionData, parsePageSectionData} from './helper';
+import {getDefaultDependencies} from './helper';
 import {setWithExpiry, getWithExpiry} from './helper';
 const EXIPRY_TIME = 5 * 24 * 3600 * 1000;
 export const initialState = {
@@ -52,10 +53,7 @@ export const reducer = ( state = initialState, action ) => {
 
     switch ( action.type ) {
         case 'SET_LIBRARY':
-            const dependencies = Object.keys(action.library.dependencies).reduce((acc, cur) => {
-                return {...acc, [cur]: {value: true, disabled: false}}
-            }, {none: {value: true, disabled: false}});
-
+            const dependencies = getDefaultDependencies(action.library.dependencies);
             let parsedSection = parseSectionData(action.library.sections);
             let parsedPage = parsePageData(action.library.pages);
 			let parsedCollection = parseCollectionData(action.library);

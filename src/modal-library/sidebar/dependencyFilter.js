@@ -5,7 +5,7 @@ const {__} = wp.i18n;
 
 import {CheckboxControl, Tooltip} from '@wordpress/components';
 import DependencyFilterRow from './dependencyFilterRow';
-
+import {getDefaultDependencies} from '../../stores/helper';
 
 function DependencyFilter(props) {
     const {dependencyFilters, loading, plugins} = props;
@@ -48,6 +48,8 @@ function DependencyFilter(props) {
                         <a href="#" onClick={() => setAllCheckedAs(true)}>Select All</a>
                         <span>&nbsp; / &nbsp;</span>
                         <a href="#" onClick={() => setAllCheckedAs(false)}>Select None</a>
+                        <span>&nbsp; / &nbsp;</span>
+                        <a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>Reset</a>
                     </div>
                     <ul className="starterblocks-sidebar-dependencies">
                         { (loading === false) &&

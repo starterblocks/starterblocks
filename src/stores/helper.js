@@ -215,3 +215,14 @@ export const pageSizeMap = {
 export const getOnlySelectedDependencyFilters = (dependencyFilters) => {
     return Object.keys(dependencyFilters).filter(key => dependencyFilters[key]);
 }
+
+export const getDefaultDependencies = (dependencies) => {
+    return Object.keys(dependencies).reduce((acc, cur) => {
+        // special handling for pro plugin not activated.
+        // TODO, should have logic to check if pro activated.
+        let value = true;
+        if (starterblocks.supported_plugins[cur] && starterblocks.supported_plugins[cur].hasOwnProperty('free_slug') && true)
+            value = false;
+        return {...acc, [cur]: {value, disabled: false}};
+    }, {none: {value: true, disabled: false}});
+}
