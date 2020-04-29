@@ -221,8 +221,27 @@ export const getDefaultDependencies = (dependencies) => {
         // special handling for pro plugin not activated.
         // TODO, should have logic to check if pro activated.
         let value = true;
-        if (starterblocks.supported_plugins[cur] && starterblocks.supported_plugins[cur].hasOwnProperty('free_slug') && true)
-            value = false;
+        if (isProPlugin(cur) && isPluginProActivated(cur) === false) value = false;
+        if (cur === 'starterblocks-pro') value = true;
         return {...acc, [cur]: {value, disabled: false}};
-    }, {none: {value: true, disabled: false}});
+    }, {none: {value: true, disabled: false}, 'starterblocks-pro': {value: true, disabled: false}});
+}
+
+
+const getPluginInstance = (pluginKey) => {
+    if (pluginKey in starterblocks.supported_plugins) {
+        return starterblocks.supported_plugins[pluginKey];
+    }
+    return false; // Deal with unknown plugins
+}
+
+const isProPlugin = (pluginKey) => {
+    const pluginInstance = getPluginInstance(pluginKey);
+    return (pluginInstance && pluginInstance.hasOwnProperty('free_slug'));
+}
+
+const isPluginProActivated = (pluginKey) => {
+    const pluginInstance = getPluginInstance(pluginKey);
+    const freePluginInstance = getPluginInstance(pluginInstance.free_slug);
+    return (freePluginInstance.hasOwnProperty('version') && freePluginInstance.hasOwnProperty('is_pro') && freePluginInstance.is_pro !== false);
 }
