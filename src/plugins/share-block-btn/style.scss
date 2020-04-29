@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: $primaryBack;
+    background: $modalBack;
     box-shadow: 0 0 45px 10px rgba(3, 8, 15, 0.2);
     //border-radius: 5px;
     animation: components-modal__appear-animation 0.1s ease-out;
@@ -64,9 +64,11 @@
 .starterblocks-share-modal-wrapper {
     display: flex;
     flex-direction: column;
+    background: #fff;
     .starterblocks-modal-header {
         border-bottom: 1px solid #ddd;
         width: 100%;
+        flex: 0 0 60px;
         padding: 10px 15px;
         display: flex;
         align-items: center;
