@@ -17,7 +17,7 @@ function CategoryFilter (props) {
         if (itemType === 'collection') return __('Collection');
     };
 
-    const totalItemCount = () => {
+    const totalItemCountLabel = () => {
         let totalArr = [], filteredArr = [];
         categoryData.forEach((category) => {
             if (category.hasOwnProperty('filteredData')) filteredArr = [...filteredArr, ...category.filteredData];
@@ -48,7 +48,7 @@ function CategoryFilter (props) {
                 <li
                     className={activeClassname(null)}
                     onClick={() => setActiveCategory('')}>
-                    {__('All ')} {itemTypeLabel()}s <span>{totalItemCount()}</span>
+                    {__('All ')} {itemTypeLabel()}s <span>{totalItemCountLabel()}</span>
                 </li>
                 }
 

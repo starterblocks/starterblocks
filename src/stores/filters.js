@@ -98,11 +98,12 @@ const isTemplateDependencyFilterIncluded = (item, dependencyFilters) => {
     const missingProList = missingPluginsArray();
     if (!item.dependencies || Object.keys(item.dependencies).length === 0) return valueOfDependencyFilter(dependencyFilters['none']);
     return item.dependencies.reduce((acc, k) => {
+        if (acc === undefined) return valueOfDependencyFilter(dependencyFilters[k]);
         if (missingProList.indexOf(k) === -1 || k === STARTERBLOCKS_PRO_KEY)
             return (acc || valueOfDependencyFilter(dependencyFilters[k]));
         else
             return (acc && valueOfDependencyFilter(dependencyFilters[k]));
-    }, false);
+    }, undefined);
 }
 
 export const valueOfDependencyFilter = (dependencyFilter) => {
