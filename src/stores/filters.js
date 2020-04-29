@@ -1,4 +1,6 @@
 import {isTemplatePremium} from './dependencyHelper';
+import {missingPluginsArray} from './helper';
+const STARTERBLOCKS_PRO_KEY = 'starterblocks-pro';
 // Just get current Page Data
 export const applyCategoryFilter = (pageData, activeCategory) => {
     let currentPageData = [];
@@ -81,17 +83,29 @@ export const applyPriceFilter = (pageData, activePriceFilter, activeDependencyFi
 
 
 export const applyDependencyFilters = (pageData, dependencyFilters) => {
+    const missingProList = missingPluginsArray();
     if (Array.isArray(pageData)) {
         return pageData.filter(item => {
             if (!item.dependencies || Object.keys(item.dependencies).length === 0) return valueOfDependencyFilter(dependencyFilters['none']);
-            return item.dependencies.reduce((acc, k) => acc || valueOfDependencyFilter(dependencyFilters[k]), false);
+            return item.dependencies.reduce((acc, k) => {
+                if (missingProList.indexOf(k) === -1 || k === STARTERBLOCKS_PRO_KEY)
+                    return (acc || valueOfDependencyFilter(dependencyFilters[k]));
+                else
+                    return (acc && valueOfDependencyFilter(dependencyFilters[k]));
+            }, false);
         });
     } else {
         let newPageData = {};
         Object.keys(pageData).forEach(key => {
             newPageData[key] =  pageData[key].filter(item => {
                 if (!item.dependencies || Object.keys(item.dependencies).length === 0) return valueOfDependencyFilter(dependencyFilters['none']);
-                return item.dependencies.reduce((acc, k) => acc || valueOfDependencyFilter(dependencyFilters[k]), false);
+                return item.dependencies.reduce((acc, k) => {
+                    if (missingProList.indexOf(k) === -1 || k === STARTERBLOCKS_PRO_KEY)
+                        return (acc || valueOfDependencyFilter(dependencyFilters[k]));
+                    else
+                        return (acc && valueOfDependencyFilter(dependencyFilters[k]));
+                }, false);
+                // return item.dependencies.reduce((acc, k) => acc || valueOfDependencyFilter(dependencyFilters[k]), false);
             });
         });
         return newPageData;

@@ -3,13 +3,13 @@ import uniq from 'lodash/uniq';
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
-
 const {createBlock} = wp.blocks;
 const {dispatch} = wp.data;
 const {createSuccessNotice} = dispatch('core/notices');
 const {insertBlocks} = dispatch('core/block-editor');
 
 const prefix = 'sb_';
+const STARTERBLOCKS_PRO_KEY = 'starterblocks-pro';
 const EXIPRY_TIME = 5 * 24 * 3600 * 1000;
 
 export const getCurrentState = (state) => state[state.activeItemType]
@@ -222,9 +222,9 @@ export const getDefaultDependencies = (dependencies) => {
         // TODO, should have logic to check if pro activated.
         let value = true;
         if (isProPlugin(cur) && isPluginProActivated(cur) === false) value = false;
-        if (cur === 'starterblocks-pro') value = true;
+        if (cur === STARTERBLOCKS_PRO_KEY) value = true;
         return {...acc, [cur]: {value, disabled: false}};
-    }, {none: {value: true, disabled: false}, 'starterblocks-pro': {value: true, disabled: false}});
+    }, {none: {value: true, disabled: false}, [STARTERBLOCKS_PRO_KEY]: {value: true, disabled: false}});
 }
 
 
@@ -244,4 +244,8 @@ const isPluginProActivated = (pluginKey) => {
     const pluginInstance = getPluginInstance(pluginKey);
     const freePluginInstance = getPluginInstance(pluginInstance.free_slug);
     return (freePluginInstance.hasOwnProperty('version') && freePluginInstance.hasOwnProperty('is_pro') && freePluginInstance.is_pro !== false);
+}
+
+export const missingPluginsArray = () => {
+    return Object.keys(starterblocks.supported_plugins).filter(pluginKey =>  isProPlugin(pluginKey) && isPluginProActivated(pluginKey) === false);
 }
