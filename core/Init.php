@@ -32,7 +32,6 @@ class Init {
     }
 
     public static function load() {
-        load_plugin_textdomain( 'starterblocks', false, STARTERBLOCKS_DIR_PATH . '/languages/' );
         new StarterBlocks\API();
         new StarterBlocks\Templates();
         new StarterBlocks\Welcome();
@@ -52,6 +51,8 @@ class Init {
             STARTERBLOCKS_VERSION,
             true
         );
+
+        wp_set_script_translations( 'starterblocks-js', 'starterblocks' );
 
         // Backend editor scripts: common vendor files.
         wp_enqueue_script(
