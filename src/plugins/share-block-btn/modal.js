@@ -29,9 +29,18 @@ const customStyles = {
         ...provided,
         height: 180
     }),
-    control: (provided, state) => ({
+    control: (provided, state) => (
+        console.log(state),
+        {
         ...provided,
-        minHeight: 30
+        minHeight: 30,
+
+        borderColor: '#007cba',
+        boxShadow: '0 0 0 1px #007cba',
+        '&:hover, &:active, &:focus': {
+            borderColor: '#007cba',
+
+        }
     })
 }
 

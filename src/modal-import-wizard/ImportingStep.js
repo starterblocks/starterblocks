@@ -10,7 +10,8 @@ const MESSAGES_LIST = [
     'Wow, this is taking a long time.',
     'Gah, this should be done by now!',
     'Really, this should be done soon.',
-    'Are you sure your internet is working?!'
+    'Are you sure your internet is working?!',
+    'Give up, it looks like it didn\'t work...'
 ];
 
 function useInterval(callback, delay) {
@@ -26,6 +27,7 @@ function useInterval(callback, delay) {
         function tick() {
             savedCallback.current();
         }
+
         if (delay !== null) {
             let id = setInterval(tick, delay);
             return () => clearInterval(id);
@@ -44,9 +46,11 @@ export default function ImportingStep(props) {
     }, MESSAGE_DELAY_MILLISECONDS)
 
     return (
-        <div className="starterblocks-import-wizard-spinner-wrapper">
-            <p>{loadingMessage}</p>
-            <Spinner/>
+        <div className="starterblocks-modal-body">
+            <div className="starterblocks-import-wizard-spinner-wrapper">
+                <h3>{loadingMessage}</h3>
+                <Spinner/>
+            </div>
         </div>
     );
 };
