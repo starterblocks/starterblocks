@@ -30,8 +30,10 @@ function DependencyFilterRow(props) {
 
 
     const isChecked = (pluginKey) => {
-        if (dependencyFilters.hasOwnProperty(pluginKey))
+        if (dependencyFilters.hasOwnProperty(pluginKey)){
+            if (dependencyFilters[pluginKey].disabled) return false;
             return dependencyFilters[pluginKey].hasOwnProperty('value') ? dependencyFilters[pluginKey].value : dependencyFilters[pluginKey];
+        }
         return false;
     };
 

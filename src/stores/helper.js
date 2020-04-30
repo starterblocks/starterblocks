@@ -219,7 +219,6 @@ export const getOnlySelectedDependencyFilters = (dependencyFilters) => {
 export const getDefaultDependencies = (dependencies) => {
     return Object.keys(dependencies).reduce((acc, cur) => {
         // special handling for pro plugin not activated.
-        // TODO, should have logic to check if pro activated.
         let value = true;
         if (isProPlugin(cur) && isPluginProActivated(cur) === false) value = false;
         if (cur === STARTERBLOCKS_PRO_KEY) value = true;
