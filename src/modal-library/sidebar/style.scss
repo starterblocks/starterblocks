@@ -78,7 +78,7 @@
 
                     &.active {
                         background: #383e48;
-                        color: $thirdColor;
+                        color: $thirdColor !important;
                         border: 1px solid #555d66;
                     }
 

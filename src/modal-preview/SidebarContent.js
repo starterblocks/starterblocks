@@ -43,7 +43,7 @@ function SidebarContent(props) {
                     <div className="button-container">
                         <span className="button button-secondary the-copy" onClick={copyHash} title="Copy Identifier"><i
                             className="fa fa-copy" aria-hidden="true"></i></span>
-                        <span className="button button-secondary the-hash"
+                        <span onClick={copyHash} className="button button-secondary the-hash"
                               title="Identifier">{hash.substring(0, 7)}</span>
                         {copied && <span className="copied hideMe"><br/>copied</span>}
                     </div>

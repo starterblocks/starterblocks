@@ -3,7 +3,7 @@
  * Plugin Name:       StarterBlocks
  * Plugin URI:        https://starterblocks.io/
  * Description:       Who wants to start with just blocks? Implement templates immediately with our design library. Shortcut your design process!
- * Version:           1.0.5
+ * Version: 		  1.0.5
  * Author:            Redux.io
  * Author URI:        https://redux.io/
  * Text Domain:       starterblocks
