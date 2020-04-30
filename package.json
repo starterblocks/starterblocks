@@ -1,6 +1,6 @@
 {
     "name": "starterblocks",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "The ultimate gutenberg template library.",
     "author": "Dovy Paukstys of Redux",
     "license": "GPL-3.0",
@@ -58,6 +58,7 @@
         "@testing-library/dom": "^6.11.0",
         "@testing-library/jest-dom": "^5.1.1",
         "@testing-library/react": "^9.4.0",
+        "@wordpress/babel-plugin-makepot": "^3.5.0",
         "@wordpress/block-editor": "^3.7.0",
         "@wordpress/blocks": "^6.12.0",
         "@wordpress/browserslist-config": "^2.6.0",

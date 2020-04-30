@@ -93,6 +93,7 @@ export const ModalManager = {
     },
     show () {
         document.body.classList.add('starterblocks-builder-modal-open')
-        node.classList.remove('hidden')
+        if (node)
+            node.classList.remove('hidden')
     }
 }

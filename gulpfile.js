@@ -31,6 +31,7 @@ function makeBuild() {
 		'!./yarn.lock',
 		'!./yarn-error.log',
 		'!.babelrc',
+		'!./languages/**/*',
 		'!.eslintrc',
 		'!./package-lock.json',
         '!./composer-lock.json',

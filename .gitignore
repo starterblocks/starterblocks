@@ -18,6 +18,7 @@ vendor/composer/installers/**/*
 vendor/composer/LICENSE
 vendor/composer/installed.json
 composer.lock
+languages/
 
 # Runtime data
 pids
