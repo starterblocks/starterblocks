@@ -4,19 +4,19 @@ export default function StarterBlocksPremiumBox(props) {
     return (
         <div className="starterblocks-modal-body">
             <div class="section-box premium-box">
-                <h3>🚀 StarterBlocks Premium</h3>
-                <p><b>Priority Email & Forum Support</b></p>
+                <h3>StarterBlocks Premium is Required</h3>
+
+                <p>Upgrade now to use this template and enjoy these benefits:</p>
                 <ul>
-                    <li><strong>Weekly</strong>Updates to the Library</li>
-                    <li><strong>Unlimited</strong>Library Access</li>
-                    <li><strong>20+</strong>Collections</li>
-                    <li><strong>125+</strong>Page Templates</li>
-                    <li><strong>250+</strong>Section Templates</li>
-                    <li><strong>Priority</strong>Support</li>
+                    <li><strong>Frequent</strong> Updates to the Library</li>
+                    <li><strong>Unlimited</strong> Library Access</li>
+                    <li><strong>500+</strong> Section Templates</li>
+                    <li><strong>125+</strong> Page Templates</li>
+                    <li><strong>20+</strong> Collections</li>
                 </ul>
                 <p>
-                    <a href="/wp-admin/admin.php?billing_cycle=annual&page=starterblocks-pricing&utm_source=welcome&utm_medium=settings&utm_campaign=sidebar&utm_campaign=sidebar"
-                       class="components-button" title="Get StarterBlocks Pro">Upgrade Now</a>
+                    <a href={starterblocks.u} class="starterblocks-upgrade-button" title="StarterBlocks Premium"
+                       target='_blank'>Upgrade Now</a>
                 </p>
             </div>
         </div>

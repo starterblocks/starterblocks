@@ -61,15 +61,21 @@ class Init {
             array(),
             STARTERBLOCKS_VERSION
         );
-
+        global $starterblocks_fs;
         $global_vars = array(
             'i18n'              => 'starterblocks',
             'plugin'            => STARTERBLOCKS_DIR_URL,
             'mokama'            => starterblocks_fs()->can_use_premium_code(),
             'icon'              => file_get_contents( STARTERBLOCKS_DIR_URL . 'assets/img/logo.svg' ),
             'version'           => STARTERBLOCKS_VERSION,
-            'supported_plugins' => [], // Load the supported plugins
+            'supported_plugins' => [], // Load the supported plugins,
+
         );
+
+        if ( ! $global_vars['mokama'] ) {
+            $global_vars['u'] = $starterblocks_fs->get_upgrade_url(
+                ) . '&utm_source=plugin&utm_medium=modal&utm_campaign=template';
+        }
 
         if ( isset( $_REQUEST['starterblocks_tour'] ) ) {
             $global_vars['tour'] = true;

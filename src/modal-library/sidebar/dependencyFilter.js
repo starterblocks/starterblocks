@@ -3,6 +3,7 @@ const {compose} = wp.compose;
 const {select, withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
+
 import {CheckboxControl, Tooltip} from '@wordpress/components';
 import DependencyFilterRow from './dependencyFilterRow';
 import {getDefaultDependencies} from '../../stores/helper';
@@ -45,11 +46,15 @@ function DependencyFilter(props) {
                 <div id="starterblock-filter-dependencies" data-tut="tour__filter_dependencies">
                     <h3>{__('Required Plugins', 'starterblocks')}</h3>
                     <div className="starterblocks-select-actions">
-                        <a href="#" onClick={() => setAllCheckedAs(true)}>Select All</a>
+                        <Tooltip text={__('Only default WordPress blocks used.', 'starterblocks')} position='bottom'>
+                            <a href="#" onClick={() => setAllCheckedAs(true)}>All</a>
+                        </Tooltip>
+
                         <span>&nbsp; / &nbsp;</span>
-                        <a href="#" onClick={() => setAllCheckedAs(false)}>Select None</a>
+                        <a href="#" onClick={() => setAllCheckedAs(false)}>None</a>
                         <span>&nbsp; / &nbsp;</span>
-                        <a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>Reset</a>
+                        <a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>
+                            <i className="fas fa-undo" /></a>
                     </div>
                     <ul className="starterblocks-sidebar-dependencies">
                         { (loading === false) &&
