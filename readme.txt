@@ -4,7 +4,7 @@ Donate link: https://paypal.me/ReduxFramework
 Tags: gutenberg, blocks, gutenberg blocks, editor, block, page builder, block editor, block library, editor, templates, library
 Requires at least: 5.4
 Tested up to: 5.5
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -152,6 +152,13 @@ If you want, you can use the [Gutenberg](https://starterblocks.io/) plugin to ge
 5. Integrated tour.
 
 == Changelog ==
+
+= 1.0.4 =
+* Feature: Share links now working for both full page and section.
+* Feature: Upgrade path is much clearer.
+* Fixed: Dependency filter bugs.
+* Fixed: Brought navigation in line with Block Editor design patterns. Thanks @mapk.
+* Fixed: Removed unneeded language packs and implemented WP i38n for JS. Thanks @garrett-eclipse
 
 = 1.0.3 =
 * Feature: Fixed the API to work in different nations by having a standard URL.
