@@ -15,9 +15,8 @@ function ProPluginStep(props) {
     return (
         <Fragment>
             <div className="starterblocks-modal-body">
-                <h5>{__('External Dependencies Required')}</h5>
-                <p>{__('The following premium plugin(s) are required to import this template:')}</p>
-
+                <h5>{__('External Dependencies Required', 'starterblocks')}</h5>
+                <p>{__('The following premium plugin(s) are required to import this template:', 'starterblocks')}</p>
                 <ul className="starterblocks-import-progress">
                     {
                         missingPros.map(pluginKey => {
@@ -35,7 +34,7 @@ function ProPluginStep(props) {
             </div>
             <div className="starterblocks-modal-footer">
                 <a className="button button-secondary" onClick={onCloseWizard}>
-                    {__('Close')}
+                    {__('Close', 'starterblocks')}
                 </a>
             </div>
         </Fragment>

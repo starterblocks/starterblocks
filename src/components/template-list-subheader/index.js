@@ -50,40 +50,40 @@ function TemplateListSubHeader(props) {
             </h4>
             <div className="starterblocks-template-filters">
                 <IconButton
-                    icon={<i className="far fa-question-circle tour-icon"></i>}
-                    label={__('Trigger Tour')}
+                    icon={<i className="far fa-question-circle tour-icon"/>}
+                    label={__('Trigger Tour', 'starterblocks')}
                     onClick={() => setTourOpen(true)}
                 />
 
                 <IconButton
                     icon="image-rotate"
-                    label={__('Refresh Library')}
+                    label={__('Refresh Library', 'starterblocks')}
                     className="refresh-library"
                     onClick={reloadLibrary}
                 />
                 <IconButton
                     icon={<SVGViewFew width="18" height="18"/>}
                     className={columns === 'large' ? 'is-active' : ''}
-                    label={__('Large preview')}
+                    label={__('Large preview', 'starterblocks')}
                     onClick={() => setColumns('large')}
                 />
                 <IconButton
                     icon={<SVGViewNormal width="18" height="18"/>}
                     className={columns === '' ? 'is-active' : ''}
-                    label={__('Medium preview')}
+                    label={__('Medium preview', 'starterblocks')}
                     onClick={(e) => setColumns('')}
                 />
                 <IconButton
                     icon={<SVGViewMany width="18" height="18"/>}
                     className={columns === 'small' ? 'is-active' : ''}
-                    label={__('Small preview')}
+                    label={__('Small preview', 'starterblocks')}
                     onClick={(e) => setColumns('small')}
                 />
                 <div className="">
                     <select name="sortBy" id="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                        <option value="name">{__('Name')}</option>
-                        {/*<option value="popularity">{__('Popularity')}</option>*/}
-                        <option value="updated">{__('Updated')}</option>
+                        <option value="name">{__('Name', 'starterblocks')}</option>
+                        {/*<option value="popularity">{__('Popularity', 'starterblocks')}</option>*/}
+                        <option value="updated">{__('Updated', 'starterblocks')}</option>
                     </select>
                 </div>
             </div>

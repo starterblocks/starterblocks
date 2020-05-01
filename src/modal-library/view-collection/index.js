@@ -48,7 +48,7 @@ function CollectionView(props) {
                                     return (
                                         <div className={className} onClick={() => setPreviewDataIndex(index)} key={index}>
                                             <div className="detail-image" style={divStyle}>
-                                                {requiresPro(detail) && <span className="pro">{__('Premium')}</span>}
+                                                {requiresPro(detail) && <span className="pro">{__('Premium', 'starterblocks')}</span>}
                                                 {!requiresPro(detail) && requiresInstall(detail) && <span className="install"><i className="fas fa-exclamation-triangle" /></span>}
                                                 <div className="detail-label">{detail.name}</div>
                                             </div>
