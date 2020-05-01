@@ -1,5 +1,6 @@
 const {Component, useState, useEffect, useRef} = wp.element;
 const {Spinner} = wp.components;
+import { useTransition, animated } from 'react-spring';
 
 const MESSAGE_DELAY_MILLISECONDS = 4000;
 

@@ -36,6 +36,7 @@
         "prop-types": "^15.7.2",
         "react-autosuggest": "^9.4.3",
         "react-select": "^3.1.0",
+        "react-spring": "^8.0.27",
         "react-tabs": "^3.1.0",
         "reactour": "^1.16.3",
         "simple-html-tokenizer": "^0.5.8",
