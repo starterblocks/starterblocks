@@ -4,7 +4,7 @@ Donate link: https://paypal.me/ReduxFramework
 Tags: gutenberg, blocks, gutenberg blocks, editor, block, page builder, block editor, block library, editor, templates, library
 Requires at least: 5.4
 Tested up to: 5.5
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -152,6 +152,14 @@ If you want, you can use the [Gutenberg](https://starterblocks.io/) plugin to ge
 5. Integrated tour.
 
 == Changelog ==
+
+= 1.0.6 =
+* Change: Sidebar colors now use default WordPress colors.
+* Fixed: Flicker that happened with the import dialog.
+* Fixed: Tour launch as well as tour re-running after page reload.
+* Fixed: Nearly all translation strings in the JavaScript, have a few sprintf's to complete.
+* Fixed: Bug where if import is closed and re-tried, multiple imports of the same template occur.
+* Change: Cleaner path to upgrading to StarterBlocks Premium.
 
 = 1.0.5 =
 * Fixed: Race condition bug.

@@ -81,6 +81,9 @@ class API {
             if ( isset( $pp['dependencies'] ) ) {
                 foreach ( $pp['dependencies'] as $dep ) {
                     if ( isset( $data['plugins'][ $dep ] ) ) {
+                        if ( isset( $data['plugins'][ $dep ]['no_plugin'] ) ) {
+                            continue;
+                        }
                         if ( isset( $data['plugins'][ $dep ]['free_slug'] ) ) {
                             if ( isset( $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ] ) ) {
                                 $plugin = $data['plugins'][ $data['plugins'][ $dep ]['free_slug'] ];
