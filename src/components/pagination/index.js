@@ -1,6 +1,7 @@
 const {Component, useState, useEffect, Fragment} = wp.element;
 const {compose, withState} = wp.compose;
 const {withDispatch, withSelect, select} = wp.data;
+const {__} = wp.i18n
 
 import './style.scss';
 
@@ -48,7 +49,7 @@ function Pagination(props) {
                             onClick={() => gotoPage(0, firstButtonClass)}>«</span>
                         <span className={prevButtonClass} aria-hidden="true"
                             onClick={() => gotoPage(currentPage - 1, prevButtonClass)}>‹</span>
-                        <span className="screen-reader-text">Current Page</span>
+                        <span className="screen-reader-text">{__('Current Page', starterblocks.i18n)}</span>
                         <span id="table-paging" className="paging-input">
                             <span className="tablenav-paging-text">{currentPage + 1} of <span
                                 className="total-pages">{totalPages}</span></span>

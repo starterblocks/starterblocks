@@ -60,6 +60,9 @@ function DependencyFilterRow(props) {
                 checked={isChecked(pluginKey)}
                 onChange={() => toggleChecked(pluginKey)}
             />
+            {pluginClassname.includes('missing-dependency') &&
+                <Tooltip text={__('Plugin not Installed', starterblocks.i18n)}><i className="fa fa-warning" /></Tooltip>
+            }
 
             {pluginInstance.url ?
                 <a href={pluginInstance.url} target="_blank">

@@ -31,11 +31,14 @@ domReady(() => {
     toolbar.appendChild(buttonDiv)
     toolbar.appendChild(tourDiv)
     render(<ToolbarLibraryButton/>, buttonDiv)
-    if (starterblocks.tour === '1') {
+
+    if(window.location.hash == '#starterblocks_tour=1') {
+        window.location.hash = '';
         ModalManager.open(<LibraryModal />);
         render(<StarterBlocksTour autoTourStart={true} />, tourDiv);
     }
     else
-        render(<StarterBlocksTour autoTourStart={false} />, tourDiv);
-    handlingLocalStorageData();
+        render(<StarterBlocksTour autoTourStart={true}/>, tourDiv);
+
+        handlingLocalStorageData();
 });

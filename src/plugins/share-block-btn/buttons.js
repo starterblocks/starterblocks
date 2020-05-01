@@ -60,12 +60,12 @@ export function ShareBlockButton(
         <Fragment>
             <PluginBlockSettingsMenuItem
                 icon={StarterblocksIcon}
-                label={__('Share Block', 'starterblocks')}
+                label={__('Share Block', starterblocks.i18n)}
                 onClick={onShareBlock}
             />
             {/*<PluginBlockSettingsMenuItem*/}
             {/*    icon={StarterblocksIcon}*/}
-            {/*    label={__('Export as Reusable Block', 'starterblocks')}*/}
+            {/*    label={__('Export as Reusable Block', starterblocks.i18n)}*/}
             {/*    onClick={onExportBlock}*/}
             {/*/>*/}
         </Fragment>

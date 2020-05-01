@@ -91,7 +91,6 @@ function PreviewModal(props) {
                         <div className='starterblock-modal-preview-box'><img
                             src={image_url}
                             title=''/></div>
-
                     }
 
                 </div>

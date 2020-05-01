@@ -137,7 +137,7 @@ class Welcome {
 
                                 <p class="text-center">
                                     <a href="<?php echo admin_url(
-                                        'post-new.php?post_type=page&starterblocks_tour=1'
+                                        'post-new.php?post_type=page#starterblocks_tour=1'
                                     ) ?>" title="<?php _e( 'Create a New Page' ) ?>"><?php _e(
                                             'Create a New Page', 'starterblocks'
                                         ) ?> →</a>

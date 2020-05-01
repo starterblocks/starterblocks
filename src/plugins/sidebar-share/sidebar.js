@@ -21,14 +21,14 @@ function Sidebar(props) {
     return (
         <Fragment>
             <PluginSidebarMoreMenuItem target="starterblocks-share">
-                {__('StarterBlocks Template')}
+                {__('StarterBlocks Template', starterblocks.i18n)}
             </PluginSidebarMoreMenuItem>
             <PluginSidebar name="starterblocks-share" title={__('StarterBlocks Shares', starterblocks.i18n)}>
-                <PanelBody title={__('Share this post')} initialOpen={true}>
+                <PanelBody title={__('Share this Design', starterblocks.i18n)} initialOpen={true}>
                     <div className="d-flex justify-content-center">
                         <a className="button button-primary" onClick={onShare}>
                             {loading ? <i className="fas fa-spinner fa-pulse"/> : <i className="fas fa-share"></i>}
-                            &nbsp;{__('Share this design', 'starterblocks.i18n')}
+                            &nbsp;{__('Share this design', starterblocks.i18n)}
                         </a>
                     </div>
                 </PanelBody>

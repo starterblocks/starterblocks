@@ -22,13 +22,13 @@ function PreviewImportButton(props) {
                 pageData[index] && pageData[index]['source'] !== 'wp_block_patterns' &&
                 <a className="starterblocks-button preview-button" target="_blank"
                    onClick={() => openSitePreviewModal(index, pageData)}>
-                    <i className="fa fa-share"/> {__('Preview')}
+                    <i className="fa fa-share"/> {__('Preview', starterblocks.i18n)}
                 </a>
             }
 
             <a className="starterblocks-button download-button"
                onClick={() => triggerImportTemplate(data)}>
-                <i className="fas fa-download"/>{__('Import')}
+                <i className="fas fa-download"/>{__('Import', starterblocks.i18n)}
             </a>
         </div>
     );
