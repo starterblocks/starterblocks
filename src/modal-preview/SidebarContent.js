@@ -36,16 +36,16 @@ function SidebarContent(props) {
                 <div className="theme-screenshot-wrap">
                     <img className="theme-screenshot"
                          src={image ? image : starterblocks.plugin + 'assets/img/starterblocks-medium.jpg'} alt=""/>{pro ?
-                    <span className="starterblocks-pro-badge">{__('Premium')}</span> : ''
+                    <span className="starterblocks-pro-badge">{__('Premium', 'starterblocks')}</span> : ''
                 }</div>
 
                 <h5 className="theme-hash">
                     <div className="button-container">
-                        <span className="button button-secondary the-copy" onClick={copyHash} title="Copy Identifier"><i
+                        <span className="button button-secondary the-copy" onClick={copyHash} title={__('Copy Identifier', 'starterblocks')}><i
                             className="fa fa-copy" aria-hidden="true"></i></span>
                         <span onClick={copyHash} className="button button-secondary the-hash"
-                              title="Identifier">{hash.substring(0, 7)}</span>
-                        {copied && <span className="copied hideMe"><br/>copied</span>}
+                              title={__('Identifier', 'starterblocks')}>{hash.substring(0, 7)}</span>
+                        {copied && <span className="copied hideMe"><br/>{__('copied', 'starterblocks')}</span>}
                     </div>
 
                 </h5>

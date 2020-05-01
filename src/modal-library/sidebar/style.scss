@@ -78,7 +78,7 @@
 
                     &.active {
                         background: #383e48;
-                        color: $thirdColor !important;
+                        color: $missingColorHover !important;
                         border: 1px solid #555d66;
                     }
 
@@ -111,7 +111,7 @@
                     //&::before {
                     //	content: "";
                     //	position: absolute;
-                    //	background: $thirdColor;
+                    //	background: $missingColorHover;
                     //	height: calc(100% + 4px);
                     //	width: calc(100% + 4px);
                     //	left: -2px;
@@ -148,7 +148,7 @@
                 }
 
                 &.active {
-                    color: $thirdColor;
+                    color: $missingColorHover;
                 }
 
                 &.disabled {
@@ -160,14 +160,18 @@
                 }
 
                 &.missing-dependency {
-                    color: #867e76;
+                    color: $missingColor;
 
                     &:hover {
-                        color: #b76e25;
+                        color: #b76914;
                     }
 
                     &.active {
-                        color: $thirdColor;
+                        color: $missingColorHover;
+                    }
+                    i {
+                        font-size: 0.9em;
+                        margin-left: 5px;
                     }
                 }
             }
@@ -193,6 +197,7 @@
     .starterblocks-select-actions {
         //text-align: center;
         margin-bottom: 8px;
+        display: inline-flex;
     }
 
     .starterblocks-sidebar-dependencies li a {

@@ -12,9 +12,9 @@ function CategoryFilter (props) {
 
     // On the top, All Section, All Page, All Collection etc
     const itemTypeLabel = () => {
-        if (itemType === 'section') return __('Section');
-        if (itemType === 'page') return __('Page');
-        if (itemType === 'collection') return __('Collection');
+        if (itemType === 'section') return __('Section', 'starterblocks');
+        if (itemType === 'page') return __('Page', 'starterblocks');
+        if (itemType === 'collection') return __('Collection', 'starterblocks');
     };
 
     const totalItemCountLabel = () => {
@@ -48,7 +48,7 @@ function CategoryFilter (props) {
                 <li
                     className={activeClassname(null)}
                     onClick={() => setActiveCategory('')}>
-                    {__('All ')} {itemTypeLabel()}s <span>{totalItemCountLabel()}</span>
+                    {__('All', 'starterblocks')} {itemTypeLabel()}s <span>{totalItemCountLabel()}</span>
                 </li>
                 }
 

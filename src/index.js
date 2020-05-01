@@ -28,9 +28,11 @@ domReady(() => {
     toolbar.appendChild(buttonDiv)
     toolbar.appendChild(tourDiv)
     render(<ToolbarLibraryButton/>, buttonDiv)
-    if (starterblocks.tour === '1')
-        render(<StarterBlocksTour autoTourStart={true} />, tourDiv);
-    else
+    if(window.location.hash == '#starterblocks_tour=1') {
+        window.location.hash = '';
+        render(<StarterBlocksTour autoTourStart={true}/>, tourDiv);
+    } else {
         render(<StarterBlocksTour autoTourStart={false} />, tourDiv);
+    }
     handlingLocalStorageData();
 });

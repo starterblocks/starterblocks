@@ -21,13 +21,13 @@ function FullyOverlayFooter(props) {
                     pro ?
                         <div className="action-buttons">
                             <a className="starterblocks-button-download" target="_blank" href="http://starterblocks.io/">
-                                <i className="fas fa-upload"></i>&nbsp;Upgrade to Pro
+                                <i className="fas fa-upload"></i>&nbsp;{__('Upgrade to Pro', 'starterblocks')}
                             </a>
                         </div>
                         :
                         <a className="button button-hero hide-if-no-customize button-primary starterblocks-import"
                            onClick={onImport}>
-                            <i className="fas fa-download"></i>&nbsp;Import
+                            <i className="fas fa-download"></i>&nbsp;{__('Import', 'starterblocks')}
                         </a>
                 }
 
@@ -35,7 +35,7 @@ function FullyOverlayFooter(props) {
             <button type="button" className="collapse-sidebar button" onClick={toggleExpanded} aria-expanded="true"
                     aria-label="Collapse Sidebar">
                 <span className="collapse-sidebar-arrow"></span>
-                <span className="collapse-sidebar-label">Collapse</span>
+                <span className="collapse-sidebar-label">{__('Collapse', 'starterblocks')}</span>
             </button>
 
             <div className="devices-wrapper">

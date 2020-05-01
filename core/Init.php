@@ -77,10 +77,6 @@ class Init {
                 ) . '&utm_source=plugin&utm_medium=modal&utm_campaign=template';
         }
 
-        if ( isset( $_REQUEST['starterblocks_tour'] ) ) {
-            $global_vars['tour'] = true;
-        }
-
         wp_localize_script(
             'starterblocks-js',
             'starterblocks',

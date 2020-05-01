@@ -1,4 +1,4 @@
-@import "scss/variables";
+@import "../variables";
 @import "scss/layout";
 
 @mixin placeholder-color($color) {
@@ -242,7 +242,7 @@
             }
 
             &.active {
-                background: $thirdColor;
+                background: $missingColorHover;
                 color: #fff;
             }
 
@@ -275,7 +275,7 @@
             &::before {
                 content: "";
                 position: absolute;
-                background: $thirdColor;
+                background: $missingColorHover;
                 height: calc(100% + 4px);
                 width: calc(100% + 4px);
                 left: -2px;

@@ -46,15 +46,15 @@ function DependencyFilter(props) {
                 <div id="starterblock-filter-dependencies" data-tut="tour__filter_dependencies">
                     <h3>{__('Required Plugins', 'starterblocks')}</h3>
                     <div className="starterblocks-select-actions">
-                        <Tooltip text={__('Only default WordPress blocks used.', 'starterblocks')} position='bottom'>
-                            <a href="#" onClick={() => setAllCheckedAs(true)}>All</a>
-                        </Tooltip>
+                        <Tooltip text={__('Select All', 'starterblocks')}><a href="#" onClick={() => setAllCheckedAs(true)}>{__('All', 'starterblocks')}</a></Tooltip>
+                        <span>&nbsp; / &nbsp;</span>
+                        <Tooltip text={__('Native Blocks Only', 'starterblocks')}><a href="#" onClick={() => setAllCheckedAs(false)}>{__('None', 'starterblocks')}</a></Tooltip>
+
 
                         <span>&nbsp; / &nbsp;</span>
-                        <a href="#" onClick={() => setAllCheckedAs(false)}>None</a>
-                        <span>&nbsp; / &nbsp;</span>
-                        <a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>
-                            <i className="fas fa-undo" /></a>
+                        <Tooltip text={__('Reset Dependencies', 'starterblocks')}><a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>
+                            <i className="fas fa-undo" /></a></Tooltip>
+
                     </div>
                     <ul className="starterblocks-sidebar-dependencies">
                         { (loading === false) &&
