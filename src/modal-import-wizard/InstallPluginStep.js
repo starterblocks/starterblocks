@@ -65,8 +65,8 @@ function InstallPluginStep(props) {
 
         <Fragment>
             <div className="starterblocks-modal-body">
-                <h5>{__('Install Required Plugins', 'starterblocks')}</h5>
-                <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.', 'starterblocks')}</p>
+                <h5>{__('Install Required Plugins', starterblocks.i18n)}</h5>
+                <p>{__('Plugins needed to import this template are missing. Required plugins will be installed and activated automatically.', starterblocks.i18n)}</p>
                 {
                     (installingPlugin === null && failedList.length > 0) &&
                     (<p className='error'>
@@ -104,12 +104,12 @@ function InstallPluginStep(props) {
                 <button className="button button-primary" disabled={installingPlugin !== null}
                         onClick={() => onInstallPlugins()}>
                     {installingPlugin !== null && <i className="fas fa-spinner fa-pulse"/>}
-                    <span>{__('Install', 'starterblocks')}</span>
+                    <span>{__('Install', starterblocks.i18n)}</span>
                 </button>
                 }
                 <button className="button button-secondary" disabled={installingPlugin !== null}
                         onClick={onCloseWizard}>
-                    {__('Cancel', 'starterblocks')}
+                    {__('Cancel', starterblocks.i18n)}
                 </button>
             </div>
         </Fragment>

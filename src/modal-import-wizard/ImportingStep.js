@@ -1,18 +1,19 @@
 const {Component, useState, useEffect, useRef} = wp.element;
 const {Spinner} = wp.components;
 import { useTransition, animated } from 'react-spring';
+const {__} = wp.i18n
 
 const MESSAGE_DELAY_MILLISECONDS = 4000;
 
 const MESSAGES_LIST = [
-    'Please wait while your template is prepared.',
-    'Fetching the template.',
-    'We\'re getting closer now.',
-    'Wow, this is taking a long time.',
-    'Gah, this should be done by now!',
-    'Really, this should be done soon.',
-    'Are you sure your internet is working?!',
-    'Give up, it looks like it didn\'t work...'
+    __('Please wait while your template is prepared.', starterblocks.i18n),
+    __('Fetching the template.', starterblocks.i18n),
+    __('We\'re getting closer now.', starterblocks.i18n),
+    __('Wow, this is taking a long time.', starterblocks.i18n),
+    __('Gah, this should be done by now!', starterblocks.i18n),
+    __('Really, this should be done soon.', starterblocks.i18n),
+    __('Are you sure your internet is working?!', starterblocks.i18n),
+    __('Give up, it looks like it didn\'t work...', starterblocks.i18n),
 ];
 
 function useInterval(callback, delay) {

@@ -44,15 +44,15 @@ function DependencyFilter(props) {
         <Fragment>
             {!loading &&
                 <div id="starterblock-filter-dependencies" data-tut="tour__filter_dependencies">
-                    <h3>{__('Required Plugins', 'starterblocks')}</h3>
+                    <h3>{__('Required Plugins', starterblocks.i18n)}</h3>
                     <div className="starterblocks-select-actions">
-                        <Tooltip text={__('Select All', 'starterblocks')}><a href="#" onClick={() => setAllCheckedAs(true)}>{__('All', 'starterblocks')}</a></Tooltip>
+                        <Tooltip text={__('Select All', starterblocks.i18n)}><a href="#" onClick={() => setAllCheckedAs(true)}>{__('All', starterblocks.i18n)}</a></Tooltip>
                         <span>&nbsp; / &nbsp;</span>
-                        <Tooltip text={__('Native Blocks Only', 'starterblocks')}><a href="#" onClick={() => setAllCheckedAs(false)}>{__('None', 'starterblocks')}</a></Tooltip>
+                        <Tooltip text={__('Native Blocks Only', starterblocks.i18n)}><a href="#" onClick={() => setAllCheckedAs(false)}>{__('None', starterblocks.i18n)}</a></Tooltip>
 
 
                         <span>&nbsp; / &nbsp;</span>
-                        <Tooltip text={__('Reset Dependencies', 'starterblocks')}><a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>
+                        <Tooltip text={__('Reset Dependencies', starterblocks.i18n)}><a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>
                             <i className="fas fa-undo" /></a></Tooltip>
 
                     </div>
@@ -64,11 +64,11 @@ function DependencyFilter(props) {
                                 {/*    text="These templates only use native WordPress Gutenberg Blocks"*/}
                                 {/*>*/}
                                 <CheckboxControl
-                                    label={__('Native', 'starterblocks')}
+                                    label={__('Native', starterblocks.i18n)}
                                     checked={isNoneChecked()}
                                     onChange={() => toggleNoneChecked('none')}
                                 />
-                                <Tooltip text={__('Only default WordPress blocks used.', 'starterblocks')} position='right'>
+                                <Tooltip text={__('Only default WordPress blocks used.', starterblocks.i18n)} position='right'>
                                     <span style={{float:'right', marginRight:'2px'}}><i className="fa fa-info-circle" /></span>
                                 </Tooltip>
                                 {/*</Tooltip>*/}

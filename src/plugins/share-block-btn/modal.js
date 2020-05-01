@@ -115,7 +115,7 @@ function ShareModal(props) {
             <Modal compactMode={true}>
                 <div className="starterblocks-share-modal-wrapper">
                     <div className="starterblocks-modal-header">
-                        <h3>{__('Share Wizard', 'starterblocks')}</h3>
+                        <h3>{__('Share Wizard', starterblocks.i18n)}</h3>
                         <button className="starterblocks-modal-close" onClick={onCloseWizard}>
                             <i className={'fas fa-times'}/>
                         </button>
@@ -132,7 +132,7 @@ function ShareModal(props) {
         <Modal compactMode={true}>
             <div className="starterblocks-share-modal-wrapper">
                 <div className="starterblocks-modal-header">
-                    <h3>{__('Share Wizard', 'starterblocks')}</h3>
+                    <h3>{__('Share Wizard', starterblocks.i18n)}</h3>
                     <button className="starterblocks-modal-close" onClick={onCloseWizard}>
                         <i className={'fas fa-times'}/>
                     </button>

@@ -15,10 +15,10 @@ function TemplateListSubHeader(props) {
     const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setTourOpen} = props;
 
     const itemTypeLabel = () => {
-        if (itemType === 'section') return __('Sections');
-        if (itemType === 'page') return __('Pages');
-        if (itemType === 'collection' && activeCollection === null) return __('Collections');
-        if (itemType === 'collection' && activeCollection !== null) return __('Sections');
+        if (itemType === 'section') return __('Sections', starterblocks.i18n);
+        if (itemType === 'page') return __('Pages', starterblocks.i18n);
+        if (itemType === 'collection' && activeCollection === null) return __('Collections', starterblocks.i18n);
+        if (itemType === 'collection' && activeCollection !== null) return __('Sections', starterblocks.i18n);
     };
 
     const getClassnames = (priceFilter) => {
@@ -51,39 +51,39 @@ function TemplateListSubHeader(props) {
             <div className="starterblocks-template-filters">
                 <IconButton
                     icon={<i className="far fa-question-circle tour-icon"/>}
-                    label={__('Trigger Tour', 'starterblocks')}
+                    label={__('Trigger Tour', starterblocks.i18n)}
                     onClick={() => setTourOpen(true)}
                 />
 
                 <IconButton
                     icon="image-rotate"
-                    label={__('Refresh Library', 'starterblocks')}
+                    label={__('Refresh Library', starterblocks.i18n)}
                     className="refresh-library"
                     onClick={reloadLibrary}
                 />
                 <IconButton
                     icon={<SVGViewFew width="18" height="18"/>}
                     className={columns === 'large' ? 'is-active' : ''}
-                    label={__('Large preview', 'starterblocks')}
+                    label={__('Large preview', starterblocks.i18n)}
                     onClick={() => setColumns('large')}
                 />
                 <IconButton
                     icon={<SVGViewNormal width="18" height="18"/>}
                     className={columns === '' ? 'is-active' : ''}
-                    label={__('Medium preview', 'starterblocks')}
+                    label={__('Medium preview', starterblocks.i18n)}
                     onClick={(e) => setColumns('')}
                 />
                 <IconButton
                     icon={<SVGViewMany width="18" height="18"/>}
                     className={columns === 'small' ? 'is-active' : ''}
-                    label={__('Small preview', 'starterblocks')}
+                    label={__('Small preview', starterblocks.i18n)}
                     onClick={(e) => setColumns('small')}
                 />
                 <div className="">
                     <select name="sortBy" id="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                        <option value="name">{__('Name', 'starterblocks')}</option>
-                        {/*<option value="popularity">{__('Popularity', 'starterblocks')}</option>*/}
-                        <option value="updated">{__('Updated', 'starterblocks')}</option>
+                        <option value="name">{__('Name', starterblocks.i18n)}</option>
+                        {/*<option value="popularity">{__('Popularity', starterblocks.i18n)}</option>*/}
+                        <option value="updated">{__('Updated', starterblocks.i18n)}</option>
                     </select>
                 </div>
             </div>

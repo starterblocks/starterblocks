@@ -35,7 +35,7 @@ function StarterBlocksTour(props) {
     const tourConfig = [
         {
             selector: '.starterblocks-pagelist-modal-inner',
-            content: __('Welcome to the StarterBlocks! Let\'s go over how to use our library.', 'starterblocks'),
+            content: __('Welcome to the StarterBlocks! Let\'s go over how to use our library.', starterblocks.i18n),
             position: 'center',
             stepInteraction: false,
         },
@@ -93,7 +93,7 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '[data-tut="tour__main_body"]',
-            content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', 'starterblocks'),
+            content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', starterblocks.i18n),
             position: 'center',
             action: () => {
                 animateScroll.scrollToTop({
@@ -105,7 +105,7 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '#modalContainer .starterblocks-single-item-inner:first-child',
-            content: __('When you hover over a template you can see via icons what plugins are required for this template. You can then choose to Preview or Import a design.', 'starterblocks'),
+            content: __('When you hover over a template you can see via icons what plugins are required for this template. You can then choose to Preview or Import a design.', starterblocks.i18n),
             action: () => {
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
@@ -118,7 +118,7 @@ function StarterBlocksTour(props) {
         {
             selector: '.wp-full-overlay-sidebar',
             // selector: '[data-tut="tour__preview_sidebar"]',
-            content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', 'starterblocks'),
+            content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', starterblocks.i18n),
             action: () => {
                 setTourActiveButtonGroup(null);
                 setImportingTemplate(null);
