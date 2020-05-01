@@ -219,10 +219,11 @@ export const getOnlySelectedDependencyFilters = (dependencyFilters) => {
 }
 
 export const getDefaultDependencies = (dependencies) => {
+    const unSupportedPlugins = Object.keys(starterblocks.supported_plugins).filter(key => isPluginProActivated(key) === false);
     return Object.keys(dependencies).reduce((acc, cur) => {
         // special handling for pro plugin not activated.
         let value = true;
-        if (isProPlugin(cur) && isPluginProActivated(cur) === false) value = false;
+        if (isProPlugin(cur) && unSupportedPlugins.indexOf(cur) !== -1) value = false;
         if (cur === STARTERBLOCKS_PRO_KEY) value = true;
         return {...acc, [cur]: {value, disabled: false}};
     }, {none: {value: true, disabled: false}, [STARTERBLOCKS_PRO_KEY]: {value: true, disabled: false}});

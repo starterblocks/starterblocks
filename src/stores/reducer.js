@@ -53,11 +53,11 @@ export const reducer = ( state = initialState, action ) => {
 
     switch ( action.type ) {
         case 'SET_LIBRARY':
+            starterblocks.supported_plugins = action.library.plugins;
             const dependencies = getDefaultDependencies(action.library.dependencies);
             let parsedSection = parseSectionData(action.library.sections);
             let parsedPage = parsePageData(action.library.pages);
 			let parsedCollection = parseCollectionData(action.library);
-            starterblocks.supported_plugins = action.library.plugins;
             return {
                 ...state,
                 loading: false,
