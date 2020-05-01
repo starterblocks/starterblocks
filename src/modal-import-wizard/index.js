@@ -29,7 +29,14 @@ function ImportWizard(props) {
                 setCurrentStep(IMPORT_STEP);
             if (importingTemplate && currentStep === IMPORT_STEP && importing === false) {
                 setImporting(true);
-                startImportTemplate();
+                try {
+                    startImportTemplate();
+                } catch (e) {
+                    console.log('importing exception', e);
+                    setImporting(false);
+                    setCurrentStep(PLUGIN_STEP);
+                    setImportingTemplate(null);
+                }
             }
         }
     }, [importingTemplate, currentStep])
@@ -41,6 +48,7 @@ function ImportWizard(props) {
 
     const onCloseWizard = () => {
         if (isTourOpen) return; // When in tour mode, we don't accpet mouse event.
+        if (importing) return;
         setCurrentStep(PLUGIN_STEP);
         setImportingTemplate(null);
     };
