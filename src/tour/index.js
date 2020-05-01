@@ -5,6 +5,8 @@ import {__} from '@wordpress/i18n'
 import {Tooltip} from '@wordpress/components';
 import './style.scss'
 
+import {sprintf, vsprintf} from 'sprintf-js'
+
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
 const {Component, useState, useEffect} = wp.element;
@@ -45,14 +47,16 @@ function StarterBlocksTour(props) {
                 <div>
                     These are the different types of templates we have.
                     <ul>
-                        <li><strong>Sections</strong> are the building blocks of a page. Each "row" of content on a page
-                            we consider a section.
+                        <li>
+
+
+                            <strong>Sections</strong> are the building blocks of a page. Each "row" of content on a page we consider a section.
                         </li>
-                        <li><strong>Pages</strong> are you guessed it, pages full of sections.
+                        <li><strong>Pages</strong> are, you guessed it, a group of multiple sections making up a page.
                         </li>
-                        <li><strong>Collections</strong> are groups of pages that all follow a style.
+                        <li><strong>Collections</strong> are groups of pages that all follow a style or theme.
                         </li>
-                        <li><strong>Saved</strong> are reusable blocks that you've saved and want to use.
+                        <li><strong>Saved</strong> are reusable blocks that you may have previously saved for later.
                         </li>
                     </ul>
                 </div>
@@ -61,7 +65,7 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '[data-tut="tour__filtering"]',
-            content: 'This area is where you can search and filter to find the right kind of templates you want.',
+            content: __('This area is where you can search and filter to find the right kind of templates you want.', starterblocks.i18n),
             position: 'right',
             action: () => {
                 animateScroll.scrollToTop({
@@ -77,9 +81,7 @@ function StarterBlocksTour(props) {
                 <div>
                     Some templates require certain plugins. You can filter or select those templates. Hint, if the text
                     is a <a href="#" className="missing-dependency">little orange</a>, you don't have that plugin
-                    installed
-                    yet, but don't
-                    worry. StarterBlocks will help you with that too.
+                    installed yet, but don't worry. StarterBlocks will help you with that too.
                 </div>
             ),
             action: () => {
@@ -133,9 +135,7 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '.starterblocks-import-wizard-wrapper',
-            content: `When you click to import a template, sometimes you will be missing one of the required plugins.
-            StarterBlocks will do its best to help you install what's missing. If some of them are
-            premium plugins, you will be provided details on where you can get them.`,
+            content: __('When you click to import a template, sometimes you will be missing one of the required plugins. StarterBlocks will do its best to help you install what\'s missing. If some of them are premium plugins, you will be provided details on where you can get them.', starterblocks.i18n),
             position: 'top',
             action: () => {
                 // if (ModalManager.isModalOpened() === false) ModalManager.open(<LibraryModal autoTourStart={false} />)
@@ -148,8 +148,7 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '.components-base-control.editor-page-attributes__template',
-            content: `Sometimes your theme may conflict with a template. If you're on a page, you can set a page template
-            and override your theme in different ways, including just passing it all together.`,
+            content: __('Sometimes your theme may conflict with a template. If you\'re on a page, you can set a page template and override your theme in different ways, including just passing it all together.', starterblocks.i18n),
             action: () => {
                 setImportingTemplate(null);
                 ModalManager.hide();
@@ -158,7 +157,7 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '.starterblocks-pagelist-modal-inner',
-            content: 'Well, that is the tour. Take a look around. We hope you love StarterBlocks!',
+            content: __('Well, that is the tour. Take a look around. We hope you love StarterBlocks!', starterblocks.i18n),
             action: () => {
                 ModalManager.show();
                 setNeedUpdate(new Date().toString());
@@ -185,7 +184,7 @@ function StarterBlocksTour(props) {
         isOpen={isTourOpen}
         onBeforeClose={() => ModalManager.show()}
         update={needUpdate}
-        lastStepNextButton={<span className="button button-small">Finish</span>}
+        lastStepNextButton={<span className="button button-small">{__('Finish', starterblocks.i18n)}</span>}
         rounded={0}
         accentColor={accentColor}
         disableInteraction={true}

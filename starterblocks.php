@@ -3,7 +3,7 @@
  * Plugin Name:       StarterBlocks
  * Plugin URI:        https://starterblocks.io/
  * Description:       Who wants to start with just blocks? Implement templates immediately with our design library. Shortcut your design process!
- * Version: 		  1.0.5
+ * Version: 		  1.0.6
  * Author:            Redux.io
  * Author URI:        https://redux.io/
  * Text Domain:       starterblocks
@@ -81,7 +81,7 @@ if ( function_exists( 'starterblocks_fs' ) ) {
     }
 
 // Define Version
-    define( 'STARTERBLOCKS_VERSION', '1.0.5' );
+    define( 'STARTERBLOCKS_VERSION', '1.0.6' );
 
 // Define File DIR
     define( 'STARTERBLOCKS_FILE', __FILE__ );
