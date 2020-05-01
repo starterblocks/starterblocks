@@ -15,6 +15,8 @@ const EXIPRY_TIME = 5 * 24 * 3600 * 1000;
 export const getCurrentState = (state) => state[state.activeItemType]
 // Helper function not to be exported
 const convertObjectToArray = (list) => {
+    if (!list)
+        return [];
     return Object.keys(list).map(key => {
         return {...list[key], ID: key};
     })

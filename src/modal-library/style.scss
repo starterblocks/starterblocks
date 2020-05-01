@@ -78,8 +78,6 @@
     .template-search-box {
         position: relative;
         width: 270px;
-        border-bottom: 1px solid #3e434a;
-
 
         i {
             font-size: 16px;
@@ -104,6 +102,7 @@
             font-weight: 300;
             border-radius: 0 !important;
             @include placeholder-color(rgba(240, 245, 250, 0.7));
+            border-bottom: 1px solid #3e434a;
 
             &:focus {
                 box-shadow: none;

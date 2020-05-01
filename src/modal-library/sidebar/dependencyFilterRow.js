@@ -23,7 +23,7 @@ function DependencyFilterRow(props) {
 
     if (pluginInstance) {
         let pluginClassnameList = [];
-        pluginClassnameList.push(!pluginInstance.version ? 'missing-dependency' : '');
+        pluginClassnameList.push(!pluginInstance.version && !('no_plugin' in pluginInstance) ? 'missing-dependency' : '');
         pluginClassnameList.push((!dependencyFilters[pluginKey] || dependencyFilters[pluginKey].disabled) ? 'disabled' : '');
         pluginClassname = pluginClassnameList.join(' ');
     }
