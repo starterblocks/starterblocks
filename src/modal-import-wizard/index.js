@@ -61,14 +61,16 @@ function ImportWizard(props) {
                         <i className={'fas fa-times'}/>
                     </button>
                 </div>
-                {(currentStep === PLUGIN_STEP) &&
-                    <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : importingTemplate.installDependenciesMissing || []} toNextStep={toNextStep}
-                                   onCloseWizard={onCloseWizard}/>}
-                {(currentStep === PRO_STEP) && requiresPro(importingTemplate) &&
-                    <ProPluginStep missingPros={importingTemplate.proDependenciesMissing } onCloseWizard={onCloseWizard}/>}
-                {(currentStep === IMPORT_STEP) &&
-                    <ImportingStep />
-                }
+                <div className="starterblocks-importmodal-content">
+                    {(currentStep === PLUGIN_STEP) &&
+                        <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : importingTemplate.installDependenciesMissing || []} toNextStep={toNextStep}
+                        onCloseWizard={onCloseWizard}/>}
+                    {(currentStep === PRO_STEP) && requiresPro(importingTemplate) &&
+                        <ProPluginStep missingPros={importingTemplate.proDependenciesMissing } onCloseWizard={onCloseWizard}/>}
+                    {(currentStep === IMPORT_STEP) &&
+                        <ImportingStep />
+                    }
+                </div>
             </div>
         </div>
     );
