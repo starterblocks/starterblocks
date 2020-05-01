@@ -38,7 +38,7 @@ domReady(() => {
         render(<StarterBlocksTour autoTourStart={true} />, tourDiv);
     }
     else
-        render(<StarterBlocksTour autoTourStart={true}/>, tourDiv);
+        render(<StarterBlocksTour autoTourStart={false}/>, tourDiv);
 
-        handlingLocalStorageData();
+    handlingLocalStorageData();
 });
