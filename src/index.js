@@ -17,6 +17,9 @@ import './plugins/share-block-btn'
 import ToolbarLibraryButton from './toolbar-library-button'
 import StarterBlocksTour from './tour'
 import {handlingLocalStorageData} from './stores/helper';
+import {ModalManager} from './modal-manager';
+import LibraryModal from './modal-library';
+
 
 domReady(() => {
 	const toolbar = document.querySelector('.edit-post-header-toolbar')
@@ -28,8 +31,10 @@ domReady(() => {
     toolbar.appendChild(buttonDiv)
     toolbar.appendChild(tourDiv)
     render(<ToolbarLibraryButton/>, buttonDiv)
-    if (starterblocks.tour === '1')
+    if (starterblocks.tour === '1') {
+        ModalManager.open(<LibraryModal />);
         render(<StarterBlocksTour autoTourStart={true} />, tourDiv);
+    }
     else
         render(<StarterBlocksTour autoTourStart={false} />, tourDiv);
     handlingLocalStorageData();
