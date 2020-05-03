@@ -229,6 +229,22 @@ export const getDefaultDependencies = (dependencies) => {
     }, {none: {value: true, disabled: false}, [STARTERBLOCKS_PRO_KEY]: {value: true, disabled: false}});
 }
 
+export const getInstalledDependencies = (dependencies) => {
+    const unSupportedPlugins = Object.keys(starterblocks.supported_plugins).filter(key => isPluginProActivated(key) === false);
+    return Object.keys(dependencies).reduce((acc, cur) => {
+        // special handling for pro plugin not activated.
+        let value = true;
+        const pluginInstance = getPluginInstance(cur);
+        if (pluginInstance) {
+            if (isProPlugin(cur) && unSupportedPlugins.indexOf(cur) !== -1) value = false;
+            if (isProPlugin(cur) === false && pluginInstance.hasOwnProperty('version') === false) value = false;
+            if (cur === STARTERBLOCKS_PRO_KEY) value = true;
+        } else 
+            value = false;
+        return {...acc, [cur]: {value, disabled: false}};
+    }, {none: {value: true, disabled: false}, [STARTERBLOCKS_PRO_KEY]: {value: true, disabled: false}});
+}
+
 
 const getPluginInstance = (pluginKey) => {
     if (pluginKey in starterblocks.supported_plugins) {

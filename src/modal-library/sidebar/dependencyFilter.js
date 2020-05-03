@@ -6,7 +6,7 @@ const {__} = wp.i18n;
 
 import {CheckboxControl, Tooltip} from '@wordpress/components';
 import DependencyFilterRow from './dependencyFilterRow';
-import {getDefaultDependencies} from '../../stores/helper';
+import {getDefaultDependencies, getInstalledDependencies} from '../../stores/helper';
 
 function DependencyFilter(props) {
     const {dependencyFilters, loading, plugins} = props;
@@ -54,6 +54,10 @@ function DependencyFilter(props) {
                         <span>&nbsp; / &nbsp;</span>
                         <Tooltip text={__('Reset Dependencies', starterblocks.i18n)}><a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>
                             <i className="fas fa-undo" /></a></Tooltip>
+                        
+                        <span>&nbsp; / &nbsp;</span>
+                        <Tooltip text={__('Installed Dependencies', starterblocks.i18n)}><a href="#" onClick={() => setDependencyFilters(getInstalledDependencies(dependencyFilters))}>
+                            Installed</a></Tooltip>
 
                     </div>
                     <ul className="starterblocks-sidebar-dependencies">
