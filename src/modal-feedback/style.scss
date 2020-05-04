@@ -1,0 +1,49 @@
+.starterblocks-feedback {
+    padding: 20px;
+    width: 360px;
+    height: 160px;
+    .panel {
+        display: flex;
+        flex-direction: column;
+        .field {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        button {
+            align-self: center;
+        }
+    }
+}
+.starterblocks-feedback-modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    .starterblocks-modal-header {
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        flex: 0 0 60px;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box;
+
+        h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        .starterblocks-modal-close {
+            font-size: 20px;
+            background: transparent;
+            color: #9b9b9b;
+        }
+
+    }
+}

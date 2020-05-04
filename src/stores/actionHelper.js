@@ -6,9 +6,10 @@ const {savePost} = dispatch('core/editor');
 const {insertBlocks} = dispatch('core/editor');
 const {switchEditorMode} = dispatch('core/edit-post');
 
-const {createSuccessNotice, createErrorNotice} = dispatch('core/notices');
+const {createSuccessNotice, createErrorNotice, createNotice, removeNotice} = dispatch('core/notices');
 import {ModalManager} from '~starterblocks/modal-manager';
 import PreviewModal from '../modal-preview';
+import FeedbackModal from '../modal-feedback';
 
 // create Block to import template
 export const handleBlock = (data, installedDependencies) => {
@@ -80,6 +81,22 @@ export const processImportHelper = () => {
                 ModalManager.closeCustomizer();
                 setImportingTemplate(null);
             }
+            let createdNotice = createNotice('info', 'Did the template import correctly?', {
+                isDismissible: true,
+                id: 'starterblockfeedback',
+                actions: [
+                    {
+                        onClick: () => {
+                            removeNotice('starterblockfeedback');
+                        },
+                        label: 'Yes'
+                    },
+                    {
+                        onClick: () => ModalManager.open(<FeedbackModal />),
+                        label: 'No'
+                    }
+                ],
+            });
         } else {
             errorCallback(response.data.error);
         }

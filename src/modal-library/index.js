@@ -67,10 +67,6 @@ function LibraryModal(props) {
         if (importingTemplate) processImportHelper();
     }
 
-    // Open Site Preview Modal
-    const openSitePreviewModal = (index, item) => {
-        ModalManager.openCustomizer(<PreviewModal startIndex={index} currentPageData={item}/>);
-    }
 
     return (
         <Modal className="starterblocks-builder-modal-pages-list"
