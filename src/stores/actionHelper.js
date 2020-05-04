@@ -81,22 +81,22 @@ export const processImportHelper = () => {
                 ModalManager.closeCustomizer();
                 setImportingTemplate(null);
             }
-            let createdNotice = createNotice('info', 'Did the template import correctly?', {
+
+
+            let createdNotice = createNotice('warning', 'Please let us know if there was an issue importing this StarterBlocks template.', {
                 isDismissible: true,
-                id: 'starterblockfeedback',
+                id: 'starterblockimportfeedback',
                 actions: [
                     {
-                        onClick: () => {
-                            removeNotice('starterblockfeedback');
-                        },
-                        label: 'Yes'
-                    },
-                    {
                         onClick: () => ModalManager.open(<FeedbackModal />),
-                        label: 'No'
+                        label: 'Report an Issue',
+                        isPrimary:true,
                     }
                 ],
             });
+            setTimeout(() => {
+                removeNotice('starterblockimportfeedback');
+            }, 20000);
         } else {
             errorCallback(response.data.error);
         }

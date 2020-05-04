@@ -1,7 +1,7 @@
-=== Gutenberg Blocks Library – StarterBlocks ===
+=== Page Builder for Gutenberg – StarterBlocks ===
 Contributors: dovyp, starterblocks, redux
 Donate link: https://paypal.me/ReduxFramework
-Tags: gutenberg, blocks, gutenberg blocks, editor, block, page builder, block editor, block library, editor, templates, library
+Tags: Page builder, Gutenberg blocks, Page builder blocks, Page builder Gutenberg blocks, Gutenberg
 Requires at least: 5.4
 Tested up to: 5.5
 Stable tag: 1.0.6
@@ -9,7 +9,7 @@ Requires PHP: 5.6
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Supercharge the Gutenberg editor with our ever-growing library of block-based templates!
+StarterBlocks lets you build full pages with Gutenberg. Import 800+ full page layouts and designs! True page builder experience.
 
 == Description ==
 <strong>StarterBlocks - The Blocks Template Library for Gutenberg</strong>
@@ -74,24 +74,61 @@ StarterBlocks works with all plugins that support Gutenberg, but it has been tes
 
 <h4>📦 Supported Gutenberg-Specific Plugins (Block Editor)</h4>
 <ul>
-<li><a href="https://wordpress.org/plugins/gutenberg/"><strong>Gutenberg</strong></a> Plugin – <strong>Gutenberg</strong> (Bleeding-Edge development in Gutenberg and Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/acf-blocks/"><strong>ACF Blocks Suite</strong></a> Plugin – <strong>Blocks</strong> (Fields for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/advanced-gutenberg-blocks/"><strong>Advanced Gutenberg Blocks</strong></a> Plugin – <strong>Blocks</strong> (Blocks and Tools for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/atomic-blocks/"><strong>Atomic Blocks – Gutenberg Blocks Collection</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/block-options/"><strong>Gutenberg Page Building Toolkit – EditorsKit</strong></a> Plugin – <strong>Blocks</strong> (Templates &amp; Fields for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/block-slider/"><strong>WordPress Slider Plugin – Block Slider</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/coblocks/"><strong>Page Builder Gutenberg Blocks – CoBlocks</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/forms-gutenberg/"><strong>WordPress Form Builder Plugin – Gutenberg Forms</strong></a> Plugin – <strong>Blocks</strong> (Blocks &amp; Forms for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/getwid/"><strong>Getwid – Gutenberg Blocks</strong></a> Plugin – <strong>Blocks</strong> (Templates &amp; Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/gutentor/"><strong>Gutenberg Blocks – Gutentor Page Builder for Gutenberg Editor</strong></a> Plugin – <strong>Blocks</strong> (Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/kadence-blocks/"><strong>Kadence Blocks – Gutenberg Page Builder Toolkit</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/kioken-blocks/"><strong>Page Builder Gutenberg Blocks – Kioken Blocks</strong></a> Plugin – <strong>Blocks &amp; Templates</strong> (Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/otter-blocks/"><strong>Gutenberg Blocks and Template Library by Otter</strong></a> Plugin – <strong>Blocks &amp; Templates</strong> (Blocks and Templates for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/qubely/"><strong>Gutenberg Blocks and Page Builder – Qubely</strong></a> Plugin – <strong>Blocks &amp; Templates</strong> (Templates &amp; Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/qodeblock/"><strong>Gutenberg Blocks Collection – qodeblock</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/stackable-ultimate-gutenberg-blocks/"><strong>Stackable – Page Builder Gutenberg Blocks</strong></a> Plugin – <strong>Blocks &amp; Templates</strong> (Templates &amp; Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/ultimate-blocks/"><strong>Ultimate Blocks – Gutenberg Blocks Plugin</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)</li>
-<li><a href="https://wordpress.org/plugins/ultimate-addons-for-gutenberg/"><strong>Gutenberg Blocks – Ultimate Addons for Gutenberg</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)</li>
+    <li><a href="https://wordpress.org/plugins/gutenberg/"><strong>Gutenberg</strong></a> Plugin –
+        <strong>Gutenberg</strong> (Bleeding-Edge development in Gutenberg and Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/acf-blocks/"><strong>ACF Blocks Suite</strong></a> Plugin – <strong>Blocks</strong>
+        (Fields for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/advanced-gutenberg-blocks/"><strong>Advanced Gutenberg
+        Blocks</strong></a> Plugin – <strong>Blocks</strong> (Blocks and Tools for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/atomic-blocks/"><strong>Atomic Blocks – Gutenberg Blocks
+        Collection</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/block-options/"><strong>Gutenberg Page Building Toolkit –
+        EditorsKit</strong></a> Plugin – <strong>Blocks</strong> (Templates & Fields for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/block-slider/"><strong>WordPress Slider Plugin – Block
+        Slider</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/coblocks/"><strong>Page Builder Gutenberg Blocks – CoBlocks</strong></a>
+        Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/forms-gutenberg/"><strong>WordPress Form Builder Plugin – Gutenberg
+        Forms</strong></a> Plugin – <strong>Blocks</strong> (Blocks & Forms for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/getwid/"><strong>Getwid – Gutenberg Blocks</strong></a> Plugin – <strong>Blocks</strong>
+        (Templates & Blocks for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/gutentor/"><strong>Gutenberg Blocks and Page Builder for Gutenberg
+        Editor</strong></a> Plugin – <strong>Blocks</strong> (Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/kadence-blocks/"><strong>Kadence Blocks – Gutenberg Page Builder
+        Toolkit</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/kioken-blocks/"><strong>Page Builder Gutenberg Blocks – Kioken
+        Blocks</strong></a> Plugin – <strong>Blocks & Templates</strong> (Blocks for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/otter-blocks/"><strong>Gutenberg Blocks and Template Library by
+        Otter</strong></a> Plugin – <strong>Blocks & Templates</strong>. StarterBlocks includes full Gutenberg Block Page Builder support for Otter blocks.
+    </li>
+    <li><a href="https://wordpress.org/plugins/qubely/"><strong>Gutenberg Blocks and Page Builder – Qubely </strong></a> Plugin
+        – <strong>Blocks & Templates</strong> (Templates & Blocks for Gutenberg Blocks). StarterBlocks includes full Gutenberg Block Page Builder support and templates for Otter blocks plugin.
+    </li>
+    <li><a href="https://wordpress.org/plugins/qodeblock/"><strong>Gutenberg Blocks Collection – qodeblock</strong></a>
+        Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/stackable-ultimate-gutenberg-blocks/"><strong>Stackable – Page Builder
+        Gutenberg Blocks</strong></a> Plugin – <strong>Blocks & Templates</strong> (Templates & Blocks for Gutenberg
+        Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/ultimate-blocks/"><strong>Ultimate Blocks – Gutenberg Blocks
+        Plugin</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)
+    </li>
+    <li><a href="https://wordpress.org/plugins/ultimate-addons-for-gutenberg/"><strong>Gutenberg Blocks – Ultimate
+        Addons for Gutenberg</strong></a> Plugin – <strong>Blocks</strong> (Blocks for Gutenberg Blocks)
+    </li>
 </ul>
 
 <h4>👍 BE A CONTRIBUTOR</h4>

@@ -2,7 +2,7 @@
 /*
  * Plugin Name:       StarterBlocks
  * Plugin URI:        https://starterblocks.io/
- * Description:       Who wants to start with just blocks? Implement templates immediately with our design library. Shortcut your design process!
+ * Description:       StarterBlocks lets you build full pages with Gutenberg. Import nearly 1,000+ full page layouts and designs! True page builder experience.
  * Version: 		  1.0.6
  * Author:            Redux.io
  * Author URI:        https://redux.io/
@@ -48,6 +48,10 @@ if ( function_exists( 'starterblocks_fs' ) ) {
                         'has_premium_version' => false,
                         'has_addons'          => false,
                         'has_paid_plans'      => true,
+                        'trial'               => array(
+                            'days'               => 14,
+                            'is_require_payment' => true,
+                        ),
                         'has_affiliation'     => 'selected',
                         'menu'                => array(
                             'slug'       => 'starterblocks',

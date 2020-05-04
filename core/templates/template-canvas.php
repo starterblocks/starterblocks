@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 /**
- * StarterBlocks Blocks Canvas
+ * StarterBlocks - Canvas / Theme Override
  *
  * @since v.1.0.0
  * @package starterblocks

@@ -94,10 +94,16 @@ class Welcome {
                 <div class="starterblocks-options-section-header">
                     <div class="starterblocks-header-left"
                          style="background-image: url(<?php echo STARTERBLOCKS_DIR_URL . 'assets/img/logo.svg' ?>)">
-                        <h2 class="starterblocks-options-section-title"><?php esc_attr_e(
-                                'Welcome to StarterBlocks! - Version ', 'starterblocks'
+                        <h2 class="starterblocks-options-section-title"><?php
+                            esc_attr_e(
+                                'Welcome to StarterBlocks!', 'starterblocks'
                             );
-                            echo STARTERBLOCKS_VERSION; ?></h2>
+                            sprintf(
+                                'Version %1$s',
+                                esc_attr( STARTERBLOCKS_VERSION ),
+
+                            ); ?>
+                        </h2>
                     </div>
                 </div>
 
