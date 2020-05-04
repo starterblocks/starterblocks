@@ -1,15 +1,11 @@
-const {Component, Fragment, useState} = wp.element;
-const {withSelect, select} = wp.data;
+const {Fragment} = wp.element;
 const {__} = wp.i18n;
 
 import StarterBlocksPremiumBox from './StarterBlocksPremiumBox';
 import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
-
-
 const STARTERBLOCKS_PRO_KEY = 'starterblocks-pro';
-function ProPluginStep(props) {
+export default function ProPluginStep(props) {
     const {missingPros, onCloseWizard} = props;
-    const {plugins} = props;
 
     if ( missingPros.indexOf(STARTERBLOCKS_PRO_KEY) >= 0 ) return <StarterBlocksPremiumBox />
     return (
@@ -41,7 +37,3 @@ function ProPluginStep(props) {
     );
 }
 
-export default withSelect((select, props) => {
-    const {getPlugins} = select('starterblocks/sectionslist');
-    return {plugins: getPlugins()};
-})(ProPluginStep);

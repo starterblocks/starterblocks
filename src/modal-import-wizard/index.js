@@ -1,13 +1,11 @@
 const {__} = wp.i18n;
-const {parse} = wp.blocks;
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
-const {Component, Fragment, useState, useEffect} = wp.element;
+const {withDispatch, withSelect} = wp.data;
+const {useState, useEffect} = wp.element;
 
 import InstallPluginStep from './InstallPluginStep';
 import ProPluginStep from './ProPluginsStep';
 import ImportingStep from './ImportingStep';
-import {ModalManager} from '../modal-manager'
 import '../modals.scss'
 import './style.scss'
 
