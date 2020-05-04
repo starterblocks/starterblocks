@@ -131,3 +131,10 @@
         flex-direction: column;
     }
 }
+.text-transition {
+    width: 100% !important;
+    text-align: center;
+    .text-transition_inner > div {
+        font-size: 1.1rem;
+    }
+}

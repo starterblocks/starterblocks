@@ -1,6 +1,7 @@
+import React from 'react';
 const {Component, useState, useEffect, useRef} = wp.element;
 const {Spinner} = wp.components;
-import { useTransition, animated } from 'react-spring';
+import TextTransition, { presets } from 'react-text-transition';
 const {__} = wp.i18n
 
 const MESSAGE_DELAY_MILLISECONDS = 4000;
@@ -50,7 +51,10 @@ export default function ImportingStep(props) {
     return (
         <div className="starterblocks-modal-body">
             <div className="starterblocks-import-wizard-spinner-wrapper">
-                <h3>{loadingMessage}</h3>
+                <TextTransition
+                    text={loadingMessage}
+                    springConfig={presets.gentle}
+                />
                 <Spinner/>
             </div>
         </div>
