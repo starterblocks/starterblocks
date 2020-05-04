@@ -1,5 +1,5 @@
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
+const {withDispatch, withSelect} = wp.data;
 const {useState, useEffect} = wp.element;
 import '../stores';
 
@@ -12,18 +12,15 @@ import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
 import {processImportHelper} from '~starterblocks/stores/actionHelper';
-import uniq from 'lodash/uniq';
 import './style.scss'
 
 
 function LibraryModal(props) {
     const {
         fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate,
-        setLoading, setLibrary, setImportingTemplate
+        setLoading, setImportingTemplate
     } = props;
     const [loaded, setLoaded] = useState(false);
-    const [missingPluginArray, setMissingPlugin] = useState([]);
-    const [missingProArray, setMissingPro] = useState([]);
     const [escKeyPressed, setEscKeyPressed] = useState(false);
 
     let stateLibrary = null;
@@ -111,7 +108,7 @@ export default compose([
         };
     }),
 
-    withSelect((select, props) => {
+    withSelect((select) => {
         const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getImportingTemplate} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
