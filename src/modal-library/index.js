@@ -11,6 +11,7 @@ import SavedView from './view-saved';
 import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
+import FabWrapper from '../components/fab-wrapper';
 import {processImportHelper} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
@@ -88,6 +89,7 @@ function LibraryModal(props) {
             {
                 importingTemplate && <ImportWizard startImportTemplate={processImport} />
             }
+            <FabWrapper />
         </Modal>
     );
 }
