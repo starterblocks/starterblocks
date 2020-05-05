@@ -16,7 +16,10 @@ export default function FeedbackModal(props) {
             method: 'POST',
             headers: {'Registed-Blocks': installedBlocksTypes()},
             data: {
-                'description': description
+                'description': description,
+                'theme_plugins': true, // Boolean
+                'content': '', // Same as share dialog
+                'template_id': ''// If section: `section-HASH` - If page: `page-HASH`
             }
         }).then(data => {
             setLoading(false);
@@ -48,12 +51,23 @@ export default function FeedbackModal(props) {
                 </div>
                 <div className="starterblocks-feedback">
                     <div className="panel">
+                        <h4>{__('Thank you for reporting an issue.', starterblocks.i18n)}</h4>
+                        <p>{__('We want to make StarterBlocks perfect. Please send whatever you are comfortable sending, and we will do our best to resolve the problem.', starterblocks.i18n)}</p>
                         <div className="field">
-                            <label>Description</label>
-                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+                            <input type="checkbox" id="theme_plugins"/>
+                            <label htmlFor="theme_plugins">Send theme and plugins</label>
+                        </div>
+                        <div className="field">
+                            <input type="checkbox" id="content"/>
+                            <label htmlFor="content">Send page content</label>
+                        </div>
+                        <div className="field">
+                            <label htmlFor="template_id">Template ID</label>
+                            <input type="input" id="template_id" disabled="disabled" value="TYPE-hash"/>
                         </div>
                         <button className="button button-primary" onClick={submitFeedback}>
-                            {loading ? <i className="fas fa-spinner fa-pulse"/> : <i className="fas fa-share"></i>} Submit Feedback
+                            {loading ? <i className="fas fa-spinner fa-pulse"/> :
+                                <i className="fas fa-share"></i>} Submit Feedback
                         </button>
                     </div>
                 </div>
