@@ -1,17 +1,23 @@
 .starterblocks-feedback {
     padding: 20px;
-    width: 360px;
-    height: 160px;
+    width: 600px;
     .panel {
         display: flex;
         flex-direction: column;
+        h4 {
+            margin: 0.5rem 0;
+        }
         .field {
             display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            align-items: center;
+            label {
+                margin-right: 15px;
+            }
         }
         button {
             align-self: center;
+            margin-top: 1rem;
         }
     }
 }
