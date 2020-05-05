@@ -23,7 +23,7 @@ function DependencyFilter(props) {
         return false;
     };
 
-    const toggleNoneChecked = (pluginKey) => {
+    const toggleNoneChecked = () => {
         setDependencyFilters({...dependencyFilters,
             none: { value: dependencyFilters['none'].value === false, disabled: dependencyFilters['none']['disabled'] === true }
         });
@@ -70,7 +70,7 @@ function DependencyFilter(props) {
                                 <CheckboxControl
                                     label={__('Native', starterblocks.i18n)}
                                     checked={isNoneChecked()}
-                                    onChange={() => toggleNoneChecked('none')}
+                                    onChange={toggleNoneChecked}
                                 />
                                 <Tooltip text={__('Only default WordPress blocks used.', starterblocks.i18n)} position='right'>
                                     <span style={{float:'right', marginRight:'2px'}}><i className="fa fa-info-circle" /></span>

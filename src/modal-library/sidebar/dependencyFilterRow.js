@@ -1,7 +1,7 @@
 import React from 'react';
-const {Component, useState, useEffect} = wp.element;
+const {useState, useEffect, useRef} = wp.element;
 const {compose} = wp.compose;
-const {select, withDispatch, withSelect} = wp.data;
+const {withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
 import {CheckboxControl, Tooltip} from '@wordpress/components';
@@ -9,38 +9,48 @@ import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
 import groupBy from 'lodash/groupBy';
 
 function DependencyFilterRow(props) {
-    const {pluginKey, dependencyFilters} = props;
+    const {pluginKey, dependencyFilters, activeCategory} = props;
     const {setDependencyFilters} = props;
+    const [isValidPlugin, setIsValidPlugin] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+    const [pluginInstanceURL, setPluginInstanceURL] = useState('');
+    const [pluginInstanceName, setPluginInstanceName] = useState('');
+    const [pluginClassname, setPluginClassname] = useState('');
 
-    const pluginInstance = pluginInfo(pluginKey);
-    let pluginClassname = '';
+    
+    useEffect(() => {
+        const pluginInstance = pluginInfo(pluginKey);      
+        if (!pluginKey || pluginKey === 'none') {
+            setIsValidPlugin(false);
+            return;
+        }
+        if (!pluginInstance || pluginInstance.name == null) {
+            setIsValidPlugin(false);
+            return;
+        }
+        setPluginInstanceURL(pluginInstance.url);
+        setPluginInstanceName(pluginInstance.name);
+        setIsValidPlugin(true);
+    }, [pluginKey]);
 
-    if (!pluginKey || pluginKey === 'none') return null;
-
-    if (!pluginInstance || pluginInstance.name == null) {
-        return null// Skip extra items
-    }
-
-    if (pluginInstance) {
+    useEffect(() => {
+        const pluginInstance = pluginInfo(pluginKey);
+        if (dependencyFilters.hasOwnProperty(pluginKey)) {
+            if (dependencyFilters[pluginKey].disabled)
+                setIsChecked(false);
+            else
+                setIsChecked(dependencyFilters[pluginKey].hasOwnProperty('value') ? dependencyFilters[pluginKey].value : dependencyFilters[pluginKey]);
+        } else 
+            setIsChecked(false)
         let pluginClassnameList = [];
         pluginClassnameList.push(!pluginInstance.version && !('no_plugin' in pluginInstance) ? 'missing-dependency' : '');
         pluginClassnameList.push((!dependencyFilters[pluginKey] || dependencyFilters[pluginKey].disabled) ? 'disabled' : '');
-        pluginClassname = pluginClassnameList.join(' ');
-    }
+        setPluginClassname(pluginClassnameList.join(' '));
+    }, [activeCategory])
 
-
-    const isChecked = (pluginKey) => {
-        if (dependencyFilters.hasOwnProperty(pluginKey)){
-            if (dependencyFilters[pluginKey].disabled) return false;
-            return dependencyFilters[pluginKey].hasOwnProperty('value') ? dependencyFilters[pluginKey].value : dependencyFilters[pluginKey];
-        }
-        return false;
-    };
-
-    const toggleChecked = (pluginKey) => {
+    const toggleChecked = () => {
         // disable check first
         if (dependencyFilters[pluginKey] === null || dependencyFilters[pluginKey] === undefined || dependencyFilters[pluginKey].disabled) return;
-
 
         let newDependencyFilters = {...dependencyFilters,
             [pluginKey]: { value: dependencyFilters[pluginKey].value === false, disabled: dependencyFilters[pluginKey]['disabled'] === true }};
@@ -53,19 +63,23 @@ function DependencyFilterRow(props) {
         }
     };
 
+    if (isValidPlugin === false) return null;
+
+    
+
     return (
         <li className={pluginClassname}>
             <CheckboxControl
-                label={pluginInstance.name}
-                checked={isChecked(pluginKey)}
-                onChange={() => toggleChecked(pluginKey)}
+                label={pluginInstanceName}
+                checked={isChecked}
+                onChange={toggleChecked}
             />
             {pluginClassname.includes('missing-dependency') &&
                 <Tooltip text={__('Plugin not Installed', starterblocks.i18n)}><i className="fa fa-warning" /></Tooltip>
             }
 
-            {pluginInstance.url ?
-                <a href={pluginInstance.url} target="_blank">
+            {pluginInstanceURL ?
+                <a href={pluginInstanceURL} target="_blank">
                     <i className="fa fa-external-link-alt" />
                 </a> : null}
         </li>
@@ -81,12 +95,13 @@ export default compose([
         };
     }),
 
-    withSelect((select, props) => {
-        const {getDependencyFiltersStatistics, getLoading, getPlugins} = select('starterblocks/sectionslist');
+    withSelect((select) => {
+        const {getDependencyFiltersStatistics, getLoading, getPlugins, getActiveCategory} = select('starterblocks/sectionslist');
         return {
             loading: getLoading(),
             dependencyFilters: getDependencyFiltersStatistics(),
-            plugins: getPlugins()
+            plugins: getPlugins(),
+            activeCategory: getActiveCategory()
         };
     })
 ])(DependencyFilterRow);
