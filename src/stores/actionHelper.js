@@ -88,7 +88,7 @@ export const processImportHelper = () => {
                 id: 'starterblockimportfeedback',
                 actions: [
                     {
-                        onClick: () => ModalManager.open(<FeedbackModal />),
+                        onClick: () => ModalManager.open(<FeedbackModal importedData={data} />),
                         label: 'Report an Issue',
                         isPrimary:true,
                     }

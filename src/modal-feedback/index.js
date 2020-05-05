@@ -1,16 +1,23 @@
 const {__} = wp.i18n;
 const {useState} = wp.element;
 const {apiFetch} = wp;
+const {select} = wp.data;
+const {getBlocksByClientId} = select('core/block-editor');
 import {Modal, ModalManager} from '../modal-manager'
 import './style.scss'
 
 export default function FeedbackModal(props) {
+    const {importedData} = props;
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
+    const [themePlugins, setThemePlugins] = useState(false);
 
     const submitFeedback = () => {
         if (loading) return;
         setLoading(true);
+        // TODO: get blocks content 
+
+        // let blocksContent = getBlocksByClientId(clientIds);
         apiFetch({
             path: 'starterblocks/v1/feedback/',
             method: 'POST',
@@ -19,7 +26,7 @@ export default function FeedbackModal(props) {
                 'description': description,
                 'theme_plugins': true, // Boolean
                 'content': '', // Same as share dialog
-                'template_id': ''// If section: `section-HASH` - If page: `page-HASH`
+                'template_id': importedData.hash
             }
         }).then(data => {
             setLoading(false);
@@ -63,7 +70,7 @@ export default function FeedbackModal(props) {
                         </div>
                         <div className="field">
                             <label htmlFor="template_id">Template ID</label>
-                            <input type="input" id="template_id" disabled="disabled" value="TYPE-hash"/>
+                            <input type="input" id="template_id" disabled="disabled" value={importedData.hash} />
                         </div>
                         <button className="button button-primary" onClick={submitFeedback}>
                             {loading ? <i className="fas fa-spinner fa-pulse"/> :

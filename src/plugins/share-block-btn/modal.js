@@ -54,8 +54,6 @@ function ShareModal(props) {
     const [options, setOptions] = useState([]);
     const [blocksSelection, setBlocksSelection] = useState(null);
 
-    console.log('Client IDs', clientIds, type);
-
     useEffect(() => {
         const keyName = type === 'page' ? 'page_categories_list' : 'section_categories_list';
         const options = sortBy(getWithExpiry(keyName), 'label');
