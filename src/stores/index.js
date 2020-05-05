@@ -17,9 +17,7 @@ import {installedBlocksTypes} from './actionHelper';
 const getOriginalPageData = (state) => {
     if (state.activeItemType === 'collection' && state.collection.activeCollection !== null)
         return getCollectionChildrenData(state.library, state.collection.activeCollection);
-    else
-        return getCurrentState(state).data;
-    return {};
+    return getCurrentState(state).data;
 };
 
 const getActivePriceFilter = (state) => {

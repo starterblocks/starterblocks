@@ -1,7 +1,7 @@
 import {Tooltip} from '@wordpress/components';
 
 const {__} = wp.i18n
-const {withDispatch, withSelect, select} = wp.data;
+const {withSelect} = wp.data;
 const {useState, useEffect} = wp.element;
 
 import ButtonGroup from '../button-group';
@@ -18,11 +18,6 @@ function SingleItem (props) {
     const [data, setData] = useState(null);
     // const {ID, image, url, pro, source, requirements} = data;
     const [innerClassname, setInnerClassname] = useState('starterblocks-single-item-inner starterblocks-item-wrapper ');
-    const background = {
-        'backgroundImage': 'url(' + starterblocks.plugin + 'assets/img/image-loader.gif)',
-        'backgroundPosition': 'center center'
-    };
-
 
     useEffect(() => {
         if (pageData) setData(pageData[index]);
@@ -60,7 +55,7 @@ function SingleItem (props) {
 
 
 export default withSelect((select, props) => {
-    const {getTourActiveButtonGroup, getPageData, getColumns} = select('starterblocks/sectionslist');
+    const {getTourActiveButtonGroup, getPageData} = select('starterblocks/sectionslist');
     return {
         pageData: getPageData(),
         tourActiveButtonGroup: getTourActiveButtonGroup()

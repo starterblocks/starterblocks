@@ -1,4 +1,4 @@
-const {withSelect, select} = wp.data;
+const {withSelect} = wp.data;
 import {Tooltip} from '@wordpress/components';
 import * as Icons from '~starterblocks/icons'
 import './style.scss'
@@ -35,7 +35,7 @@ function DependentPlugins (props) {
     return null;
 }
 
-export default withSelect((select, props) => {
+export default withSelect((select) => {
     const {getPlugins} = select('starterblocks/sectionslist');
     return {
         plugins: getPlugins()

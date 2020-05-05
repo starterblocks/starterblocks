@@ -1,7 +1,6 @@
 const {__} = wp.i18n;
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
-const {Component, useState} = wp.element;
+const {withDispatch, withSelect} = wp.data;
 
 import {IconButton} from '@wordpress/components'
 import SVGViewFew from './images/view-few.svg'
@@ -11,8 +10,8 @@ import {reloadLibrary} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
 function TemplateListSubHeader(props) {
-    const {fetchLibraryFromAPI, itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
-    const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setTourOpen} = props;
+    const {itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
+    const {setSortBy, setColumns, setTourOpen} = props;
 
     const itemTypeLabel = () => {
         if (itemType === 'section') return __('Sections', starterblocks.i18n);

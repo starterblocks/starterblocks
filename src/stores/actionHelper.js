@@ -1,7 +1,7 @@
 const {parse, createBlock} = wp.blocks;
 const {apiFetch} = wp;
-const {dispatch, select, useDispatch} = wp.data;
-const {getBlockTypes} = dispatch('core/blocks');
+const {dispatch, select} = wp.data;
+const {getBlockTypes} = select('core/blocks');
 const {savePost} = dispatch('core/editor');
 const {insertBlocks} = dispatch('core/editor');
 const {switchEditorMode} = dispatch('core/edit-post');
@@ -83,7 +83,7 @@ export const processImportHelper = () => {
             }
 
 
-            let createdNotice = createNotice('warning', 'Please let us know if there was an issue importing this StarterBlocks template.', {
+            createNotice('warning', 'Please let us know if there was an issue importing this StarterBlocks template.', {
                 isDismissible: true,
                 id: 'starterblockimportfeedback',
                 actions: [
@@ -125,13 +125,13 @@ export const reloadLibrary = () => {
 
 
 export const installedBlocks = () => {
-    let installed_blocks = select('core/blocks').getBlockTypes();
+    let installed_blocks = getBlockTypes();
     return Object.keys(installed_blocks).map(key => {
         return installed_blocks[key]['name'];
     })
 }
 export const installedBlocksTypes = () => {
-    let installed_blocks = select('core/blocks').getBlockTypes();
+    let installed_blocks = getBlockTypes();
 
     let names = Object.keys(installed_blocks).map(key => {
         if (!installed_blocks[key]['name'].includes('core')) {

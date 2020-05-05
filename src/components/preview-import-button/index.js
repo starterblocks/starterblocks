@@ -1,7 +1,7 @@
 import {__} from '@wordpress/i18n';
 
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
+const {withDispatch} = wp.data;
 import {openSitePreviewModal} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
@@ -44,9 +44,5 @@ export default compose([
         return {
             setImportingTemplate
         };
-    }),
-
-    withSelect((select, props) => {
-        return {};
     })
 ])(PreviewImportButton);

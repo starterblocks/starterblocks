@@ -5,7 +5,7 @@ const MultipleItem = (props) => {
 
     const {data, backgroundImage, onSelectCollection} = props;
     const {pages, homepageData, ID, name} = data;
-    const {image, pro, source} = homepageData || {};
+    const {image} = homepageData || {};
 
     return (
         <div className="starterblocks-multiple-template-box">

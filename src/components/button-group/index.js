@@ -1,5 +1,5 @@
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
+const {withSelect} = wp.data;
 import {useEffect, useState} from '@wordpress/element';
 import PreviewImportButton from '../preview-import-button';
 import DependentPlugins from '../dependent-plugins';
@@ -27,10 +27,7 @@ function ButtonGroup (props) {
 
 
 export default compose([
-    withDispatch((dispatch) => {
-        return {};
-    }),
-    withSelect((select, props) => {
+    withSelect((select) => {
         const {getImportingTemplate} = select('starterblocks/sectionslist');
         return {importingTemplate: getImportingTemplate()};
     })

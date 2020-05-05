@@ -1,11 +1,11 @@
-const {Component, useState, useEffect, Fragment} = wp.element;
-const {compose, withState} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
+const { useState, useEffect, Fragment} = wp.element;
+const {compose} = wp.compose;
+const {withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n
 
 import './style.scss';
 
-import {columnMap, pageSizeMap} from '../../stores/helper';
+import {pageSizeMap} from '../../stores/helper';
 
 function Pagination(props) {
     const {currentPage, pageData, columns} = props;
@@ -77,7 +77,7 @@ export default compose([
         };
     }),
 
-    withSelect((select, props) => {
+    withSelect((select) => {
         const {getCurrentPage, getPageData, getColumns} = select('starterblocks/sectionslist');
         return {
             currentPage: getCurrentPage(),

@@ -1,7 +1,7 @@
 const {apiFetch} = wp;
 const {Component, useState} = wp.element;
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
+const {withDispatch, withSelect} = wp.data;
 const {parse} = wp.blocks;
 
 import {BlockPreview} from '@wordpress/block-editor';
@@ -62,7 +62,7 @@ export default compose([
             discardAllErrorMessages
         };
     }),
-    withSelect((select, props) => {
+    withSelect((select) => {
         const {getActiveItemType} = select('starterblocks/sectionslist');
         return {
             activeItemType: getActiveItemType()

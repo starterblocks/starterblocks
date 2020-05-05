@@ -21,8 +21,6 @@ const convertObjectToArray = (list) => {
         return {...list[key], ID: key};
     })
 };
-const getByKey = (arr, key) => (arr.find(x => Object.keys(x)[0] === key) || {})[key]
-
 
 // parse categories and section data from section server data
 export const categorizeData = (list) => {
