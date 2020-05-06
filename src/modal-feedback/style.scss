@@ -4,8 +4,13 @@
     .panel {
         display: flex;
         flex-direction: column;
-        h4 {
-            margin: 0.5rem 0;
+        flex: 1;
+        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+        max-height: 300px;
+        opacity: 1;
+        &.fade {
+            max-height: 0;
+            opacity: 0;
         }
         .field {
             display: flex;
@@ -32,6 +37,13 @@
             align-self: center;
             margin-top: 1rem;
         }
+    }
+    h4 {
+        margin: 0.5rem 0;
+    }
+    .error-panel {
+        color: #f00;
+        margin-bottom: 10px;
     }
 }
 .starterblocks-feedback-modal-wrapper {

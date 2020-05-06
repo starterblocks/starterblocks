@@ -3,6 +3,7 @@ const {useState} = wp.element;
 const {apiFetch} = wp;
 const {select} = wp.data;
 const {getBlocksByClientId} = select('core/block-editor');
+import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
 import {Modal, ModalManager} from '../modal-manager'
 import './style.scss'
 
@@ -12,6 +13,8 @@ export default function FeedbackModal(props) {
     const [loading, setLoading] = useState(false);
     const [sendingThemePlugins, setSendingThemePlugins] = useState(false);
     const [sendingContent, setSendingContent] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [panelClassname, setPanelClassname] = useState('panel')
 
     const submitFeedback = () => {
         if (loading) return;
@@ -35,15 +38,13 @@ export default function FeedbackModal(props) {
         }).then(data => {
             setLoading(false);
             if (data.success) {
-                alert('Successfully sent your feedback!');
+                setPanelClassname('panel fade')
             } else {
-                alert('An unexpected error occured');
+                setErrorMessage(__('An Error occured', starterblocks.i18n));
             }
-            ModalManager.close();
         }).catch(err => {
             setLoading(false);
-            alert('There was an error: ' + err);
-            ModalManager.close();
+            setErrorMessage(__('There was an error: ', starterblocks.i18n) + err.message);
         });
     }
 
@@ -61,8 +62,14 @@ export default function FeedbackModal(props) {
                     </button>
                 </div>
                 <div className="starterblocks-feedback">
-                    <div className="panel">
-                        <h4>{__('Thank you for reporting an issue.', starterblocks.i18n)}</h4>
+                    {
+                        errorMessage.length > 0 &&
+                        <div className="error-panel">
+                            {errorMessage}
+                        </div>
+                    }
+                    <h4>{__('Thank you for reporting an issue.', starterblocks.i18n)}</h4>
+                    <div className={panelClassname}>
                         <p>{__('We want to make StarterBlocks perfect. Please send whatever you are comfortable sending, and we will do our best to resolve the problem.', starterblocks.i18n)}</p>
                         <div className="field">
                             <input type="checkbox" id="theme_plugins" checked={sendingThemePlugins} onChange={() => setSendingThemePlugins(!sendingThemePlugins)} />
