@@ -9,7 +9,7 @@ import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
 import groupBy from 'lodash/groupBy';
 
 function DependencyFilterRow(props) {
-    const {pluginKey, dependencyFilters, activeCategory} = props;
+    const {pluginKey, dependencyFilters} = props;
     const {setDependencyFilters} = props;
     const [isValidPlugin, setIsValidPlugin] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
@@ -47,7 +47,7 @@ function DependencyFilterRow(props) {
         pluginClassnameList.push(!pluginInstance.version && !('no_plugin' in pluginInstance) ? 'missing-dependency' : '');
         pluginClassnameList.push((!dependencyFilters[pluginKey] || dependencyFilters[pluginKey].disabled) ? 'disabled' : '');
         setPluginClassname(pluginClassnameList.join(' '));
-    }, [activeCategory])
+    }, [JSON.stringify(dependencyFilters)])
 
     const toggleChecked = () => {
         // disable check first
@@ -65,8 +65,6 @@ function DependencyFilterRow(props) {
     };
 
     if (isValidPlugin === false) return null;
-
-    
 
     return (
         <li className={pluginClassname}>
