@@ -5,6 +5,7 @@ import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
 import map from 'lodash/map';
 import flattenDeep from 'lodash/flattenDeep';
+import { afterImportHandling } from './actionHelper';
 const {createBlock} = wp.blocks;
 const {dispatch} = wp.data;
 const {createSuccessNotice} = dispatch('core/notices');

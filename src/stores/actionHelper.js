@@ -1,13 +1,12 @@
-const {parse, createBlock} = wp.blocks;
-const {apiFetch} = wp;
-const {dispatch, select} = wp.data;
-const {getBlockTypes} = select('core/blocks');
-const {savePost} = dispatch('core/editor');
-const {insertBlocks} = dispatch('core/editor');
-const {switchEditorMode} = dispatch('core/edit-post');
-
-const {createSuccessNotice, createErrorNotice, createNotice, removeNotice} = dispatch('core/notices');
-import {ModalManager} from '~starterblocks/modal-manager';
+const { parse, createBlock } = wp.blocks;
+const { apiFetch } = wp;
+const { dispatch, select } = wp.data;
+const { getBlockTypes } = select('core/blocks');
+const { savePost } = dispatch('core/editor');
+const { insertBlocks } = dispatch('core/block-editor');
+const { switchEditorMode } = dispatch('core/edit-post');
+const { createSuccessNotice, createErrorNotice, createNotice, removeNotice } = dispatch('core/notices');
+import { ModalManager } from '~starterblocks/modal-manager';
 import PreviewModal from '../modal-preview';
 import FeedbackModal from '../modal-feedback';
 
@@ -37,7 +36,7 @@ export const handleBlock = (data, installedDependencies) => {
 }
 
 export const processImportHelper = () => {
-    const {setImportingTemplate, discardAllErrorMessages} = dispatch('starterblocks/sectionslist');
+    const { setImportingTemplate, discardAllErrorMessages } = dispatch('starterblocks/sectionslist');
     const type = select('starterblocks/sectionslist').getActiveItemType() === 'section' ? 'sections' : 'pages';
     const data = select('starterblocks/sectionslist').getImportingTemplate();
     const installedDependencies = select('starterblocks/sectionslist').getInstalledDependencies();
@@ -51,7 +50,7 @@ export const processImportHelper = () => {
     const options = {
         method: 'GET',
         path: the_url,
-        headers: {'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes()}
+        headers: { 'Content-Type': 'application/json', 'Registered-Blocks': installedBlocksTypes() }
     };
 
     if (select('core/edit-post').getEditorMode() === 'text') {
@@ -66,43 +65,49 @@ export const processImportHelper = () => {
             if (responseBlockData.hasOwnProperty('template') || responseBlockData.hasOwnProperty('attributes'))
                 handledData = handleBlock(responseBlockData, installedDependencies);
             else
-                handledData = Object.keys(responseBlockData).filter(key => key!=='cache')
+                handledData = Object.keys(responseBlockData).filter(key => key !== 'cache')
                     .map(key => handleBlock(responseBlockData[key], installedDependencies));
 
+            localStorage.setItem('importing_data', JSON.stringify(data));
             localStorage.setItem('block_data', JSON.stringify(starterblocks_tempdata));
+
             insertBlocks(handledData);
-            createSuccessNotice('Template inserted', {type: 'snackbar'});
+            createSuccessNotice('Template inserted', { type: 'snackbar' });
             if (installedDependencies === true)
                 savePost()
                     .then(() => window.location.reload())
-                    .catch(() => createErrorNotice('Error while saving the post', {type: 'snackbar'}));
+                    .catch(() => createErrorNotice('Error while saving the post', { type: 'snackbar' }));
             else {
                 ModalManager.close();
                 ModalManager.closeCustomizer();
                 setImportingTemplate(null);
             }
-
-
-            createNotice('warning', 'Please let us know if there was an issue importing this StarterBlocks template.', {
-                isDismissible: true,
-                id: 'starterblockimportfeedback',
-                actions: [
-                    {
-                        onClick: () => ModalManager.open(<FeedbackModal importedData={data} />),
-                        label: 'Report an Issue',
-                        isPrimary:true,
-                    }
-                ],
-            });
-            setTimeout(() => {
-                removeNotice('starterblockimportfeedback');
-            }, 20000);
+            afterImportHandling(data, handledData);
+            
         } else {
             errorCallback(response.data.error);
         }
     }).catch(error => {
         errorCallback(error.code + ' : ' + error.message);
     });
+}
+
+export const afterImportHandling = (data, handledBlock) => {
+
+    createNotice('warning', 'Please let us know if there was an issue importing this StarterBlocks template.', {
+        isDismissible: true,
+        id: 'starterblockimportfeedback',
+        actions: [
+            {
+                onClick: () => ModalManager.open(<FeedbackModal importedData={data} handledBlock={handledBlock} />),
+                label: 'Report an Issue',
+                isPrimary: true,
+            }
+        ],
+    });
+    setTimeout(() => {
+        removeNotice('starterblockimportfeedback');
+    }, 20000);
 }
 
 // reload library button handler
@@ -148,12 +153,12 @@ export const installedBlocksTypes = () => {
 
 export const openSitePreviewModal = (index, pageData) => {
     ModalManager.openCustomizer(
-        <PreviewModal startIndex={index} currentPageData={pageData}/>
+        <PreviewModal startIndex={index} currentPageData={pageData} />
     )
 }
 
 const errorCallback = (errorMessage) => {
-    const {appendErrorMessage, setImportingTemplate} = dispatch('starterblocks/sectionslist');
+    const { appendErrorMessage, setImportingTemplate } = dispatch('starterblocks/sectionslist');
     appendErrorMessage(errorMessage);
     setImportingTemplate(null);
 }

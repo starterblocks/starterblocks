@@ -8,7 +8,7 @@ import {Modal, ModalManager} from '../modal-manager'
 import './style.scss'
 
 export default function FeedbackModal(props) {
-    const {importedData} = props;
+    const {importedData, handledBlock} = props;
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
     const [sendingThemePlugins, setSendingThemePlugins] = useState(false);
@@ -28,7 +28,7 @@ export default function FeedbackModal(props) {
         if (sendingContent) {
             // TODO: get blocks content 
             // let blocksContent = getBlocksByClientId(clientIds);
-            data.content = '';
+            data.content = handledBlock;
         }
         apiFetch({
             path: 'starterblocks/v1/feedback/',
