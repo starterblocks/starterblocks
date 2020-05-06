@@ -10,24 +10,28 @@ export default function FeedbackModal(props) {
     const {importedData} = props;
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
-    const [themePlugins, setThemePlugins] = useState(false);
+    const [sendingThemePlugins, setSendingThemePlugins] = useState(false);
+    const [sendingContent, setSendingContent] = useState(false);
 
     const submitFeedback = () => {
         if (loading) return;
         setLoading(true);
-        // TODO: get blocks content 
 
-        // let blocksContent = getBlocksByClientId(clientIds);
+        let data = {
+            description,
+            'theme_plugins': sendingThemePlugins,
+            'template_id': importedData.hash
+        };
+        if (sendingContent) {
+            // TODO: get blocks content 
+            // let blocksContent = getBlocksByClientId(clientIds);
+            data.content = '';
+        }
         apiFetch({
             path: 'starterblocks/v1/feedback/',
             method: 'POST',
             headers: {'Registed-Blocks': installedBlocksTypes()},
-            data: {
-                'description': description,
-                'theme_plugins': true, // Boolean
-                'content': '', // Same as share dialog
-                'template_id': importedData.hash
-            }
+            data
         }).then(data => {
             setLoading(false);
             if (data.success) {
@@ -61,16 +65,20 @@ export default function FeedbackModal(props) {
                         <h4>{__('Thank you for reporting an issue.', starterblocks.i18n)}</h4>
                         <p>{__('We want to make StarterBlocks perfect. Please send whatever you are comfortable sending, and we will do our best to resolve the problem.', starterblocks.i18n)}</p>
                         <div className="field">
-                            <input type="checkbox" id="theme_plugins"/>
+                            <input type="checkbox" id="theme_plugins" checked={sendingThemePlugins} onChange={() => setSendingThemePlugins(!sendingThemePlugins)} />
                             <label htmlFor="theme_plugins">Send theme and plugins</label>
                         </div>
                         <div className="field">
-                            <input type="checkbox" id="content"/>
+                            <input type="checkbox" id="content" checked={sendingContent} onChange={() => setSendingContent(!sendingContent)} />
                             <label htmlFor="content">Send page content</label>
                         </div>
                         <div className="field">
                             <label htmlFor="template_id">Template ID</label>
                             <input type="input" id="template_id" disabled="disabled" value={importedData.hash} />
+                        </div>
+                        <div className="field top">
+                            <label>Description</label>
+                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
                         </div>
                         <button className="button button-primary" onClick={submitFeedback}>
                             {loading ? <i className="fas fa-spinner fa-pulse"/> :

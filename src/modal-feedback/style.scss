@@ -11,12 +11,16 @@
             display: flex;
             margin-bottom: 15px;
             align-items: center;
+            &.top {
+                align-items: top;
+            }
             label {
                 margin-right: 15px;
             }
-            label + input {
+            label + input,
+            textarea {
                 padding: 5px 10px;
-                width: 275px;
+                width: 375px;
             }
             input[type="checkbox"],
             input[type="radio"] {
