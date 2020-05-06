@@ -168,9 +168,6 @@ registerStore('starterblocks/sectionslist', {
         },
         getImportingTemplate(state) {
             return state.importingTemplate;
-        },
-        getPlugins(state) {
-            return state.plugins;
         }
     },
 

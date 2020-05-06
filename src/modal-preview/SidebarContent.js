@@ -1,18 +1,11 @@
-const {Component, useState, useEffect} = wp.element
+const {useState, useEffect} = wp.element
 const {__} = wp.i18n
-const {Tooltip} = wp.components;
-const {withSelect, select} = wp.data;
 
 import * as Icons from '~starterblocks/icons'
-import findIndex from 'lodash/findIndex';
-import sortBy from 'lodash/sortBy';
-import uniq from 'lodash/uniq';
-import filter from 'lodash/filter';
 import copy from 'clipboard-copy';
 import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 
-function SidebarContent(props) {
-    const {plugins} = props;
+export default function SidebarContent(props) {
     const {itemData, pro} = props;
     const {hash, name, image, blocks, proDependencies, installDependencies} = itemData;
     const [copied, setCopied] = useState(false);
@@ -107,9 +100,3 @@ function SidebarContent(props) {
         </div>
     );
 }
-
-
-export default withSelect((select, props) => {
-    const {getPlugins} = select('starterblocks/sectionslist');
-    return {plugins: getPlugins()};
-})(SidebarContent);

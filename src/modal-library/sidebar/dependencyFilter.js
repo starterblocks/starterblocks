@@ -98,11 +98,10 @@ export default compose([
     }),
 
     withSelect((select) => {
-        const {getDependencyFiltersStatistics, getLoading, getPlugins, getWholePlugins} = select('starterblocks/sectionslist');
+        const {getDependencyFiltersStatistics, getLoading, getWholePlugins} = select('starterblocks/sectionslist');
         return {
             loading: getLoading(),
             dependencyFilters: getDependencyFiltersStatistics(),
-            plugins: getPlugins(),
             wholePlugins: getWholePlugins()
         };
     })

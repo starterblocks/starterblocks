@@ -76,8 +76,7 @@ export const reducer = ( state = initialState, action ) => {
                     ...state.collection,
                     ...parsedCollection,
                     dependencyFilters: {...dependencies, ...getWithExpiry('collection_plugin')}
-                },
-                plugins: action.library.plugins
+                }
             };
         case 'SET_ACTIVE_CATEGORY':
             setWithExpiry(state.activeItemType + '_category', action.activeCategory, EXIPRY_TIME);

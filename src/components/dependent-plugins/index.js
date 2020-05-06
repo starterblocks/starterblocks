@@ -3,9 +3,8 @@ import {Tooltip} from '@wordpress/components';
 import * as Icons from '~starterblocks/icons'
 import './style.scss'
 
-function DependentPlugins (props) {
+export default function DependentPlugins (props) {
     const {data, showDependencyBlock} = props;
-    const {plugins} = props;
     const {id} = data;
 
     const isMissingPlugin = (plugin) => {
@@ -19,7 +18,7 @@ function DependentPlugins (props) {
                 { data.dependencies &&
                     data.dependencies.map(plugin => {
                         const IconComponent = Icons[plugin];
-                        const pluginInstance = plugins[plugin];
+                        const pluginInstance = starterblocks.supported_plugins[plugin];
                         if (IconComponent && pluginInstance)
                             return (
                                 <Tooltip text={pluginInstance.name} position="bottom" key={id + plugin}>
@@ -34,10 +33,3 @@ function DependentPlugins (props) {
         );
     return null;
 }
-
-export default withSelect((select) => {
-    const {getPlugins} = select('starterblocks/sectionslist');
-    return {
-        plugins: getPlugins()
-    };
-})(DependentPlugins);

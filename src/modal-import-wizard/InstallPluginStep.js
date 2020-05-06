@@ -6,13 +6,10 @@ const {withDispatch, withSelect, select} = wp.data;
 const {Component, Fragment, useState} = wp.element;
 const {__} = wp.i18n;
 
-import {ModalManager} from '../modal-manager';
-
 function InstallPluginStep(props) {
 
     const {missingPlugins, toNextStep, onCloseWizard} = props;
     const {setInstalledDependencies} = props;
-    const {plugins} = props;
     const [installingPlugin, setInstallingPlugin] = useState(null);
     const [installedList, setInstalledList] = useState([]);
     const [failedList, setFailedList] = useState([]);
@@ -32,7 +29,7 @@ function InstallPluginStep(props) {
         let localFailedList = [];
         let localWaitingList = [...waitingList];
         for (let pluginKey of missingPlugins) {
-            const pluginInstance = plugins[pluginKey];
+            const pluginInstance = starterblocks.supported_plugins[pluginKey];
             setInstallingPlugin({...pluginInstance, pluginKey});
             localWaitingList = localWaitingList.filter(key => key !== pluginKey)
             setWaitingList(localWaitingList);
@@ -125,10 +122,5 @@ export default compose([
         return {
             setInstalledDependencies
         };
-    }),
-
-    withSelect((select, props) => {
-        const {getPlugins} = select('starterblocks/sectionslist');
-        return {plugins: getPlugins()};
     })
 ])(InstallPluginStep);
