@@ -1,6 +1,6 @@
-const {Component, Fragment} = wp.element;
+const {Fragment} = wp.element;
 const {compose} = wp.compose;
-const {select, withDispatch, withSelect} = wp.data;
+const {withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
 
@@ -9,13 +9,9 @@ import DependencyFilterRow from './dependencyFilterRow';
 import {getDefaultDependencies, getInstalledDependencies} from '../../stores/helper';
 
 function DependencyFilter(props) {
-    const {dependencyFilters, loading, plugins} = props;
+    const {dependencyFilters, loading, wholePlugins} = props;
     const {setDependencyFilters} = props;
 
-    const onChangeCategory = (data) => {
-        if (isDisabledCategory(data)) return;
-        setActiveCategory(data.slug);
-    };
     // Give the selected category(activeCategory) label className as "active"
     const isNoneChecked = () => {
         if (dependencyFilters.hasOwnProperty('none'))
@@ -42,7 +38,7 @@ function DependencyFilter(props) {
 
     return (
         <Fragment>
-            {!loading &&
+            {!loading && wholePlugins &&
                 <div id="starterblock-filter-dependencies" data-tut="tour__filter_dependencies">
                     <h3>{__('Required Plugins', starterblocks.i18n)}</h3>
                     <div className="starterblocks-select-actions">
@@ -79,9 +75,12 @@ function DependencyFilter(props) {
                             </li>
                         }
                         {
-                            Object.keys(dependencyFilters).sort().map(pluginKey =>
-                                <DependencyFilterRow key={pluginKey} pluginKey={pluginKey} />
-                            )
+                            Object.keys(dependencyFilters)
+                                .filter(pluginKey => wholePlugins.indexOf(pluginKey)!==-1)
+                                .sort()
+                                .map(pluginKey =>
+                                    <DependencyFilterRow key={pluginKey} pluginKey={pluginKey} />
+                                )
                         }
                     </ul>
                 </div>
@@ -98,12 +97,13 @@ export default compose([
         };
     }),
 
-    withSelect((select, props) => {
-        const {getDependencyFiltersStatistics, getLoading, getPlugins} = select('starterblocks/sectionslist');
+    withSelect((select) => {
+        const {getDependencyFiltersStatistics, getLoading, getPlugins, getWholePlugins} = select('starterblocks/sectionslist');
         return {
             loading: getLoading(),
             dependencyFilters: getDependencyFiltersStatistics(),
-            plugins: getPlugins()
+            plugins: getPlugins(),
+            wholePlugins: getWholePlugins()
         };
     })
 ])(DependencyFilter);

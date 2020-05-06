@@ -4,29 +4,29 @@ const STARTERBLOCKS_PRO_KEY = 'starterblocks-pro';
 // Just get current Page Data
 export const applyCategoryFilter = (pageData, activeCategory) => {
     let currentPageData = [];
-	let tempDataID = [];
+    let tempDataID = [];
     if (activeCategory && pageData[activeCategory] && Array.isArray(pageData[activeCategory]) && pageData[activeCategory].length > 0) {
         pageData[activeCategory].map(value => {
             if (!(tempDataID.indexOf(value.ID) > -1)) {
-                    currentPageData.push(value);
-                    tempDataID.push(value.ID);
+                currentPageData.push(value);
+                tempDataID.push(value.ID);
             }
         });
     } else
         for (let key in pageData) {
             Array.isArray(pageData[key]) && pageData[key].map(value => {
                 if (!(tempDataID.indexOf(value.ID) > -1)) {
-                        currentPageData.push(value);
-                        tempDataID.push(value.ID);
+                    currentPageData.push(value);
+                    tempDataID.push(value.ID);
                 }
                 else {
                     if (value.parentID && !(tempDataID.indexOf(value.ID) > -1)) {
-                            currentPageData.push(value);
-                            tempDataID.push(value.ID);
+                        currentPageData.push(value);
+                        tempDataID.push(value.ID);
                     }
                 }
             })
-		}
+        }
     return currentPageData;
 };
 

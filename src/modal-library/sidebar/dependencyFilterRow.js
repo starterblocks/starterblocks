@@ -35,6 +35,7 @@ function DependencyFilterRow(props) {
 
     useEffect(() => {
         const pluginInstance = pluginInfo(pluginKey);
+        if (!dependencyFilters) return;
         if (dependencyFilters.hasOwnProperty(pluginKey)) {
             if (dependencyFilters[pluginKey].disabled)
                 setIsChecked(false);

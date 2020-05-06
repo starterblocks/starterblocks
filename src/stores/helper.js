@@ -3,6 +3,8 @@ import uniq from 'lodash/uniq';
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
+import map from 'lodash/map';
+import flattenDeep from 'lodash/flattenDeep';
 const {createBlock} = wp.blocks;
 const {dispatch} = wp.data;
 const {createSuccessNotice} = dispatch('core/notices');
@@ -56,18 +58,20 @@ export const categorizeData = (list) => {
 
 export const parseSectionData = (sections) => {
     const librarySectionData = convertObjectToArray(sections);
+    const wholePlugins = uniq(flattenDeep(map(librarySectionData, 'dependencies')));
     const toBeReturned = categorizeData(librarySectionData);
     const categoriesList = toBeReturned.categories.map((category) => {return {label: category.name, value: category.slug}; });
     setWithExpiry('section_categories_list', categoriesList, EXIPRY_TIME);
-    return toBeReturned;
+    return {...toBeReturned, wholePlugins};
 }
 
 export const parsePageData = (pages) => {
     const libraryPageData = convertObjectToArray(pages);
+    const wholePlugins = uniq(flattenDeep(map(libraryPageData, 'dependencies')));
     const toBeReturned = categorizeData(libraryPageData);
     const categoriesList = toBeReturned.categories.map((category) => {return {label: category.name, value: category.slug}; });
     setWithExpiry('page_categories_list', categoriesList, EXIPRY_TIME);
-    return toBeReturned;
+    return {...toBeReturned, wholePlugins};
 }
 
 export const parseCollectionData = (library) => {
@@ -88,7 +92,8 @@ export const parseCollectionData = (library) => {
 
         return collection;
     });
-    return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies}};
+    const wholePlugins = uniq(flattenDeep(map(libraryCollectionData, 'dependencies')));
+    return {...categorizeData(libraryCollectionData), dependencyFilters: {none: true, ...library.dependencies}, wholePlugins};
 }
 
 // one of important function
@@ -216,6 +221,10 @@ export const getOnlySelectedDependencyFilters = (dependencyFilters) => {
     return Object.keys(dependencyFilters).filter(key => dependencyFilters[key]);
 }
 
+/* 
+Input: dependencies: {getwid: 38, qubely: 82...}
+Result: {getwid: {value: true, disabled: true}, } 
+*/
 export const getDefaultDependencies = (dependencies) => {
     const unSupportedPlugins = Object.keys(starterblocks.supported_plugins).filter(key => isPluginProActivated(key) === false);
     return Object.keys(dependencies).reduce((acc, cur) => {

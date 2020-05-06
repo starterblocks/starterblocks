@@ -41,8 +41,8 @@ const getActiveItemType = (state) => {
 // get relevant page data, apply category, price, search, dependent filters
 const getPageData = (state, applyDependencyFilter = true) => {
     let pageData = getOriginalPageData(state);
-    let hashFilteredData = [];
     const searchKeyword = getSearchContext(state);
+    let hashFilteredData = [];
     if (state.activeItemType !== 'collection' && searchKeyword.length > 5) hashFilteredData = applyHashFilter(pageData, searchKeyword);
     if (pageData && Object.keys(pageData).length > 0) {
         pageData = applySearchFilter(pageData, searchKeyword);
@@ -66,14 +66,15 @@ const getDependencyFiltersStatistics = (state) => {
     const pageData = getPageData(state, false);
     const dependentPluginsArray = uniq(flattenDeep(map(pageData, 'dependencies')));
     let dependencyFilters = getDependencyFilters(state);
-    Object.keys(dependencyFilters).forEach((plugin) => {
-        dependencyFilters[plugin] = {...dependencyFilters[plugin], disabled: dependentPluginsArray.indexOf(plugin) === -1}
-    })
+    Object.keys(dependencyFilters)
+        .forEach((plugin) => {
+            dependencyFilters[plugin] = {...dependencyFilters[plugin], disabled: dependentPluginsArray.indexOf(plugin) === -1}
+        })
     dependencyFilters['none'] = {value: valueOfDependencyFilter(dependencyFilters['none']), disabled: false};
     return dependencyFilters;
 };
 
-const store = registerStore('starterblocks/sectionslist', {
+registerStore('starterblocks/sectionslist', {
 
     reducer,
     actions,
@@ -93,6 +94,9 @@ const store = registerStore('starterblocks/sectionslist', {
         getActiveItemType,
         getCurrentPage,
         getActiveCategory,
+        getWholePlugins(state) {
+            return (state.activeItemType !== 'saved') ? getCurrentState(state).wholePlugins : null;
+        },
         // get categories from currentState, sortBy alphabetically, with the count of pageData within the current category
         getCategoryData(state) {
             let categories = [];
