@@ -11,8 +11,8 @@ export default function FeedbackModal(props) {
     const {importedData, handledBlock, invalidBlocks} = props;
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
-    const [sendingThemePlugins, setSendingThemePlugins] = useState(false);
-    const [sendingContent, setSendingContent] = useState(false);
+    const [sendingThemePlugins, setSendingThemePlugins] = useState(true);
+    const [sendingContent, setSendingContent] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [panelClassname, setPanelClassname] = useState('panel')
 
@@ -54,9 +54,12 @@ export default function FeedbackModal(props) {
         if (invalidBlocks && invalidBlocks.length > 0) {
             setDescription(
                 invalidBlocks.map(block => {
-                    return block.validationIssues.map(error => {
-                        return sprintf(...error.args)
-                    }).join('\n');
+                    if (block.validationIssues && Array.isArray(block.validationIssues))
+                        return block.validationIssues.map(error => {
+                            return sprintf(...error.args)
+                        }).join('\n');
+                    else
+                        return null;
                 }).join('\n')
             );
         }

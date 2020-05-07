@@ -93,7 +93,8 @@ export const processImportHelper = () => {
 }
 
 const detectInvalidBlocks = (handleBlock) => {
-    return handleBlock.filter(block => block.isValid === false);
+    if (Array.isArray(handleBlock) === true) return handleBlock.filter(block => block.isValid === false);
+    return handleBlock && handleBlock.isValid===false ? [handleBlock] : null;
 }
 
 // show notice or feedback modal dialog based on imported block valid status
