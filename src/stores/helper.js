@@ -199,7 +199,15 @@ export const handlingLocalStorageData = () => {
             insertBlocks(blockData);
             createSuccessNotice('Template inserted', {type: 'snackbar'});
         }
+        // preparing to call after import handling
+        let data = localStorage.getItem('importing_data');
+        if (!data || data == null) return;
+        data = JSON.parse(data);
+        afterImportHandling(data, blockData);
+
+        // reset the localstorage
         localStorage.setItem('block_data', null);
+        localStorage.setItem('importing_data', null);
     } catch (error) {
         alert(error.code + ' : ' + error.message);
     }
