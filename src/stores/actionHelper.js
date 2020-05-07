@@ -92,22 +92,33 @@ export const processImportHelper = () => {
     });
 }
 
-export const afterImportHandling = (data, handledBlock) => {
+const detectInvalidBlocks = (handleBlock) => {
+    return handleBlock.filter(block => block.isValid === false);
+}
 
-    createNotice('warning', 'Please let us know if there was an issue importing this StarterBlocks template.', {
-        isDismissible: true,
-        id: 'starterblockimportfeedback',
-        actions: [
-            {
-                onClick: () => ModalManager.open(<FeedbackModal importedData={data} handledBlock={handledBlock} />),
-                label: 'Report an Issue',
-                isPrimary: true,
-            }
-        ],
-    });
-    setTimeout(() => {
-        removeNotice('starterblockimportfeedback');
-    }, 20000);
+// show notice or feedback modal dialog based on imported block valid status
+export const afterImportHandling = (data, handledBlock) => {
+    const invalidBlocks = detectInvalidBlocks(handledBlock);
+    if (invalidBlocks && invalidBlocks.length > 0) { // in case there 
+        setTimeout(() => {
+            ModalManager.open(<FeedbackModal importedData={data} handledBlock={handledBlock} invalidBlocks={invalidBlocks} />);
+        }, 500)
+    } else {
+        createNotice('warning', 'Please let us know if there was an issue importing this StarterBlocks template.', {
+            isDismissible: true,
+            id: 'starterblockimportfeedback',
+            actions: [
+                {
+                    onClick: () => ModalManager.open(<FeedbackModal importedData={data} handledBlock={handledBlock} />),
+                    label: 'Report an Issue',
+                    isPrimary: true,
+                }
+            ],
+        });
+        setTimeout(() => {
+            removeNotice('starterblockimportfeedback');
+        }, 20000);
+    }
 }
 
 // reload library button handler

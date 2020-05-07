@@ -1,5 +1,5 @@
 const {__} = wp.i18n;
-const {useState} = wp.element;
+const {useState, useEffect} = wp.element;
 const {apiFetch} = wp;
 const {select} = wp.data;
 const {getBlocksByClientId} = select('core/block-editor');
@@ -8,7 +8,7 @@ import {Modal, ModalManager} from '../modal-manager'
 import './style.scss'
 
 export default function FeedbackModal(props) {
-    const {importedData, handledBlock} = props;
+    const {importedData, handledBlock, invalidBlocks} = props;
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
     const [sendingThemePlugins, setSendingThemePlugins] = useState(false);
@@ -26,8 +26,6 @@ export default function FeedbackModal(props) {
             'template_id': importedData.hash
         };
         if (sendingContent) {
-            // TODO: get blocks content 
-            // let blocksContent = getBlocksByClientId(clientIds);
             data.content = handledBlock;
         }
         apiFetch({
@@ -51,6 +49,18 @@ export default function FeedbackModal(props) {
     const onCloseWizard = () => {
         ModalManager.close();
     }
+
+    useEffect(() => {
+        if (invalidBlocks && invalidBlocks.length > 0) {
+            setDescription(
+                invalidBlocks.map(block => {
+                    return block.validationIssues.map(error => {
+                        return sprintf(...error.args)
+                    }).join('\n');
+                }).join('\n')
+            );
+        }
+    }, [invalidBlocks]);
 
     return (
         <Modal compactMode={true}>
