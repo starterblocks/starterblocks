@@ -1,5 +1,5 @@
 const {apiFetch} = wp;
-const {Component, useState} = wp.element;
+const {useState} = wp.element;
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
 const {parse} = wp.blocks;
@@ -9,7 +9,7 @@ import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
 function BackgroundImage(props) {
-    const {data, discardAllErrorMessages, appendErrorMessage, activeItemType} = props;
+    const {data, appendErrorMessage, activeItemType} = props;
     const [dataLoaded, setDataLoaded] = useState(false);
     const [blocks, setBlocks] = useState(null);
 
@@ -53,13 +53,11 @@ function BackgroundImage(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
-            appendErrorMessage,
-            discardAllErrorMessages
+            appendErrorMessage
         } = dispatch('starterblocks/sectionslist');
 
         return {
-            appendErrorMessage,
-            discardAllErrorMessages
+            appendErrorMessage
         };
     }),
     withSelect((select) => {

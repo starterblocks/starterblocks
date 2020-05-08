@@ -8,7 +8,6 @@ import TabHeader from '../components/tab-header';
 import WithSidebarLayout from './layout-with-sidebar';
 import CollectionView from './view-collection';
 import SavedView from './view-saved';
-import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
 import FabWrapper from '../components/fab-wrapper';

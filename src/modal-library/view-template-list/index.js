@@ -1,6 +1,6 @@
-const { Component, useState, useEffect } = wp.element;
-const { compose, withState } = wp.compose;
-const { withDispatch, withSelect, select } = wp.data;
+const { useState, useEffect } = wp.element;
+const { compose } = wp.compose;
+const { withDispatch, withSelect } = wp.data;
 const { Spinner } = wp.components;
 
 import SingleItem from '../../components/single-item'

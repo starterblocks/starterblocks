@@ -10,7 +10,7 @@ import {reloadLibrary} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
 function TemplateListSubHeader(props) {
-    const {itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
+    const {itemType, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
     const {setSortBy, setColumns, setTourOpen} = props;
 
     const itemTypeLabel = () => {
@@ -18,21 +18,6 @@ function TemplateListSubHeader(props) {
         if (itemType === 'page') return __('Pages', starterblocks.i18n);
         if (itemType === 'collection' && activeCollection === null) return __('Collections', starterblocks.i18n);
         if (itemType === 'collection' && activeCollection !== null) return __('Sections', starterblocks.i18n);
-    };
-
-    const getClassnames = (priceFilter) => {
-        let classNames = [];
-        classNames.push((priceFilter === activePriceFilter) ? 'active' : '');
-        classNames.push(noStatistics(priceFilter) ? 'disabled' : '');
-        return classNames.join(' ');
-    };
-
-    const noStatistics = (priceFilter) => {
-        if (priceFilter === '') return false;
-        if (priceFilter === 'free')
-            return (!statistics['false'] || statistics['false'] < 1);
-        else
-            return (!statistics['true'] || statistics['true'] < 1);
     };
 
     const dataLength = pageData ? pageData.length : '';
@@ -105,14 +90,13 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActivePriceFilter, getActiveCollection, getStatistics, getSortBy, getLoading} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActiveCollection, getStatistics, getSortBy, getLoading} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             itemType: getActiveItemType(),
             pageData: getPageData(),
             columns: getColumns(),
             statistics: getStatistics(),
-            activePriceFilter: getActivePriceFilter(),
             sortBy: getSortBy(),
             activeCollection: getActiveCollection(),
             loading: getLoading()

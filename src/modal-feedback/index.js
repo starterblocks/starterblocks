@@ -1,8 +1,6 @@
 const {__} = wp.i18n;
 const {useState, useEffect} = wp.element;
 const {apiFetch} = wp;
-const {select} = wp.data;
-const {getBlocksByClientId} = select('core/block-editor');
 import {installedBlocksTypes} from '~starterblocks/stores/actionHelper';
 import {Modal, ModalManager} from '../modal-manager'
 import './style.scss'

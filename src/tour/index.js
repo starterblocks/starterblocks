@@ -5,11 +5,9 @@ import {__} from '@wordpress/i18n'
 import {Tooltip} from '@wordpress/components';
 import './style.scss'
 
-import {sprintf, vsprintf} from 'sprintf-js'
-
 const {compose} = wp.compose;
 const {withDispatch, withSelect, select, subscribe} = wp.data;
-const {Component, useState, useEffect} = wp.element;
+const {useState, useEffect} = wp.element;
 /**
  * External dependencies
  */
