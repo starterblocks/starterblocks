@@ -14,9 +14,8 @@ const {useState, useEffect} = wp.element;
 
 import {ModalManager} from '../modal-manager'
 import PreviewModal from '../modal-preview';
-import LibraryModal from '../modal-library';
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
-import Tour from 'reactour';
+import Tour from './Tour';
 import {animateScroll} from 'react-scroll';
 
 function StarterBlocksTour(props) {
@@ -46,8 +45,6 @@ function StarterBlocksTour(props) {
                     These are the different types of templates we have.
                     <ul>
                         <li>
-
-
                             <strong>Sections</strong> are the building blocks of a page. Each "row" of content on a page we consider a section.
                         </li>
                         <li><strong>Pages</strong> are, you guessed it, a group of multiple sections making up a page.

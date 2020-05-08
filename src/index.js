@@ -15,7 +15,7 @@ import './editor.scss'
 import './plugins/sidebar-share'
 import './plugins/share-block-btn'
 import ToolbarLibraryButton from './toolbar-library-button'
-import StarterBlocksTour from './tour'
+import StarterBlocksTour from './tour/old'
 import {handlingLocalStorageData} from './stores/helper';
 import {ModalManager} from './modal-manager';
 import LibraryModal from './modal-library';
