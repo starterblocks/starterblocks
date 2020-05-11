@@ -176,7 +176,7 @@ function StarterBlocksTour(props) {
     return <Tour
         onRequestClose={onRequestClose}
         steps={tourConfig}
-        isOpen={isTourOpen}
+        isOpen={false && isTourOpen}
         onBeforeClose={() => ModalManager.show()}
         update={needUpdate}
         lastStepNextButton={<span className="button button-small">{__('Finish', starterblocks.i18n)}</span>}

@@ -8,6 +8,7 @@ import TabHeader from '../components/tab-header';
 import WithSidebarLayout from './layout-with-sidebar';
 import CollectionView from './view-collection';
 import SavedView from './view-saved';
+import StarterBlocksChallenge from '../challenge'
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
 import FabWrapper from '../components/fab-wrapper';
@@ -17,7 +18,7 @@ import './style.scss'
 
 function LibraryModal(props) {
     const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate,
+        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate, isTourOpen,
         setLoading, setImportingTemplate
     } = props;
     const [loaded, setLoaded] = useState(false);
@@ -84,6 +85,9 @@ function LibraryModal(props) {
             {
                 importingTemplate && <ImportWizard startImportTemplate={processImport} />
             }
+            {
+                isTourOpen && <StarterBlocksChallenge />
+            }
             <FabWrapper />
         </Modal>
     );
@@ -106,13 +110,14 @@ export default compose([
     }),
 
     withSelect((select) => {
-        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getImportingTemplate} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getImportingTemplate, getTourOpen} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
             errorMessages: getErrorMessages(),
-            importingTemplate: getImportingTemplate()
+            importingTemplate: getImportingTemplate(),
+            isTourOpen: getTourOpen()
         };
     })
 ])(LibraryModal);
