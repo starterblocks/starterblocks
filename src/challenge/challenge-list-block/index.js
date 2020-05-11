@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import {__} from '@wordpress/i18n'
+import ChallengeStepItem from './ChallengeStepItem';
 import CONFIG from '../config';
 import './style.scss'
 
@@ -12,7 +13,7 @@ const {useState, useEffect} = wp.element;
 const START_STEP = 0;
 
 function ChallengeListBlock(props) {
-    const {step} = props;
+    const {currentStep} = props;
     const [buttonRowClassname, setButtonRowClassname] = useState('challenge-button-row');
     return (
         <div className='challenge-list-block'>
@@ -23,14 +24,14 @@ function ChallengeListBlock(props) {
             <ul className='challenge-list'>
                 {
                     CONFIG.map((item, i) => {
-                        return (<li>{item.caption}</li>);
+                        return (<ChallengeStepItem step={i} currentStep={currentStep} caption={item.caption} />);
                     })
                 }
             </ul>
             <div className='challenge-button-row'>
-                {step === START_STEP && <button className='btn-challenge-start'>{__('Start Challenge', starterblocks.i18n)}</button>}
-                {step === START_STEP && <button className='btn-challenge-skip'>{__('Skip Challenge', starterblocks.i18n)}</button>}
-                {step !== START_STEP && <button className='btn-challenge-cancel'>{__('Cancel Challenge', starterblocks.i18n)}</button>}
+                {currentStep === START_STEP && <button className='btn-challenge-start'>{__('Start Challenge', starterblocks.i18n)}</button>}
+                {currentStep === START_STEP && <button className='btn-challenge-skip'>{__('Skip Challenge', starterblocks.i18n)}</button>}
+                {currentStep !== START_STEP && <button className='btn-challenge-cancel'>{__('Cancel Challenge', starterblocks.i18n)}</button>}
             </div>
         </div>
     );

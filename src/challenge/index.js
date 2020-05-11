@@ -17,10 +17,10 @@ function StarterBlocksChallenge(props) {
     const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
     const {isTourOpen, getPageData} = props;
     const [challengeClassname, setChallengeClassname] = useState('starterblocks-challenge');
-    const [step, setStep] = useState(0);
+    const [currentStep, setCurrentStep] = useState(5);
 
     useEffect(() => {
-        if (step === START_STEP) setChallengeClassname('starterblocks-challenge challenge-start')
+        if (currentStep === START_STEP) setChallengeClassname('starterblocks-challenge challenge-start')
     }, []);
 
     useEffect(() => {
@@ -40,7 +40,7 @@ function StarterBlocksChallenge(props) {
 
     return (
         <div className={challengeClassname}>
-            <ChallengeListBlock step={step} />
+            <ChallengeListBlock currentStep={currentStep} />
             <ChallengeTimer />
         </div>
     );

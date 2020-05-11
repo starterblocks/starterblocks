@@ -28,10 +28,8 @@
 
     li {
         margin-bottom: 17px;
-        &::before {
+        i {
             display: inline-block;
-            font-family: FontAwesome;
-            content: "\f1db";
             font-size: 18px;
             color: #d6d6d6;
             margin-right: 8px;
@@ -40,28 +38,26 @@
             border-radius: 50%;
         }
 
-        &.wpforms-challenge-item-current {
+        &.challenge-item-current {
             font-weight: bold;
         }
 
-        &.wpforms-challenge-item-current::before {
+        &.challenge-item-current i {
             color: #df7739;
-            content: "\f111";
             font-size: 17.5px;
             line-height: 1;
             text-indent: 0.5px;
         }
 
-        &.wpforms-challenge-item-completed {
+        &.challenge-item-completed {
             font-weight: initial;
             text-decoration: line-through;
         }
 
-        &.wpforms-challenge-item-completed::before {
+        &.challenge-item-completed i {
             color: #6ab255;
             font-size: 18px;
             background-color: #fff;
-            content: "\f058";
         }
 
         .dashicons-yes {
@@ -77,6 +73,7 @@
     padding: 6px 15px;
     border: 1px solid #bf5e31;
     background-color: #e27730;
+    border-radius: 3px;
     color: #fff;
     cursor: pointer;
     &:hover {
@@ -91,9 +88,9 @@
     text-decoration: underline;
 }
 
-.wpforms-challenge-cancel,
-.wpforms-challenge-skip {
-    justify-self: flex-end;
+.btn-challenge-cancel,
+.btn-challenge-skip {
+    align-self: flex-end;
     color: #909090;
     font-size: 12px;
     font-weight: 100;
@@ -105,5 +102,6 @@
 
 .challenge-button-row {
     display: flex;
-    justify-content: space-between;
+    align-content: space-between;
+    flex-direction: column;
 }
