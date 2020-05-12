@@ -51,7 +51,7 @@ function ChallengeTimer({started}) {
         }
 
         var timerId = setInterval( function() {
-            setSecondsLeft(secondsLeft - 1);
+            setSecondsLeft(secondsLeft => secondsLeft - 1);
             if ( 1 > secondsLeft ) {
                 helper.saveSecondsLeft( 0 );
                 clearInterval( timerId );
@@ -71,7 +71,7 @@ function ChallengeTimer({started}) {
         var timerId;
         var secondsLeft = helper.getSecondsLeft();
 
-        if ( 0 === secondsLeft || config.lastStep === helper.loadStep() ) {
+        if ( 0 === secondsLeft || config.totalStep === helper.loadStep() ) {
             return;
         }
 
@@ -88,7 +88,7 @@ function ChallengeTimer({started}) {
         var timerId;
         var secondsLeft = helper.getSecondsLeft();
 
-        if ( 0 === secondsLeft || config.lastStep === helper.loadStep() ) {
+        if ( 0 === secondsLeft || config.totalStep === helper.loadStep() ) {
             return;
         }
 

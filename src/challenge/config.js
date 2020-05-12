@@ -1,7 +1,7 @@
 import {__} from '@wordpress/i18n'
 export default {
     initialSecondsLeft: 300,
-    lastStep: 9,
+    totalStep: 8,
     list: [
         {
             selector: '[data-tut="tour__navigation"]',

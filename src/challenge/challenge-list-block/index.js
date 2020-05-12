@@ -3,6 +3,7 @@
  */
 import {__} from '@wordpress/i18n'
 import ChallengeStepItem from './ChallengeStepItem';
+import ProgressBar from './ProgressBar';
 import CONFIG from '../config';
 import './style.scss'
 
@@ -21,9 +22,7 @@ function ChallengeListBlock(props) {
     return (
         <div className='challenge-list-block'>
             <p>{__('Complete the challenge and get up and running within 5 minutes', starterblocks.i18n)}</p>
-            <div className='challenge-bar'>
-                <div></div>
-            </div>
+            <ProgressBar currentStep={currentStep} />
             <ul className='challenge-list'>
                 {
                     CONFIG.list.map((item, i) => {
