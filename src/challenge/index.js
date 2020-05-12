@@ -3,6 +3,7 @@
  */
 import {__} from '@wordpress/i18n'
 import './style.scss'
+import helper from './helper';
 import ChallengeListBlock from './challenge-list-block';
 import ChallengeTimer from './challenge-timer';
 
@@ -17,7 +18,7 @@ function StarterBlocksChallenge(props) {
     const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
     const {isTourOpen, getPageData} = props;
     const [challengeClassname, setChallengeClassname] = useState('starterblocks-challenge');
-    const [currentStep, setCurrentStep] = useState(5);
+    const [currentStep, setCurrentStep] = useState(helper.loadStep());
 
     useEffect(() => {
         if (currentStep === START_STEP) setChallengeClassname('starterblocks-challenge challenge-start')

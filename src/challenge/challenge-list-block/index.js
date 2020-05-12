@@ -23,7 +23,7 @@ function ChallengeListBlock(props) {
             </div>
             <ul className='challenge-list'>
                 {
-                    CONFIG.map((item, i) => {
+                    CONFIG.list.map((item, i) => {
                         return (<ChallengeStepItem step={i} currentStep={currentStep} caption={item.caption} />);
                     })
                 }
