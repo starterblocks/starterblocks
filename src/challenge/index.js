@@ -11,13 +11,13 @@ const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
 const {useState, useEffect} = wp.element;
 
-const START_STEP = 0;
+const START_STEP = -1;
 
 function StarterBlocksChallenge(props) {
     const {autoTourStart} = props;
     const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
-    const {isTourOpen, getPageData} = props;
     const [challengeClassname, setChallengeClassname] = useState('starterblocks-challenge');
+    const [started, setStarted] = useState(false);
     const [currentStep, setCurrentStep] = useState(helper.loadStep());
 
     useEffect(() => {
@@ -31,18 +31,15 @@ function StarterBlocksChallenge(props) {
         }
     }, [autoTourStart]);
 
-    const onRequestClose = () => {
-        ModalManager.closeCustomizer();
-        setTourOpen(false);
-        setTourActiveButtonGroup(null);
-        setImportingTemplate(null);
+    const onStarted = () => {
+        setCurrentStep(currentStep + 1);
+        setStarted(true);
     }
-
 
     return (
         <div className={challengeClassname}>
-            <ChallengeListBlock currentStep={currentStep} />
-            <ChallengeTimer />
+            <ChallengeListBlock {...{currentStep, started, onStarted}} />
+            <ChallengeTimer started={started} />
         </div>
     );
 

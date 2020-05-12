@@ -10,11 +10,14 @@ const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
 const {useState, useEffect} = wp.element;
 
-const START_STEP = 0;
+const START_STEP = -1;
 
 function ChallengeListBlock(props) {
-    const {currentStep} = props;
+    const {currentStep, started, onStarted} = props;
     const [buttonRowClassname, setButtonRowClassname] = useState('challenge-button-row');
+    useEffect(() => {
+        setButtonRowClassname(started ? 'challenge-button-row started' : 'challenge-button-row');
+    }, [started])
     return (
         <div className='challenge-list-block'>
             <p>{__('Complete the challenge and get up and running within 5 minutes', starterblocks.i18n)}</p>
@@ -28,8 +31,9 @@ function ChallengeListBlock(props) {
                     })
                 }
             </ul>
-            <div className='challenge-button-row'>
-                {currentStep === START_STEP && <button className='btn-challenge-start'>{__('Start Challenge', starterblocks.i18n)}</button>}
+            <div className={buttonRowClassname}>
+                {currentStep === START_STEP && 
+                    <button className='btn-challenge-start' onClick={onStarted}>{__('Start Challenge', starterblocks.i18n)}</button>}
                 {currentStep === START_STEP && <button className='btn-challenge-skip'>{__('Skip Challenge', starterblocks.i18n)}</button>}
                 {currentStep !== START_STEP && <button className='btn-challenge-cancel'>{__('Cancel Challenge', starterblocks.i18n)}</button>}
             </div>

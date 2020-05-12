@@ -10,7 +10,7 @@ const {withDispatch, withSelect} = wp.data;
 const {useState, useEffect} = wp.element;
 
 
-function ChallengeTimer(props) {
+function ChallengeTimer({started}) {
     const [secondsLeft, setSecondsLeft] = useState()
 
     // setup windows focus/blue event handling
@@ -37,6 +37,10 @@ function ChallengeTimer(props) {
         }
     }, []);
 
+    useEffect(() => {
+        if (started) run(helper.getSecondsLeft());
+    }, [started]);
+
     /**
      * Run the timer.
      */
@@ -49,12 +53,12 @@ function ChallengeTimer(props) {
         var timerId = setInterval( function() {
             setSecondsLeft(secondsLeft - 1);
             if ( 1 > secondsLeft ) {
-                timer.saveSecondsLeft( 0 );
+                helper.saveSecondsLeft( 0 );
                 clearInterval( timerId );
             }
         }, 1000 );
 
-        timer.saveId( timerId );
+        helper.saveId( timerId );
 
         return timerId;
     }
@@ -65,13 +69,13 @@ function ChallengeTimer(props) {
     const pause = () => {
 
         var timerId;
-        var secondsLeft = timer.getSecondsLeft();
+        var secondsLeft = helper.getSecondsLeft();
 
         if ( 0 === secondsLeft || config.lastStep === helper.loadStep() ) {
             return;
         }
 
-        timerId = timer.loadId();
+        timerId = helper.loadId();
         clearInterval( timerId );
 
     }

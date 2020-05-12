@@ -32,7 +32,7 @@ export default {
     getSecondsLeft: function() {
 
         var secondsLeft = localStorage.getItem( 'starterblocksChallengeSecondsLeft' );
-        secondsLeft = parseInt( secondsLeft, 10 ) || 0;
+        secondsLeft = parseInt( secondsLeft, 10 ) || config.initialSecondsLeft;
 
         return secondsLeft;
     },
@@ -94,7 +94,7 @@ export default {
     loadStep: function() {
 
         var step = localStorage.getItem( 'starterblocksChallengeStep' );
-        step = parseInt( step, 10 ) || 0;
+        step = parseInt( step, 10 ) || -1;
 
         return step;
     },

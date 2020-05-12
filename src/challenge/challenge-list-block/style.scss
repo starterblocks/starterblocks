@@ -102,6 +102,13 @@
 
 .challenge-button-row {
     display: flex;
+    justify-content: space-between;
+    button {
+        cursor: pointer;
+    }
+}
+
+.challenge-button-row.started {
     align-content: space-between;
     flex-direction: column;
 }
