@@ -1,6 +1,6 @@
-import {parseSectionData, parsePageData, parseCollectionData, parsePageSectionData} from './helper';
+import {parseSectionData, parsePageData, parseCollectionData} from './helper';
 import {getDefaultDependencies} from './helper';
-import {setWithExpiry, getWithExpiry} from './helper';
+import {loadChallengeStep, saveChallengeStep, setWithExpiry, getWithExpiry} from './helper';
 const EXIPRY_TIME = 5 * 24 * 3600 * 1000;
 export const initialState = {
     loading: false,
@@ -44,6 +44,9 @@ export const initialState = {
         isOpen: false,
         activeButtonGroup: null,
         isPreviewVisible: false
+    },
+    challenge: {
+        currentStep: loadChallengeStep()
     },
     plugins: {},
     importingTemplate: null
@@ -210,6 +213,15 @@ export const reducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 importingTemplate: action.importingTemplate
+            }
+        case 'SET_CHALLENGE_STEP':
+            saveChallengeStep(action.data);
+            return {
+                ...state,
+                challenge: {
+                    ...state.challenge,
+                    currentStep: action.data
+                }
             }
     }
 

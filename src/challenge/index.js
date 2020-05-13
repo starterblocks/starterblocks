@@ -15,30 +15,22 @@ const START_STEP = -1;
 
 function StarterBlocksChallenge(props) {
     const {autoTourStart} = props;
-    const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
+    const {challengeStep, setChallengeStep} = props;
     const [challengeClassname, setChallengeClassname] = useState('starterblocks-challenge');
     const [started, setStarted] = useState(false);
-    const [currentStep, setCurrentStep] = useState(helper.loadStep());
 
     useEffect(() => {
-        if (currentStep === START_STEP) setChallengeClassname('starterblocks-challenge challenge-start')
+        if (challengeStep === START_STEP) setChallengeClassname('starterblocks-challenge challenge-start')
     }, []);
 
-    useEffect(() => {
-        if (autoTourStart === true) {
-            setTourOpen(true);
-            delete starterblocks.tour;
-        }
-    }, [autoTourStart]);
-
     const onStarted = () => {
-        setCurrentStep(currentStep + 1);
+        setChallengeStep(0);
         setStarted(true);
     }
 
     return (
         <div className={challengeClassname}>
-            <ChallengeListBlock {...{currentStep, started, onStarted}} />
+            <ChallengeListBlock {...{started, onStarted}} />
             <ChallengeTimer started={started} />
         </div>
     );
@@ -48,20 +40,16 @@ function StarterBlocksChallenge(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = dispatch('starterblocks/sectionslist');
+        const {setChallengeStep} = dispatch('starterblocks/sectionslist');
         return {
-            setTourActiveButtonGroup,
-            setTourPreviewVisible,
-            setTourOpen,
-            setImportingTemplate
+            setChallengeStep
         };
     }),
 
     withSelect((select, props) => {
-        const {getTourOpen, getPageData} = select('starterblocks/sectionslist');
+        const {getChallengeStep} = select('starterblocks/sectionslist');
         return {
-            isTourOpen: getTourOpen(),
-            getPageData
+            challengeStep: getChallengeStep()
         };
     })
 ])(StarterBlocksChallenge);

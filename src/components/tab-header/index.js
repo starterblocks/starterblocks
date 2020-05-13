@@ -45,7 +45,7 @@ export function TabHeader(props) {
                 <button className={ isActive('page') } onClick={e => changeTab('page')}> {__('Pages', starterblocks.i18n)} </button>
                 <button className={ isActive('collection') } onClick={e => changeTab('collection')}> {__('Collections', starterblocks.i18n)} </button>
                 <button className={ isActive('saved') } onClick={e => changeTab('saved')}> {__('Saved', starterblocks.i18n)} </button>
-                <ToolTipController
+                <ToolTipController step={0}
                     detect="hover">
 
                     <Select>

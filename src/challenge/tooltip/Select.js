@@ -1,8 +1,7 @@
-const {cloneElement, findDOMNode, createRef, useEffect} = wp.element;
+const {cloneElement, findDOMNode, useRef, useEffect} = wp.element;
 
 export default function Select({children, openMenu, resize}) {
-    const displayName = 'Select';
-    const selectedElement = createRef();
+    const selectedElement = useRef(null);
     useEffect(() => {
         onResize();
         window.addEventListener('resize', onResize);
@@ -12,7 +11,7 @@ export default function Select({children, openMenu, resize}) {
     }, [])
 
     const onResize = () => {
-        resize(getElementBounding(), selectedElement);
+        resize(getElementBounding());
     };
 
     const getElementBounding = () => {

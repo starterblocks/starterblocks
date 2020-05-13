@@ -111,5 +111,11 @@ export const actions = {
             type: 'SET_IMPORTING_TEMPLATE',
             importingTemplate
         }
+    },
+    setChallengeStep(data) {
+        return {
+            type: 'SET_CHALLENGE_STEP',
+            data
+        }
     }
 };

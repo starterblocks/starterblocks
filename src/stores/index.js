@@ -168,6 +168,9 @@ registerStore('starterblocks/sectionslist', {
         },
         getImportingTemplate(state) {
             return state.importingTemplate;
+        },
+        getChallengeStep(state) {
+            return state.challenge.currentStep;
         }
     },
 

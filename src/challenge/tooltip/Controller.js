@@ -1,8 +1,12 @@
-const {Children, cloneElement, createPortal} = wp.element;
-const {useState, useEffect, createRef} = wp.element;
+import {compose} from '@wordpress/compose';
+import {withDispatch, withSelect} from '@wordpress/data';
 
-export default function Controller(props) {
+const {Children, cloneElement, createPortal} = wp.element;
+const {useState, useEffect, useRef} = wp.element;
+
+function Controller(props) {
     const {offsetX, offsetY, children} = props
+    const {step, challengeStep, setChallengeStep} = props;
     const [isOpen, setIsOpen] = useState(false);
     const [style, setStyle] = useState({
         position: 'absolute',
@@ -10,17 +14,9 @@ export default function Controller(props) {
         top: 0,
         left: 0
     });
-    const tooltipRef = createRef();
-    const openMenu = (e) => {
-        e.preventDefault();
-        setIsOpen(true);
-    }
-    const closeMenu = (e) => {
-        e.preventDefault();
-        setIsOpen(false);
-    }
-    
-    const resize = (getElementBounding, selector) => {
+    const tooltipRef = useRef(null);
+
+    const resize = (getElementBounding) => {
         if(offsetX === 'center' || offsetX === 'centre'){
             setStyle({
                 ...style,
@@ -38,12 +34,30 @@ export default function Controller(props) {
     }
     return Children.map(children, child => {
         if (child.type.name === 'Select')
-            return cloneElement(child, {openMenu, closeMenu, resize});
+            return cloneElement(child, {resize});
         else
             return (
-                isOpen && createPortal(
+                (step === challengeStep) && createPortal(
                     <span onClick={e => e.stopPropagation()} ref={tooltipRef} style={style}>{cloneElement(child)}</span>, 
                     document.body)
             );
     })
 }
+
+
+
+export default compose([
+    withDispatch((dispatch) => {
+        const {setChallengeStep} = dispatch('starterblocks/sectionslist');
+        return {
+            setChallengeStep
+        };
+    }),
+
+    withSelect((select) => {
+        const {getChallengeStep} = select('starterblocks/sectionslist');
+        return {
+            challengeStep: getChallengeStep()
+        };
+    })
+])(Controller);

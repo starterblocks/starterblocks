@@ -14,7 +14,7 @@ const {useState, useEffect} = wp.element;
 const START_STEP = -1;
 
 function ChallengeListBlock(props) {
-    const {currentStep, started, onStarted} = props;
+    const {challengeStep, started, onStarted} = props;
     const [buttonRowClassname, setButtonRowClassname] = useState('challenge-button-row');
     useEffect(() => {
         setButtonRowClassname(started ? 'challenge-button-row started' : 'challenge-button-row');
@@ -22,19 +22,19 @@ function ChallengeListBlock(props) {
     return (
         <div className='challenge-list-block'>
             <p>{__('Complete the challenge and get up and running within 5 minutes', starterblocks.i18n)}</p>
-            <ProgressBar currentStep={currentStep} />
+            <ProgressBar currentStep={challengeStep} />
             <ul className='challenge-list'>
                 {
                     CONFIG.list.map((item, i) => {
-                        return (<ChallengeStepItem step={i} currentStep={currentStep} caption={item.caption} />);
+                        return (<ChallengeStepItem step={i} currentStep={challengeStep} caption={item.caption} />);
                     })
                 }
             </ul>
             <div className={buttonRowClassname}>
-                {currentStep === START_STEP && 
+                {challengeStep === START_STEP && 
                     <button className='btn-challenge-start' onClick={onStarted}>{__('Start Challenge', starterblocks.i18n)}</button>}
-                {currentStep === START_STEP && <button className='btn-challenge-skip'>{__('Skip Challenge', starterblocks.i18n)}</button>}
-                {currentStep !== START_STEP && <button className='btn-challenge-cancel'>{__('Cancel Challenge', starterblocks.i18n)}</button>}
+                {challengeStep === START_STEP && <button className='btn-challenge-skip'>{__('Skip Challenge', starterblocks.i18n)}</button>}
+                {challengeStep !== START_STEP && <button className='btn-challenge-cancel'>{__('Cancel Challenge', starterblocks.i18n)}</button>}
             </div>
         </div>
     );
@@ -54,10 +54,9 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getTourOpen, getPageData} = select('starterblocks/sectionslist');
+        const {getChallengeStep} = select('starterblocks/sectionslist');
         return {
-            isTourOpen: getTourOpen(),
-            getPageData
+            challengeStep: getChallengeStep()
         };
     })
 ])(ChallengeListBlock);
