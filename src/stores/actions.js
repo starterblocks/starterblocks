@@ -117,5 +117,11 @@ export const actions = {
             type: 'SET_CHALLENGE_STEP',
             data
         }
-    }
+    },
+    setChallengeOpen(data) {
+        return {
+            type: 'SET_CHALLENGE_OPEN',
+            data
+        }
+    }    
 };

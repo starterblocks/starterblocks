@@ -1,16 +1,8 @@
 import {__} from '@wordpress/i18n';
 import {compose} from '@wordpress/compose';
 import {withDispatch, withSelect} from '@wordpress/data';
-import { ModalManager } from '../../modal-manager';
-import ToolTipController from '~starterblocks/challenge/tooltip/Controller';
-import Select from '~starterblocks/challenge/tooltip/Select';
-function ToolTip () {
-    return (
-        <div className="toolTip">
-            Tooltip
-        </div>
-    );
-}
+import {ModalManager} from '../../modal-manager';
+import {ToolTipController, Select, Tooltip} from '~starterblocks/challenge/tooltip';
 export function TabHeader(props) {
     const { activeItemType, searchContext, activeCollection } = props;
     const { setActiveItemType, setSearchContext } = props;

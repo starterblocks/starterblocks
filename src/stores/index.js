@@ -171,6 +171,9 @@ registerStore('starterblocks/sectionslist', {
         },
         getChallengeStep(state) {
             return state.challenge.currentStep;
+        },
+        getChallengeOpen(state) {
+            return state.challenge.isOpen;
         }
     },
 

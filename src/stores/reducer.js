@@ -46,6 +46,7 @@ export const initialState = {
         isPreviewVisible: false
     },
     challenge: {
+        isOpen: false,
         currentStep: loadChallengeStep()
     },
     plugins: {},
@@ -221,6 +222,14 @@ export const reducer = ( state = initialState, action ) => {
                 challenge: {
                     ...state.challenge,
                     currentStep: action.data
+                }
+            }
+        case 'SET_CHALLENGE_OPEN':
+            return {
+                ...state,
+                challenge: {
+                    ...state.challenge,
+                    isOpen: action.data
                 }
             }
     }
