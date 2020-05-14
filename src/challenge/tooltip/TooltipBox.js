@@ -29,7 +29,7 @@ function TooltipBox(props) {
         } 
     }
     useEffect(() => {
-        if (isVisible()) {
+        if (isVisible() && tooltipRect) {
             const stepInformation = CONFIG.list[challengeStep];
             if (stepInformation) {
                 setStyle({
@@ -48,6 +48,9 @@ function TooltipBox(props) {
     return (
         <div className="tooltip-box" style={style}>
             {content}
+            <div className="btn-row">
+                <button className="btn">Done</button>
+            </div>
         </div>
     );
 }
