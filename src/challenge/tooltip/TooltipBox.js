@@ -7,6 +7,7 @@ const PADDING_Y = 20;
 function TooltipBox(props) {
     const { challengeStep, tooltipRect, isOpen } = props;
     const [style, setStyle] = useState({});
+    const [content, setContent] = useState('');
 
     const isVisible = () => {
         return ((challengeStep >= 0 || challengeStep > CONFIG.totalStep) && isOpen);
@@ -30,20 +31,23 @@ function TooltipBox(props) {
     useEffect(() => {
         if (isVisible()) {
             const stepInformation = CONFIG.list[challengeStep];
-            setStyle({
-                ...style,
-                display: 'block',
-                width: stepInformation.box.width,
-                left: calculateLeftWithStepInformation(),
-                top: tooltipRect.top + stepInformation.offset.y
-            });
+            if (stepInformation) {
+                setStyle({
+                    ...style,
+                    display: 'block',
+                    width: stepInformation.box.width,
+                    left: calculateLeftWithStepInformation(),
+                    top: tooltipRect.top + stepInformation.offset.y
+                });
+                setContent(stepInformation.content);
+            }
         } else
             setStyle({ ...style, display: 'none' });
     }, [JSON.stringify(tooltipRect), challengeStep, isOpen]);
 
     return (
         <div className="tooltip-box" style={style}>
-            Tooltip
+            {content}
         </div>
     );
 }
