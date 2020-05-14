@@ -316,3 +316,10 @@ span.wpforms-challenge-dot.wpforms-challenge-dot-completed {
     max-width: 233px;
     z-index: 99980 !important;
 }
+
+.challenge-dot {
+    width: 50px;
+    height: 50px;
+    display: block;
+    background: #f00;
+}

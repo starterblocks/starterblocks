@@ -174,6 +174,9 @@ registerStore('starterblocks/sectionslist', {
         },
         getChallengeOpen(state) {
             return state.challenge.isOpen;
+        },
+        getChallengeTooltipRect(state) {
+            return state.challenge.tooltipRect;
         }
     },
 

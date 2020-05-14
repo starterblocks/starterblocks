@@ -123,5 +123,11 @@ export const actions = {
             type: 'SET_CHALLENGE_OPEN',
             data
         }
-    }    
+    },
+    setChallengeTooltipRect(data) {
+        return {
+            type: 'SET_CHALLENGE_TOOLTIP_RECT',
+            data
+        }
+    }
 };

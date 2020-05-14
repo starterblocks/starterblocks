@@ -2,7 +2,7 @@ import {__} from '@wordpress/i18n';
 import {compose} from '@wordpress/compose';
 import {withDispatch, withSelect} from '@wordpress/data';
 import {ModalManager} from '../../modal-manager';
-import {ToolTipController, Select, Tooltip} from '~starterblocks/challenge/tooltip';
+import ChallengeDot from '~starterblocks/challenge/tooltip/ChallengeDot';
 export function TabHeader(props) {
     const { activeItemType, searchContext, activeCollection } = props;
     const { setActiveItemType, setSearchContext } = props;
@@ -37,16 +37,7 @@ export function TabHeader(props) {
                 <button className={ isActive('page') } onClick={e => changeTab('page')}> {__('Pages', starterblocks.i18n)} </button>
                 <button className={ isActive('collection') } onClick={e => changeTab('collection')}> {__('Collections', starterblocks.i18n)} </button>
                 <button className={ isActive('saved') } onClick={e => changeTab('saved')}> {__('Saved', starterblocks.i18n)} </button>
-                <ToolTipController step={0}
-                    detect="hover">
-
-                    <Select>
-                        <button>Hello There</button>
-                    </Select>
-
-                    <ToolTip/>
-
-                </ToolTipController>
+                <ChallengeDot step={0} />
                 <button className="starterblocks-builder-close-modal" onClick={e => { ModalManager.close() }} >
                     <i className={'fas fa-times'} />
                 </button>

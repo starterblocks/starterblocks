@@ -16,6 +16,7 @@ import './plugins/sidebar-share'
 import './plugins/share-block-btn'
 import ToolbarLibraryButton from './toolbar-library-button'
 import StarterBlocksTour from './tour/old'
+import TooltipHolder from './challenge/tooltip/TooltipHolder';
 import {handlingLocalStorageData} from './stores/helper';
 import {ModalManager} from './modal-manager';
 import LibraryModal from './modal-library';
@@ -27,9 +28,11 @@ domReady(() => {
 		return
 	}
     const buttonDiv = document.createElement('div')
+    const challengeDiv = document.createElement('div')
     const tourDiv = document.createElement('div')
-    toolbar.appendChild(buttonDiv)
-    toolbar.appendChild(tourDiv)
+    toolbar.appendChild(buttonDiv);
+    toolbar.appendChild(challengeDiv);
+    toolbar.appendChild(tourDiv);
     render(<ToolbarLibraryButton/>, buttonDiv)
 
     if(window.location.hash == '#starterblocks_tour=1') {
@@ -39,6 +42,7 @@ domReady(() => {
     }
     else
         render(<StarterBlocksTour autoTourStart={false}/>, tourDiv);
+    render(<TooltipHolder />, challengeDiv);
 
     handlingLocalStorageData();
 });
