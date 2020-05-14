@@ -6,6 +6,14 @@ export default {
         {
             selector: '[data-tut="tour__navigation"]',
             caption: __('Template Type Tabs', starterblocks.i18n),
+            offset: {
+                x: 0,
+                y: 20
+            },
+            box: {
+                width: 250
+            },
+            direction: 'bottom',
             content: () => (
                 <div>
                     These are the different types of templates we have.

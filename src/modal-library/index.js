@@ -18,7 +18,7 @@ import './style.scss'
 
 function LibraryModal(props) {
     const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate, isTourOpen,
+        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate, isChallengeOpen,
         setLoading, setImportingTemplate
     } = props;
     const [loaded, setLoaded] = useState(false);
@@ -86,7 +86,7 @@ function LibraryModal(props) {
                 importingTemplate && <ImportWizard startImportTemplate={processImport} />
             }
             {
-                isTourOpen && <StarterBlocksChallenge />
+                isChallengeOpen && <StarterBlocksChallenge />
             }
             <FabWrapper />
         </Modal>
@@ -110,14 +110,14 @@ export default compose([
     }),
 
     withSelect((select) => {
-        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getImportingTemplate, getTourOpen} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getImportingTemplate, getChallengeOpen} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
             errorMessages: getErrorMessages(),
             importingTemplate: getImportingTemplate(),
-            isTourOpen: getTourOpen()
+            isChallengeOpen: getChallengeOpen()
         };
     })
 ])(LibraryModal);

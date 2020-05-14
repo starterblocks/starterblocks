@@ -107,8 +107,7 @@
         cursor: pointer;
     }
 }
-
-.challenge-button-row.started {
+.started .challenge-button-row {
     align-content: space-between;
     flex-direction: column;
 }

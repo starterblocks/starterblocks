@@ -20,8 +20,9 @@ function StarterBlocksChallenge(props) {
     const [started, setStarted] = useState(false);
 
     useEffect(() => {
-        if (challengeStep === START_STEP) setChallengeClassname('starterblocks-challenge challenge-start')
-    }, []);
+        if (challengeStep !== START_STEP) 
+            setChallengeClassname('starterblocks-challenge started')
+    }, [challengeStep]);
 
     const onStarted = () => {
         setChallengeStep(0);

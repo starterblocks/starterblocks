@@ -1,6 +1,6 @@
 import {compose} from '@wordpress/compose';
 import {withDispatch, withSelect} from '@wordpress/data';
-const {cloneElement, findDOMNode, useRef, useEffect} = wp.element;
+const {findDOMNode, useRef, useEffect} = wp.element;
 function ChallengeDot(props) {
     const {setChallengeTooltipRect} = props;
     const selectedElement = useRef(null);

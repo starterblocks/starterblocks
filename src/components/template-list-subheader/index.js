@@ -11,7 +11,7 @@ import './style.scss'
 
 function TemplateListSubHeader(props) {
     const {itemType, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
-    const {setSortBy, setColumns, setTourOpen} = props;
+    const {setSortBy, setColumns, setChallengeOpen} = props;
 
     const itemTypeLabel = () => {
         if (itemType === 'section') return __('Sections', starterblocks.i18n);
@@ -36,7 +36,7 @@ function TemplateListSubHeader(props) {
                 <IconButton
                     icon={<i className="far fa-question-circle tour-icon"/>}
                     label={__('Trigger Tour', starterblocks.i18n)}
-                    onClick={() => setTourOpen(true)}
+                    onClick={() => setChallengeOpen(true)}
                 />
 
                 <IconButton
@@ -78,14 +78,14 @@ function TemplateListSubHeader(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setTourOpen} = dispatch('starterblocks/sectionslist');
+        const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setChallengeOpen} = dispatch('starterblocks/sectionslist');
         return {
             setLibrary,
             setActivePriceFilter,
             setActiveCollection,
             setSortBy,
             setColumns,
-            setTourOpen
+            setChallengeOpen
         };
     }),
 
