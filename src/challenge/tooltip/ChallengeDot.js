@@ -3,7 +3,7 @@ import {withDispatch, withSelect} from '@wordpress/data';
 import CONFIG from '../config';
 const {findDOMNode, useRef, useEffect} = wp.element;
 function ChallengeDot(props) {
-    const {challengeStep, isOpen, setChallengeTooltipRect} = props;
+    const {step, challengeStep, isOpen, setChallengeTooltipRect} = props;
     const selectedElement = useRef(null);
     useEffect(() => {
         window.addEventListener('resize', onResize);
@@ -17,11 +17,12 @@ function ChallengeDot(props) {
     }, [challengeStep, isOpen]);
 
     const isVisible = () => {
-        return ((challengeStep >= 0 || challengeStep > CONFIG.totalStep) && isOpen);
+        return ((challengeStep >= 0 && challengeStep < CONFIG.totalStep) && isOpen);
     }
 
     const onResize = () => {
-        setChallengeTooltipRect(getElementBounding());
+        const box = getElementBounding();
+        if (box) setChallengeTooltipRect(box);
     };
 
     const getElementBounding = () => {
@@ -31,7 +32,7 @@ function ChallengeDot(props) {
         }
         return null;
     }
-    if (isVisible())
+    if (isVisible() && challengeStep === step)
         return <span class="challenge-dot tooltipstered" ref={selectedElement}>
             &nbsp;
         </span>;

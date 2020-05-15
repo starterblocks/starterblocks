@@ -83,7 +83,7 @@ function TooltipBox(props) {
     }, [challengeStep])
 
     const toNextStep = () => {
-        if (challengeStep === config.totalStep) {
+        if (challengeStep === CONFIG.totalStep) {
             // finalize challenge
         } else setChallengeStep(challengeStep + 1);
     }
