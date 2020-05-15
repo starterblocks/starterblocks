@@ -293,8 +293,9 @@ export const missingPluginsArray = () => {
  */
 export const loadChallengeStep = () => {
     var step = localStorage.getItem( 'starterblocksChallengeStep' );
-    step = parseInt( step, 10 ) || 0;
-
+    if (step === null)
+        return -1;
+    step = parseInt( step, 10 );
     return step;
 }
 

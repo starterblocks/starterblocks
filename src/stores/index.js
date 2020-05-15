@@ -10,7 +10,7 @@ import map from 'lodash/map';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 import {applyCategoryFilter, applySearchFilter, applyHashFilter, applyPriceFilter, applyDependencyFilters, valueOfDependencyFilter} from './filters'
-import {getCurrentState, getCollectionChildrenData} from './helper';
+import {getCurrentState, getCollectionChildrenData, loadChallengeStep} from './helper';
 import {isTemplatePremium} from './dependencyHelper'
 import {installedBlocksTypes} from './actionHelper';
 
@@ -170,7 +170,7 @@ registerStore('starterblocks/sectionslist', {
             return state.importingTemplate;
         },
         getChallengeStep(state) {
-            return state.challenge.currentStep;
+            return loadChallengeStep();
         },
         getChallengeOpen(state) {
             return state.challenge.isOpen;

@@ -13,6 +13,7 @@ function ChallengeDot(props) {
     }, [])
 
     useEffect(() => {
+        if (isOpen === false) return;
         const stepInformation = CONFIG.list[challengeStep];
         if (stepInformation && stepInformation.action && typeof stepInformation.action === 'function') {
             stepInformation.action();

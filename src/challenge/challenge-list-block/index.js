@@ -19,6 +19,7 @@ function ChallengeListBlock(props) {
     useEffect(() => {
         setButtonRowClassname(started ? 'challenge-button-row started' : 'challenge-button-row');
     }, [started])
+    
     return (
         <div className='challenge-list-block'>
             <p>{__('Complete the challenge and get up and running within 5 minutes', starterblocks.i18n)}</p>

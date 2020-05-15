@@ -4,6 +4,7 @@ import {dispatch, select} from '@wordpress/data';
 const {setTourActiveButtonGroup, setImportingTemplate} = dispatch('starterblocks/sectionslist');
 const {getPageData} = select('starterblocks/sectionslist');
 import {ModalManager} from '~starterblocks/modal-manager';
+import PreviewModal from '~starterblocks/modal-preview';
 export default {
     initialSecondsLeft: 300,
     totalStep: 8,
@@ -142,7 +143,6 @@ export default {
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
                 if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
-                setNeedUpdate(new Date().toString());
             }
         },
         {
