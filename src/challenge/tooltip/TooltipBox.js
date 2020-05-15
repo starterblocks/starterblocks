@@ -5,8 +5,11 @@ import CONFIG from '../config';
 const PADDING_X = 20;
 const PADDING_Y = 0;
 const ARROW_HEIGHT = 20;
+const DEFAULT_BOX_WIDTH = 200;
+const DEFAULT_OFFSET_X = 0;
+const DEFAULT_OFFSET_Y = 20;
 function TooltipBox(props) {
-    const { challengeStep, tooltipRect, isOpen } = props;
+    const { challengeStep, tooltipRect, isOpen, setChallengeStep } = props;
     const [style, setStyle] = useState({});
     const [arrowStyle, setArrowStyle] = useState({});
     const [content, setContent] = useState('');
@@ -18,17 +21,19 @@ function TooltipBox(props) {
 
     const calculateLeftWithStepInformation = () => {
         const stepInformation = CONFIG.list[challengeStep];
-        const boxWidth = stepInformation.box.width;
+        const boxWidth = stepInformation.box ? stepInformation.box.width : DEFAULT_BOX_WIDTH;
+        const offsetX = stepInformation.offset ? stepInformation.offset.x :DEFAULT_OFFSET_X;
+        const offsetY = stepInformation.offset ? stepInformation.offset.y :DEFAULT_OFFSET_Y;
         switch(stepInformation.direction) {
             case 'left':
-                return (tooltipRect.left + stepInformation.offset.x - boxWidth);
+                return (tooltipRect.left + offsetX - boxWidth);
             case 'right':
-                return (tooltipRect.left + stepInformation.offset.x + boxWidth);
+                return (tooltipRect.left + offsetX + boxWidth);
             case 'top':
             case 'bottom':
-                return (tooltipRect.left + stepInformation.offset.x - boxWidth / 2);
+                return (tooltipRect.left + offsetX - boxWidth / 2);
             default:
-                return (tooltipRect.left + stepInformation.offset.x);
+                return (tooltipRect.left + offsetX);
         } 
     }
     // adjust position and content upon steps change
@@ -36,21 +41,27 @@ function TooltipBox(props) {
         if (isVisible() && tooltipRect) {
             const stepInformation = CONFIG.list[challengeStep];
             if (stepInformation) {
+                const offsetX = stepInformation.offset ? stepInformation.offset.x :DEFAULT_OFFSET_X;
+                const offsetY = stepInformation.offset ? stepInformation.offset.y :DEFAULT_OFFSET_Y;
                 setStyle({
                     ...style,
                     display: 'block',
-                    width: stepInformation.box.width,
+                    width: stepInformation.box ? stepInformation.box.width : DEFAULT_BOX_WIDTH,
                     left: calculateLeftWithStepInformation(),
-                    top: tooltipRect.top + stepInformation.offset.y + PADDING_Y + ARROW_HEIGHT
+                    top: tooltipRect.top + offsetY + PADDING_Y + ARROW_HEIGHT
                 });
                 setContent(stepInformation.content);
                 setArrowStyle({
-                    left: tooltipRect.left + stepInformation.offset.x,
-                    top: tooltipRect.top + stepInformation.offset.y + PADDING_Y
+                    ...arrowStyle,
+                    display: 'block',
+                    left: tooltipRect.left + offsetX,
+                    top: tooltipRect.top + offsetY + PADDING_Y
                 });
             }
-        } else
+        } else {
             setStyle({ ...style, display: 'none' });
+            setArrowStyle({...arrowStyle, display: 'none'});
+        }
     }, [JSON.stringify(tooltipRect), challengeStep, isOpen]);
 
     // update wrapper class name based on step change
@@ -71,12 +82,18 @@ function TooltipBox(props) {
         }
     }, [challengeStep])
 
+    const toNextStep = () => {
+        if (challengeStep === config.totalStep) {
+            // finalize challenge
+        } else setChallengeStep(challengeStep + 1);
+    }
+
     return (
         <div className={wrapperClassname}>
             <div className="tooltipster-box" style={style}>
                 {content}
                 <div className="btn-row">
-                    <button className="challenge-done-btn">Done</button>
+                    <button className="challenge-done-btn" onClick={toNextStep}>Done</button>
                 </div>
             </div>
             <div class="tooltipster-arrow" style={arrowStyle}>
@@ -92,12 +109,9 @@ function TooltipBox(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const { setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate } = dispatch('starterblocks/sectionslist');
+        const { setChallengeStep } = dispatch('starterblocks/sectionslist');
         return {
-            setTourActiveButtonGroup,
-            setTourPreviewVisible,
-            setTourOpen,
-            setImportingTemplate
+            setChallengeStep
         };
     }),
 

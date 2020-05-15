@@ -37,6 +37,13 @@ export default {
             caption: __('Sidebar', starterblocks.i18n),
             content: __('This area is where you can search and filter to find the right kind of templates you want.', starterblocks.i18n),
             position: 'right',
+            offset: {
+                x: 0,
+                y: 20
+            },
+            box: {
+                width: 250
+            },
             action: () => {
                 animateScroll.scrollToTop({
                     containerId: 'starterblocks-collection-modal-sidebar',
@@ -47,6 +54,13 @@ export default {
         {
             selector: '[data-tut="tour__filtering"]',
             caption: __('Plugins Filter', starterblocks.i18n),
+            offset: {
+                x: 0,
+                y: 20
+            },
+            box: {
+                width: 250
+            },
             content: () => (
                 <div>
                     Some templates require certain plugins. You can filter or select those templates. Hint, if the text
@@ -68,6 +82,13 @@ export default {
             caption: __('Templates List', starterblocks.i18n),
             content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', starterblocks.i18n),
             position: 'center',
+            offset: {
+                x: 0,
+                y: 20
+            },
+            box: {
+                width: 250
+            },
             action: () => {
                 animateScroll.scrollToTop({
                     containerId: 'starterblocks-collection-modal-sidebar',

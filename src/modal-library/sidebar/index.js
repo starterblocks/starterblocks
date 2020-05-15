@@ -5,7 +5,7 @@ import './style.scss'
 import PriceFilter from './priceFilter';
 import CategoryFilter from './categoryFilter';
 import DependencyFilter from './dependencyFilter';
-
+import ChallengeDot from '~starterblocks/challenge/tooltip/ChallengeDot';
 function Sidebar(props) {
     const {itemType, layer, loading} = props;
     const hasSidebar = () => {
@@ -16,6 +16,7 @@ function Sidebar(props) {
             {
                 hasSidebar() &&
                 <div>
+                    <ChallengeDot step={1} />
                     <PriceFilter/>
                     <CategoryFilter/>
                     <DependencyFilter/>
