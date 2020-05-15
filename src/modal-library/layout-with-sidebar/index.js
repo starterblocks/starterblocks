@@ -3,6 +3,7 @@ import Sidebar from '../sidebar';
 import TemplateListSubHeader from '~starterblocks/components/template-list-subheader';
 import TemplateList from '../view-template-list';
 
+import ChallengeDot from '~starterblocks/challenge/tooltip/ChallengeDot';
 
 export default function WithSidebarCollection (props) {
     return (
@@ -11,6 +12,7 @@ export default function WithSidebarCollection (props) {
                 <Sidebar />
             </div>
             <div className="starterblocks-collection-modal-content-area" data-tut="tour__main_body" id="modalContent">
+                <ChallengeDot step={3} />
                 <TemplateListSubHeader />
                 <TemplateList />
             </div>

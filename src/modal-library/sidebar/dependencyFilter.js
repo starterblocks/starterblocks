@@ -2,7 +2,7 @@ const {Fragment} = wp.element;
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
-
+import ChallengeDot from '~starterblocks/challenge/tooltip/ChallengeDot';
 
 import {CheckboxControl, Tooltip} from '@wordpress/components';
 import DependencyFilterRow from './dependencyFilterRow';
@@ -54,7 +54,7 @@ function DependencyFilter(props) {
                         <span>&nbsp; / &nbsp;</span>
                         <Tooltip text={__('Installed Dependencies', starterblocks.i18n)}><a href="#" onClick={() => setDependencyFilters(getInstalledDependencies(dependencyFilters))}>
                             Installed</a></Tooltip>
-
+                        <ChallengeDot step={2} />
                     </div>
                     <ul className="starterblocks-sidebar-dependencies">
                         { (loading === false) &&

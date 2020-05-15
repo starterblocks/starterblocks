@@ -13,7 +13,13 @@ function ChallengeDot(props) {
     }, [])
 
     useEffect(() => {
-        onResize();
+        const stepInformation = CONFIG.list[challengeStep];
+        if (stepInformation && stepInformation.action && typeof stepInformation.action === 'function') {
+            stepInformation.action();
+            onResize();
+            setTimeout(onResize, 0);
+        } else 
+            onResize();
     }, [challengeStep, isOpen]);
 
     const isVisible = () => {
@@ -33,9 +39,9 @@ function ChallengeDot(props) {
         return null;
     }
     if (isVisible() && challengeStep === step)
-        return <span class="challenge-dot tooltipstered" ref={selectedElement}>
+        return <i class="challenge-dot tooltipstered" ref={selectedElement}>
             &nbsp;
-        </span>;
+        </i>;
     return null;
 }
 

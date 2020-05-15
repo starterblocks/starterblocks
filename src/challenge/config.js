@@ -1,4 +1,9 @@
 import {__} from '@wordpress/i18n'
+import {animateScroll} from 'react-scroll';
+import {dispatch, select} from '@wordpress/data';
+const {setTourActiveButtonGroup, setImportingTemplate} = dispatch('starterblocks/sectionslist');
+const {getPageData} = select('starterblocks/sectionslist');
+import {ModalManager} from '~starterblocks/modal-manager';
 export default {
     initialSecondsLeft: 300,
     totalStep: 8,
@@ -71,7 +76,7 @@ export default {
             action: () => {
                 animateScroll.scrollToBottom({
                     containerId: 'starterblocks-collection-modal-sidebar',
-                    duration: 300,
+                    duration: 0,
                 });
             },
 
