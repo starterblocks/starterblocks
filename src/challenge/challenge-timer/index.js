@@ -7,11 +7,32 @@ import config from '../config';
 import helper from '../helper';
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
-const {useState, useEffect} = wp.element;
+const {useState, useEffect, useRef} = wp.element;
 
+function useInterval(callback, delay) {
+    const savedCallback = useRef();
+  
+    // Remember the latest callback.
+    useEffect(() => {
+        savedCallback.current = callback;
+    }, [callback]);
+  
+    // Set up the interval.
+    useEffect(() => {
+        function tick() {
+            savedCallback.current();
+        }
+        if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+        }
+    }, [delay]);
+}
 
 function ChallengeTimer({started}) {
-    const [secondsLeft, setSecondsLeft] = useState()
+    const [secondsLeft, setSecondsLeft] = useState(config.initialSecondsLeft);
+    const [paused, setPaused] = useState(false);
+    const [timerInterval, setTimerInterval] = useState(1000);
 
     // setup windows focus/blue event handling
     useEffect(() => {
@@ -23,23 +44,19 @@ function ChallengeTimer({started}) {
         };
     });
 
+    useInterval(() => {
+        setSecondsLeft(secondsLeft - 1);
+        helper.saveSecondsLeft(secondsLeft);
+    }, (started && (paused === false) && secondsLeft >=0) ? 1000 : null);
+
     // setup timer
     useEffect(() => {
-        var timerId = helper.loadId();
-
-        if ( timerId ) {
-            clearInterval( timerId );
-            setSecondsLeft(helper.getSecondsLeft());
-        }
-
-        if ( ! timerId && 0 === helper.loadStep() ) {
+        setSecondsLeft(helper.getSecondsLeft());
+ 
+        if (helper.loadStep() === -1) {
             setSecondsLeft(config.initialSecondsLeft);
         }
     }, []);
-
-    useEffect(() => {
-        if (started) run(helper.getSecondsLeft());
-    }, [started]);
 
     /**
      * Run the timer.
@@ -52,6 +69,7 @@ function ChallengeTimer({started}) {
 
         var timerId = setInterval( function() {
             setSecondsLeft(secondsLeft => secondsLeft - 1);
+            helper.saveSecondsLeft( secondsLeft );
             if ( 1 > secondsLeft ) {
                 helper.saveSecondsLeft( 0 );
                 clearInterval( timerId );
@@ -63,42 +81,14 @@ function ChallengeTimer({started}) {
         return timerId;
     }
 
-    /**
-     * Pause the timer.
-     */
+    // Pause the timer.
     const pause = () => {
-
-        var timerId;
-        var secondsLeft = helper.getSecondsLeft();
-
-        if ( 0 === secondsLeft || config.totalStep === helper.loadStep() ) {
-            return;
-        }
-
-        timerId = helper.loadId();
-        clearInterval( timerId );
-
+        setPaused(true);
     }
 
-    /**
-     * Resume the timer.
-     */
+    // Resume the timer.
     const resume = () => {
-
-        var timerId;
-        var secondsLeft = helper.getSecondsLeft();
-
-        if ( 0 === secondsLeft || config.totalStep === helper.loadStep() ) {
-            return;
-        }
-
-        timerId = helper.loadId();
-
-        if ( timerId ) {
-            clearInterval( timerId );
-        }
-
-        run( secondsLeft );
+        setPaused(false);
     }
 
 

@@ -15,14 +15,16 @@ const START_STEP = -1;
 
 function StarterBlocksChallenge(props) {
     const {autoTourStart} = props;
-    const {challengeStep, setChallengeStep} = props;
+    const {isOpen, challengeStep, setChallengeStep} = props;
     const [challengeClassname, setChallengeClassname] = useState('starterblocks-challenge');
     const [started, setStarted] = useState(false);
 
     useEffect(() => {
-        if (challengeStep !== START_STEP) 
+        if (challengeStep !== START_STEP && isOpen) {
             setChallengeClassname('starterblocks-challenge started')
-    }, [challengeStep]);
+            setStarted(true);
+        }
+    }, [challengeStep, isOpen]);
 
     const onStarted = () => {
         setChallengeStep(0);
@@ -48,9 +50,10 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getChallengeStep} = select('starterblocks/sectionslist');
+        const {getChallengeStep, getChallengeOpen} = select('starterblocks/sectionslist');
         return {
-            challengeStep: getChallengeStep()
+            challengeStep: getChallengeStep(),
+            isOpen: getChallengeOpen()
         };
     })
 ])(StarterBlocksChallenge);
