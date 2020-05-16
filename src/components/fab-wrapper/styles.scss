@@ -10,7 +10,7 @@
         .rtf--mb {
             > * {
                 transform-origin: center center;
-                transform: rotate(315deg);
+                transform: none;
                 transition: ease-in-out transform 0.2s;
             }
             > ul {
@@ -21,6 +21,7 @@
         }
         .rtf--ab__c {
             &:hover {
+
                 > span {
                     transition: ease-in-out opacity 0.2s;
                     opacity: 0.9;

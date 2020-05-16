@@ -473,12 +473,14 @@ class API {
             'SB-Version'   => STARTERBLOCKS_VERSION,
             'SB-Multisite' => is_multisite(),
         );
-        $the_site = $starterblocks_fs->get_site();
+
+        $the_site = !empty($starterblocks_fs) ? $starterblocks_fs->get_site() : "";
+
         if ( ! empty( $the_site->site_id ) ) {
             $config['SB-API-Key'] = $the_site->site_id . '-' . $the_site->user_id;
         }
 
-        if ( starterblocks_fs()->can_use_premium_code() ) {
+        if ( !empty($starterblocks_fs) && starterblocks_fs()->can_use_premium_code() ) {
             $config['SB-Pro'] = starterblocks_fs()->can_use_premium_code();
         }
         $data = wp_parse_args( $data, $config );
@@ -532,6 +534,12 @@ class API {
             ),
             '/collections/'        => array(
                 'callback' => 'get_index'
+            ),
+            '/feedback/'        => array(
+                'callback' => 'send_feedback'
+            ),
+            '/suggestion/'        => array(
+                'callback' => 'send_suggestion'
             ),
             '/template/'           => array(
                 'callback' => 'get_template'

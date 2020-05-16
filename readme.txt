@@ -1,10 +1,10 @@
 === Page Builder for Gutenberg – StarterBlocks ===
 Contributors: dovyp, starterblocks, redux
 Donate link: https://paypal.me/ReduxFramework
-Tags: Page builder, Gutenberg blocks, Page builder blocks, Page builder Gutenberg blocks, Gutenberg
+Tags: page builder, gutenberg blocks, page builder blocks, page builder Gutenberg blocks, gutenberg
 Requires at least: 5.4
 Tested up to: 5.5
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -189,6 +189,15 @@ If you want, you can use the [Gutenberg](https://starterblocks.io/) plugin to ge
 5. Integrated tour.
 
 == Changelog ==
+
+= 1.0.7 =
+* Change: Default dependencies are filtered to only include things installed and StarterBlocks.
+* Added: Ability to display only templates with installed dependencies.
+* Added: Help button at lower right when the Library is open.
+* Added: Feedback modal when a template import fails.
+* Fixed: Various dependency bugs.
+* Fixed: A few z-index issues.
+* Fixed: Various localization strings.
 
 = 1.0.6 =
 * Change: Sidebar colors now use default WordPress colors.
