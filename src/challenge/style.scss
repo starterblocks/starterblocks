@@ -271,6 +271,13 @@ span.wpforms-challenge-dot {
     z-index: 99980 !important;
 }
 
+.challenge-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 600000;
+}
+
 .challenge-tooltip-holder {
     position: fixed;
     top: 0;

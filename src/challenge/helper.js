@@ -2,31 +2,6 @@ import config from './config';
 export default {
 
     /**
-     * Load timer ID.
-     */
-    loadId: function() {
-        return localStorage.getItem( 'starterblocksChallengeTimerId' );
-    },
-
-    /**
-     * Save timer ID.
-     */
-    saveId: function( id ) {
-        localStorage.setItem( 'starterblocksChallengeTimerId', id );
-    },
-
-
-    /**
-     * Clear all frontend saved timer data.
-     */
-    clear: function() {
-
-        localStorage.removeItem( 'starterblocksChallengeSecondsLeft' );
-        localStorage.removeItem( 'starterblocksChallengeTimerId' );
-        localStorage.removeItem( 'starterblocksChallengeTimerStatus' );
-    },
-
-    /**
      * Get number of seconds left to complete the Challenge.
      */
     getSecondsLeft: function() {

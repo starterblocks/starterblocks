@@ -1,6 +1,6 @@
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
-const {useState, useEffect} = wp.element;
+const { useState, useEffect} = wp.element;
 import '../stores';
 
 import {Modal, ModalManager} from '../modal-manager'
@@ -56,8 +56,6 @@ function LibraryModal(props) {
         }
     }, [escKeyPressed])
 
-
-
     const hasSidebar = () => {
         return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
     }
@@ -84,9 +82,6 @@ function LibraryModal(props) {
             </div>
             {
                 importingTemplate && <ImportWizard startImportTemplate={processImport} />
-            }
-            {
-                isChallengeOpen && <StarterBlocksChallenge />
             }
             <FabWrapper />
         </Modal>

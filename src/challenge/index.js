@@ -32,7 +32,7 @@ function StarterBlocksChallenge(props) {
     }
 
     return (
-        <div className={challengeClassname}>
+        <div className={challengeClassname} style={{display: isOpen ? 'block' : 'none'}}>
             { (closed === false) && <ChallengeListBlock {...{started, closed, onStarted}} /> }
             <ChallengeTimer {...{started, closed, setClosed}} />
         </div>
@@ -49,7 +49,7 @@ export default compose([
         };
     }),
 
-    withSelect((select, props) => {
+    withSelect((select) => {
         const {getChallengeStep, getChallengeOpen} = select('starterblocks/sectionslist');
         return {
             challengeStep: getChallengeStep(),

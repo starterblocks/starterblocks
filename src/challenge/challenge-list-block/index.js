@@ -22,7 +22,6 @@ function ChallengeListBlock(props) {
     const onCancelChallenge = () => {
         setChallengeOpen(false);
         setChallengeStep(-1);
-        helper.saveSecondsLeft(CONFIG.initialSecondsLeft);
     }
 
     return (

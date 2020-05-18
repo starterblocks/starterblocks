@@ -17,6 +17,7 @@ import './plugins/share-block-btn'
 import ToolbarLibraryButton from './toolbar-library-button'
 import TooltipBox from './challenge/tooltip/TooltipBox';
 import {handlingLocalStorageData} from './stores/helper';
+import StarterBlocksChallenge from './challenge'
 import {ModalManager} from './modal-manager';
 import LibraryModal from './modal-library';
 
@@ -26,19 +27,23 @@ domReady(() => {
 	if (!toolbar) {
 		return
 	}
-    const buttonDiv = document.createElement('div')
     const challengeDiv = document.createElement('div')
     challengeDiv.className = 'challenge-tooltip-holder';
-    toolbar.appendChild(buttonDiv);
     document.body.appendChild(challengeDiv);
+    const challengeWrapperDiv = document.createElement('div');
+    challengeWrapperDiv.className = 'challenge-wrapper';
+    document.body.appendChild(challengeWrapperDiv);
+
+    const buttonDiv = document.createElement('div')
+    toolbar.appendChild(buttonDiv);
     render(<ToolbarLibraryButton/>, buttonDiv)
     
     if (window.location.hash == '#starterblocks_tour=1') {
         window.location.hash = '';
         ModalManager.open(<LibraryModal />);
-        render(<TooltipBox />, challengeDiv);
-    } else
-        render(<TooltipBox />, challengeDiv);
+    }
+    render(<StarterBlocksChallenge />, challengeWrapperDiv);
+    render(<TooltipBox />, challengeDiv);
 
     handlingLocalStorageData();
 });
