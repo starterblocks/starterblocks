@@ -153,6 +153,14 @@ export default {
             action: () => {
                 setImportingTemplate(null);
                 ModalManager.hide();
+                dispatch('core/edit-post').openGeneralSidebar('edit-post/document');
+                if (select('core/edit-post').isEditorPanelOpened('page-attributes') === false) dispatch('core/edit-post').toggleEditorPanelOpened('page-attributes');
+                const openedPanel = document.getElementsByClassName('editor-page-attributes__template');
+                if (openedPanel && openedPanel.length > 0) {
+                    let openPanel = openedPanel[0].getBoundingClientRect();
+                    let box = {top: openPanel.top, left: openPanel.left - 250};
+                    dispatch('starterblocks/sectionslist').setChallengeTooltipRect(box);
+                }
             },
             position: 'center'
         }

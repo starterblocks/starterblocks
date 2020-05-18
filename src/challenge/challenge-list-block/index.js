@@ -16,8 +16,8 @@ function ChallengeListBlock(props) {
     const {challengeStep, setChallengeOpen, setChallengeStep} = props;
     const [buttonRowClassname, setButtonRowClassname] = useState('challenge-button-row');
     useEffect(() => {
-        setButtonRowClassname(started ? 'challenge-button-row started' : 'challenge-button-row');
-    }, [started])
+        setButtonRowClassname(challengeStep !== CONFIG.beginningStep  ? 'challenge-button-row started' : 'challenge-button-row');
+    }, [challengeStep])
     
     const onCancelChallenge = () => {
         setChallengeOpen(false);
