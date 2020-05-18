@@ -31,7 +31,7 @@ function useInterval(callback, delay) {
 }
 
 function ChallengeTimer({started, closed, setClosed}) {
-    const [secondsLeft, setSecondsLeft] = useState(config.initialSecondsLeft);
+    const [secondsLeft, setSecondsLeft] = useState(helper.getSecondsLeft());
     const [paused, setPaused] = useState(false);
     
     // only timer
@@ -47,7 +47,6 @@ function ChallengeTimer({started, closed, setClosed}) {
     // setup timer
     useEffect(() => {
         setSecondsLeft(helper.getSecondsLeft());
- 
         if (helper.loadStep() === -1) {
             setSecondsLeft(config.initialSecondsLeft);
         }
