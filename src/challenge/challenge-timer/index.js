@@ -7,7 +7,7 @@ import config from '../config';
 import helper from '../helper';
 import classnames from 'classnames';
 const {compose} = wp.compose;
-const {withDispatch, withSelect} = wp.data;
+const {withSelect} = wp.data;
 const {useState, useEffect, useRef} = wp.element;
 
 function useInterval(callback, delay) {
@@ -30,7 +30,7 @@ function useInterval(callback, delay) {
     }, [delay]);
 }
 
-function ChallengeTimer({started, closed, setClosed}) {
+function ChallengeTimer({started, closed, setClosed, isChallengeOpen}) {
     const [secondsLeft, setSecondsLeft] = useState(helper.getSecondsLeft());
     const [paused, setPaused] = useState(false);
     
@@ -50,7 +50,7 @@ function ChallengeTimer({started, closed, setClosed}) {
         if (helper.loadStep() === -1) {
             setSecondsLeft(config.initialSecondsLeft);
         }
-    }, []);
+    }, [isChallengeOpen]);
 
     // run timer
     useInterval(() => {
@@ -85,21 +85,10 @@ function ChallengeTimer({started, closed, setClosed}) {
 
 
 export default compose([
-    withDispatch((dispatch) => {
-        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = dispatch('starterblocks/sectionslist');
-        return {
-            setTourActiveButtonGroup,
-            setTourPreviewVisible,
-            setTourOpen,
-            setImportingTemplate
-        };
-    }),
-
     withSelect((select, props) => {
-        const {getTourOpen, getPageData} = select('starterblocks/sectionslist');
+        const {getChallengeOpen} = select('starterblocks/sectionslist');
         return {
-            isTourOpen: getTourOpen(),
-            getPageData
+            isChallengeOpen: getChallengeOpen()
         };
     })
 ])(ChallengeTimer);

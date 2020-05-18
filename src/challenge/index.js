@@ -4,6 +4,7 @@
 import {__} from '@wordpress/i18n'
 import './style.scss'
 import helper from './helper';
+import CONFIG from './config';
 import ChallengeListBlock from './challenge-list-block';
 import ChallengeTimer from './challenge-timer';
 
@@ -11,17 +12,15 @@ const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
 const {useState, useEffect} = wp.element;
 
-const START_STEP = -1;
-
 function StarterBlocksChallenge(props) {
-    const {autoTourStart} = props;
+    const {autoChallengeStart} = props;
     const {isOpen, challengeStep, setChallengeStep} = props;
     const [challengeClassname, setChallengeClassname] = useState('starterblocks-challenge');
     const [started, setStarted] = useState(false);
     const [closed, setClosed] = useState(false);
 
     useEffect(() => {
-        if (challengeStep !== START_STEP && isOpen) {
+        if (challengeStep !== CONFIG.beginningStep && isOpen) {
             setChallengeClassname('starterblocks-challenge started')
             setStarted(true);
         }

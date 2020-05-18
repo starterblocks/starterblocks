@@ -11,15 +11,20 @@ const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
 const {useState, useEffect} = wp.element;
 
-const START_STEP = -1;
-
 function ChallengeListBlock(props) {
-    const {challengeStep, started, onStarted} = props;
+    const {started, onStarted} = props;
+    const {challengeStep, setChallengeOpen, setChallengeStep} = props;
     const [buttonRowClassname, setButtonRowClassname] = useState('challenge-button-row');
     useEffect(() => {
         setButtonRowClassname(started ? 'challenge-button-row started' : 'challenge-button-row');
     }, [started])
     
+    const onCancelChallenge = () => {
+        setChallengeOpen(false);
+        setChallengeStep(-1);
+        helper.saveSecondsLeft(CONFIG.initialSecondsLeft);
+    }
+
     return (
         <div className='challenge-list-block'>
             <p>{__('Complete the challenge and get up and running within 5 minutes', starterblocks.i18n)}</p>
@@ -32,10 +37,10 @@ function ChallengeListBlock(props) {
                 }
             </ul>
             <div className={buttonRowClassname}>
-                {challengeStep === START_STEP && 
+                {challengeStep === CONFIG.beginningStep && 
                     <button className='btn-challenge-start' onClick={onStarted}>{__('Start Challenge', starterblocks.i18n)}</button>}
-                {challengeStep === START_STEP && <button className='btn-challenge-skip'>{__('Skip Challenge', starterblocks.i18n)}</button>}
-                {challengeStep !== START_STEP && <button className='btn-challenge-cancel'>{__('Cancel Challenge', starterblocks.i18n)}</button>}
+                {challengeStep === CONFIG.beginningStep && <button className='btn-challenge-skip' onClick={onCancelChallenge}>{__('Skip Challenge', starterblocks.i18n)}</button>}
+                {challengeStep !== CONFIG.beginningStep && <button className='btn-challenge-cancel' onClick={onCancelChallenge}>{__('Cancel Challenge', starterblocks.i18n)}</button>}
             </div>
         </div>
     );
@@ -45,16 +50,14 @@ function ChallengeListBlock(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = dispatch('starterblocks/sectionslist');
+        const {setChallengeOpen, setChallengeStep} = dispatch('starterblocks/sectionslist');
         return {
-            setTourActiveButtonGroup,
-            setTourPreviewVisible,
-            setTourOpen,
-            setImportingTemplate
+            setChallengeOpen,
+            setChallengeStep
         };
     }),
 
-    withSelect((select, props) => {
+    withSelect((select) => {
         const {getChallengeStep} = select('starterblocks/sectionslist');
         return {
             challengeStep: getChallengeStep()

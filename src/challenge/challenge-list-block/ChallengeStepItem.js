@@ -11,7 +11,7 @@ const {useState, useEffect} = wp.element;
 
 // currentStep : indicates where the step is
 // step: 1~8 etc
-function ChallengeStepItem(props) {
+export default function ChallengeStepItem(props) {
     const {currentStep, step, caption} = props;
     const [iconClassname, setIconClassname] = useState('fa circle');
     const [itemClassname, setItemClassname] = useState('challenge-item');
@@ -32,24 +32,3 @@ function ChallengeStepItem(props) {
     
     return <li className={itemClassname}><i className={iconClassname} />{caption}</li>;
 }
-
-
-export default compose([
-    withDispatch((dispatch) => {
-        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = dispatch('starterblocks/sectionslist');
-        return {
-            setTourActiveButtonGroup,
-            setTourPreviewVisible,
-            setTourOpen,
-            setImportingTemplate
-        };
-    }),
-
-    withSelect((select, props) => {
-        const {getTourOpen, getPageData} = select('starterblocks/sectionslist');
-        return {
-            isTourOpen: getTourOpen(),
-            getPageData
-        };
-    })
-])(ChallengeStepItem);

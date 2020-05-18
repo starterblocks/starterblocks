@@ -7,6 +7,7 @@ import {ModalManager} from '~starterblocks/modal-manager';
 import PreviewModal from '~starterblocks/modal-preview';
 export default {
     initialSecondsLeft: 300,
+    beginningStep: -1,
     totalStep: 8,
     list: [
         {
