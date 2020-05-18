@@ -18,6 +18,7 @@ function StarterBlocksChallenge(props) {
     const {isOpen, challengeStep, setChallengeStep} = props;
     const [challengeClassname, setChallengeClassname] = useState('starterblocks-challenge');
     const [started, setStarted] = useState(false);
+    const [closed, setClosed] = useState(false);
 
     useEffect(() => {
         if (challengeStep !== START_STEP && isOpen) {
@@ -33,8 +34,8 @@ function StarterBlocksChallenge(props) {
 
     return (
         <div className={challengeClassname}>
-            <ChallengeListBlock {...{started, onStarted}} />
-            <ChallengeTimer started={started} />
+            { (closed === false) && <ChallengeListBlock {...{started, closed, onStarted}} /> }
+            <ChallengeTimer {...{started, closed, setClosed}} />
         </div>
     );
 

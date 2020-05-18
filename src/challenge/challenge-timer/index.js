@@ -5,6 +5,7 @@ import {__} from '@wordpress/i18n'
 import './style.scss'
 import config from '../config';
 import helper from '../helper';
+import classnames from 'classnames';
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
 const {useState, useEffect, useRef} = wp.element;
@@ -29,12 +30,11 @@ function useInterval(callback, delay) {
     }, [delay]);
 }
 
-function ChallengeTimer({started}) {
+function ChallengeTimer({started, closed, setClosed}) {
     const [secondsLeft, setSecondsLeft] = useState(config.initialSecondsLeft);
     const [paused, setPaused] = useState(false);
-    const [timerInterval, setTimerInterval] = useState(1000);
-
-    // setup windows focus/blue event handling
+    
+    // only timer
     useEffect(() => {
         window.addEventListener('focus', resume);
         window.addEventListener('blur', pause);
@@ -43,11 +43,6 @@ function ChallengeTimer({started}) {
             window.removeEventListener('blur', pause);
         };
     });
-
-    useInterval(() => {
-        setSecondsLeft(secondsLeft - 1);
-        helper.saveSecondsLeft(secondsLeft);
-    }, (started && (paused === false) && secondsLeft >=0) ? 1000 : null);
 
     // setup timer
     useEffect(() => {
@@ -58,28 +53,12 @@ function ChallengeTimer({started}) {
         }
     }, []);
 
-    /**
-     * Run the timer.
-     */
-    const run =( secondsLeft ) => {
+    // run timer
+    useInterval(() => {
+        setSecondsLeft(secondsLeft - 1);
+        helper.saveSecondsLeft(secondsLeft);
+    }, (started && (paused === false) && secondsLeft >= 0) ? 1000 : null);
 
-        if ( config.list.length === helper.loadStep() ) {
-            return;
-        }
-
-        var timerId = setInterval( function() {
-            setSecondsLeft(secondsLeft => secondsLeft - 1);
-            helper.saveSecondsLeft( secondsLeft );
-            if ( 1 > secondsLeft ) {
-                helper.saveSecondsLeft( 0 );
-                clearInterval( timerId );
-            }
-        }, 1000 );
-
-        helper.saveId( timerId );
-
-        return timerId;
-    }
 
     // Pause the timer.
     const pause = () => {
@@ -91,15 +70,14 @@ function ChallengeTimer({started}) {
         setPaused(false);
     }
 
-
     return (
         <div className='block-timer'>
             <div>
                 <h3>{__('StarterBlocks Challenge', starterblocks.i18n)}</h3>
                 <p><span>{helper.getFormatted(secondsLeft)}</span>{__(' remaining', starterblocks.i18n)}</p>
             </div>
-            <div class="caret-icon">
-                <i class="fa fa-caret-down"></i>
+            <div className={classnames('caret-icon', {'closed': closed})} onClick={() => setClosed(!closed)}>
+                <i className="fa fa-caret-down"></i>
             </div>
         </div>
     );

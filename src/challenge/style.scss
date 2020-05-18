@@ -34,32 +34,6 @@ span.wpforms-challenge-dot {
     box-shadow: 0 0 0 4px rgba(223, 119, 57, 0.15);
 }
 
-span.wpforms-challenge-dot.wpforms-challenge-dot-step1 {
-    margin: 37px 24px;
-}
-
-span.wpforms-challenge-dot.wpforms-challenge-dot-step3 {
-    margin-left: 1em;
-    vertical-align: bottom;
-}
-
-span.wpforms-challenge-dot.wpforms-challenge-dot-step4 {
-    margin-left: 42%;
-}
-
-span.wpforms-challenge-dot.wpforms-challenge-dot-step5 {
-    margin: 3px 10px;
-}
-
-span.wpforms-challenge-dot.wpforms-challenge-dot-next {
-    background-color: #3178a0;
-    box-shadow: 0 0 0 4px rgba(49, 120, 160, 0.15);
-}
-
-span.wpforms-challenge-dot.wpforms-challenge-dot-completed {
-    background-color: #6ab255;
-    box-shadow: 0 0 0 4px rgba(106, 178, 85, 0.15);
-}
 
 .wpforms-challenge-tooltips {
     display: none;
@@ -301,7 +275,7 @@ span.wpforms-challenge-dot.wpforms-challenge-dot-completed {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10000;
+    z-index: 600000;
     .tooltipster-box {
         position: absolute;
         box-shadow: 0 -10px 35px 0 rgba(0, 0, 0, 0.25);
@@ -358,5 +332,13 @@ span.wpforms-challenge-dot.wpforms-challenge-dot-completed {
     }
     &.tooltipster-bottom {
         border-bottom-color: #fff;
+    }
+}
+
+.block-timer .caret-icon {
+    .fa {
+        -webkit-transition: 400ms;
+        -o-transition: 400ms;
+        transition: 400ms;
     }
 }
