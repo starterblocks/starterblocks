@@ -219,7 +219,6 @@ export const reducer = ( state = initialState, action ) => {
             }
         case 'SET_CHALLENGE_STEP':
             saveChallengeStep(action.data);
-            
             return {
                 ...state,
                 challenge: {

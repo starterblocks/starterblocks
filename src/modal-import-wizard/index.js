@@ -15,7 +15,7 @@ const IMPORT_STEP = 2;
 const tourPlugins = ['qubely', 'kioken-blocks'];
 import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 function ImportWizard(props) {
-    const {startImportTemplate, setImportingTemplate, isTourOpen, importingTemplate} = props;
+    const {startImportTemplate, setImportingTemplate, isChallengeOpen, importingTemplate} = props;
     const [currentStep, setCurrentStep] = useState(PRO_STEP);
     const [importing, setImporting] = useState(false);
 
@@ -40,19 +40,19 @@ function ImportWizard(props) {
     }, [importingTemplate, currentStep])
 
     const toNextStep = () => {
-        if (isTourOpen) return;
+        if (isChallengeOpen) return;
         setCurrentStep(currentStep + 1);
     };
 
     const onCloseWizard = () => {
-        if (isTourOpen) return; // When in tour mode, we don't accpet mouse event.
+        if (isChallengeOpen) return; // When in tour mode, we don't accpet mouse event.
         if (importing) return;
         setCurrentStep(PLUGIN_STEP);
         setImportingTemplate(null);
     };
 
 
-    if (isTourOpen) {
+    if (isChallengeOpen) {
         // exception handling for tour mode
         if (currentStep !== PLUGIN_STEP) setCurrentStep(PLUGIN_STEP)
     }
@@ -69,7 +69,7 @@ function ImportWizard(props) {
                 </div>
                 <div className="starterblocks-importmodal-content">
                     {(currentStep === PLUGIN_STEP) &&
-                        <InstallPluginStep missingPlugins={isTourOpen ? tourPlugins : importingTemplate.installDependenciesMissing || []} toNextStep={toNextStep}
+                        <InstallPluginStep missingPlugins={isChallengeOpen ? tourPlugins : importingTemplate.installDependenciesMissing || []} toNextStep={toNextStep}
                         onCloseWizard={onCloseWizard}/>}
                     {(currentStep === PRO_STEP) && requiresPro(importingTemplate) &&
                         <ProPluginStep missingPros={importingTemplate.proDependenciesMissing } onCloseWizard={onCloseWizard}/>}
@@ -92,9 +92,9 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {getTourOpen, getImportingTemplate} = select('starterblocks/sectionslist');
+        const {getChallengeOpen, getImportingTemplate} = select('starterblocks/sectionslist');
         return {
-            isTourOpen: getTourOpen(),
+            isChallengeOpen: getChallengeOpen(),
             importingTemplate: getImportingTemplate()
         };
     })

@@ -164,13 +164,5 @@ export default {
             },
             position: 'center'
         }
-    ],
-    success: {
-        content: () => (
-            <ChallengeCongrats />
-        ),
-        box: {
-            width: 300
-        }
-    }
+    ]
 };

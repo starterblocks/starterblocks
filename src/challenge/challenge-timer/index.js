@@ -30,7 +30,8 @@ function useInterval(callback, delay) {
     }, [delay]);
 }
 
-function ChallengeTimer({started, closed, setClosed, isChallengeOpen}) {
+function ChallengeTimer(props) {
+    const {started, closed, setClosed, isChallengeOpen, finalStatus} = props;
     const [secondsLeft, setSecondsLeft] = useState(helper.getSecondsLeft());
     const [paused, setPaused] = useState(false);
     
@@ -56,7 +57,7 @@ function ChallengeTimer({started, closed, setClosed, isChallengeOpen}) {
     useInterval(() => {
         setSecondsLeft(secondsLeft - 1);
         helper.saveSecondsLeft(secondsLeft);
-    }, (started && (paused === false) && secondsLeft >= 0) ? 1000 : null);
+    }, (started && (paused === false) && secondsLeft >= 0 && finalStatus === '') ? 1000 : null);
 
 
     // Pause the timer.
@@ -85,10 +86,11 @@ function ChallengeTimer({started, closed, setClosed, isChallengeOpen}) {
 
 
 export default compose([
-    withSelect((select, props) => {
-        const {getChallengeOpen} = select('starterblocks/sectionslist');
+    withSelect((select) => {
+        const {getChallengeOpen, getChallengeFinalStatus} = select('starterblocks/sectionslist');
         return {
-            isChallengeOpen: getChallengeOpen()
+            isChallengeOpen: getChallengeOpen(),
+            finalStatus: getChallengeFinalStatus()
         };
     })
 ])(ChallengeTimer);

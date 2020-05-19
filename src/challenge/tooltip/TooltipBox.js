@@ -2,6 +2,7 @@ const { compose } = wp.compose;
 const { withDispatch, withSelect } = wp.data;
 const { useState, useEffect } = wp.element;
 import {ModalManager} from '~starterblocks/modal-manager';
+import ChallengeCongrats from '~starterblocks/challenge/final-templates/congrats.js';
 import CONFIG from '../config';
 const PADDING_X = 20;
 const PADDING_Y = 0;
@@ -88,13 +89,10 @@ function TooltipBox(props) {
             // finalize challenge
             ModalManager.show();
             setChallengeFinalStatus('success');
-        } else {
-            setChallengeStep(challengeStep + 1);
         }
+        setChallengeStep(challengeStep + 1);
     }
 
-    if (finalStatus === 'success')
-        return <ChallengeCongrats />
     
     return (
         <div className={wrapperClassname}>
