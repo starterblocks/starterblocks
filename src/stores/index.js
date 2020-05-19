@@ -177,6 +177,9 @@ registerStore('starterblocks/sectionslist', {
         },
         getChallengeTooltipRect(state) {
             return state.challenge.tooltipRect;
+        },
+        getChallengeFinalStatus(state) {
+            return state.challenge.finalStatus;
         }
     },
 

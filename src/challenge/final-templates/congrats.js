@@ -18,11 +18,11 @@ const ratingStars = (
         <i class="fa fa-star"></i>
     </span>
 );
-function ChallengeCongrats(props) {
+export default function ChallengeCongrats({closeModal}) {
     return (
         <div className={challengeClassname} style={{display: isOpen ? 'block' : 'none'}}>
             <div class="challenge-popup-header challenge-popup-header-congrats">
-                <a className="challenge-popup-close">
+                <a className="challenge-popup-close" onClick={closeModal}>
                     <i class="fa fa-times-circle fa-lg"></i>
                 </a>
             </div>
@@ -43,21 +43,3 @@ function ChallengeCongrats(props) {
     );
 
 }
-
-
-export default compose([
-    withDispatch((dispatch) => {
-        const {setChallengeStep} = dispatch('starterblocks/sectionslist');
-        return {
-            setChallengeStep
-        };
-    }),
-
-    withSelect((select) => {
-        const {getChallengeStep, getChallengeOpen} = select('starterblocks/sectionslist');
-        return {
-            challengeStep: getChallengeStep(),
-            isOpen: getChallengeOpen()
-        };
-    })
-])(ChallengeCongrats);

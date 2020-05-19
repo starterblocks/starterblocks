@@ -10,7 +10,7 @@ const DEFAULT_BOX_WIDTH = 200;
 const DEFAULT_OFFSET_X = 0;
 const DEFAULT_OFFSET_Y = 20;
 function TooltipBox(props) {
-    const { challengeStep, tooltipRect, isOpen, setChallengeStep } = props;
+    const { challengeStep, tooltipRect, isOpen, finalStatus, setChallengeStep, setChallengeFinalStatus, setChallengeOpen } = props;
     const [style, setStyle] = useState({});
     const [arrowStyle, setArrowStyle] = useState({});
     const [content, setContent] = useState('');
@@ -84,13 +84,18 @@ function TooltipBox(props) {
     }, [challengeStep])
 
     const toNextStep = () => {
-        if (challengeStep === CONFIG.totalStep) {
+        if (challengeStep === CONFIG.totalStep - 1) {
             // finalize challenge
             ModalManager.show();
+            setChallengeFinalStatus('success');
         } else {
             setChallengeStep(challengeStep + 1);
         }
     }
+
+    if (finalStatus === 'success')
+        return <ChallengeCongrats />
+    
     return (
         <div className={wrapperClassname}>
             <div className="tooltipster-box" style={style}>
@@ -112,18 +117,21 @@ function TooltipBox(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const { setChallengeStep } = dispatch('starterblocks/sectionslist');
+        const { setChallengeStep, setChallengeFinalStatus, setChallengeOpen } = dispatch('starterblocks/sectionslist');
         return {
-            setChallengeStep
+            setChallengeStep,
+            setChallengeFinalStatus,
+            setChallengeOpen
         };
     }),
 
     withSelect((select, props) => {
-        const { getChallengeTooltipRect, getChallengeOpen, getChallengeStep } = select('starterblocks/sectionslist');
+        const { getChallengeTooltipRect, getChallengeOpen, getChallengeStep, getChallengeFinalStatus } = select('starterblocks/sectionslist');
         return {
             tooltipRect: getChallengeTooltipRect(),
             isOpen: getChallengeOpen(),
-            challengeStep: getChallengeStep()
+            challengeStep: getChallengeStep(),
+            finalStatus: getChallengeFinalStatus()
         };
     })
 ])(TooltipBox);

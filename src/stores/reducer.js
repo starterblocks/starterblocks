@@ -48,7 +48,8 @@ export const initialState = {
     challenge: {
         isOpen: false,
         currentStep: loadChallengeStep(),
-        tooltipRect: {}
+        tooltipRect: {},
+        finalStatus: ''
     },
     plugins: {},
     importingTemplate: null
@@ -240,6 +241,14 @@ export const reducer = ( state = initialState, action ) => {
                 challenge: {
                     ...state.challenge,
                     tooltipRect: action.data
+                }
+            }
+        case 'SET_CHALLENGE_FINAL_STATUS':
+            return {
+                ...state,
+                challenge: {
+                    ...state.challenge,
+                    finalStatus: action.data
                 }
             }
     }

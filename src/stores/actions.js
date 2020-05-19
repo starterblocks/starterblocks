@@ -129,5 +129,11 @@ export const actions = {
             type: 'SET_CHALLENGE_TOOLTIP_RECT',
             data
         }
+    },
+    setChallengeFinalStatus(data) {
+        return {
+            type: 'SET_CHALLENGE_FINAL_STATUS',
+            data
+        }
     }
 };
