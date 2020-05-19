@@ -1,3 +1,4 @@
+import {__} from '@wordpress/i18n'
 import config from './config';
 export default {
 
@@ -62,6 +63,18 @@ export default {
         var timerSeconds = this.getSecondsFormatted( secondsLeft );
 
         return timerMinutes + ( 9 < timerSeconds ? ':' : ':0' ) + timerSeconds;
+    },
+
+    /**
+     * Get Localized time string for display
+     */
+    getLocalizedDuration: function( secondsLeft ) {
+        secondsLeft = secondsLeft || this.getSecondsLeft();
+
+        var timerMinutes = this.getMinutesFormatted( secondsLeft );
+        var timerSeconds = this.getSecondsFormatted( secondsLeft );
+
+        return timerMinutes + __( 'minutes', starterblocks.i18n ) + ' ' + timerSeconds + __( 'seconds', starterblocks.i18n );
     },
 
     /**
