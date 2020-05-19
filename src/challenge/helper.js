@@ -1,5 +1,5 @@
 import {__} from '@wordpress/i18n'
-import config from './config';
+import CONFIG from './config';
 export default {
 
     /**
@@ -9,7 +9,7 @@ export default {
 
         var secondsLeft = localStorage.getItem( 'starterblocksChallengeSecondsLeft' );
 
-        secondsLeft = secondsLeft ? parseInt( secondsLeft, 10 ) : config.initialSecondsLeft;
+        secondsLeft = secondsLeft ? parseInt( secondsLeft, 10 ) : CONFIG.initialSecondsLeft;
 
         return secondsLeft;
     },
@@ -21,7 +21,7 @@ export default {
 
         secondsLeft = secondsLeft || getSecondsLeft();
 
-        return config.initialSecondsLeft - secondsLeft;
+        return CONFIG.initialSecondsLeft - secondsLeft;
     },
 
     /**
@@ -70,11 +70,12 @@ export default {
      */
     getLocalizedDuration: function( secondsLeft ) {
         secondsLeft = secondsLeft || this.getSecondsLeft();
+        secondsLeft = CONFIG.initialSecondsLeft - secondsLeft;
 
         var timerMinutes = this.getMinutesFormatted( secondsLeft );
         var timerSeconds = this.getSecondsFormatted( secondsLeft );
 
-        return timerMinutes + __( 'minutes', starterblocks.i18n ) + ' ' + timerSeconds + __( 'seconds', starterblocks.i18n );
+        return timerMinutes + ' ' + __( 'minutes', starterblocks.i18n ) + ' ' + timerSeconds + ' ' + __( 'seconds', starterblocks.i18n );
     },
 
     /**

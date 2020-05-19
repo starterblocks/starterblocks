@@ -2,8 +2,12 @@
  * WordPress dependencies
  */
 import {__} from '@wordpress/i18n'
+import CONFIG from '../config';
 import helper from '../helper';
-import './style.scss'
+
+const { compose } = wp.compose;
+const { withDispatch, withSelect } = wp.data;
+
 
 const ratingStars = (
     <span class="rating-stars">
@@ -14,11 +18,19 @@ const ratingStars = (
         <i class="fa fa-star"></i>
     </span>
 );
-export default function ChallengeCongrats({closeModal}) {
+
+function ChallengeCongrats(props) {
+    const {setChallengeStep, setChallengeFinalStatus, setChallengeOpen} = props;
+    const closeModal = () => {
+        setChallengeStep(CONFIG.beginningStep);
+        setChallengeFinalStatus('');
+        setChallengeOpen(false);
+    }
     return (
         <div className="starterblocks-modal-overlay">
-            <div className="starterblocks-modal-wrapper">
-                <div class="challenge-popup-header challenge-popup-header-congrats">
+            <div className="starterblocks-modal-wrapper challenge-popup-wrapper">
+                <div class="challenge-popup-header challenge-popup-header-congrats" 
+                    style={{backgroundImage: `url(${starterblocks.plugin + 'assets/img/popup-congrats.png'})`}}>
                     <a className="challenge-popup-close" onClick={closeModal}>
                         <i class="fa fa-times-circle fa-lg"></i>
                     </a>
@@ -39,5 +51,15 @@ export default function ChallengeCongrats({closeModal}) {
             </div>
         </div>
     );
-
 }
+
+export default compose([
+    withDispatch((dispatch) => {
+        const { setChallengeStep, setChallengeFinalStatus, setChallengeOpen } = dispatch('starterblocks/sectionslist');
+        return {
+            setChallengeStep,
+            setChallengeFinalStatus,
+            setChallengeOpen
+        };
+    })
+])(ChallengeCongrats);

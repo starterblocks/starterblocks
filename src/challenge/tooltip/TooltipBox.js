@@ -2,7 +2,6 @@ const { compose } = wp.compose;
 const { withDispatch, withSelect } = wp.data;
 const { useState, useEffect } = wp.element;
 import {ModalManager} from '~starterblocks/modal-manager';
-import ChallengeCongrats from '~starterblocks/challenge/final-templates/congrats.js';
 import CONFIG from '../config';
 const PADDING_X = 20;
 const PADDING_Y = 0;
@@ -11,7 +10,7 @@ const DEFAULT_BOX_WIDTH = 200;
 const DEFAULT_OFFSET_X = 0;
 const DEFAULT_OFFSET_Y = 20;
 function TooltipBox(props) {
-    const { challengeStep, tooltipRect, isOpen, finalStatus, setChallengeStep, setChallengeFinalStatus, setChallengeOpen } = props;
+    const { challengeStep, tooltipRect, isOpen, setChallengeStep, setChallengeFinalStatus } = props;
     const [style, setStyle] = useState({});
     const [arrowStyle, setArrowStyle] = useState({});
     const [content, setContent] = useState('');
@@ -115,11 +114,10 @@ function TooltipBox(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const { setChallengeStep, setChallengeFinalStatus, setChallengeOpen } = dispatch('starterblocks/sectionslist');
+        const { setChallengeStep, setChallengeFinalStatus } = dispatch('starterblocks/sectionslist');
         return {
             setChallengeStep,
-            setChallengeFinalStatus,
-            setChallengeOpen
+            setChallengeFinalStatus
         };
     }),
 
