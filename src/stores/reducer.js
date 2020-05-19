@@ -49,7 +49,8 @@ export const initialState = {
         isOpen: false,
         currentStep: loadChallengeStep(),
         tooltipRect: {},
-        finalStatus: ''
+        finalStatus: '',
+        passed: getWithExpiry('starterblocksChallengePassed', false)
     },
     plugins: {},
     importingTemplate: null
@@ -248,6 +249,15 @@ export const reducer = ( state = initialState, action ) => {
                 challenge: {
                     ...state.challenge,
                     finalStatus: action.data
+                }
+            }
+        case 'SET_CHALLENGE_PASSED':
+            setWithExpiry('starterblocksChallengePassed', action.data, EXIPRY_TIME);
+            return {
+                ...state,
+                challenge: {
+                    ...state.challenge,
+                    passed: action.data
                 }
             }
     }

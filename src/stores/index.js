@@ -180,6 +180,9 @@ registerStore('starterblocks/sectionslist', {
         },
         getChallengeFinalStatus(state) {
             return state.challenge.finalStatus;
+        },
+        getChallengePassed(state) {
+            return state.challenge.passed;
         }
     },
 

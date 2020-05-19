@@ -75,7 +75,9 @@ export default {
         var timerMinutes = this.getMinutesFormatted( secondsLeft );
         var timerSeconds = this.getSecondsFormatted( secondsLeft );
 
-        return timerMinutes + ' ' + __( 'minutes', starterblocks.i18n ) + ' ' + timerSeconds + ' ' + __( 'seconds', starterblocks.i18n );
+        const minutesString = timerMinutes ? timerMinutes + ' ' + __( 'minutes', starterblocks.i18n ) + ' ' : '';
+        const secondsString = timerSeconds ? timerSeconds + ' ' + __( 'seconds', starterblocks.i18n ) : '';
+        return minutesString + secondsString;
     },
 
     /**

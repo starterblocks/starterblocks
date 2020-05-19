@@ -10,7 +10,7 @@ const DEFAULT_BOX_WIDTH = 200;
 const DEFAULT_OFFSET_X = 0;
 const DEFAULT_OFFSET_Y = 20;
 function TooltipBox(props) {
-    const { challengeStep, tooltipRect, isOpen, setChallengeStep, setChallengeFinalStatus } = props;
+    const { challengeStep, tooltipRect, isOpen, setChallengeStep, setChallengeFinalStatus, setChallengePassed } = props;
     const [style, setStyle] = useState({});
     const [arrowStyle, setArrowStyle] = useState({});
     const [content, setContent] = useState('');
@@ -88,8 +88,10 @@ function TooltipBox(props) {
             // finalize challenge
             ModalManager.show();
             setChallengeFinalStatus('success');
-        }
-        setChallengeStep(challengeStep + 1);
+            setChallengeStep(CONFIG.beginningStep);
+            setChallengePassed(true);
+        } else 
+            setChallengeStep(challengeStep + 1);
     }
 
     
@@ -114,10 +116,11 @@ function TooltipBox(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const { setChallengeStep, setChallengeFinalStatus } = dispatch('starterblocks/sectionslist');
+        const { setChallengeStep, setChallengeFinalStatus, setChallengePassed } = dispatch('starterblocks/sectionslist');
         return {
             setChallengeStep,
-            setChallengeFinalStatus
+            setChallengeFinalStatus,
+            setChallengePassed
         };
     }),
 

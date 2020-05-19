@@ -1,7 +1,7 @@
 const {__} = wp.i18n;
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
-
+const {useState, useEffect} = wp.element;
 import {IconButton} from '@wordpress/components'
 import SVGViewFew from './images/view-few.svg'
 import SVGViewMany from './images/view-many.svg'
@@ -10,8 +10,13 @@ import {reloadLibrary} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
 function TemplateListSubHeader(props) {
-    const {itemType, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
+    const {itemType, sortBy, activeCollection, challengePassed, pageData, columns, loading} = props;
     const {setSortBy, setColumns, setChallengeOpen} = props;
+    const [triggerTourClassname, setTriggerTourClassname] = useState('far fa-question-circle tour-icon');
+
+    useEffect(() => {
+        setTriggerTourClassname(challengePassed ? 'fas fa-trophy tour-icon' : 'far fa-question-circle tour-icon');
+    }, [challengePassed]);
 
     const itemTypeLabel = () => {
         if (itemType === 'section') return __('Sections', starterblocks.i18n);
@@ -34,7 +39,7 @@ function TemplateListSubHeader(props) {
             </h4>
             <div className="starterblocks-template-filters">
                 <IconButton
-                    icon={<i className="far fa-question-circle tour-icon"/>}
+                    icon={<i className={triggerTourClassname} />}
                     label={__('Trigger Tour', starterblocks.i18n)}
                     onClick={() => setChallengeOpen(true)}
                 />
@@ -90,7 +95,7 @@ export default compose([
     }),
 
     withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActiveCollection, getStatistics, getSortBy, getLoading} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActiveCollection, getStatistics, getSortBy, getLoading, getChallengePassed} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             itemType: getActiveItemType(),
@@ -99,7 +104,8 @@ export default compose([
             statistics: getStatistics(),
             sortBy: getSortBy(),
             activeCollection: getActiveCollection(),
-            loading: getLoading()
+            loading: getLoading(),
+            challengePassed: getChallengePassed()
         };
     })
 ])(TemplateListSubHeader);
