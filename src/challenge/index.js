@@ -14,10 +14,9 @@ const {useState, useEffect} = wp.element;
 
 function StarterBlocksChallenge(props) {
     const {autoChallengeStart} = props;
-    const {isOpen, challengeStep, setChallengeStep} = props;
+    const {isOpen, challengeStep, setChallengeStep, listExpanded} = props;
     const [challengeClassname, setChallengeClassname] = useState('starterblocks-challenge');
     const [started, setStarted] = useState(false);
-    const [closed, setClosed] = useState(false);
 
     useEffect(() => {
         if (challengeStep !== CONFIG.beginningStep && isOpen) {
@@ -33,8 +32,8 @@ function StarterBlocksChallenge(props) {
 
     return (
         <div className={challengeClassname} style={{display: isOpen ? 'block' : 'none'}}>
-            { (closed === false) && <ChallengeListBlock {...{started, closed, onStarted}} /> }
-            <ChallengeTimer {...{started, closed, setClosed}} />
+            { listExpanded && <ChallengeListBlock onStarted={onStarted} /> }
+            <ChallengeTimer started={started} />
         </div>
     );
 
@@ -50,10 +49,11 @@ export default compose([
     }),
 
     withSelect((select) => {
-        const {getChallengeStep, getChallengeOpen} = select('starterblocks/sectionslist');
+        const {getChallengeStep, getChallengeOpen, getChallengeListExpanded} = select('starterblocks/sectionslist');
         return {
             challengeStep: getChallengeStep(),
-            isOpen: getChallengeOpen()
+            isOpen: getChallengeOpen(),
+            listExpanded: getChallengeListExpanded()
         };
     })
 ])(StarterBlocksChallenge);

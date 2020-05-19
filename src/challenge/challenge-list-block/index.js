@@ -13,7 +13,7 @@ const {useState, useEffect} = wp.element;
 
 function ChallengeListBlock(props) {
     const {started, onStarted} = props;
-    const {challengeStep, setChallengeOpen, setChallengeStep} = props;
+    const {challengeStep, finalStatus, setChallengeOpen, setChallengeStep} = props;
     const [buttonRowClassname, setButtonRowClassname] = useState('challenge-button-row');
     useEffect(() => {
         setButtonRowClassname(challengeStep !== CONFIG.beginningStep  ? 'challenge-button-row started' : 'challenge-button-row');
@@ -27,11 +27,11 @@ function ChallengeListBlock(props) {
     return (
         <div className='challenge-list-block'>
             <p>{__('Complete the challenge and get up and running within 5 minutes', starterblocks.i18n)}</p>
-            <ProgressBar currentStep={challengeStep} />
+            <ProgressBar currentStep={finalStatus === 'success' ?  CONFIG.totalStep : challengeStep} />
             <ul className='challenge-list'>
                 {
                     CONFIG.list.map((item, i) => {
-                        return (<ChallengeStepItem step={i} currentStep={challengeStep} caption={item.caption} />);
+                        return (<ChallengeStepItem step={i} currentStep={challengeStep} finalStatus={finalStatus} caption={item.caption} />);
                     })
                 }
             </ul>
@@ -57,9 +57,10 @@ export default compose([
     }),
 
     withSelect((select) => {
-        const {getChallengeStep} = select('starterblocks/sectionslist');
+        const {getChallengeStep, getChallengeFinalStatus} = select('starterblocks/sectionslist');
         return {
-            challengeStep: getChallengeStep()
+            challengeStep: getChallengeStep(),
+            finalStatus: getChallengeFinalStatus()
         };
     })
 ])(ChallengeListBlock);

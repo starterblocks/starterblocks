@@ -141,5 +141,11 @@ export const actions = {
             type: 'SET_CHALLENGE_PASSED',
             data
         }
+    },
+    setChallengeListExpanded(data){
+        return {
+            type: 'SET_CHALLENGE_LIST_EXPANDED',
+            data
+        }
     }
 };

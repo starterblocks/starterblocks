@@ -10,7 +10,7 @@ const DEFAULT_BOX_WIDTH = 200;
 const DEFAULT_OFFSET_X = 0;
 const DEFAULT_OFFSET_Y = 20;
 function TooltipBox(props) {
-    const { challengeStep, tooltipRect, isOpen, setChallengeStep, setChallengeFinalStatus, setChallengePassed } = props;
+    const { challengeStep, tooltipRect, isOpen, setChallengeStep, setChallengeFinalStatus, setChallengePassed, setChallengeListExpanded } = props;
     const [style, setStyle] = useState({});
     const [arrowStyle, setArrowStyle] = useState({});
     const [content, setContent] = useState('');
@@ -90,6 +90,7 @@ function TooltipBox(props) {
             setChallengeFinalStatus('success');
             setChallengeStep(CONFIG.beginningStep);
             setChallengePassed(true);
+            setChallengeListExpanded(true);
         } else 
             setChallengeStep(challengeStep + 1);
     }
@@ -116,11 +117,12 @@ function TooltipBox(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const { setChallengeStep, setChallengeFinalStatus, setChallengePassed } = dispatch('starterblocks/sectionslist');
+        const { setChallengeStep, setChallengeFinalStatus, setChallengePassed, setChallengeListExpanded } = dispatch('starterblocks/sectionslist');
         return {
             setChallengeStep,
             setChallengeFinalStatus,
-            setChallengePassed
+            setChallengePassed,
+            setChallengeListExpanded
         };
     }),
 

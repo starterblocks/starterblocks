@@ -183,6 +183,9 @@ registerStore('starterblocks/sectionslist', {
         },
         getChallengePassed(state) {
             return state.challenge.passed;
+        },
+        getChallengeListExpanded(state) {
+            return state.challenge.listExpanded;
         }
     },
 

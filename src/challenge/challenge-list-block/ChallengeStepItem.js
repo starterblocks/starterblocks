@@ -12,7 +12,7 @@ const {useState, useEffect} = wp.element;
 // currentStep : indicates where the step is
 // step: 1~8 etc
 export default function ChallengeStepItem(props) {
-    const {currentStep, step, caption} = props;
+    const {currentStep, step, caption, finalStatus} = props;
     const [iconClassname, setIconClassname] = useState('fa circle');
     const [itemClassname, setItemClassname] = useState('challenge-item');
     useEffect(() => {
@@ -24,11 +24,11 @@ export default function ChallengeStepItem(props) {
             setItemClassname('challenge-item challenge-item-current');
             setIconClassname('fas fa-circle');
         } 
-        if (currentStep > step) {
+        if (currentStep > step || finalStatus) {
             setItemClassname('challenge-item challenge-item-completed');
             setIconClassname('fas fa-check-circle');
         }
-    }, [step, currentStep]);
+    }, [step, currentStep, finalStatus]);
     
     return <li className={itemClassname}><i className={iconClassname} />{caption}</li>;
 }

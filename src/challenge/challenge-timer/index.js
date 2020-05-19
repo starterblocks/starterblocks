@@ -7,7 +7,7 @@ import config from '../config';
 import helper from '../helper';
 import classnames from 'classnames';
 const {compose} = wp.compose;
-const {withSelect} = wp.data;
+const {withSelect, withDispatch} = wp.data;
 const {useState, useEffect, useRef} = wp.element;
 
 function useInterval(callback, delay) {
@@ -31,7 +31,7 @@ function useInterval(callback, delay) {
 }
 
 function ChallengeTimer(props) {
-    const {started, closed, setClosed, isChallengeOpen, finalStatus} = props;
+    const {started, expanded, setChallengeListExpanded, isChallengeOpen, finalStatus} = props;
     const [secondsLeft, setSecondsLeft] = useState(helper.getSecondsLeft());
     const [paused, setPaused] = useState(false);
     
@@ -76,7 +76,7 @@ function ChallengeTimer(props) {
                 <h3>{__('StarterBlocks Challenge', starterblocks.i18n)}</h3>
                 <p><span>{helper.getFormatted(secondsLeft)}</span>{__(' remaining', starterblocks.i18n)}</p>
             </div>
-            <div className={classnames('caret-icon', {'closed': closed})} onClick={() => setClosed(!closed)}>
+            <div className={classnames('caret-icon', {'closed': expanded})} onClick={() => setChallengeListExpanded(!expanded)}>
                 <i className="fa fa-caret-down"></i>
             </div>
         </div>
@@ -86,11 +86,18 @@ function ChallengeTimer(props) {
 
 
 export default compose([
+    withDispatch((dispatch) => {
+        const {setChallengeListExpanded} = dispatch('starterblocks/sectionslist');
+        return {
+            setChallengeListExpanded
+        };
+    }),
     withSelect((select) => {
-        const {getChallengeOpen, getChallengeFinalStatus} = select('starterblocks/sectionslist');
+        const {getChallengeOpen, getChallengeFinalStatus, getChallengeListExpanded} = select('starterblocks/sectionslist');
         return {
             isChallengeOpen: getChallengeOpen(),
-            finalStatus: getChallengeFinalStatus()
+            finalStatus: getChallengeFinalStatus(),
+            expanded: getChallengeListExpanded()
         };
     })
 ])(ChallengeTimer);

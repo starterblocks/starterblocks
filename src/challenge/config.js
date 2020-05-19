@@ -158,8 +158,9 @@ export default {
                 const openedPanel = document.getElementsByClassName('editor-page-attributes__template');
                 if (openedPanel && openedPanel.length > 0) {
                     let openPanel = openedPanel[0].getBoundingClientRect();
-                    let box = {top: openPanel.top, left: openPanel.left - 250};
+                    let box = {top: openPanel.top - 120, left: openPanel.left - 250};
                     dispatch('starterblocks/sectionslist').setChallengeTooltipRect(box);
+                    dispatch('starterblocks/sectionslist').setChallengeListExpanded(false);
                 }
             },
             position: 'center'
