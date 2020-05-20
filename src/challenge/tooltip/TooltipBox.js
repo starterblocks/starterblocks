@@ -4,7 +4,7 @@ const { useState, useEffect } = wp.element;
 import {ModalManager} from '~starterblocks/modal-manager';
 import CONFIG from '../config';
 const ARROW_BOX = 30;
-const DEFAULT_BOX_WIDTH = 200;
+const DEFAULT_BOX_WIDTH = 250;
 const DEFAULT_BOX_HEIGHT = 300;
 const DEFAULT_OFFSET_X = 0;
 const DEFAULT_OFFSET_Y = 20;
@@ -52,6 +52,8 @@ function TooltipBox(props) {
                 return [boxWidth / 2 + arrowOffsetX - ARROW_BOX / 2, arrowOffsetY];
             case 'left':
                 return [arrowOffsetX, arrowOffsetY + boxHeight / 2 - ARROW_BOX / 2];
+            case 'right':
+                return [boxWidth + arrowOffsetX, arrowOffsetY + boxHeight / 2 - ARROW_BOX / 2];
             default:
                 return [arrowOffsetX, arrowOffsetY];
         }
@@ -102,7 +104,7 @@ function TooltipBox(props) {
                     setWrapperClassname('challenge-tooltip tooltipster-sidetip tooltipster-right');
                     break;
                 default:
-                    setWrapperClassname('challenge-tooltip tooltipster-sidetip');
+                    setWrapperClassname('challenge-tooltip tooltipster-sidetip tooltipster-left');
             }
             
         }

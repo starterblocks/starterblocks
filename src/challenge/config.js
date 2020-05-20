@@ -155,13 +155,29 @@ export default {
             selector: '.starterblocks-import-wizard-wrapper',
             caption: __('Import Wizard', starterblocks.i18n),
             content: __('When you click to import a template, sometimes you will be missing one of the required plugins. StarterBlocks will do its best to help you install what\'s missing. If some of them are premium plugins, you will be provided details on where you can get them.', starterblocks.i18n),
-            position: 'top',
+            direction: 'right',
+            offset: {
+                arrowX: 20,
+                arrowY: 0
+            },
             action: () => {
                 // if (ModalManager.isModalOpened() === false) ModalManager.open(<LibraryModal autoTourStart={false} />)
+                if (document.getElementsByClassName('tooltipster-box')) 
+                    document.getElementsByClassName('tooltipster-box')[0].style.display = 'none';
                 ModalManager.show();
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
-                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
+                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0]);
+                setTimeout(() => {
+                    const openedPanel = document.getElementsByClassName('starterblocks-modal-wrapper');
+                    if (openedPanel && openedPanel.length > 0) {
+                        let openPanel = openedPanel[0].getBoundingClientRect();
+                        let box = {top: openPanel.top + 90, left: openPanel.left - 320};
+                        dispatch('starterblocks/sectionslist').setChallengeTooltipRect(box);
+                    }
+                    if (document.getElementsByClassName('tooltipster-box')) 
+                        document.getElementsByClassName('tooltipster-box')[0].style.display = 'block';
+                }, 0)
             }
         },
         {
@@ -176,12 +192,22 @@ export default {
                 const openedPanel = document.getElementsByClassName('editor-page-attributes__template');
                 if (openedPanel && openedPanel.length > 0) {
                     let openPanel = openedPanel[0].getBoundingClientRect();
-                    let box = {top: openPanel.top - 120, left: openPanel.left - 250};
+                    let box = {top: openPanel.top, left: openPanel.left - 320};
                     dispatch('starterblocks/sectionslist').setChallengeTooltipRect(box);
                     dispatch('starterblocks/sectionslist').setChallengeListExpanded(false);
                 }
             },
-            position: 'center'
+            offset: {
+                x: 0,
+                y: 5,
+                arrowX: 40,
+                arrowY: 0
+            },
+            box: {
+                width: 250,
+                height: 169
+            },
+            direction: 'right'
         }
     ]
 };
