@@ -1,8 +1,8 @@
 import {__} from '@wordpress/i18n';
 import {compose} from '@wordpress/compose';
 import {withDispatch, withSelect} from '@wordpress/data';
-import { ModalManager } from '../../modal-manager';
-
+import {ModalManager} from '../../modal-manager';
+import ChallengeDot from '~starterblocks/challenge/tooltip/ChallengeDot';
 export function TabHeader(props) {
     const { activeItemType, searchContext, activeCollection } = props;
     const { setActiveItemType, setSearchContext } = props;
@@ -28,6 +28,7 @@ export function TabHeader(props) {
                     <div>
                         <i className="fas fa-search" />
                         <input type="search" placeholder={__('Type to search', starterblocks.i18n)} className="form-control" value={searchContext} onChange={onSearchContextUpdate} />
+                        <ChallengeDot step={1} />
                     </div>
                 }
             </div>
@@ -37,6 +38,7 @@ export function TabHeader(props) {
                 <button className={ isActive('page') } onClick={e => changeTab('page')}> {__('Pages', starterblocks.i18n)} </button>
                 <button className={ isActive('collection') } onClick={e => changeTab('collection')}> {__('Collections', starterblocks.i18n)} </button>
                 <button className={ isActive('saved') } onClick={e => changeTab('saved')}> {__('Saved', starterblocks.i18n)} </button>
+                <ChallengeDot step={0} />
                 <button className="starterblocks-builder-close-modal" onClick={e => { ModalManager.close() }} >
                     <i className={'fas fa-times'} />
                 </button>

@@ -1,5 +1,5 @@
 import React from 'react';
-const {Component, useState, useEffect, useRef} = wp.element;
+const {useState, useEffect, useRef} = wp.element;
 const {Spinner} = wp.components;
 import TextTransition, { presets } from 'react-text-transition';
 const {__} = wp.i18n

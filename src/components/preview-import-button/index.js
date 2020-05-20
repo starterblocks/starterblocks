@@ -1,13 +1,14 @@
 import {__} from '@wordpress/i18n';
 
 const {compose} = wp.compose;
-const {withDispatch} = wp.data;
+const {withDispatch, withSelect} = wp.data;
 import {openSitePreviewModal} from '~starterblocks/stores/actionHelper';
+import ChallengeDot from '~starterblocks/challenge/tooltip/ChallengeDot';
 import './style.scss'
 
 function PreviewImportButton(props) {
     const {data, index, pageData} = props;
-    const {setImportingTemplate} = props;
+    const {setImportingTemplate, tourActiveButtonGroup} = props;
     let spinner = null;
     const triggerImportTemplate = (data) => {
         if (spinner === null) {
@@ -30,6 +31,7 @@ function PreviewImportButton(props) {
                onClick={() => triggerImportTemplate(data)}>
                 <i className="fas fa-download"/>{__('Import', starterblocks.i18n)}
             </a>
+            {tourActiveButtonGroup && tourActiveButtonGroup.ID === pageData[index].ID && <ChallengeDot step={4} /> }
         </div>
     );
 }
@@ -43,6 +45,12 @@ export default compose([
 
         return {
             setImportingTemplate
+        };
+    }),
+    withSelect((select, props) => {
+        const {getTourActiveButtonGroup} = select('starterblocks/sectionslist');
+        return {
+            tourActiveButtonGroup: getTourActiveButtonGroup()
         };
     })
 ])(PreviewImportButton);

@@ -52,7 +52,7 @@ export default function SidebarContent(props) {
                                 <ul>
                                     {
                                         installDependencies.map(pluginKey => {
-                                            const pluginInstance = plugins[pluginKey];
+                                            const pluginInstance = starterblocks.supported_plugins[pluginKey];
                                             if (!pluginInstance) return null;
                                             const IconComponent = Icons[pluginKey];
                                             return (
@@ -76,7 +76,7 @@ export default function SidebarContent(props) {
                                 <ul>
                                     {
                                         proDependencies.map(pluginKey => {
-                                            const pluginInstance = plugins[pluginKey];
+                                            const pluginInstance = starterblocks.supported_plugins[pluginKey];
                                             if (!pluginInstance) return null;
                                             const IconComponent = Icons[pluginKey];
                                             return (

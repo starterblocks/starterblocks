@@ -1,7 +1,8 @@
 const {__} = wp.i18n;
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
-
+const {useState, useEffect} = wp.element;
+import ChallengeDot from '~starterblocks/challenge/tooltip/ChallengeDot';
 import {IconButton} from '@wordpress/components'
 import SVGViewFew from './images/view-few.svg'
 import SVGViewMany from './images/view-many.svg'
@@ -10,29 +11,19 @@ import {reloadLibrary} from '~starterblocks/stores/actionHelper';
 import './style.scss'
 
 function TemplateListSubHeader(props) {
-    const {itemType, activePriceFilter, sortBy, activeCollection, statistics, pageData, columns, loading} = props;
-    const {setSortBy, setColumns, setTourOpen} = props;
+    const {itemType, sortBy, activeCollection, challengePassed, pageData, columns, loading} = props;
+    const {setSortBy, setColumns, setChallengeOpen} = props;
+    const [triggerTourClassname, setTriggerTourClassname] = useState('far fa-question-circle tour-icon');
+
+    useEffect(() => {
+        setTriggerTourClassname(challengePassed ? 'fas fa-trophy tour-icon' : 'far fa-question-circle tour-icon');
+    }, [challengePassed]);
 
     const itemTypeLabel = () => {
         if (itemType === 'section') return __('Sections', starterblocks.i18n);
         if (itemType === 'page') return __('Pages', starterblocks.i18n);
         if (itemType === 'collection' && activeCollection === null) return __('Collections', starterblocks.i18n);
         if (itemType === 'collection' && activeCollection !== null) return __('Sections', starterblocks.i18n);
-    };
-
-    const getClassnames = (priceFilter) => {
-        let classNames = [];
-        classNames.push((priceFilter === activePriceFilter) ? 'active' : '');
-        classNames.push(noStatistics(priceFilter) ? 'disabled' : '');
-        return classNames.join(' ');
-    };
-
-    const noStatistics = (priceFilter) => {
-        if (priceFilter === '') return false;
-        if (priceFilter === 'free')
-            return (!statistics['false'] || statistics['false'] < 1);
-        else
-            return (!statistics['true'] || statistics['true'] < 1);
     };
 
     const dataLength = pageData ? pageData.length : '';
@@ -46,12 +37,13 @@ function TemplateListSubHeader(props) {
         <div className="starterblocks-template-list-sub-header">
             <h4>
                 {pageTitle}
+                <ChallengeDot step={3} />
             </h4>
             <div className="starterblocks-template-filters">
                 <IconButton
-                    icon={<i className="far fa-question-circle tour-icon"/>}
+                    icon={<i className={triggerTourClassname} />}
                     label={__('Trigger Tour', starterblocks.i18n)}
-                    onClick={() => setTourOpen(true)}
+                    onClick={() => setChallengeOpen(true)}
                 />
 
                 <IconButton
@@ -93,29 +85,29 @@ function TemplateListSubHeader(props) {
 
 export default compose([
     withDispatch((dispatch) => {
-        const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setTourOpen} = dispatch('starterblocks/sectionslist');
+        const {setLibrary, setActivePriceFilter, setActiveCollection, setSortBy, setColumns, setChallengeOpen} = dispatch('starterblocks/sectionslist');
         return {
             setLibrary,
             setActivePriceFilter,
             setActiveCollection,
             setSortBy,
             setColumns,
-            setTourOpen
+            setChallengeOpen
         };
     }),
 
     withSelect((select, props) => {
-        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActivePriceFilter, getActiveCollection, getStatistics, getSortBy, getLoading} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveItemType, getColumns, getPageData, getActiveCollection, getStatistics, getSortBy, getLoading, getChallengePassed} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             itemType: getActiveItemType(),
             pageData: getPageData(),
             columns: getColumns(),
             statistics: getStatistics(),
-            activePriceFilter: getActivePriceFilter(),
             sortBy: getSortBy(),
             activeCollection: getActiveCollection(),
-            loading: getLoading()
+            loading: getLoading(),
+            challengePassed: getChallengePassed()
         };
     })
 ])(TemplateListSubHeader);

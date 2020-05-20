@@ -285,3 +285,23 @@ const isPluginProActivated = (pluginKey) => {
 export const missingPluginsArray = () => {
     return Object.keys(starterblocks.supported_plugins).filter(pluginKey =>  isProPlugin(pluginKey) && isPluginProActivated(pluginKey) === false);
 }
+
+
+
+/**
+ * Get last saved step.
+ */
+export const loadChallengeStep = () => {
+    var step = localStorage.getItem( 'starterblocksChallengeStep' );
+    if (step === null)
+        return -1;
+    step = parseInt( step, 10 );
+    return step;
+}
+
+/**
+ * Save Challenge step.
+ */
+export const saveChallengeStep = (step) => {
+    localStorage.setItem( 'starterblocksChallengeStep', step );
+}

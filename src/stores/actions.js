@@ -111,5 +111,41 @@ export const actions = {
             type: 'SET_IMPORTING_TEMPLATE',
             importingTemplate
         }
+    },
+    setChallengeStep(data) {
+        return {
+            type: 'SET_CHALLENGE_STEP',
+            data
+        }
+    },
+    setChallengeOpen(data) {
+        return {
+            type: 'SET_CHALLENGE_OPEN',
+            data
+        }
+    },
+    setChallengeTooltipRect(data) {
+        return {
+            type: 'SET_CHALLENGE_TOOLTIP_RECT',
+            data
+        }
+    },
+    setChallengeFinalStatus(data) {
+        return {
+            type: 'SET_CHALLENGE_FINAL_STATUS',
+            data
+        }
+    },
+    setChallengePassed(data) {
+        return {
+            type: 'SET_CHALLENGE_PASSED',
+            data
+        }
+    },
+    setChallengeListExpanded(data){
+        return {
+            type: 'SET_CHALLENGE_LIST_EXPANDED',
+            data
+        }
     }
 };

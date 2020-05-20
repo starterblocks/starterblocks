@@ -1,6 +1,6 @@
 const {useState, useEffect} = wp.element;
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
+const {withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n
 
 import './style.scss'
@@ -9,7 +9,7 @@ import ButtonGroup from '~starterblocks/components/button-group';
 import {requiresInstall, requiresPro} from '~starterblocks/stores/dependencyHelper'
 
 function CollectionView(props) {
-    const {pageData, loading, activeCollectionData, activeItemType} = props;
+    const {pageData, activeCollectionData} = props;
     const {setActiveCollection} = props;
     const [previewData, setPreviewData] = useState(null);
     const [previewDataIndex, setPreviewDataIndex] = useState(0);

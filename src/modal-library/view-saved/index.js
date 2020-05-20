@@ -1,5 +1,5 @@
 const {apiFetch} = wp;
-const {Component, useState, useEffect} = wp.element;
+const {useState} = wp.element;
 const {compose} = wp.compose;
 const {withDispatch} = wp.data;
 const {Spinner} = wp.components;
@@ -13,7 +13,7 @@ import {Modal, ModalManager} from '../../modal-manager'
 import reject from 'lodash/reject';
 
 function SavedView(props) {
-    const {insertBlocks, removeBlock, discardAllErrorMessages, appendErrorMessage} = props;
+    const {insertBlocks, discardAllErrorMessages, appendErrorMessage} = props;
     const [savedSections, setSavedSections] = useState([]);
     const [dataLoaded, setDataLoaded] = useState(false);
     if (dataLoaded === false) {
@@ -123,8 +123,7 @@ function SavedView(props) {
 export default compose([
     withDispatch((dispatch) => {
         const {
-            insertBlocks,
-            removeBlock
+            insertBlocks
         } = dispatch('core/block-editor');
 
         const {
@@ -134,7 +133,6 @@ export default compose([
 
         return {
             insertBlocks,
-            removeBlock,
             appendErrorMessage,
             discardAllErrorMessages
         };

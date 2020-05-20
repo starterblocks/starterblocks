@@ -1,6 +1,6 @@
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
-const {useState, useEffect} = wp.element;
+const { useState, useEffect} = wp.element;
 import '../stores';
 
 import {Modal, ModalManager} from '../modal-manager'
@@ -8,9 +8,9 @@ import TabHeader from '../components/tab-header';
 import WithSidebarLayout from './layout-with-sidebar';
 import CollectionView from './view-collection';
 import SavedView from './view-saved';
-import PreviewModal from '../modal-preview';
 import ImportWizard from '../modal-import-wizard';
 import ErrorNotice from '../components/error-notice';
+import ChallengeFinalTemplate from '~starterblocks/challenge/final-templates';
 import FabWrapper from '../components/fab-wrapper';
 import {processImportHelper} from '~starterblocks/stores/actionHelper';
 import './style.scss'
@@ -18,7 +18,7 @@ import './style.scss'
 
 function LibraryModal(props) {
     const {
-        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate,
+        fetchLibraryFromAPI, activeCollection, activeItemType, errorMessages, importingTemplate, challengeFinalStatus,
         setLoading, setImportingTemplate
     } = props;
     const [loaded, setLoaded] = useState(false);
@@ -56,8 +56,6 @@ function LibraryModal(props) {
         }
     }, [escKeyPressed])
 
-
-
     const hasSidebar = () => {
         return ((activeItemType !== 'collection' || activeCollection === null) && activeItemType !== 'saved');
     }
@@ -85,6 +83,7 @@ function LibraryModal(props) {
             {
                 importingTemplate && <ImportWizard startImportTemplate={processImport} />
             }
+            { (challengeFinalStatus !== '') && <ChallengeFinalTemplate finalStatus={challengeFinalStatus} /> }
             <FabWrapper />
         </Modal>
     );
@@ -107,13 +106,14 @@ export default compose([
     }),
 
     withSelect((select) => {
-        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getImportingTemplate} = select('starterblocks/sectionslist');
+        const {fetchLibraryFromAPI, getActiveCollection, getActiveItemType, getErrorMessages, getImportingTemplate, getChallengeOpen, getChallengeFinalStatus} = select('starterblocks/sectionslist');
         return {
             fetchLibraryFromAPI,
             activeCollection: getActiveCollection(),
             activeItemType: getActiveItemType(),
             errorMessages: getErrorMessages(),
-            importingTemplate: getImportingTemplate()
+            importingTemplate: getImportingTemplate(),
+            challengeFinalStatus: getChallengeFinalStatus()
         };
     })
 ])(LibraryModal);

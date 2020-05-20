@@ -1,9 +1,7 @@
-const { Component, Fragment, useRef, useEffect } = wp.element;
-const { withSelect, select } = wp.data;
+const { Fragment } = wp.element;
 import Sidebar from '../sidebar';
 import TemplateListSubHeader from '~starterblocks/components/template-list-subheader';
 import TemplateList from '../view-template-list';
-
 
 export default function WithSidebarCollection (props) {
     return (

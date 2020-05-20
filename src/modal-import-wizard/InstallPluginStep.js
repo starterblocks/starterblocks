@@ -2,8 +2,8 @@ import {pluginInfo} from '~starterblocks/stores/dependencyHelper';
 
 const {apiFetch} = wp;
 const {compose} = wp.compose;
-const {withDispatch, withSelect, select} = wp.data;
-const {Component, Fragment, useState} = wp.element;
+const {withDispatch} = wp.data;
+const {Fragment, useState} = wp.element;
 const {__} = wp.i18n;
 
 function InstallPluginStep(props) {

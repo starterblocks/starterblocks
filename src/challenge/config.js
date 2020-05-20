@@ -1,55 +1,33 @@
-/**
- * WordPress dependencies
- */
 import {__} from '@wordpress/i18n'
-import {Tooltip} from '@wordpress/components';
-import './style.scss'
-
-import {sprintf, vsprintf} from 'sprintf-js'
-
-const {compose} = wp.compose;
-const {withDispatch, withSelect, select, subscribe} = wp.data;
-const {Component, useState, useEffect} = wp.element;
-/**
- * External dependencies
- */
-
-import {ModalManager} from '../modal-manager'
-import PreviewModal from '../modal-preview';
-import LibraryModal from '../modal-library';
-import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock';
-import Tour from 'reactour';
 import {animateScroll} from 'react-scroll';
-
-function StarterBlocksTour(props) {
-    const {autoTourStart} = props;
-    const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = props;
-    const {isTourOpen, getPageData} = props;
-    const [needUpdate, setNeedUpdate] = useState('');
-
-    useEffect(() => {
-        if (autoTourStart === true) {
-            setTourOpen(true);
-            delete starterblocks.tour;
-        }
-    }, [autoTourStart]);
-
-    const tourConfig = [
-        {
-            selector: '.starterblocks-pagelist-modal-inner',
-            content: __('Welcome to the StarterBlocks! Let\'s go over how to use our library.', starterblocks.i18n),
-            position: 'center',
-            stepInteraction: false,
-        },
+import {dispatch, select} from '@wordpress/data';
+const {setTourActiveButtonGroup, setImportingTemplate} = dispatch('starterblocks/sectionslist');
+const {getPageData} = select('starterblocks/sectionslist');
+import {ModalManager} from '~starterblocks/modal-manager';
+import PreviewModal from '~starterblocks/modal-preview';
+export default {
+    initialSecondsLeft: 300,
+    beginningStep: -1,
+    totalStep: 8,
+    list: [
         {
             selector: '[data-tut="tour__navigation"]',
-            content: ({goTo}) => (
+            caption: __('Template Type Tabs', starterblocks.i18n),
+            offset: {
+                x: 0,
+                y: 50,
+                arrowX: 0,
+                arrowY: -20
+            },
+            box: {
+                width: 250
+            },
+            direction: 'top',
+            content: () => (
                 <div>
                     These are the different types of templates we have.
                     <ul>
                         <li>
-
-
                             <strong>Sections</strong> are the building blocks of a page. Each "row" of content on a page we consider a section.
                         </li>
                         <li><strong>Pages</strong> are, you guessed it, a group of multiple sections making up a page.
@@ -60,13 +38,23 @@ function StarterBlocksTour(props) {
                         </li>
                     </ul>
                 </div>
-            ),
-            position: 'center'
+            )
         },
         {
             selector: '[data-tut="tour__filtering"]',
+            caption: __('Sidebar', starterblocks.i18n),
             content: __('This area is where you can search and filter to find the right kind of templates you want.', starterblocks.i18n),
-            position: 'right',
+            direction: 'left',
+            offset: {
+                x: 40,
+                y: 10,
+                arrowX: -20,
+                arrowY: 0
+            },
+            box: {
+                width: 250,
+                height: 130
+            },
             action: () => {
                 animateScroll.scrollToTop({
                     containerId: 'starterblocks-collection-modal-sidebar',
@@ -76,7 +64,17 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '[data-tut="tour__filtering"]',
-
+            caption: __('Plugins Filter', starterblocks.i18n),
+            offset: {
+                x: 40,
+                y: 10,
+                arrowX: -20,
+                arrowY: 0
+            },
+            box: {
+                width: 290,
+                height: 185
+            },
             content: () => (
                 <div>
                     Some templates require certain plugins. You can filter or select those templates. Hint, if the text
@@ -87,16 +85,26 @@ function StarterBlocksTour(props) {
             action: () => {
                 animateScroll.scrollToBottom({
                     containerId: 'starterblocks-collection-modal-sidebar',
-                    duration: 300,
+                    duration: 0,
                 });
             },
-
-            position: 'right'
+            direction: 'left'
         },
         {
             selector: '[data-tut="tour__main_body"]',
+            caption: __('Templates List', starterblocks.i18n),
             content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', starterblocks.i18n),
-            position: 'center',
+            direction: 'left',
+            offset: {
+                x: 40,
+                y: 10,
+                arrowX: -20,
+                arrowY: 0
+            },
+            box: {
+                width: 250,
+                height: 150
+            },
             action: () => {
                 animateScroll.scrollToTop({
                     containerId: 'starterblocks-collection-modal-sidebar',
@@ -107,6 +115,7 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '#modalContainer .starterblocks-single-item-inner:first-child',
+            caption: __('Template Hover', starterblocks.i18n),
             content: __('When you hover over a template you can see via icons what plugins are required for this template. You can then choose to Preview or Import a design.', starterblocks.i18n),
             action: () => {
                 ModalManager.closeCustomizer();
@@ -115,11 +124,21 @@ function StarterBlocksTour(props) {
                     setTourActiveButtonGroup(pageData[0])
                 }
             },
-            position: 'bottom'
+            direction: 'left',
+            offset: {
+                x: 40,
+                y: 10,
+                arrowX: -20,
+                arrowY: 0
+            },
+            box: {
+                width: 240,
+                height: 169
+            },
         },
         {
             selector: '.wp-full-overlay-sidebar',
-            // selector: '[data-tut="tour__preview_sidebar"]',
+            caption: __('Preview Dialog', starterblocks.i18n),
             content: __('This is the preview dialog. It gives more details about the template and helps you to see what you could expect the templates to look like.', starterblocks.i18n),
             action: () => {
                 setTourActiveButtonGroup(null);
@@ -135,79 +154,67 @@ function StarterBlocksTour(props) {
         },
         {
             selector: '.starterblocks-import-wizard-wrapper',
+            caption: __('Import Wizard', starterblocks.i18n),
             content: __('When you click to import a template, sometimes you will be missing one of the required plugins. StarterBlocks will do its best to help you install what\'s missing. If some of them are premium plugins, you will be provided details on where you can get them.', starterblocks.i18n),
-            position: 'top',
+            direction: 'right',
+            offset: {
+                x: 0,
+                y: 85,
+                arrowX: 40,
+                arrowY: 25
+            },
+            box: {
+                width: 250,
+                height: 169
+            },
             action: () => {
                 // if (ModalManager.isModalOpened() === false) ModalManager.open(<LibraryModal autoTourStart={false} />)
+                if (document.getElementsByClassName('tooltipster-box')) 
+                    document.getElementsByClassName('tooltipster-box')[0].style.display = 'none';
                 ModalManager.show();
                 ModalManager.closeCustomizer();
                 const pageData = getPageData();
-                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0])
-                setNeedUpdate(new Date().toString());
+                if (pageData && pageData.length > 0) setImportingTemplate(pageData[0]);
+                setTimeout(() => {
+                    const openedPanel = document.getElementsByClassName('starterblocks-modal-wrapper');
+                    if (openedPanel && openedPanel.length > 0) {
+                        let openPanel = openedPanel[0].getBoundingClientRect();
+                        let box = {top: openPanel.top + 90, left: openPanel.left - 320};
+                        dispatch('starterblocks/sectionslist').setChallengeTooltipRect(box);
+                    }
+                    if (document.getElementsByClassName('tooltipster-box')) 
+                        document.getElementsByClassName('tooltipster-box')[0].style.display = 'block';
+                }, 0)
             }
         },
         {
             selector: '.components-base-control.editor-page-attributes__template',
+            caption: __('Template Conflict', starterblocks.i18n),
             content: __('Sometimes your theme may conflict with a template. If you\'re on a page, you can set a page template and override your theme in different ways, including just passing it all together.', starterblocks.i18n),
             action: () => {
                 setImportingTemplate(null);
                 ModalManager.hide();
+                dispatch('core/edit-post').openGeneralSidebar('edit-post/document');
+                if (select('core/edit-post').isEditorPanelOpened('page-attributes') === false) dispatch('core/edit-post').toggleEditorPanelOpened('page-attributes');
+                const openedPanel = document.getElementsByClassName('editor-page-attributes__template');
+                if (openedPanel && openedPanel.length > 0) {
+                    let openPanel = openedPanel[0].getBoundingClientRect();
+                    let box = {top: openPanel.top, left: openPanel.left - 320};
+                    dispatch('starterblocks/sectionslist').setChallengeTooltipRect(box);
+                    dispatch('starterblocks/sectionslist').setChallengeListExpanded(false);
+                }
             },
-            position: 'center'
-        },
-        {
-            selector: '.starterblocks-pagelist-modal-inner',
-            content: __('Well, that is the tour. Take a look around. We hope you love StarterBlocks!', starterblocks.i18n),
-            action: () => {
-                ModalManager.show();
-                setNeedUpdate(new Date().toString());
+            offset: {
+                x: 0,
+                y: 5,
+                arrowX: 40,
+                arrowY: 0
             },
-            position: 'center'
-        },
-    ];
-
-
-    const accentColor = '#5cb7b7';
-    const disableBody = target => disableBodyScroll(target);
-    const enableBody = target => enableBodyScroll(target);
-
-    const onRequestClose = () => {
-        ModalManager.closeCustomizer();
-        setTourOpen(false);
-        setTourActiveButtonGroup(null);
-        setImportingTemplate(null);
-    }
-
-    return <Tour
-        onRequestClose={onRequestClose}
-        steps={tourConfig}
-        isOpen={isTourOpen}
-        onBeforeClose={() => ModalManager.show()}
-        update={needUpdate}
-        lastStepNextButton={<span className="button button-small">{__('Finish', starterblocks.i18n)}</span>}
-        rounded={0}
-        accentColor={accentColor}
-        disableInteraction={true}
-    />
-}
-
-
-export default compose([
-    withDispatch((dispatch) => {
-        const {setTourActiveButtonGroup, setTourPreviewVisible, setTourOpen, setImportingTemplate} = dispatch('starterblocks/sectionslist');
-        return {
-            setTourActiveButtonGroup,
-            setTourPreviewVisible,
-            setTourOpen,
-            setImportingTemplate
-        };
-    }),
-
-    withSelect((select, props) => {
-        const {getTourOpen, getPageData} = select('starterblocks/sectionslist');
-        return {
-            isTourOpen: getTourOpen(),
-            getPageData
-        };
-    })
-])(StarterBlocksTour);
+            box: {
+                width: 250,
+                height: 169
+            },
+            direction: 'right'
+        }
+    ]
+};

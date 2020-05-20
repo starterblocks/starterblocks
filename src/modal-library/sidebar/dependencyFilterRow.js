@@ -17,7 +17,6 @@ function DependencyFilterRow(props) {
     const [pluginInstanceName, setPluginInstanceName] = useState('');
     const [pluginClassname, setPluginClassname] = useState('');
 
-    
     useEffect(() => {
         const pluginInstance = pluginInfo(pluginKey);      
         if (!pluginKey || pluginKey === 'none') {

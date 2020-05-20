@@ -1,6 +1,5 @@
-const {Component, Fragment} = wp.element;
 const {compose} = wp.compose;
-const {select, withDispatch, withSelect} = wp.data;
+const {withDispatch, withSelect} = wp.data;
 const {__} = wp.i18n;
 
 import uniq from 'lodash/uniq';

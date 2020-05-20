@@ -1,4 +1,3 @@
-const {withSelect} = wp.data;
 import {Tooltip} from '@wordpress/components';
 import * as Icons from '~starterblocks/icons'
 import './style.scss'
