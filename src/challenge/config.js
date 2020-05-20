@@ -15,12 +15,14 @@ export default {
             caption: __('Template Type Tabs', starterblocks.i18n),
             offset: {
                 x: 0,
-                y: 20
+                y: 50,
+                arrowX: 0,
+                arrowY: -20
             },
             box: {
                 width: 250
             },
-            direction: 'bottom',
+            direction: 'top',
             content: () => (
                 <div>
                     These are the different types of templates we have.
@@ -36,20 +38,22 @@ export default {
                         </li>
                     </ul>
                 </div>
-            ),
-            position: 'center'
+            )
         },
         {
             selector: '[data-tut="tour__filtering"]',
             caption: __('Sidebar', starterblocks.i18n),
             content: __('This area is where you can search and filter to find the right kind of templates you want.', starterblocks.i18n),
-            position: 'right',
+            direction: 'left',
             offset: {
-                x: 0,
-                y: 20
+                x: 40,
+                y: 10,
+                arrowX: -20,
+                arrowY: 0
             },
             box: {
-                width: 250
+                width: 250,
+                height: 130
             },
             action: () => {
                 animateScroll.scrollToTop({
@@ -62,11 +66,14 @@ export default {
             selector: '[data-tut="tour__filtering"]',
             caption: __('Plugins Filter', starterblocks.i18n),
             offset: {
-                x: 0,
-                y: 20
+                x: 40,
+                y: 10,
+                arrowX: -20,
+                arrowY: 0
             },
             box: {
-                width: 250
+                width: 290,
+                height: 185
             },
             content: () => (
                 <div>
@@ -81,17 +88,18 @@ export default {
                     duration: 0,
                 });
             },
-
-            position: 'right'
+            direction: 'left'
         },
         {
             selector: '[data-tut="tour__main_body"]',
             caption: __('Templates List', starterblocks.i18n),
             content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', starterblocks.i18n),
-            position: 'center',
+            direction: 'top',
             offset: {
                 x: 0,
-                y: 20
+                y: 50,
+                arrowX: 0,
+                arrowY: -10
             },
             box: {
                 width: 250
@@ -115,7 +123,17 @@ export default {
                     setTourActiveButtonGroup(pageData[0])
                 }
             },
-            position: 'bottom'
+            direction: 'left',
+            offset: {
+                x: 40,
+                y: 5,
+                arrowX: -20,
+                arrowY: 0
+            },
+            box: {
+                width: 240,
+                height: 169
+            },
         },
         {
             selector: '.wp-full-overlay-sidebar',

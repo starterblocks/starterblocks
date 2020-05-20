@@ -120,15 +120,19 @@ span.wpforms-challenge-dot {
 }
 
 .challenge-tooltip.tooltipster-sidetip.tooltipster-top .tooltipster-arrow-background {
-    border-top-color: #fff;
+    border-bottom-color: #fff;
 }
 
-.challenge-tooltip.tooltipster-sidetip.tooltipster-right .tooltipster-arrow-background {
+.challenge-tooltip.tooltipster-sidetip.tooltipster-left .tooltipster-arrow-background {
     border-right-color: #fff;
 }
 
 .challenge-tooltip.tooltipster-sidetip.tooltipster-bottom .tooltipster-arrow-background {
-    border-bottom-color: #fff;
+    border-top-color: #fff;
+}
+
+.challenge-tooltip.tooltipster-sidetip.tooltipster-right .tooltipster-arrow-background {
+    border-left-color: #fff;
 }
 
 .block-editor-page .edit-post-layout .components-notice-list > div {

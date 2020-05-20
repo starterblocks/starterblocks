@@ -3,12 +3,13 @@ const { withDispatch, withSelect } = wp.data;
 const { useState, useEffect } = wp.element;
 import {ModalManager} from '~starterblocks/modal-manager';
 import CONFIG from '../config';
-const PADDING_X = 20;
-const PADDING_Y = 0;
-const ARROW_HEIGHT = 20;
+const ARROW_BOX = 30;
 const DEFAULT_BOX_WIDTH = 200;
+const DEFAULT_BOX_HEIGHT = 300;
 const DEFAULT_OFFSET_X = 0;
 const DEFAULT_OFFSET_Y = 20;
+const DEFAULT_ARROW_OFFSET_X = 20;
+const DEFAULT_ARROW_OFFSET_Y = 20;
 function TooltipBox(props) {
     const { challengeStep, tooltipRect, isOpen, setChallengeStep, setChallengeFinalStatus, setChallengePassed, setChallengeListExpanded } = props;
     const [style, setStyle] = useState({});
@@ -20,43 +21,61 @@ function TooltipBox(props) {
         return ((challengeStep >= 0 || challengeStep > CONFIG.totalStep) && isOpen);
     }
 
-    const calculateLeftWithStepInformation = () => {
+    const calculateWithStepInformation = () => {
         const stepInformation = CONFIG.list[challengeStep];
-        const boxWidth = stepInformation.box ? stepInformation.box.width : DEFAULT_BOX_WIDTH;
+        const boxWidth = (stepInformation.box && stepInformation.box.width) ? stepInformation.box.width : DEFAULT_BOX_WIDTH;
+        const boxHeight = (stepInformation.box && stepInformation.box.height) ? stepInformation.box.height : DEFAULT_BOX_HEIGHT;
         const offsetX = stepInformation.offset ? stepInformation.offset.x :DEFAULT_OFFSET_X;
         const offsetY = stepInformation.offset ? stepInformation.offset.y :DEFAULT_OFFSET_Y;
         switch(stepInformation.direction) {
-            case 'left':
-                return (tooltipRect.left + offsetX - boxWidth);
             case 'right':
-                return (tooltipRect.left + offsetX + boxWidth);
+                return [tooltipRect.left + offsetX, tooltipRect.top + offsetY - boxHeight / 2];
+            case 'left':
+                return [tooltipRect.left + offsetX, tooltipRect.top + offsetY - boxHeight / 2];
             case 'top':
+                return [tooltipRect.left + offsetX - boxWidth / 2, tooltipRect.top + offsetY ];
             case 'bottom':
-                return (tooltipRect.left + offsetX - boxWidth / 2);
+                return [tooltipRect.left + offsetX - boxWidth / 2, tooltipRect.top + offsetY];
             default:
-                return (tooltipRect.left + offsetX);
-        } 
+                return [tooltipRect.left + offsetX, tooltipRect.top + offsetY];
+        }
+    }
+
+    const calculateArrowOffset = () => {
+        const stepInformation = CONFIG.list[challengeStep];
+        const boxWidth = (stepInformation.box && stepInformation.box.width) ? stepInformation.box.width : DEFAULT_BOX_WIDTH;
+        const boxHeight = (stepInformation.box && stepInformation.box.height) ? stepInformation.box.height : DEFAULT_BOX_HEIGHT;
+        const arrowOffsetX = (stepInformation.offset && isNaN(stepInformation.offset.arrowX) === false) ? stepInformation.offset.arrowX : DEFAULT_ARROW_OFFSET_X;
+        const arrowOffsetY = (stepInformation.offset && isNaN(stepInformation.offset.arrowY) === false) ? stepInformation.offset.arrowY : DEFAULT_ARROW_OFFSET_Y;
+        switch(stepInformation.direction) {
+            case 'top':
+                return [boxWidth / 2 + arrowOffsetX - ARROW_BOX / 2, arrowOffsetY];
+            case 'left':
+                return [arrowOffsetX, arrowOffsetY + boxHeight / 2 - ARROW_BOX / 2];
+            default:
+                return [arrowOffsetX, arrowOffsetY];
+        }
     }
     // adjust position and content upon steps change
     useEffect(() => {
         if (isVisible() && tooltipRect) {
             const stepInformation = CONFIG.list[challengeStep];
             if (stepInformation) {
-                const offsetX = stepInformation.offset ? stepInformation.offset.x :DEFAULT_OFFSET_X;
-                const offsetY = stepInformation.offset ? stepInformation.offset.y :DEFAULT_OFFSET_Y;
+                const [boxLeft, boxTop] = calculateWithStepInformation();
+                const [arrowOffsetX, arrowOffsetY] = calculateArrowOffset();
                 setStyle({
                     ...style,
                     display: 'block',
                     width: stepInformation.box ? stepInformation.box.width : DEFAULT_BOX_WIDTH,
-                    left: calculateLeftWithStepInformation(),
-                    top: tooltipRect.top + offsetY + PADDING_Y + ARROW_HEIGHT
+                    left: boxLeft,
+                    top: boxTop//tooltipRect.top + offsetY + PADDING_Y + ARROW_HEIGHT
                 });
                 setContent(stepInformation.content);
                 setArrowStyle({
                     ...arrowStyle,
                     display: 'block',
-                    left: tooltipRect.left + offsetX,
-                    top: tooltipRect.top + offsetY + PADDING_Y
+                    left: boxLeft + arrowOffsetX,  // calculateLeftWithStepInformation(),
+                    top: boxTop + arrowOffsetY // tooltipRect.top + offsetY + PADDING_Y
                 });
             }
         } else {
@@ -75,6 +94,12 @@ function TooltipBox(props) {
                     break;
                 case 'bottom':
                     setWrapperClassname('challenge-tooltip tooltipster-sidetip tooltipster-bottom');
+                    break;
+                case 'left':
+                    setWrapperClassname('challenge-tooltip tooltipster-sidetip tooltipster-left');
+                    break;
+                case 'right':
+                    setWrapperClassname('challenge-tooltip tooltipster-sidetip tooltipster-right');
                     break;
                 default:
                     setWrapperClassname('challenge-tooltip tooltipster-sidetip');
