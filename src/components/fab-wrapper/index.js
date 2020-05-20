@@ -1,50 +1,74 @@
-import { Fab, Action } from 'react-tiny-fab';
+import {Fab, Action} from 'react-tiny-fab';
 import config from './config';
 import './styles.scss';
+import {__} from '@wordpress/i18n';
+
+
+
+import * as Icons from '~starterblocks/icons'
+
 export default function FabWrapper() {
-    const { mainButtonStyles, actionButtonStyles, position, event, alwaysShowTitle } = config;
-    
+    const {mainButtonStyles, actionButtonStyles, position, event, alwaysShowTitle} = config;
+
     return (
         <Fab
-                mainButtonStyles={mainButtonStyles}
-                position={position}
-                icon="+"
-                event={event}
-                alwaysShowTitle={alwaysShowTitle}
-            >
+            mainButtonStyles={mainButtonStyles}
+            position={position}
+            icon={Icons.StarterBlocksIcon()}
+            event={event}
+            // onClick={testing}
+
+            text={__('See Quick Links', starterblocks.i18n)}
+        >
+
+            {/*<Action*/}
+            {/*    style={actionButtonStyles}*/}
+            {/*    text={__('Suggest a Feature', starterblocks.i18n)}*/}
+            {/*    onClick={e => {*/}
+            {/*        window.open(starterblocks.u, "_blank")*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    <i className="fa fa-lightbulb-o"/>*/}
+            {/*</Action>*/}
             <Action
                 style={actionButtonStyles}
-                text="Email"
+                text={__('Join Our Community', starterblocks.i18n)}
                 onClick={e => {
-                    alert('I printed the event to the console.');
-                    console.log(e);
+                    window.open('https://www.facebook.com/groups/reduxframework', '_blank')
                 }}
             >
-                @
+                <i className="fa fa-comments"/>
             </Action>
-            <Action
-                style={actionButtonStyles}
-                text="Notifications"
-                onClick={() => alert('Here is your notification.')}
-            >
-                🔔
-            </Action>
-            <Action style={actionButtonStyles} text="Fullscreen" onClick={() => alert('What?')}>
-                📄
-            </Action>
-            <Action style={actionButtonStyles} text="Search" onClick={() => alert('No search...')}>
-                🔍
-            </Action>
-            <Action style={actionButtonStyles} text="Editor" onClick={e => console.log(e)}>
-                🖊️
-            </Action>
-            <Action
-                style={actionButtonStyles}
-                text="Like it!"
-                onClick={() => alert('This is fantastic!')}
-            >
-                👍
-            </Action>
+            {/*<Action*/}
+            {/*    style={actionButtonStyles}*/}
+            {/*    text={__('Take Our Tour', starterblocks.i18n)}*/}
+            {/*    onClick={e => {*/}
+            {/*        setTourOpen();*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    <i className="fas fa-map-signs"/>*/}
+            {/*</Action>*/}
+            {/*<Action*/}
+            {/*    style={actionButtonStyles}*/}
+            {/*    text={__('Support & Docs', starterblocks.i18n)}*/}
+            {/*    onClick={e => {*/}
+            {/*        window.open('https://docs.redux.io/', "_blank")*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    <i className="fa fa-life-ring"/>*/}
+            {/*</Action>*/}
+            {
+                starterblocks.mokama !== 1 &&
+                <Action
+                    style={actionButtonStyles}
+                    text={__('Upgrade to Redux Pro', starterblocks.i18n)}
+                    onClick={e => {
+                        window.open(starterblocks.u, '_blank')
+                    }}
+                >
+                    <i className="fa fa-star"/>
+                </Action>
+            }
         </Fab>
     );
 }

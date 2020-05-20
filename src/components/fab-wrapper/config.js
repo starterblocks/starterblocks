@@ -3,12 +3,18 @@ export default {
         bottom: 0,
         right: 0,
     },
-    event: 'hover',
-    alwaysShowTitle: false,
+    event: 'click',
+
     mainButtonStyles: {
-        backgroundColor: '#27ae60',
+
+        backgroundColor: '#c751ff',
+        fill: '#ffffff',
+        transform: 'none',
+        transition: 'none',
+        transformOrigin: 'none',
     },
+    alwaysShowTitle: false,
     actionButtonStyles: {
-        backgroundColor: '#16a085',
+        backgroundColor: '#7557ff',
     }
 }

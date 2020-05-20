@@ -45,16 +45,15 @@ function DependencyFilter(props) {
                         <Tooltip text={__('Select All', starterblocks.i18n)}><a href="#" onClick={() => setAllCheckedAs(true)}>{__('All', starterblocks.i18n)}</a></Tooltip>
                         <span>&nbsp; / &nbsp;</span>
                         <Tooltip text={__('Native Blocks Only', starterblocks.i18n)}><a href="#" onClick={() => setAllCheckedAs(false)}>{__('None', starterblocks.i18n)}</a></Tooltip>
-
-
-                        <span>&nbsp; / &nbsp;</span>
-                        <Tooltip text={__('Reset Dependencies', starterblocks.i18n)}><a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>
-                            <i className="fas fa-undo" /></a></Tooltip>
-                        
                         <span>&nbsp; / &nbsp;</span>
                         <Tooltip text={__('Installed Dependencies', starterblocks.i18n)}><a href="#" onClick={() => setDependencyFilters(getInstalledDependencies(dependencyFilters))}>
-                            Installed</a></Tooltip>
+                            {__('Installed', starterblocks.i18n)}</a></Tooltip>
+                        <span>&nbsp; / &nbsp;</span>
+                        <Tooltip text={__('Reset Dependencies', starterblocks.i18n)}>
+                            <a href="#" onClick={() => setDependencyFilters(getDefaultDependencies(dependencyFilters))}>
+                            <i className="fas fa-undo" /></a></Tooltip>
                         <ChallengeDot step={2} />
+
                     </div>
                     <ul className="starterblocks-sidebar-dependencies">
                         { (loading === false) &&

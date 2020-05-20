@@ -1,6 +1,6 @@
 {
     "name": "starterblocks",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "The ultimate gutenberg template library.",
     "author": "Dovy Paukstys of Redux",
     "license": "GPL-3.0",
@@ -39,7 +39,7 @@
         "react-spring": "^8.0.27",
         "react-tabs": "^3.1.0",
         "react-text-transition": "^1.0.2",
-        "react-tiny-fab": "^3.4.1",
+        "react-tiny-fab": "^3.5.0",
         "reactour": "^1.16.3",
         "simple-html-tokenizer": "^0.5.8",
         "sprintf-js": "^1.1.2",
