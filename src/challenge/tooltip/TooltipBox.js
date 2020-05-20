@@ -35,7 +35,7 @@ function TooltipBox(props) {
             case 'top':
                 return [tooltipRect.left + offsetX - boxWidth / 2, tooltipRect.top + offsetY ];
             case 'bottom':
-                return [tooltipRect.left + offsetX - boxWidth / 2, tooltipRect.top + offsetY];
+                return [tooltipRect.left + offsetX - boxWidth / 2, tooltipRect.top - boxHeight + offsetY];
             default:
                 return [tooltipRect.left + offsetX, tooltipRect.top + offsetY];
         }
@@ -49,7 +49,9 @@ function TooltipBox(props) {
         const arrowOffsetY = (stepInformation.offset && isNaN(stepInformation.offset.arrowY) === false) ? stepInformation.offset.arrowY : DEFAULT_ARROW_OFFSET_Y;
         switch(stepInformation.direction) {
             case 'top':
-                return [boxWidth / 2 + arrowOffsetX - ARROW_BOX / 2, arrowOffsetY];
+                return [boxWidth / 2 + arrowOffsetX, arrowOffsetY];
+            case 'bottom':
+                return [boxWidth / 2 + arrowOffsetX, arrowOffsetY];
             case 'left':
                 return [arrowOffsetX, arrowOffsetY + boxHeight / 2 - ARROW_BOX / 2];
             case 'right':

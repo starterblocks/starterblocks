@@ -94,15 +94,16 @@ export default {
             selector: '[data-tut="tour__main_body"]',
             caption: __('Templates List', starterblocks.i18n),
             content: __('This area is where the templates will show up that match the filters you\'ve selected. You can click on many of them to preview or import them.', starterblocks.i18n),
-            direction: 'top',
+            direction: 'left',
             offset: {
-                x: 0,
-                y: 50,
-                arrowX: 0,
-                arrowY: -10
+                x: 40,
+                y: 10,
+                arrowX: -20,
+                arrowY: 0
             },
             box: {
-                width: 250
+                width: 250,
+                height: 150
             },
             action: () => {
                 animateScroll.scrollToTop({
@@ -126,7 +127,7 @@ export default {
             direction: 'left',
             offset: {
                 x: 40,
-                y: 5,
+                y: 10,
                 arrowX: -20,
                 arrowY: 0
             },
@@ -157,8 +158,14 @@ export default {
             content: __('When you click to import a template, sometimes you will be missing one of the required plugins. StarterBlocks will do its best to help you install what\'s missing. If some of them are premium plugins, you will be provided details on where you can get them.', starterblocks.i18n),
             direction: 'right',
             offset: {
-                arrowX: 20,
-                arrowY: 0
+                x: 0,
+                y: 85,
+                arrowX: 40,
+                arrowY: 25
+            },
+            box: {
+                width: 250,
+                height: 169
             },
             action: () => {
                 // if (ModalManager.isModalOpened() === false) ModalManager.open(<LibraryModal autoTourStart={false} />)

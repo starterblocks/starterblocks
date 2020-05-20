@@ -86,6 +86,10 @@
             top: 50%;
             left: 40px;
             transform: translateY(-50%);
+            &.challenge-dot {
+                right: 20px;
+                left: auto;
+            }
         }
 
         input {
@@ -206,6 +210,9 @@
         color: #0e2244;
         font-weight: 500;
         margin: 0;
+        i.challenge-dot {
+            margin-left: 10px;
+        }
     }
 
     .starterblocks-template-filters {

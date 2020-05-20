@@ -28,6 +28,7 @@ export function TabHeader(props) {
                     <div>
                         <i className="fas fa-search" />
                         <input type="search" placeholder={__('Type to search', starterblocks.i18n)} className="form-control" value={searchContext} onChange={onSearchContextUpdate} />
+                        <ChallengeDot step={1} />
                     </div>
                 }
             </div>

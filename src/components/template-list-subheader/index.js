@@ -2,6 +2,7 @@ const {__} = wp.i18n;
 const {compose} = wp.compose;
 const {withDispatch, withSelect} = wp.data;
 const {useState, useEffect} = wp.element;
+import ChallengeDot from '~starterblocks/challenge/tooltip/ChallengeDot';
 import {IconButton} from '@wordpress/components'
 import SVGViewFew from './images/view-few.svg'
 import SVGViewMany from './images/view-many.svg'
@@ -36,6 +37,7 @@ function TemplateListSubHeader(props) {
         <div className="starterblocks-template-list-sub-header">
             <h4>
                 {pageTitle}
+                <ChallengeDot step={3} />
             </h4>
             <div className="starterblocks-template-filters">
                 <IconButton

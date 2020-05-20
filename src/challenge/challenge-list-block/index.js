@@ -35,12 +35,14 @@ function ChallengeListBlock(props) {
                     })
                 }
             </ul>
-            <div className={buttonRowClassname}>
-                {challengeStep === CONFIG.beginningStep && 
-                    <button className='btn-challenge-start' onClick={onStarted}>{__('Start Challenge', starterblocks.i18n)}</button>}
-                {challengeStep === CONFIG.beginningStep && <button className='btn-challenge-skip' onClick={onCancelChallenge}>{__('Skip Challenge', starterblocks.i18n)}</button>}
-                {challengeStep !== CONFIG.beginningStep && <button className='btn-challenge-cancel' onClick={onCancelChallenge}>{__('Cancel Challenge', starterblocks.i18n)}</button>}
-            </div>
+            { finalStatus === '' &&
+                <div className={buttonRowClassname}>
+                    {challengeStep === CONFIG.beginningStep && 
+                        <button className='btn-challenge-start' onClick={onStarted}>{__('Start Challenge', starterblocks.i18n)}</button>}
+                    {challengeStep === CONFIG.beginningStep && <button className='btn-challenge-skip' onClick={onCancelChallenge}>{__('Skip Challenge', starterblocks.i18n)}</button>}
+                    {challengeStep !== CONFIG.beginningStep && <button className='btn-challenge-cancel' onClick={onCancelChallenge}>{__('Cancel Challenge', starterblocks.i18n)}</button>}
+                </div>
+            }
         </div>
     );
 
