@@ -4,11 +4,11 @@
  * Plugin URI:        https://starterblocks.io/
  * Description:       StarterBlocks lets you build full pages with Gutenberg. Import nearly 1,000+ full page layouts and designs! True page builder experience.
  * Version: 		  1.0.7
- * Author:            Redux.io, Dovy Paukstys
- * Author URI:        https://redux.io/
+ * Author:            Extendify
+ * Author URI:        https://extendify.com
  * Text Domain:       starterblocks
  * Requires at least: 5.0
- * Tested up to:      5.3
+ * Tested up to:      5.9.2
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */

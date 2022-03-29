@@ -205,7 +205,7 @@ class API {
                 $data['message'] = "Fetching failed, used a cached version.";
             } else {
                 $data = array(
-                    'message' => 'Error Fetching'
+                    'message' => 'Error Fetching',
                 );
             }
         } else {
@@ -219,10 +219,10 @@ class API {
 
 
     /**
-     * @since 1.0.0
-     * Get library index. Support for library, collections, pages, sections all in a single request.
+     * @param WP_REST_Request $request
      *
-     * @param     WP_REST_Request     $request
+     * @since 1.0.0
+     *        Get library index. Support for library, collections, pages, sections all in a single request.
      */
     public function get_index( \WP_REST_Request $request ) {
 
@@ -238,7 +238,7 @@ class API {
         }
 
         $config    = array(
-            'path' => 'library/'
+            'path' => 'library/',
         );
         $test_path = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'library.json';
 
@@ -266,7 +266,7 @@ class API {
                     "name"       => $p['title'],
                     'categories' => array( 'WP Block Patterns' ),
                     'source'     => 'wp_block_patterns',
-                    'id'         => $id
+                    'id'         => $id,
                 );
             }
         }
@@ -285,10 +285,10 @@ class API {
     }
 
     /**
-     * @since 1.0.0
-     * Method for transmitting a template the user is sharing remotely.
+     * @param WP_REST_Request $request
      *
-     * @param     WP_REST_Request     $request
+     * @since 1.0.0
+     *        Method for transmitting a template the user is sharing remotely.
      */
     public function share_template( \WP_REST_Request $request ) {
         $parameters = $request->get_params();
@@ -384,7 +384,7 @@ class API {
             'method'      => 'POST',
             'data_format' => 'body',
             'redirection' => 5,
-            'headers'     => $headers
+            'headers'     => $headers,
         );
 
 //        echo $apiUrl . PHP_EOL;
@@ -421,10 +421,10 @@ class API {
     }
 
     /**
-     * @since 1.0.0
-     * Fetch a single template.
+     * @param WP_REST_Request $request
      *
-     * @param     WP_REST_Request     $request
+     * @since 1.0.0
+     *        Fetch a single template.
      */
     public function get_template( \WP_REST_Request $request ) {
 
@@ -473,14 +473,12 @@ class API {
             'SB-Version'   => STARTERBLOCKS_VERSION,
             'SB-Multisite' => is_multisite(),
         );
-
-        $the_site = !empty($starterblocks_fs) ? $starterblocks_fs->get_site() : "";
-
+        $the_site = $starterblocks_fs->get_site();
         if ( ! empty( $the_site->site_id ) ) {
             $config['SB-API-Key'] = $the_site->site_id . '-' . $the_site->user_id;
         }
 
-        if ( !empty($starterblocks_fs) && starterblocks_fs()->can_use_premium_code() ) {
+        if ( starterblocks_fs()->can_use_premium_code() ) {
             $config['SB-Pro'] = starterblocks_fs()->can_use_premium_code();
         }
         $data = wp_parse_args( $data, $config );
@@ -496,7 +494,7 @@ class API {
     public function get_saved_blocks( \WP_REST_Request $request ) {
         $args      = array(
             'post_type'   => 'wp_block',
-            'post_status' => 'publish'
+            'post_status' => 'publish',
         );
         $r         = wp_parse_args( null, $args );
         $get_posts = new \WP_Query;
@@ -524,46 +522,40 @@ class API {
 
         $hooks = array(
             '/library/'            => array(
-                'callback' => 'get_index'
+                'callback' => 'get_index',
             ),
             '/pages/'              => array(
-                'callback' => 'get_index'
+                'callback' => 'get_index',
             ),
             '/sections/'           => array(
-                'callback' => 'get_index'
+                'callback' => 'get_index',
             ),
             '/collections/'        => array(
-                'callback' => 'get_index'
-            ),
-            '/feedback/'        => array(
-                'callback' => 'send_feedback'
-            ),
-            '/suggestion/'        => array(
-                'callback' => 'send_suggestion'
+                'callback' => 'get_index',
             ),
             '/template/'           => array(
-                'callback' => 'get_template'
+                'callback' => 'get_template',
             ),
             '/share/'              => array(
                 'method'   => 'POST',
-                'callback' => 'share_template'
+                'callback' => 'share_template',
             ),
             '/get_saved_blocks/'   => array(
-                'callback' => 'get_saved_blocks'
+                'callback' => 'get_saved_blocks',
             ),
             '/delete_saved_block/' => array(
                 'method'   => 'POST',
-                'callback' => 'delete_saved_block'
+                'callback' => 'delete_saved_block',
             ),
 
             '/plugin-install/' => array(
                 'method'   => 'GET',
-                'callback' => 'plugin_install'
+                'callback' => 'plugin_install',
             ),
         );
 
         foreach ( $hooks as $route => $data ) {
-            $methods = [ 'GET', 'POST' ];
+            $methods = array( 'GET', 'POST' );
             if ( isset( $data['method'] ) ) {
                 $methods = explode( ',', $data['method'] );
             }
@@ -573,17 +565,12 @@ class API {
                     'starterblocks/v1',
                     $route,
                     array(
-                        array(
-                            'methods'  => $method,
-                            'callback' => array( $this, $data['callback'] ),
-// 							 TODO - Re-enable permission requirements for safety
-//							'permission_callback' => function () {
-//								return current_user_can( 'edit_posts' );
-//							},
-                            'args'     => array(
-                                'route' => $route
-                            )
-                        )
+                        'methods'             => $method,
+                        'callback'            => array( $this, $data['callback'] ),
+                        // TODO - Re-enable permission requirements for safety.
+                        'permission_callback' => function () {
+                            return current_user_can( 'edit_posts' );
+                        },
                     )
                 );
             }
@@ -596,7 +583,7 @@ class API {
         if ( empty( $data['slug'] ) ) {
             wp_send_json_error(
                 array(
-                    'error' => 'Slug not specified.'
+                    'error' => 'Slug not specified.',
                 )
             );
         }
