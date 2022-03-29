@@ -3,14 +3,10 @@
     svgoConfig: {
         plugins: [
             {
-                removeAttrs: {
-                    attrs: [
-                        "height",
-                        "width",
-                        "x",
-                        "y",
-                    ],
-                },
+                "name": "removeAttrs",
+                "params": {
+                "attrs": ["height", "width", "x", "y"]
+                }
             },
         ],
     },

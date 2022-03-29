@@ -21,12 +21,7 @@ import StarterBlocksChallenge from './challenge'
 import {ModalManager} from './modal-manager';
 import LibraryModal from './modal-library';
 
-
-domReady(() => {
-	const toolbar = document.querySelector('.edit-post-header-toolbar')
-	if (!toolbar) {
-		return
-	}
+const renderButton = function(toolbar) {
     const challengeDiv = document.createElement('div')
     challengeDiv.className = 'challenge-tooltip-holder';
     document.body.appendChild(challengeDiv);
@@ -37,7 +32,7 @@ domReady(() => {
     const buttonDiv = document.createElement('div')
     toolbar.appendChild(buttonDiv);
     render(<ToolbarLibraryButton/>, buttonDiv)
-    
+
     if (window.location.hash == '#starterblocks_tour=1') {
         window.location.hash = '';
         ModalManager.open(<LibraryModal />);
@@ -46,4 +41,20 @@ domReady(() => {
     render(<TooltipBox />, challengeDiv);
 
     handlingLocalStorageData();
+}
+
+domReady(() => {
+	const toolbar = document.querySelector('.edit-post-header-toolbar')
+
+    if ( ! toolbar ) {
+        setTimeout(function(){
+            let toolbar = document.querySelector( '.edit-post-header-toolbar' );
+            if ( toolbar ) {
+                renderButton( toolbar );
+            }
+        }, 500);
+        return;
+    }
+
+    renderButton( toolbar );
 });

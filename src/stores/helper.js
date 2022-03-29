@@ -230,12 +230,16 @@ export const getOnlySelectedDependencyFilters = (dependencyFilters) => {
     return Object.keys(dependencyFilters).filter(key => dependencyFilters[key]);
 }
 
-/* 
+/*
 Input: dependencies: {getwid: 38, qubely: 82...}
-Result: {getwid: {value: true, disabled: true}, } 
+Result: {getwid: {value: true, disabled: true}, }
 */
 export const getDefaultDependencies = (dependencies) => {
-    const unSupportedPlugins = Object.keys(starterblocks.supported_plugins).filter(key => isPluginProActivated(key) === false);
+    if ( undefined === starterblocks.supported_plugins) {
+        starterblocks.supported_plugins = [];
+    }
+    const x = Object.keys(starterblocks.supported_plugins);
+    const unSupportedPlugins = x.filter(key => isPluginProActivated(key) === false);
     return Object.keys(dependencies).reduce((acc, cur) => {
         // special handling for pro plugin not activated.
         let value = true;
@@ -257,7 +261,7 @@ export const getInstalledDependencies = (dependencies) => {
                 if (isProPlugin(cur) && unSupportedPlugins.indexOf(cur) !== -1) value = false;
                 if (isProPlugin(cur) === false && pluginInstance.hasOwnProperty('version') === false) value = false;
                 if (cur === STARTERBLOCKS_PRO_KEY) value = true;
-            } else 
+            } else
                 value = false;
             return {...acc, [cur]: {value, disabled: false}};
         }, {none: {value: true, disabled: false}});
