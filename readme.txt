@@ -1,5 +1,5 @@
 === Page Builder for Gutenberg – StarterBlocks ===
-Contributors: dovyp, starterblocks, redux
+Contributors: dovyp, kprovance, starterblocks, redux
 Tags: page builder, gutenberg blocks, page builder blocks, page builder Gutenberg blocks, gutenberg
 Requires at least: 5.4
 Tested up to: 5.9.2
