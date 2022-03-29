@@ -1,11 +1,10 @@
 === Page Builder for Gutenberg – StarterBlocks ===
 Contributors: dovyp, starterblocks, redux
-Donate link: https://paypal.me/ReduxFramework
 Tags: page builder, gutenberg blocks, page builder blocks, page builder Gutenberg blocks, gutenberg
 Requires at least: 5.4
-Tested up to: 5.5
+Tested up to: 5.9.2
 Stable tag: 1.0.7
-Requires PHP: 5.6
+Requires PHP: 7.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -191,6 +190,7 @@ If you want, you can use the [Gutenberg](https://starterblocks.io/) plugin to ge
 == Changelog ==
 
 = 1.0.7 =
+* Update: Freemius library.
 * Change: Default dependencies are filtered to only include things installed and StarterBlocks.
 * Added: Ability to display only templates with installed dependencies.
 * Added: Help button at lower right when the Library is open.
@@ -198,6 +198,7 @@ If you want, you can use the [Gutenberg](https://starterblocks.io/) plugin to ge
 * Fixed: Various dependency bugs.
 * Fixed: A few z-index issues.
 * Fixed: Various localization strings.
+* Fixed: Deprecation notices.
 
 = 1.0.6 =
 * Change: Sidebar colors now use default WordPress colors.
